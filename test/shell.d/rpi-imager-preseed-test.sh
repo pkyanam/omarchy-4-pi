@@ -109,3 +109,39 @@ OMARCHY_PRESEED_ROOT="$partial_root" \
 [[ ! -e $partial_root/var/lib/omarchy/provisioning/imager/ready ]] ||
   fail "partial settings never bypass owner setup"
 pass "partial Imager settings preserve interactive onboarding"
+
+# Execute the unattended handoff itself under nounset. A source-only grep once
+# missed a zero-argument apply_keyboard call because another setup path happened
+# to contain the correct text; this fixture fails on the actual argument flow.
+handoff="$test_tmp/handoff"
+mkdir -p "$handoff"
+sed -n '/^run_imager_setup() {$/,/^}$/p' "$ROOT/bin/omarchy-provision-owner" >"$handoff/function.sh"
+(
+  set -euo pipefail
+  LOG_FILE="$handoff/provision.log"
+  FINALIZE_WARNING_FLAG="$handoff/finalize-warning"
+  STATE_FILE="$handoff/state"
+  SHOW_CURSOR=""
+  keyboard=us
+  NOW=0
+  SETUP_T0=0
+  SETUP_PHASE_T0=0
+
+  apply_keyboard() {
+    [[ $# == 1 && $1 == us ]]
+    printf '%s\n' "$1" >"$handoff/keymap"
+  }
+  run_provisioning() { printf 'provisioned\n'; }
+  set_now() { NOW=1; }
+  render_setup_static() { :; }
+  render_setup_dynamic() { :; }
+  sleep() { :; }
+
+  source "$handoff/function.sh"
+  run_imager_setup
+)
+[[ $(<"$handoff/keymap") == us ]] || fail "unattended setup passes the staged keymap at runtime"
+[[ $(<"$handoff/state") == done ]] || fail "unattended setup reaches its completed state"
+grep -Fx provisioned "$handoff/provision.log" >/dev/null ||
+  fail "unattended setup runs owner provisioning"
+pass "unattended Imager handoff passes its staged keymap at runtime"

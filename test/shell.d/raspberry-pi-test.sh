@@ -207,6 +207,7 @@ bash -n "$ROOT/image/build-rpi4-image.sh"
 bash -n "$ROOT/image/build-rpi4-image-macos.sh"
 bash -n "$ROOT/image/audit-rpi4-rootfs.sh"
 bash -n "$ROOT/image/generate-imager-catalog.sh"
+bash -n "$ROOT/image/validate-imager-catalog.sh"
 bash -n "$ROOT/image/generate-local-imager-manifest.sh"
 bash -n "$ROOT/image/open-in-rpi-imager-macos.sh"
 bash -n "$ROOT/image/prepare-release-assets.sh"
@@ -404,6 +405,8 @@ dd if=/dev/zero of="$catalog_source" bs=4096 count=1 2>/dev/null
 xz --stdout "$catalog_source" >"$catalog_archive"
 "$ROOT/image/generate-imager-catalog.sh" "$catalog_archive" \
   https://example.invalid/omarchy-4-pi.img.xz "$catalog_json"
+"$ROOT/image/validate-imager-catalog.sh" "$catalog_json" >/dev/null ||
+  fail "device-first catalog validator accepts a selectable Pi 4 image"
 python3 - "$catalog_json" <<'PY'
 import json
 import sys
@@ -426,6 +429,40 @@ assert len(entry["extract_sha256"]) == 64
 assert len(entry["image_download_sha256"]) == 64
 PY
 pass "Raspberry Pi Imager catalog exposes a selectable Pi 4 and records image integrity"
+
+catalog_without_devices="$test_tmp/os-list-without-devices.json"
+python3 - "$catalog_json" "$catalog_without_devices" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    catalog = json.load(stream)
+catalog.pop("imager")
+with open(sys.argv[2], "w", encoding="utf-8") as stream:
+    json.dump(catalog, stream)
+PY
+if "$ROOT/image/validate-imager-catalog.sh" "$catalog_without_devices" >/dev/null 2>&1; then
+  fail "device-first catalog validator rejects a catalog with a blank device chooser"
+fi
+
+catalog_with_hidden_os="$test_tmp/os-list-hidden-os.json"
+python3 - "$catalog_json" "$catalog_with_hidden_os" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    catalog = json.load(stream)
+catalog["os_list"][0]["devices"] = ["pi5-64bit"]
+with open(sys.argv[2], "w", encoding="utf-8") as stream:
+    json.dump(catalog, stream)
+PY
+if "$ROOT/image/validate-imager-catalog.sh" "$catalog_with_hidden_os" >/dev/null 2>&1; then
+  fail "device-first catalog validator rejects an OS hidden by mismatched device tags"
+fi
+grep -F 'image/validate-imager-catalog.sh "$catalog"' \
+  "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
+  fail "release workflow validates generated device-first catalogs before upload"
+pass "catalog publication fails closed before a blank Imager device screen can ship"
 
 local_catalog_dir="$test_tmp/local catalog"
 local_catalog_archive="$local_catalog_dir/Omarchy 4 Pi.img.xz"

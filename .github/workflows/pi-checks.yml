@@ -20,6 +20,7 @@ jobs:
           bash -n image/audit-rpi4-rootfs.sh
           bash -n image/build-rpi4-image.sh
           bash -n image/generate-imager-catalog.sh
+          bash -n image/validate-imager-catalog.sh
           bash -n image/prepare-release-assets.sh
           bash -n image/verify-rpi4-hyprland.sh
           bash -n bin/omarchy-rpi4-grow-root

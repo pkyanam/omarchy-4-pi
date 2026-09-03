@@ -56,6 +56,12 @@ jobs:
           sudo --preserve-env=OMARCHY_IMAGE_OUTPUT,OMARCHY_IMAGE_SIZE_GIB,OMARCHY_XZ_PRESET,OMARCHY_IMAGE_DOWNLOAD_BASE_URL \
             image/build-rpi4-image.sh --${{ inputs.install_mode || 'minimal' }}
 
+      - name: Validate device-first Imager catalogs
+        run: |
+          for catalog in build/image/*.os-list.json build/image/os-list.json; do
+            image/validate-imager-catalog.sh "$catalog"
+          done
+
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4
         with:

@@ -45,9 +45,9 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; keyboard-driven completion is pending |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | Parser- and image-build verified in `alpha.2`; Imager 2.0.11+ and real-hardware setup test required |
-| Prebuilt image prerelease | 🚧 | [`v0.1.0-alpha.4`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.4) carries the verified local image fixes; maximum-compression release assets are building |
-| Public Imager catalog URL | ⏳ | Needs one-file hosting; GitHub's multipart release cannot be an Imager catalog target |
+| Imager 2.x unattended setup | 🧪 | Parser and `alpha.4` image payload verified; Imager 2.0.11+ real-hardware setup test required |
+| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.4`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.4) provides one checksum-verified, 66-invariant-audited `.img.xz`; desktop hardware testing remains |
+| Public Imager catalog URL | ✅ | The immutable [`alpha.4` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.4/os-list.json) enables account, Wi-Fi, locale, and SSH customization |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -56,19 +56,28 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 - Raspberry Pi 4 Model B — the 8 GB model is nicest, 4 GB is supported as a target
 - 32 GB or larger microSD card; a USB 3 SSD is strongly recommended
 - The official-quality 5 V / 3 A power supply
-- HDMI display, keyboard, and network access for first boot
+- HDMI display and network access; use a keyboard for interactive setup or Imager 2.0.11+ for keyboard-free setup
 - A taste for tiling windows on improbably small computers
 
 ## Try it today
 
-### Download `alpha.2`
+### Download `alpha.4`
 
-Open the [`v0.1.0-alpha.2` release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) and download all three `.img.xz.part-*` files plus the reassembly guide and checksum files. Follow `REASSEMBLE.txt`, verify the final SHA-256 is `d03594b2d1dc50e8bd008fe56fd9a0929303ed60fca77aac5d38744ec0e25e13`, then give the reassembled `.img.xz` to Raspberry Pi Imager with **Use custom**. Never flash an individual part.
+Download the single [flashable `.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.4/omarchy-4-pi-20260903-a63210dc-minimal.img.xz) and its [checksum](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.4/omarchy-4-pi-20260903-a63210dc-minimal.img.xz.sha256) from the [`v0.1.0-alpha.4` release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.4). Its SHA-256 is `0d3c7ab431145bb3e39d4c744974817794c2d1c921899bd98c14017b975d2f34`. Choose **Use custom** in Raspberry Pi Imager to flash it and complete the setup form with a keyboard on first boot.
 
-On macOS with Raspberry Pi Imager 2.0.11 or newer, this helper opens the complete local image through a generated catalog instead. It serves the image only to `127.0.0.1` while Imager is open, avoiding local-path compatibility problems. Selecting **Omarchy 4 Pi** inside Imager then enables its account, Wi-Fi, locale, and SSH customization wizard, allowing a keyboard-free first boot:
+For a keyboard-free first boot, upgrade to Raspberry Pi Imager 2.0.11 or newer and open the release's public catalog on macOS:
 
 ```bash
-image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-20260903-75cc9e22-minimal.img.xz"
+open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.4/os-list.json"
+```
+
+Select **Omarchy 4 Pi**, then fill in the account, locale, and any Wi-Fi or SSH settings before writing. Complete account settings let the Pi provision the owner and continue without waiting at **Press Return to Start Setup**. The catalog records exact compressed and extracted sizes and SHA-256 hashes, so Imager verifies the download before flashing.
+
+If you already downloaded the image on macOS, the repository helper serves it only to `127.0.0.1` while Imager is open and provides the same customization flow:
+
+```bash
+image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-20260903-a63210dc-minimal.img.xz"
 ```
 
 Keep that terminal open until the write finishes; closing Imager shuts down the loopback server automatically. Imager 2.0.10 and older prune `rpi-preseed` catalog entries, so the helper stops with a clear upgrade message instead of silently falling back to an uncustomized flash.
@@ -185,7 +194,7 @@ Real-hardware acceptance remains the final word for HDMI scan-out, V3D accelerat
 
 ## Known gaps
 
-- The complete `.img.xz` exceeds GitHub Releases' per-file limit, so the [current alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) provides numbered parts, part checksums, and reassembly instructions. A one-file public Imager catalog URL still needs large-file hosting.
+- The public Imager catalog is pinned to the alpha release rather than listed in Raspberry Pi Imager's stock OS directory; launch Imager with the documented `--repo` URL.
 - The stock ext4 image has no Snapper rollback or factory reset.
 - A few x86-only or unavailable apps are omitted; the core Quattro experience does not depend on them.
 - High-resolution video recording and heavy Electron multitasking can overwhelm a Pi 4.

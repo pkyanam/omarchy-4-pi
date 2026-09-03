@@ -118,6 +118,10 @@ pass "image publication requires clean filesystems"
 
 grep -F 'git clone --quiet --no-local --depth 1' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder keeps a shallow source checkout for future updates"
+grep -F 'OMARCHY_SOURCE_ORIGIN' "$ROOT/image/build-rpi4-image-macos.sh" >/dev/null ||
+  fail "macOS builds pass a public source origin into their Git-free archive"
+grep -F 'clone_source=$origin_url' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder reconstructs update metadata for Git-free Mac sources"
 grep -F 'linux-firmware-broadcom linux-firmware-realtek' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder preserves Pi and common USB adapter firmware"
 grep -F 'linux-firmware-nvidia' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

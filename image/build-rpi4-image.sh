@@ -288,17 +288,27 @@ mount_chroot_filesystems() {
 }
 
 copy_source_checkout() {
-  local source_branch source_commit origin_url
-  source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf main)
-  source_commit=$(git -C "$repo_root" rev-parse HEAD)
-  origin_url=$(git -C "$repo_root" remote get-url origin 2>/dev/null || printf 'https://github.com/pkyanam/omarchy-4-pi.git')
+  local clone_source origin_url source_branch source_commit
+  source_branch=${OMARCHY_SOURCE_BRANCH:-}
+  source_commit=${OMARCHY_SOURCE_COMMIT:-}
+  origin_url=${OMARCHY_SOURCE_ORIGIN:-}
+  if [[ -d $repo_root/.git ]]; then
+    [[ -n $source_branch ]] || source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf main)
+    [[ -n $source_commit ]] || source_commit=$(git -C "$repo_root" rev-parse HEAD)
+    [[ -n $origin_url ]] || origin_url=$(git -C "$repo_root" remote get-url origin 2>/dev/null || true)
+    clone_source=$repo_root
+  else
+    clone_source=$origin_url
+  fi
+  [[ -n $source_branch && -n $source_commit && -n $origin_url && -n $clone_source ]] ||
+    fail "Source branch, commit, and origin are required to create the update checkout."
 
   mkdir -p "$root_mount/opt"
   # The upstream Omarchy history is hundreds of megabytes and is not needed to
   # update an appliance. Keep one exact commit plus an upstream-tracking branch;
   # the first normal fetch deepens it only as much as a future update requires.
   git clone --quiet --no-local --depth 1 --branch "$source_branch" \
-    "$repo_root" "$root_mount/opt/omarchy-4-pi"
+    "$clone_source" "$root_mount/opt/omarchy-4-pi"
   if ! git -C "$root_mount/opt/omarchy-4-pi" cat-file -e "$source_commit^{commit}" 2>/dev/null; then
     git -C "$root_mount/opt/omarchy-4-pi" fetch --quiet --depth 1 origin "$source_commit"
   fi

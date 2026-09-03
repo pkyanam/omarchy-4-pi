@@ -26,7 +26,7 @@ main() {
   [[ $(docker info --format '{{.Architecture}}') == aarch64 ]] ||
     fail "Docker Desktop must use its native aarch64 Linux engine."
 
-  local total_cpus build_cpus last_cpu output_dir source_commit source_dirty status
+  local total_cpus build_cpus last_cpu output_dir source_branch source_commit source_dirty source_origin status
   total_cpus=$(sysctl -n hw.logicalcpu)
   build_cpus=${OMARCHY_LOCAL_CPUS:-}
   if [[ -z $build_cpus ]]; then
@@ -41,7 +41,12 @@ main() {
   last_cpu=$((build_cpus - 1))
 
   output_dir=${OMARCHY_IMAGE_OUTPUT:-$repo_root/build/image}
+  source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf main)
   source_commit=$(git -C "$repo_root" rev-parse HEAD)
+  source_origin=$(git -C "$repo_root" remote get-url origin)
+  if [[ $source_origin == git@github.com:* ]]; then
+    source_origin="https://github.com/${source_origin#git@github.com:}"
+  fi
   source_dirty=false
   [[ -z $(git -C "$repo_root" status --porcelain) ]] || source_dirty=true
   container="omarchy-4-pi-local-${source_commit:0:8}-$$"
@@ -59,8 +64,10 @@ main() {
     --env "RUST_BUILD_JOBS=$build_cpus" \
     --env "OMARCHY_IMAGE_OUTPUT=/output" \
     --env "OMARCHY_IMAGE_SIZE_GIB=${OMARCHY_IMAGE_SIZE_GIB:-12}" \
+    --env "OMARCHY_SOURCE_BRANCH=$source_branch" \
     --env "OMARCHY_SOURCE_COMMIT=$source_commit" \
     --env "OMARCHY_SOURCE_DIRTY=$source_dirty" \
+    --env "OMARCHY_SOURCE_ORIGIN=$source_origin" \
     --env "OMARCHY_XZ_PRESET=${OMARCHY_XZ_PRESET:--1}" \
     "$builder_image" taskset -c "0-$last_cpu" \
     /workspace/image/build-rpi4-image.sh "$@" >/dev/null

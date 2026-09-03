@@ -56,3 +56,10 @@ OMARCHY_CHROOT_COMMAND="$mock_chroot" OMARCHY_TEST_CALLS="$calls" OMARCHY_TEST_V
 [[ ! -e $receipt ]] || fail "failed Hyprland verification writes no receipt"
 [[ ! -e $root/tmp/omarchy-rpi4-hyprland-verify ]] || fail "failed Hyprland verification removes temporary state"
 pass "image factory refuses a broken Hyprland Pi configuration"
+
+builder="$ROOT/image/build-rpi4-image.sh"
+verify_line=$(grep -nF '"$script_dir/verify-rpi4-hyprland.sh" "$root_mount" omarchy-builder' "$builder" | cut -d: -f1)
+delete_line=$(grep -nF 'chroot "$root_mount" userdel -r omarchy-builder' "$builder" | cut -d: -f1)
+[[ $verify_line =~ ^[0-9]+$ && $delete_line =~ ^[0-9]+$ && $verify_line -lt $delete_line ]] ||
+  fail "image factory must verify Hyprland before deleting its unprivileged account"
+pass "image factory keeps its Hyprland verification account alive until parsing completes"

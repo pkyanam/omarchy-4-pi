@@ -485,6 +485,11 @@ finalize_image() {
   # Package-manager hooks do not reliably fail the transaction when an
   # initramfs regeneration fails. Run it directly so the image build fails.
   chroot "$root_mount" mkinitcpio -P
+  # Hyprland refuses to parse a config as root. Exercise the shipped binary
+  # while the deliberately unprivileged factory account still exists, then
+  # remove that account before the final rootfs audit.
+  log "Verifying the ARM64 Hyprland configuration with the Pi profile"
+  "$script_dir/verify-rpi4-hyprland.sh" "$root_mount" omarchy-builder
   chroot "$root_mount" chown -R root:root /opt/omarchy-4-pi
   chroot "$root_mount" userdel -r omarchy-builder
   if chroot "$root_mount" getent passwd alarm >/dev/null; then
@@ -507,8 +512,6 @@ finalize_image() {
   chroot "$root_mount" locale-gen
   printf 'LANG=en_US.UTF-8\n' >"$root_mount/etc/locale.conf"
   ln -sfn /usr/share/zoneinfo/UTC "$root_mount/etc/localtime"
-  log "Verifying the ARM64 Hyprland configuration with the Pi profile"
-  "$script_dir/verify-rpi4-hyprland.sh" "$root_mount" omarchy-builder
   write_build_manifest
   rm -rf "$root_mount/opt/omarchy-4-pi/build-output-rpi4"
   cp "$root_mount/usr/share/omarchy-rpi4/build-manifest.json" \

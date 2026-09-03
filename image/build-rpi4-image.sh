@@ -378,7 +378,8 @@ install_omarchy() {
 }
 
 write_build_manifest() {
-  local commit dirty rootfs_sha built_at
+  local commit dirty rootfs_sha built_at omarchy_pkgs_commit package version
+  local package_inventory="" separator=""
   commit=${OMARCHY_SOURCE_COMMIT:-}
   [[ -n $commit ]] || commit=$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || printf unknown)
   dirty=${OMARCHY_SOURCE_DIRTY:-}
@@ -389,6 +390,19 @@ write_build_manifest() {
   [[ $dirty == true || $dirty == false ]] || fail "OMARCHY_SOURCE_DIRTY must be true or false."
   rootfs_sha=$(sha256sum "$work_dir/downloads/$rootfs_name" | awk '{print $1}')
   built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  [[ -f $root_mount/opt/omarchy-4-pi/build-output-rpi4/omarchy-pkgs.commit ]] ||
+    fail "The omarchy-pkgs provenance file is missing."
+  omarchy_pkgs_commit=$(<"$root_mount/opt/omarchy-4-pi/build-output-rpi4/omarchy-pkgs.commit")
+  [[ $omarchy_pkgs_commit =~ ^[0-9a-f]{40}$ ]] ||
+    fail "The omarchy-pkgs provenance commit is missing or invalid."
+
+  while read -r package version; do
+    [[ -n $package && -n $version && $package != *'"'* && $version != *'"'* ]] ||
+      fail "An installed package cannot be represented safely in the build manifest."
+    package_inventory+="$separator    {\"name\": \"$package\", \"version\": \"$version\"}"
+    separator=$',\n'
+  done < <(chroot "$root_mount" pacman -Q | LC_ALL=C sort)
+  [[ -n $package_inventory ]] || fail "The final package inventory is empty."
 
   install -d "$root_mount/usr/share/omarchy-rpi4"
   cat >"$root_mount/usr/share/omarchy-rpi4/build-manifest.json" <<EOF
@@ -397,10 +411,14 @@ write_build_manifest() {
   "built_at": "$built_at",
   "source_commit": "$commit",
   "source_dirty": $dirty,
+  "omarchy_pkgs_commit": "$omarchy_pkgs_commit",
   "install_mode": "$install_mode",
   "base_url": "$rootfs_url",
   "base_sha256": "$rootfs_sha",
-  "base_signing_key": "$build_key"
+  "base_signing_key": "$build_key",
+  "packages": [
+$package_inventory
+  ]
 }
 EOF
 }
@@ -467,8 +485,7 @@ finalize_image() {
     "$root_mount/tmp/omarchy-rpi-model"
   rm -rf "$root_mount/var/cache/pacman/pkg/"* \
     "$root_mount/var/tmp/"* \
-    "$root_mount/tmp/"* \
-    "$root_mount/opt/omarchy-4-pi/build-output-rpi4"
+    "$root_mount/tmp/"*
   find "$root_mount/var/log" -type f -exec truncate -s 0 {} +
   rm -f "$root_mount/etc/ssh/ssh_host_"* \
     "$root_mount/var/lib/systemd/random-seed"
@@ -478,6 +495,8 @@ finalize_image() {
   chroot "$root_mount" locale-gen
   printf 'LANG=en_US.UTF-8\n' >"$root_mount/etc/locale.conf"
   ln -sfn /usr/share/zoneinfo/UTC "$root_mount/etc/localtime"
+  write_build_manifest
+  rm -rf "$root_mount/opt/omarchy-4-pi/build-output-rpi4"
   cp "$root_mount/usr/share/omarchy-rpi4/build-manifest.json" \
     "$work_dir/build-manifest.json"
 
@@ -533,7 +552,6 @@ main() {
   copy_source_checkout
   prepare_build_user
   install_omarchy
-  write_build_manifest
   finalize_image
 }
 

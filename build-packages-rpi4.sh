@@ -121,8 +121,9 @@ main() {
   (( EUID != 0 )) || fail "Run this as a regular user, not as root."
   command -v makepkg >/dev/null || fail "makepkg is required (install base-devel)."
 
-  local pkgbuild_source package artifact
+  local pkgbuild_source pkgbuild_repo package artifact
   pkgbuild_source=$(find_pkgbuilds) || fail "No omarchy-pkgs checkout found; set OMARCHY_PKGS_PATH."
+  pkgbuild_repo=${pkgbuild_source%/pkgbuilds}
   for package in "${packages[@]}"; do
     [[ -d $pkgbuild_source/$package ]] || fail "$pkgbuild_source/$package is missing."
   done
@@ -132,6 +133,8 @@ main() {
   trap cleanup EXIT
   prepare_source_tree
   mkdir -p "$output_dir" "$source_cache"
+  git -C "$pkgbuild_repo" rev-parse HEAD >"$output_dir/omarchy-pkgs.commit" ||
+    fail "The omarchy-pkgs source must be a Git checkout for provenance."
   for artifact in "$output_dir"/*.pkg.tar.*; do
     [[ -f $artifact ]] && rm -f -- "$artifact"
   done

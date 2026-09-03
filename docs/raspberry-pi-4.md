@@ -82,7 +82,7 @@ The output directory contains:
 
 - `*.img.xz` — the compressed flashable disk image
 - `*.img.xz.sha256` — compressed-download integrity hash
-- `*.manifest.json` — source commit, base image, signing key, mode, and build time
+- `*.manifest.json` — source and `omarchy-pkgs` commits, signed base image, mode, build time, and every final package version
 - `*.audit.txt` — enforced Pi boot, provisioning, desktop-payload, package-architecture, and factory-identity checks
 - `*.os-list.json` and `os-list.json` — Raspberry Pi Imager 2.x catalog metadata with hashes of both the compressed download and extracted image
 

@@ -171,6 +171,10 @@ grep -F 'linux-firmware-nvidia' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder identifies PC-only firmware for removal"
 grep -F 'raspberrypi-utils' "$ROOT/install-rpi4.sh" >/dev/null ||
   fail "Pi image includes the native firmware diagnostics"
+grep -F 'omarchy-pkgs.commit' "$ROOT/build-packages-rpi4.sh" >/dev/null ||
+  fail "local Omarchy packages record their recipe checkout"
+grep -F 'chroot "$root_mount" pacman -Q | LC_ALL=C sort' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image manifest derives a sorted final package inventory"
 pass "image builder removes download bloat without narrowing the Quattro payload"
 
 grep -F '(( image_mode == 0 )) || max_attempts=8' "$ROOT/install-rpi4.sh" >/dev/null ||
@@ -321,10 +325,6 @@ cat >"$audit_root/usr/local/share/wayland-sessions/omarchy.desktop" <<'EOF'
 Name=Omarchy
 Exec=uwsm start -g -1 -e -D Hyprland hyprland.desktop
 EOF
-cat >"$audit_root/usr/share/omarchy-rpi4/build-manifest.json" <<'EOF'
-{"source_dirty": false}
-EOF
-
 ln -s /etc/systemd/system/omarchy-rpi4-grow-root.service \
   "$audit_root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service"
 ln -s /etc/systemd/system/omarchy-provision-owner.service \
@@ -344,7 +344,8 @@ for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-prese
 done
 chmod +x "$audit_root/usr/bin/"*
 
-for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom; do
+audit_packages=(hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom)
+for package in "${audit_packages[@]}"; do
   package_dir="$audit_root/var/lib/pacman/local/$package-1.0-1"
   mkdir -p "$package_dir"
   cat >"$package_dir/desc" <<EOF
@@ -359,9 +360,45 @@ aarch64
 EOF
 done
 
+manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
+{
+  printf '{\n  "source_dirty": false,\n'
+  printf '  "source_commit": "89abcdef0123456789abcdef0123456789abcdef",\n'
+  printf '  "omarchy_pkgs_commit": "0123456789abcdef0123456789abcdef01234567",\n'
+  printf '  "base_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",\n'
+  printf '  "base_signing_key": "68B3537F39A313B3E574D06777193F152BDBE6A6",\n'
+  printf '  "packages": [\n'
+  separator=""
+  for package in "${audit_packages[@]}"; do
+    printf '%s    {"name": "%s", "version": "1.0-1"}' "$separator" "$package"
+    separator=$',\n'
+  done
+  printf '\n  ]\n}\n'
+} >"$manifest"
+
 "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-ok"
 grep -F 'PASS:' "$test_tmp/audit-ok" >/dev/null || fail "image root audit reports its passing invariant count"
 pass "image root audit accepts a complete ARM64 Quattro payload"
+
+cp "$manifest" "$test_tmp/complete-manifest.json"
+sed -i.bak '/"name": "omarchy"/d' "$manifest"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-inventory" 2>&1; then
+  fail "image root audit rejects an incomplete package inventory"
+fi
+grep -F 'build manifest records every installed package and exact version' "$test_tmp/audit-inventory" >/dev/null ||
+  fail "image root audit identifies an incomplete package inventory"
+mv "$test_tmp/complete-manifest.json" "$manifest"
+pass "image root audit rejects an incomplete package inventory"
+
+cp "$manifest" "$test_tmp/complete-manifest.json"
+sed -i.bak 's/"name": "omarchy", "version": "1.0-1"/"name": "omarchy", "version": "9.9-9"/' "$manifest"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-version" 2>&1; then
+  fail "image root audit rejects an incorrect package version"
+fi
+grep -F 'build manifest records every installed package and exact version' "$test_tmp/audit-version" >/dev/null ||
+  fail "image root audit identifies an incorrect package version"
+mv "$test_tmp/complete-manifest.json" "$manifest"
+pass "image root audit rejects an incorrect package version"
 
 printf '\076\000' | dd of="$audit_root/usr/bin/quickshell" bs=1 seek=18 conv=notrunc 2>/dev/null
 if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-bad" 2>&1; then

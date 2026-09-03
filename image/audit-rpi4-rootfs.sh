@@ -220,10 +220,47 @@ require_aarch64_elf "$root/usr/bin/quickshell" "Quickshell executable is AArch64
 require_aarch64_elf "$root/usr/bin/foot" "terminal executable is AArch64"
 
 require_file "$root/usr/share/omarchy-rpi4/build-manifest.json" "embedded build manifest is present"
-if [[ -f $root/usr/share/omarchy-rpi4/build-manifest.json ]] && grep -F '"source_dirty": false' "$root/usr/share/omarchy-rpi4/build-manifest.json" >/dev/null; then
+manifest="$root/usr/share/omarchy-rpi4/build-manifest.json"
+if [[ -f $manifest ]] && grep -F '"source_dirty": false' "$manifest" >/dev/null; then
   pass "release source tree was clean"
 else
   fail "release source tree was clean"
+fi
+if [[ -f $manifest ]] && grep -Eq '"source_commit": "[0-9a-f]{40}"' "$manifest"; then
+  pass "port source has exact provenance"
+else
+  fail "port source has exact provenance"
+fi
+if [[ -f $manifest ]] && grep -Eq '"omarchy_pkgs_commit": "[0-9a-f]{40}"' "$manifest"; then
+  pass "Omarchy package recipes have exact provenance"
+else
+  fail "Omarchy package recipes have exact provenance"
+fi
+if [[ -f $manifest ]] && grep -Eq '"base_sha256": "[0-9a-f]{64}"' "$manifest" &&
+  grep -F '"base_signing_key": "68B3537F39A313B3E574D06777193F152BDBE6A6"' "$manifest" >/dev/null; then
+  pass "signed Arch Linux ARM base has exact provenance"
+else
+  fail "signed Arch Linux ARM base has exact provenance"
+fi
+
+installed_package_inventory=""
+for description_file in "$root"/var/lib/pacman/local/*/desc; do
+  [[ -f $description_file ]] || continue
+  name=$(pacman_field "$description_file" NAME)
+  version=$(pacman_field "$description_file" VERSION)
+  installed_package_inventory+="$name"$'\t'"$version"$'\n'
+done
+installed_package_inventory=$(printf '%s' "$installed_package_inventory" | LC_ALL=C sort)
+manifest_package_inventory=""
+if [[ -f $manifest ]]; then
+  manifest_package_inventory=$(sed -n \
+    's/^    {"name": "\([^"]*\)", "version": "\([^"]*\)"},*$/\1\	\2/p' \
+    "$manifest" | LC_ALL=C sort)
+fi
+if [[ -n $installed_package_inventory && $manifest_package_inventory == "$installed_package_inventory" ]]; then
+  pass "build manifest records every installed package and exact version"
+else
+  fail "build manifest records every installed package and exact version"
 fi
 
 require_file "$root/opt/omarchy-4-pi/.git/shallow" "update checkout uses bounded Git history"

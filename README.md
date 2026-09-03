@@ -41,11 +41,11 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | In-place Arch Linux ARM installer | 🧪 | Implemented; real-hardware soak testing pending |
 | Reproducible `.img` builder | ✅ | Native ARM64 builds enforce signed-base, boot-payload, package-architecture, identity, filesystem, manifest, and checksum gates |
 | Real Pi 4 boot + HDMI splash | ✅ | Alpha image reached Omarchy's first-boot greeter on hardware |
-| Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding |
+| Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding; failure keeps provisioning safely armed for retry |
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; corrected unattended path is image-audited and ready for hardware testing |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | The `alpha.5` keymap bug is fixed; corrected `alpha.6` passed the current 75-check mounted-image audit |
+| Imager 2.x unattended setup | 🧪 | The `alpha.5` keymap bug is fixed; corrected `alpha.6` passed its post-tag 75-check mounted-image audit |
 | Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.6`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) is published and verified; owner/desktop hardware testing remains |
 | Public Imager catalog URL | ✅ | The immutable [`alpha.6` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/os-list.json) is live |
 

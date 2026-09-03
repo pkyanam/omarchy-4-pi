@@ -232,6 +232,15 @@ grep -F 'cloud-guest-utils' "$ROOT/install-rpi4.sh" >/dev/null || fail "image pa
 grep -F 'Before=omarchy-provision-owner.service' \
   "$ROOT/install/provisioning/omarchy-rpi4-grow-root.service" >/dev/null ||
   fail "root growth runs before owner provisioning"
+grep -Fx 'Requires=omarchy-rpi4-grow-root.service' \
+  "$ROOT/install/provisioning/omarchy-provision-owner-rpi4.conf" >/dev/null ||
+  fail "owner provisioning requires successful root growth"
+grep -Fx 'After=omarchy-rpi4-grow-root.service' \
+  "$ROOT/install/provisioning/omarchy-provision-owner-rpi4.conf" >/dev/null ||
+  fail "owner provisioning waits for root growth"
+grep -F 'omarchy-provision-owner.service.d/10-rpi4-grow-root.conf' \
+  "$ROOT/install-rpi4.sh" >/dev/null ||
+  fail "Pi image installs the root-growth dependency drop-in"
 grep -F '/var/lib/omarchy/provisioning/grow-root-pending' \
   "$ROOT/bin/omarchy-rpi4-grow-root" >/dev/null || fail "root growth is guarded by a one-shot marker"
 grep -F 'omarchy-rpi4-imager-preseed' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
@@ -347,6 +356,7 @@ mkdir -p \
   "$audit_root/etc/pacman.d" \
   "$audit_root/etc/ssh" \
   "$audit_root/etc/systemd/system/multi-user.target.wants" \
+  "$audit_root/etc/systemd/system/omarchy-provision-owner.service.d" \
   "$audit_root/etc/skel/.config/hypr" \
   "$audit_root/usr/bin" \
   "$audit_root/usr/local/share/wayland-sessions" \
@@ -401,6 +411,11 @@ ln -s /usr/lib/systemd/system/sddm.service \
   "$audit_root/etc/systemd/system/display-manager.service"
 ln -s /usr/lib/systemd/system/NetworkManager.service \
   "$audit_root/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+cat >"$audit_root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf" <<'EOF'
+[Unit]
+Requires=omarchy-rpi4-grow-root.service
+After=omarchy-rpi4-grow-root.service
+EOF
 
 # Minimal little-endian ELF64 header with e_machine = EM_AARCH64 (183).
 printf '\177ELF\002\001\001\000\000\000\000\000\000\000\000\000\002\000\267\000' >"$audit_root/usr/bin/Hyprland"
@@ -459,6 +474,17 @@ manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
 "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-ok"
 grep -F 'PASS:' "$test_tmp/audit-ok" >/dev/null || fail "image root audit reports its passing invariant count"
 pass "image root audit accepts a complete ARM64 Quattro payload"
+
+grow_dependency="$audit_root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf"
+cp "$grow_dependency" "$test_tmp/complete-grow-dependency.conf"
+sed -i.bak '/^Requires=omarchy-rpi4-grow-root.service$/d' "$grow_dependency"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-grow-dependency" 2>&1; then
+  fail "image root audit rejects fail-open owner provisioning"
+fi
+grep -F 'owner provisioning requires successful root expansion' "$test_tmp/audit-grow-dependency" >/dev/null ||
+  fail "image root audit identifies a missing root-growth requirement"
+mv "$test_tmp/complete-grow-dependency.conf" "$grow_dependency"
+pass "image root audit rejects fail-open owner provisioning"
 
 printf 'corrupted\n' >>"$node_bundle"
 if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-node" 2>&1; then

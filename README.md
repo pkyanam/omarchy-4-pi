@@ -51,9 +51,9 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Pi audio + Bluetooth payload | 🧪 | HDMI/3.5 mm audio, PipeWire/ALSA, and BlueZ are enforced by the image audit; hardware playback and pairing remain |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | The `alpha.5` keymap bug is fixed; corrected `alpha.6` passed its post-tag 75-check mounted-image audit |
-| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.6`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) is published and verified; owner/desktop hardware testing remains |
-| Public Imager catalog URL | ✅ | The immutable [`alpha.6` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/os-list.json) is live |
+| Imager 2.x unattended setup | 🧪 | `alpha.7` passed its 107-check mounted-image audit; its device-first catalog was also exercised in Imager 2.0.11.1 on macOS |
+| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.7`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.7) is published and verified; owner/desktop hardware testing remains |
+| Public Imager catalog URL | ✅ | The [`alpha.7` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/os-list.json) is live and exposes Raspberry Pi 4 in Imager's device-first flow |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -67,16 +67,16 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 
 ## Try it today
 
-### Flash `alpha.6`
+### Flash `alpha.7`
 
 > [!WARNING]
-> Do not use `alpha.5` for keyboard-free setup. Its unattended branch omits the staged keymap argument and falls back to **Press Return to Start Setup**. Use the corrected, independently audited [`alpha.6` prerelease](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6).
+> Do not use the `alpha.5` or `alpha.6` catalogs for keyboard-free setup. `alpha.5` falls back to **Press Return to Start Setup**, while `alpha.6` lacks the device metadata required by Imager 2.0's first screen. Use the independently audited [`alpha.7` prerelease](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.7).
 
 For an HDMI-only Pi, use Raspberry Pi Imager 2.0.11 or newer and open the release's public catalog on macOS:
 
 ```bash
 open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/os-list.json"
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/os-list.json"
 ```
 
 Select **Omarchy 4 Pi**, then fill in the account, locale, and any Wi-Fi or SSH settings before writing. Complete account settings let the Pi provision the owner and continue without waiting at **Press Return to Start Setup**. The catalog records exact compressed and extracted sizes and SHA-256 hashes, so Imager verifies the download before flashing.
@@ -89,10 +89,10 @@ ssh YOUR_USERNAME@YOUR_HOSTNAME.local
 
 The default hostname is `omarchy`, so that is normally `ssh YOUR_USERNAME@omarchy.local`. If `.local` discovery is filtered by the network, find the Pi in the router's client list and use its IP address instead.
 
-The release image is [`omarchy-4-pi-20260903-826c5daa-minimal.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/omarchy-4-pi-20260903-826c5daa-minimal.img.xz) (2,075,195,288 bytes). Its SHA-256 is `a19456f99cbc441be165f44fdca4facde517bcca8775a7cb8860a0ccbe460f49`; the attached [checksum file](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/omarchy-4-pi-20260903-826c5daa-minimal.img.xz.sha256), GitHub asset digest, and Imager catalog all agree.
+The release image is [`omarchy-4-pi-20260903-4bbf8060-minimal.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/omarchy-4-pi-20260903-4bbf8060-minimal.img.xz) (2,067,192,764 bytes). Its SHA-256 is `4ea64fbfb0028def4c3f967ad675af9cd6e6ebde1d73421935687f4591ad2096`; the attached [checksum file](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/omarchy-4-pi-20260903-4bbf8060-minimal.img.xz.sha256), GitHub asset digest, and Imager catalog all agree. The mounted image passed 107 enforced invariants.
 
 > [!NOTE]
-> If an earlier image is already waiting at **Press Return to Start Setup** and no keyboard is attached, it cannot consume settings retroactively. Reflash the completed `alpha.6` image through the catalog above and complete Imager's account section before writing the card.
+> If an earlier image is already waiting at **Press Return to Start Setup** and no keyboard is attached, it cannot consume settings retroactively. Reflash `alpha.7` through the catalog above and complete Imager's account section before writing the card.
 
 If you already downloaded the image on macOS, the repository helper serves it only to `127.0.0.1` while Imager is open and provides the same customization flow:
 

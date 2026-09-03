@@ -208,6 +208,10 @@ require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service" "omarchy-provision-owner.service" "owner provisioning service is enabled"
 require_unit_link "$root/etc/systemd/system/display-manager.service" "sddm.service" "SDDM display manager is enabled"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/NetworkManager.service" "NetworkManager.service" "NetworkManager is enabled"
+require_unit_link "$root/etc/systemd/system/bluetooth.target.wants/bluetooth.service" "bluetooth.service" "Bluetooth service is enabled"
+require_unit_link "$root/etc/systemd/user/sockets.target.wants/pipewire.socket" "pipewire.socket" "PipeWire audio socket is enabled"
+require_unit_link "$root/etc/systemd/user/sockets.target.wants/pipewire-pulse.socket" "pipewire-pulse.socket" "PulseAudio compatibility socket is enabled"
+require_unit_link "$root/etc/systemd/user/pipewire.service.wants/wireplumber.service" "wireplumber.service" "WirePlumber session manager is enabled"
 
 require_executable "$root/usr/bin/Hyprland" "Hyprland compositor is installed"
 require_executable "$root/usr/bin/quickshell" "Quickshell runtime is installed"
@@ -220,7 +224,11 @@ require_file "$root/etc/skel/.config/hypr/hyprland.lua" "new users receive the H
 require_file "$root/usr/share/omarchy/default/hypr/raspberry-pi.lua" "Pi compositor compatibility profile is installed"
 require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme is installed"
 
-for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings; do
+for package in \
+  hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
+  sddm networkmanager wpa_supplicant openssh bluez bluez-tools bluez-utils \
+  alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber \
+  uwsm chromium foot omarchy omarchy-settings; do
   require_package "$package"
 done
 

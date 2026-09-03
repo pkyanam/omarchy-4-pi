@@ -363,9 +363,12 @@ mkdir -p \
   "$audit_root/etc/modules-load.d" \
   "$audit_root/etc/pacman.d" \
   "$audit_root/etc/ssh" \
+  "$audit_root/etc/systemd/system/bluetooth.target.wants" \
   "$audit_root/etc/systemd/system/multi-user.target.wants" \
   "$audit_root/etc/systemd/system/omarchy-provision-owner.service.d" \
   "$audit_root/etc/systemd/system/sddm.service.d" \
+  "$audit_root/etc/systemd/user/pipewire.service.wants" \
+  "$audit_root/etc/systemd/user/sockets.target.wants" \
   "$audit_root/etc/skel/.config/hypr" \
   "$audit_root/usr/bin" \
   "$audit_root/usr/local/share/wayland-sessions" \
@@ -420,6 +423,14 @@ ln -s /usr/lib/systemd/system/sddm.service \
   "$audit_root/etc/systemd/system/display-manager.service"
 ln -s /usr/lib/systemd/system/NetworkManager.service \
   "$audit_root/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+ln -s /usr/lib/systemd/system/bluetooth.service \
+  "$audit_root/etc/systemd/system/bluetooth.target.wants/bluetooth.service"
+ln -s /usr/lib/systemd/user/pipewire.socket \
+  "$audit_root/etc/systemd/user/sockets.target.wants/pipewire.socket"
+ln -s /usr/lib/systemd/user/pipewire-pulse.socket \
+  "$audit_root/etc/systemd/user/sockets.target.wants/pipewire-pulse.socket"
+ln -s /usr/lib/systemd/user/wireplumber.service \
+  "$audit_root/etc/systemd/user/pipewire.service.wants/wireplumber.service"
 cat >"$audit_root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf" <<'EOF'
 [Unit]
 Requires=omarchy-rpi4-grow-root.service
@@ -448,7 +459,12 @@ run_imager_setup() {
 EOF
 chmod +x "$audit_root/usr/bin/"*
 
-audit_packages=(hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom)
+audit_packages=(
+  hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils
+  sddm networkmanager wpa_supplicant openssh bluez bluez-tools bluez-utils
+  alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber
+  uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom
+)
 for package in "${audit_packages[@]}"; do
   package_dir="$audit_root/var/lib/pacman/local/$package-1.0-1"
   mkdir -p "$package_dir"

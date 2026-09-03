@@ -87,8 +87,8 @@ require_host() {
   (( EUID == 0 )) || fail "Run the image builder as root (it mounts loop devices)."
   [[ $(uname -s) == Linux ]] || fail "The image builder requires Linux with loop-device support."
   [[ $(uname -m) == aarch64 ]] || fail "Use an aarch64 Linux host; GitHub Actions provides ubuntu-24.04-arm."
-  [[ $image_size_gib =~ ^[0-9]+$ ]] && (( image_size_gib >= 10 )) ||
-    fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 10."
+  [[ $image_size_gib =~ ^[0-9]+$ ]] && (( image_size_gib >= 12 )) ||
+    fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 12."
 
   local command
   for command in blockdev bsdtar chroot curl e2fsck fsck.vfat git gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz zerofree; do

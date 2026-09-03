@@ -95,6 +95,12 @@ bash -n "$ROOT/image/open-in-rpi-imager-macos.sh"
 bash -n "$ROOT/image/prepare-release-assets.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
 
+grep -F 'pacman -S --asdeps --needed --noconfirm' "$ROOT/build-packages-rpi4.sh" >/dev/null ||
+  fail "Raspberry Pi package builder marks temporary build dependencies removable"
+grep -F 'image_size_gib >= 12' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder rejects filesystems too small for the transient Quattro install"
+pass "image factory bounds transient package-build storage"
+
 grep -F 'unshare --mount --propagation private' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder isolates temporary mounts in a private namespace"
 grep -F 'OMARCHY_IMAGE_PRIVATE_MOUNT_NS=1' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

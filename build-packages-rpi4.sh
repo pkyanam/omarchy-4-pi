@@ -83,7 +83,10 @@ install_build_dependencies() {
 
   local -a missing=()
   mapfile -t missing < <(pacman -T "${build_dependencies[@]}" || true)
-  (( ${#missing[@]} == 0 )) || sudo pacman -S --needed --noconfirm "${missing[@]}"
+  # These packages exist only to compile the four local artifacts. Mark them as
+  # dependencies so the image factory can remove any that are no longer needed
+  # after the finished packages are installed.
+  (( ${#missing[@]} == 0 )) || sudo pacman -S --asdeps --needed --noconfirm "${missing[@]}"
 }
 
 build_package() {

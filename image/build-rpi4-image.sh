@@ -77,7 +77,7 @@ require_host() {
     fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 10."
 
   local command
-  for command in blockdev bsdtar chroot curl gpg losetup mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
+  for command in blockdev bsdtar chroot curl gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
     command -v "$command" >/dev/null || fail "Missing host command: $command"
   done
 }
@@ -131,6 +131,24 @@ partition_path() {
   fi
 }
 
+ensure_partition_device() {
+  local number="$1"
+  local device block_name sysfs_dev major minor attempt
+  device=$(partition_path "$number")
+  [[ -b $device ]] && return
+
+  block_name=${device##*/}
+  sysfs_dev="/sys/class/block/$block_name/dev"
+  for attempt in {1..20}; do
+    [[ -r $sysfs_dev ]] && break
+    sleep 0.1
+  done
+  [[ -r $sysfs_dev ]] || fail "The kernel did not discover partition $device."
+
+  IFS=: read -r major minor <"$sysfs_dev"
+  mknod "$device" b "$major" "$minor"
+}
+
 create_filesystems() {
   image_path="$work_dir/omarchy-4-pi.img"
   root_mount="$work_dir/root"
@@ -146,6 +164,10 @@ create_filesystems() {
 
   loop_device=$(losetup --find --show --partscan "$image_path")
   udevadm settle
+  # Minimal containers do not run udev, even though the kernel exposes the
+  # partition devices in sysfs. Create only the missing nodes in that case.
+  ensure_partition_device 1
+  ensure_partition_device 2
   mkfs.vfat -F 32 -n OMARCHYBOOT "$(partition_path 1)"
   mkfs.ext4 -F -L omarchyroot -m 0 "$(partition_path 2)"
   mount "$(partition_path 2)" "$root_mount"
@@ -193,13 +215,25 @@ copy_source_checkout() {
     "$repo_root/" "$root_mount/opt/omarchy-4-pi/"
 }
 
+run_chroot_pacman() {
+  local attempt
+  for attempt in {1..4}; do
+    if chroot "$root_mount" pacman "$@"; then
+      return
+    fi
+    (( attempt < 4 )) || fail "Arch Linux ARM package bootstrap failed after $attempt attempts."
+    echo "Package mirror failed; retrying bootstrap ($attempt/4)..." >&2
+    sleep $((attempt * 10))
+  done
+}
+
 prepare_build_user() {
   log "Preparing the Arch Linux ARM build environment"
   cp "$repo_root/default/pacman/pacman-rpi4.conf" "$root_mount/etc/pacman.conf"
   cp "$repo_root/default/pacman/mirrorlist-rpi4" "$root_mount/etc/pacman.d/mirrorlist"
   chroot "$root_mount" pacman-key --init
   chroot "$root_mount" pacman-key --populate archlinuxarm
-  chroot "$root_mount" pacman -Syyu --needed --noconfirm base-devel git sudo
+  run_chroot_pacman -Syyu --needed --noconfirm base-devel git sudo
 
   chroot "$root_mount" useradd -m -s /bin/bash omarchy-builder
   printf 'omarchy-builder ALL=(ALL:ALL) NOPASSWD: ALL\n' \

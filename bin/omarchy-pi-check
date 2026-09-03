@@ -22,6 +22,8 @@ model_path=${OMARCHY_RPI_MODEL_PATH:-/proc/device-tree/model}
 module_root=${OMARCHY_RPI_MODULE_ROOT:-/sys/module}
 dri_root=${OMARCHY_RPI_DRI_ROOT:-/dev/dri}
 provisioning_root=${OMARCHY_RPI_PROVISIONING_ROOT:-/var/lib/omarchy/provisioning}
+hwmon_root=${OMARCHY_RPI_HWMON_ROOT:-/sys/class/hwmon}
+thermal_root=${OMARCHY_RPI_THERMAL_ROOT:-/sys/class/thermal}
 
 printf 'Omarchy 4 Pi hardware check\n\n'
 
@@ -130,8 +132,9 @@ else
 fi
 
 power_raw=""
-command -v vcgencmd >/dev/null 2>&1 &&
+if command -v vcgencmd >/dev/null 2>&1; then
   power_raw=$(command_output vcgencmd get_throttled || true)
+fi
 power_hex=${power_raw#*=}
 if [[ $power_hex =~ ^0[xX][0-9a-fA-F]+$ ]]; then
   power_value=$((16#${power_hex:2}))
@@ -143,7 +146,42 @@ if [[ $power_hex =~ ^0[xX][0-9a-fA-F]+$ ]]; then
     pass "Power/thermals — no under-voltage or throttling flags ($power_hex)"
   fi
 else
-  warn "Power/thermals — vcgencmd result unavailable"
+  voltage_alarm=""
+  for candidate in "$hwmon_root"/hwmon*; do
+    [[ -r $candidate/name && -r $candidate/in0_lcrit_alarm ]] || continue
+    [[ $(<"$candidate/name") == "rpi_volt" ]] || continue
+    voltage_alarm=$(<"$candidate/in0_lcrit_alarm")
+    break
+  done
+
+  temperature_millic=""
+  for candidate in "$thermal_root"/thermal_zone*; do
+    [[ -r $candidate/type && -r $candidate/temp ]] || continue
+    [[ $(<"$candidate/type") == "cpu-thermal" ]] || continue
+    temperature_millic=$(<"$candidate/temp")
+    break
+  done
+
+  if [[ $temperature_millic =~ ^[0-9]+$ ]]; then
+    temperature_tenths=$((temperature_millic / 100))
+    temperature_display="$((temperature_tenths / 10)).$((temperature_tenths % 10))°C"
+  else
+    temperature_display="unavailable"
+  fi
+
+  if [[ $voltage_alarm == "1" ]]; then
+    fail "Power/thermals — kernel under-voltage alarm active; CPU $temperature_display"
+  elif [[ $temperature_millic =~ ^[0-9]+$ ]] && (( temperature_millic >= 80000 )); then
+    fail "Power/thermals — CPU at Raspberry Pi throttling range ($temperature_display)"
+  elif [[ $voltage_alarm == "0" && $temperature_millic =~ ^[0-9]+$ ]]; then
+    pass "Power/thermals — under-voltage alarm clear; CPU $temperature_display"
+  elif [[ $voltage_alarm == "0" ]]; then
+    warn "Power/thermals — under-voltage alarm clear; CPU temperature unavailable"
+  elif [[ $temperature_millic =~ ^[0-9]+$ ]]; then
+    warn "Power/thermals — CPU $temperature_display; under-voltage sensor unavailable"
+  else
+    warn "Power/thermals — kernel voltage and temperature sensors unavailable"
+  fi
 fi
 
 printf '\nResult: %d failure(s), %d warning(s)\n' "$failures" "$warnings"

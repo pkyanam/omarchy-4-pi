@@ -5,6 +5,9 @@
 
 set -euo pipefail
 
+hwmon_root=${OMARCHY_RPI_HWMON_ROOT:-/sys/class/hwmon}
+thermal_root=${OMARCHY_RPI_THERMAL_ROOT:-/sys/class/thermal}
+
 append_flag() {
   local list="$1" flag="$2"
   if [[ -z $list ]]; then
@@ -43,15 +46,33 @@ decode_throttled() {
 }
 
 temperature="unknown"
-if [[ -r /sys/class/thermal/thermal_zone0/temp ]]; then
-  raw_temperature=$(</sys/class/thermal/thermal_zone0/temp)
+for candidate in "$thermal_root"/thermal_zone*; do
+  [[ -r $candidate/type && -r $candidate/temp ]] || continue
+  [[ $(<"$candidate/type") == "cpu-thermal" ]] || continue
+  raw_temperature=$(<"$candidate/temp")
   temperature=$(awk -v value="$raw_temperature" 'BEGIN { printf "%.1f°C", value / 1000 }')
-fi
+  break
+done
 
 power_state="vcgencmd unavailable"
 if command -v vcgencmd >/dev/null 2>&1; then
   raw_power_state=$(vcgencmd get_throttled 2>/dev/null || true)
   power_state=$(decode_throttled "$raw_power_state")
+fi
+if [[ $power_state == unknown* || $power_state == "vcgencmd unavailable" ]]; then
+  for candidate in "$hwmon_root"/hwmon*; do
+    [[ -r $candidate/name && -r $candidate/in0_lcrit_alarm ]] || continue
+    [[ $(<"$candidate/name") == "rpi_volt" ]] || continue
+    voltage_alarm=$(<"$candidate/in0_lcrit_alarm")
+    if [[ $voltage_alarm == "0" ]]; then
+      power_state="OK — kernel under-voltage alarm clear"
+    elif [[ $voltage_alarm == "1" ]]; then
+      power_state="ACTIVE: kernel under-voltage alarm"
+    else
+      power_state="unknown (kernel sensor returned ${voltage_alarm:-nothing})"
+    fi
+    break
+  done
 fi
 
 renderer="not available outside a graphical session"

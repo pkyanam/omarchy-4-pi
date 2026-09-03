@@ -50,6 +50,6 @@ EOF
   fi
 
   install -d "$(dirname "$modules_file")"
-  printf '%s\n' vc4 v3d >"$modules_file"
+  printf '%s\n' vc4 v3d raspberrypi_hwmon >"$modules_file"
   omarchy-pkg-add vulkan-broadcom
 fi

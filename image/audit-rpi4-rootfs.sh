@@ -157,6 +157,7 @@ require_line "$root/etc/fstab" "LABEL=omarchyroot /     ext4 defaults,noatime 0 
 require_line "$root/etc/fstab" "LABEL=OMARCHYBOOT /boot vfat defaults,noatime 0 2" "boot filesystem mounts by label"
 require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "vc4" "VC4 kernel module is configured"
 require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "v3d" "V3D kernel module is configured"
+require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "raspberrypi_hwmon" "Pi under-voltage sensor is configured"
 require_line "$root/etc/pacman.conf" "Architecture = aarch64" "pacman remains pinned to aarch64"
 if [[ -f $root/etc/pacman.d/mirrorlist ]] && grep -F 'mirror.archlinuxarm.org' "$root/etc/pacman.d/mirrorlist" >/dev/null; then
   pass "Arch Linux ARM mirrors remain configured"

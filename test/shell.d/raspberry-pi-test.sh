@@ -47,12 +47,13 @@ grep -Fx 'max_framebuffers=2' "$boot_config" >/dev/null || fail "Pi hardware set
 grep -Fx 'disable_fw_kms_setup=1' "$boot_config" >/dev/null || fail "Pi hardware setup delegates modesetting to KMS"
 grep -Fx 'dtparam=audio=on' "$boot_config" >/dev/null || fail "Pi hardware setup enables onboard audio"
 [[ $(grep -c '^dtoverlay=vc4-kms-v3d$' "$boot_config") == "1" ]] || fail "Pi hardware setup adds KMS exactly once"
-printf 'vc4\nv3d\n' | cmp -s - "$modules_file" || fail "Pi hardware setup loads the VC4 and V3D modules"
+printf 'vc4\nv3d\nraspberrypi_hwmon\n' | cmp -s - "$modules_file" || fail "Pi hardware setup loads graphics and under-voltage sensor modules"
 grep -Fx 'vulkan-broadcom' "$test_tmp/calls.log" >/dev/null || fail "Pi hardware setup installs the Broadcom Vulkan driver"
 pass "Pi hardware setup configures the graphics stack"
 
 cat >"$fake_bin/vcgencmd" <<'EOF'
 #!/bin/bash
+[[ ${VCGENCMD_FAIL:-0} == 0 ]] || exit 1
 printf '%s\n' "${VCGENCMD_OUTPUT:-throttled=0x50005}"
 EOF
 cat >"$fake_bin/free" <<'EOF'
@@ -64,6 +65,13 @@ cat >"$fake_bin/df" <<'EOF'
 printf 'Filesystem Size Used Avail Use%% Mounted\n/dev/root 30G 10G 20G 34%% /\n'
 EOF
 chmod +x "$fake_bin/vcgencmd" "$fake_bin/free" "$fake_bin/df"
+hwmon_root="$test_tmp/hwmon"
+thermal_root="$test_tmp/thermal"
+mkdir -p "$hwmon_root/hwmon0" "$thermal_root/thermal_zone0"
+printf 'rpi_volt\n' >"$hwmon_root/hwmon0/name"
+printf '0\n' >"$hwmon_root/hwmon0/in0_lcrit_alarm"
+printf 'cpu-thermal\n' >"$thermal_root/thermal_zone0/type"
+printf '47200\n' >"$thermal_root/thermal_zone0/temp"
 OMARCHY_RPI_MODEL_PATH="$model" PATH="$fake_bin:$PATH" \
   "$ROOT/bin/omarchy-pi-status" >"$test_tmp/pi-status"
 grep -F 'ACTIVE: under-voltage, throttled; previously: under-voltage, throttled (0x50005)' \
@@ -76,6 +84,14 @@ VCGENCMD_OUTPUT=unavailable OMARCHY_RPI_MODEL_PATH="$model" PATH="$fake_bin:$PAT
   "$ROOT/bin/omarchy-pi-status" >"$test_tmp/pi-status-unknown"
 grep -F 'unknown (unavailable)' "$test_tmp/pi-status-unknown" >/dev/null ||
   fail "Pi status explains an unreadable firmware response"
+VCGENCMD_FAIL=1 \
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-status" >"$test_tmp/pi-status-kernel"
+grep -F 'Temperature: 47.2°C' "$test_tmp/pi-status-kernel" >/dev/null || fail "Pi status reads the kernel CPU temperature"
+grep -F 'Power:       OK — kernel under-voltage alarm clear' "$test_tmp/pi-status-kernel" >/dev/null || fail "Pi status falls back to the kernel under-voltage sensor"
 pass "Pi status explains Raspberry Pi power flags"
 
 cat >"$fake_bin/uname" <<'EOF'
@@ -121,6 +137,8 @@ OMARCHY_RPI_MODEL_PATH="$model" \
 OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
 OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
 OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
 VCGENCMD_OUTPUT=throttled=0x0 \
 PATH="$fake_bin:$PATH" \
   "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-ok" ||
@@ -131,6 +149,19 @@ grep -Fx 'PASS  Audio — default PipeWire sink ready (Volume: 0.50)' \
   "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies the default audio sink"
 grep -Fx 'Result: 0 failure(s), 0 warning(s)' "$test_tmp/pi-check-ok" >/dev/null ||
   fail "Pi acceptance command summarizes a healthy system"
+
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_FAIL=1 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-kernel-sensors"
+grep -Fx 'PASS  Power/thermals — under-voltage alarm clear; CPU 47.2°C' \
+  "$test_tmp/pi-check-kernel-sensors" >/dev/null ||
+  fail "Pi acceptance command falls back to kernel-native voltage and temperature sensors"
 
 touch "$check_provisioning_root/grow-root-pending" "$check_provisioning_root/pending"
 if PI_CHECK_FAIL=1 \
@@ -549,7 +580,7 @@ cat >"$audit_root/etc/fstab" <<'EOF'
 LABEL=omarchyroot /     ext4 defaults,noatime 0 1
 LABEL=OMARCHYBOOT /boot vfat defaults,noatime 0 2
 EOF
-printf 'vc4\nv3d\n' >"$audit_root/etc/modules-load.d/omarchy-rpi.conf"
+printf 'vc4\nv3d\nraspberrypi_hwmon\n' >"$audit_root/etc/modules-load.d/omarchy-rpi.conf"
 printf 'Architecture = aarch64\n' >"$audit_root/etc/pacman.conf"
 printf 'Server = https://mirror.archlinuxarm.org/$arch/$repo\n' >"$audit_root/etc/pacman.d/mirrorlist"
 printf 'root:x:0:0:root:/root:/bin/bash\nnobody:x:65534:65534:nobody:/:/usr/bin/nologin\n' >"$audit_root/etc/passwd"

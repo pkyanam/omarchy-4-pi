@@ -77,9 +77,62 @@ require_host() {
     fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 10."
 
   local command
-  for command in blockdev bsdtar chroot curl gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
+  for command in blockdev bsdtar chroot curl e2fsck fsck.vfat gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
     command -v "$command" >/dev/null || fail "Missing host command: $command"
   done
+}
+
+stop_chroot_helpers() {
+  local attempt process process_root signal
+
+  # Package builders can leave gpg-agent or other helpers alive inside the
+  # chroot. A process whose root is the image keeps the filesystem busy even
+  # after every bind mount is gone, so stop only those precisely scoped PIDs.
+  for signal in TERM KILL; do
+    for attempt in {1..20}; do
+      local found=0
+      for process in /proc/[0-9]*; do
+        [[ ${process##*/} == $$ ]] && continue
+        process_root=$(readlink "$process/root" 2>/dev/null || true)
+        if [[ $process_root == "$root_mount" || $process_root == "$root_mount/"* ]]; then
+          kill "-$signal" "${process##*/}" 2>/dev/null || true
+          found=1
+        fi
+      done
+      (( found == 0 )) && return
+      sleep 0.1
+    done
+  done
+}
+
+unmount_and_verify_image() {
+  local attempt fsck_status=0
+
+  sync
+  # These recursive bind mounts contain only host pseudo-filesystems. Detach
+  # them lazily, then require strict unmounts for every image-backed mount.
+  umount -R -l "$root_mount/dev"
+  umount -R -l "$root_mount/proc"
+  umount -R -l "$root_mount/sys"
+  umount "$root_mount/mnt/omarchy-build"
+  umount "$root_mount/boot"
+  stop_chroot_helpers
+
+  for attempt in {1..40}; do
+    if umount "$root_mount"; then
+      break
+    fi
+    (( attempt < 40 )) || fail "The root filesystem remained busy; refusing to publish a dirty image."
+    sleep 0.25
+  done
+
+  blockdev --flushbufs "$loop_device"
+  e2fsck -p "$(partition_path 2)" || fsck_status=$?
+  (( fsck_status <= 1 )) || fail "The completed root filesystem failed its offline repair pass."
+  e2fsck -fn "$(partition_path 2)" || fail "The completed root filesystem is not clean."
+  fsck.vfat -n "$(partition_path 1)" || fail "The completed boot filesystem is not clean."
+  losetup -d "$loop_device"
+  loop_device=""
 }
 
 cleanup() {
@@ -322,24 +375,7 @@ finalize_image() {
   cp "$root_mount/usr/share/omarchy-rpi4/build-manifest.json" \
     "$work_dir/build-manifest.json"
 
-  sync
-  # Recursive bind mounts include pseudo-filesystems such as /dev/pts and
-  # /dev/shm that can remain kernel-busy after the final chroot command. They
-  # contain no image data, so detach those virtual mounts lazily; the real boot
-  # and root filesystems below still receive strict, synchronous unmounts.
-  umount -R -l "$root_mount/dev"
-  umount -R -l "$root_mount/proc"
-  umount -R -l "$root_mount/sys"
-  umount "$root_mount/mnt/omarchy-build"
-  umount "$root_mount/boot"
-  if ! umount "$root_mount"; then
-    echo "Warning: a stopped chroot helper still holds the root mount; detaching after sync." >&2
-    command -v fuser >/dev/null 2>&1 && fuser -vm "$root_mount" >&2 || true
-    umount -R -l "$root_mount"
-  fi
-  blockdev --flushbufs "$loop_device"
-  losetup -d "$loop_device"
-  loop_device=""
+  unmount_and_verify_image
 
   mkdir -p "$output_dir"
   local commit_short stamp artifact_base compressed

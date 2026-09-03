@@ -90,6 +90,14 @@ bash -n "$ROOT/image/generate-imager-catalog.sh"
 bash -n "$ROOT/image/prepare-release-assets.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
 
+grep -F 'refusing to publish a dirty image' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder requires a strict root unmount"
+grep -F 'e2fsck -fn "$(partition_path 2)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder verifies the completed ext4 filesystem"
+grep -F 'fsck.vfat -n "$(partition_path 1)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder verifies the completed FAT filesystem"
+pass "image publication requires clean filesystems"
+
 release_tmp="$test_tmp/release"
 mkdir -p "$release_tmp"
 printf '0123456789abcdef' >"$test_tmp/test.img.xz"

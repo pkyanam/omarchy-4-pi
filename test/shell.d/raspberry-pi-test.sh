@@ -122,6 +122,25 @@ bash -n "$ROOT/image/open-in-rpi-imager-macos.sh"
 bash -n "$ROOT/image/prepare-release-assets.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
 
+limine_test="$test_tmp/limine-refresh"
+mkdir -p "$limine_test/bin"
+printf 'OMARCHY_PACMAN_PROFILE=rpi4\n' >"$limine_test/profile"
+cat >"$limine_test/bin/sudo" <<'SH'
+#!/bin/bash
+printf '%s\n' "$*" >>"$LIMINE_TEST_CALLS"
+exit 1
+SH
+chmod +x "$limine_test/bin/sudo"
+limine_output=$(LIMINE_TEST_CALLS="$limine_test/calls" \
+  OMARCHY_RPI4_PROFILE="$limine_test/profile" \
+  PATH="$limine_test/bin:$PATH" \
+  bash "$ROOT/bin/omarchy-refresh-limine") ||
+  fail "Pi config refresh skips the PC bootloader without failing"
+[[ ! -e $limine_test/calls ]] || fail "Pi config refresh never invokes Limine through sudo"
+grep -F 'Raspberry Pi firmware boot does not use Limine' <<<"$limine_output" >/dev/null ||
+  fail "Pi config refresh explains why Limine is skipped"
+pass "Pi config refresh leaves the firmware boot partition alone"
+
 grep -F 'pacman -S --asdeps --needed --noconfirm' "$ROOT/build-packages-rpi4.sh" >/dev/null ||
   fail "Raspberry Pi package builder marks temporary build dependencies removable"
 grep -F 'image_size_gib >= 12' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

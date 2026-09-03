@@ -138,6 +138,8 @@ omarchy update
 
 The installer records its source checkout in `/etc/omarchy-rpi4.conf`. During an update, Omarchy fast-forwards that checkout and locally rebuilds the four ported Omarchy packages before continuing with the Arch Linux ARM package and migration steps. Local changes in the checkout cause the core rebuild to be skipped rather than overwritten.
 
+Commands that normally refresh Limine detect this profile and leave the Pi firmware boot partition alone. Plymouth refreshes still rebuild the Arch Linux ARM initramfs directly with `mkinitcpio`, so `omarchy-reinstall-configs` works on the Pi instead of failing on a PC-only bootloader step.
+
 Do not delete or move the source checkout without updating `OMARCHY_RPI4_SOURCE` in `/etc/omarchy-rpi4.conf`.
 
 The stable, RC, edge, and dev channel switcher is disabled on this port. `omarchy refresh pacman` always restores the Raspberry Pi package profile.

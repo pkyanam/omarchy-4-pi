@@ -3,6 +3,14 @@
 # omarchy:summary=Overwrite the user config for the Limine bootloader and rebuild it.
 # omarchy:requires-sudo=true
 
+set -euo pipefail
+
+rpi_profile=${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}
+if [[ -r $rpi_profile ]]; then
+  echo "Raspberry Pi firmware boot does not use Limine; leaving /boot unchanged."
+  exit 0
+fi
+
 legacy_uki="/boot/EFI/Linux/$(cat /etc/machine-id)_linux.efi"
 
 if sudo test -f /boot/EFI/Linux/omarchy_linux.efi && sudo test -f "$legacy_uki"; then

@@ -14,11 +14,32 @@ container=""
 log() { printf '\033[32m==>\033[0m %s\n' "$*"; }
 fail() { printf '\033[31mError:\033[0m %s\n' "$*" >&2; exit 1; }
 
+usage() {
+  cat <<'EOF'
+Usage: image/build-rpi4-image-macos.sh [--minimal|--full] [--keep-work]
+
+Build a Raspberry Pi Imager-compatible image on an Apple-silicon Mac using
+Docker Desktop's native ARM64 engine. By default the helper uses all but two
+logical CPU cores and fast xz compression.
+
+Environment:
+  OMARCHY_LOCAL_CPUS      Build cores (default: total logical cores minus two)
+  OMARCHY_IMAGE_OUTPUT    Artifact directory (default: build/image)
+  OMARCHY_IMAGE_SIZE_GIB  Uncompressed image size (default: 12)
+  OMARCHY_XZ_PRESET       xz preset (default: -1)
+EOF
+}
+
 cleanup() {
   [[ -z $container ]] || docker rm --force "$container" >/dev/null 2>&1 || true
 }
 
 main() {
+  if [[ ${1:-} == "--help" || ${1:-} == "-h" ]]; then
+    usage
+    exit 0
+  fi
+
   [[ $(uname -s) == Darwin && $(uname -m) == arm64 ]] ||
     fail "This helper requires an Apple-silicon Mac."
   command -v docker >/dev/null || fail "Install Docker Desktop first."

@@ -124,6 +124,13 @@ bash -n "$ROOT/image/open-in-rpi-imager-macos.sh"
 bash -n "$ROOT/image/prepare-release-assets.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
 
+macos_build_help=$("$ROOT/image/build-rpi4-image-macos.sh" --help)
+grep -F 'OMARCHY_LOCAL_CPUS' <<<"$macos_build_help" >/dev/null ||
+  fail "macOS builder documents its balanced core override"
+grep -F 'OMARCHY_XZ_PRESET' <<<"$macos_build_help" >/dev/null ||
+  fail "macOS builder documents its fast compression override"
+pass "macOS image builder help is instant and self-contained"
+
 limine_test="$test_tmp/limine-refresh"
 mkdir -p "$limine_test/bin"
 printf 'OMARCHY_PACMAN_PROFILE=rpi4\n' >"$limine_test/profile"

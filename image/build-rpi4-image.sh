@@ -43,6 +43,20 @@ Environment:
 USAGE
 }
 
+enter_private_mount_namespace() {
+  [[ ${OMARCHY_IMAGE_PRIVATE_MOUNT_NS:-} == 1 ]] && return
+  command -v unshare >/dev/null ||
+    fail "Missing host command: unshare (provided by util-linux)."
+
+  # GitHub-hosted runners have services in sibling mount namespaces. If the
+  # runner's root is shared, a loop-filesystem mount can propagate to one of
+  # those namespaces and remain "in use" after this process unmounts it. Do
+  # every mount in a fresh private namespace so the final offline fsck sees
+  # exactly the same mount lifetime as the builder.
+  exec unshare --mount --propagation private -- \
+    env OMARCHY_IMAGE_PRIVATE_MOUNT_NS=1 "$0" "$@"
+}
+
 parse_args() {
   while (($#)); do
     case "$1" in
@@ -415,6 +429,7 @@ finalize_image() {
 }
 
 main() {
+  enter_private_mount_namespace "$@"
   parse_args "$@"
   require_host
   if [[ -n ${OMARCHY_IMAGE_WORK:-} ]]; then

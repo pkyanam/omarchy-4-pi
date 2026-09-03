@@ -96,6 +96,8 @@ grep -F 'refusing to publish a dirty image' "$ROOT/image/build-rpi4-image.sh" >/
   fail "image builder requires a strict root unmount"
 grep -F 'e2fsck -fn "$(partition_path 2)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder verifies the completed ext4 filesystem"
+grep -F 'Waiting for the root loop partition to become idle' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder tolerates bounded udev release latency"
 grep -F 'fsck.vfat -n "$(partition_path 1)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder verifies the completed FAT filesystem"
 unmount_function=$(sed -n '/^unmount_and_verify_image()/,/^}/p' "$ROOT/image/build-rpi4-image.sh")

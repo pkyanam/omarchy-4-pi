@@ -128,8 +128,18 @@ unmount_and_verify_image() {
   done
 
   blockdev --flushbufs "$loop_device"
-  e2fsck -p "$(partition_path 2)" || fsck_status=$?
-  (( fsck_status <= 1 )) || fail "The completed root filesystem failed its offline repair pass."
+  # udev or a filesystem probe can briefly retain the just-unmounted loop
+  # partition on full Linux hosts. e2fsck refuses safely while that happens;
+  # wait for the device to become idle, but keep the check fail-closed.
+  for attempt in {1..40}; do
+    fsck_status=0
+    e2fsck -p "$(partition_path 2)" || fsck_status=$?
+    (( fsck_status <= 1 )) && break
+    (( attempt < 40 )) || fail "The completed root filesystem failed its offline repair pass."
+    (( attempt != 1 )) || echo "Waiting for the root loop partition to become idle..." >&2
+    udevadm settle
+    sleep 0.25
+  done
   e2fsck -fn "$(partition_path 2)" || fail "The completed root filesystem is not clean."
   fsck.vfat -n "$(partition_path 1)" || fail "The completed boot filesystem is not clean."
   losetup -d "$loop_device"

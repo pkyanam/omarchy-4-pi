@@ -5,7 +5,8 @@
 
 set -euo pipefail
 
-readonly marker=/var/lib/omarchy/provisioning/grow-root-pending
+readonly marker="${OMARCHY_RPI4_GROW_MARKER:-/var/lib/omarchy/provisioning/grow-root-pending}"
+readonly unit_link="${OMARCHY_RPI4_GROW_UNIT_LINK:-/etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service}"
 [[ -e $marker ]] || exit 0
 
 root_source=$(findmnt -nro SOURCE /)
@@ -33,5 +34,5 @@ udevadm settle
 resize2fs "$root_source"
 
 rm -f "$marker"
-rm -f /etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service
+rm -f "$unit_link"
 systemctl daemon-reload 2>/dev/null || true

@@ -12,12 +12,14 @@ fi
 
 readonly image="$1"
 readonly output_dir="$2"
-readonly part_mib="${OMARCHY_RELEASE_PART_MIB:-1900}"
+# GitHub accepts release assets smaller than 2 GiB. Keep an 8 MiB safety
+# margin while avoiding needless splitting of maximum-compressed Pi images.
+readonly part_mib="${OMARCHY_RELEASE_PART_MIB:-2040}"
 
 [[ -f $image ]] || { echo "Image not found: $image" >&2; exit 1; }
 [[ $image == *.img.xz ]] || { echo "Expected an .img.xz file: $image" >&2; exit 1; }
-[[ $part_mib =~ ^[0-9]+$ ]] && (( part_mib >= 1 && part_mib <= 1900 )) || {
-  echo "OMARCHY_RELEASE_PART_MIB must be between 1 and 1900" >&2
+[[ $part_mib =~ ^[0-9]+$ ]] && (( part_mib >= 1 && part_mib <= 2040 )) || {
+  echo "OMARCHY_RELEASE_PART_MIB must be between 1 and 2040" >&2
   exit 1
 }
 

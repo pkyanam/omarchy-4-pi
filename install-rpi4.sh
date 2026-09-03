@@ -349,6 +349,7 @@ arm_first_boot_provisioning() {
   local unit_source="$checkout/install/provisioning/omarchy-provision-owner.service"
   local grow_unit_source="$checkout/install/provisioning/omarchy-rpi4-grow-root.service"
   local grow_dependency_source="$checkout/install/provisioning/omarchy-provision-owner-rpi4.conf"
+  local sddm_dependency_source="$checkout/install/provisioning/omarchy-sddm-rpi4.conf"
 
   stage_node_tarball
 
@@ -361,6 +362,8 @@ arm_first_boot_provisioning() {
   sudo install -Dm644 "$grow_unit_source" /etc/systemd/system/omarchy-rpi4-grow-root.service
   sudo install -Dm644 "$grow_dependency_source" \
     /etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf
+  sudo install -Dm644 "$sddm_dependency_source" \
+    /etc/systemd/system/sddm.service.d/10-rpi4-owner-setup.conf
   sudo install -d /var/lib/omarchy/provisioning /etc/systemd/system/multi-user.target.wants
   sudo touch /var/lib/omarchy/provisioning/pending \
     /var/lib/omarchy/provisioning/grow-root-pending

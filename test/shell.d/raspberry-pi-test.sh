@@ -241,6 +241,14 @@ grep -Fx 'After=omarchy-rpi4-grow-root.service' \
 grep -F 'omarchy-provision-owner.service.d/10-rpi4-grow-root.conf' \
   "$ROOT/install-rpi4.sh" >/dev/null ||
   fail "Pi image installs the root-growth dependency drop-in"
+grep -Fx 'Requires=omarchy-provision-owner.service' \
+  "$ROOT/install/provisioning/omarchy-sddm-rpi4.conf" >/dev/null ||
+  fail "SDDM requires successful owner provisioning"
+grep -Fx 'After=omarchy-provision-owner.service' \
+  "$ROOT/install/provisioning/omarchy-sddm-rpi4.conf" >/dev/null ||
+  fail "SDDM waits for owner provisioning"
+grep -F 'sddm.service.d/10-rpi4-owner-setup.conf' "$ROOT/install-rpi4.sh" >/dev/null ||
+  fail "Pi image installs the SDDM owner dependency drop-in"
 grep -F '/var/lib/omarchy/provisioning/grow-root-pending' \
   "$ROOT/bin/omarchy-rpi4-grow-root" >/dev/null || fail "root growth is guarded by a one-shot marker"
 grep -F 'omarchy-rpi4-imager-preseed' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
@@ -357,6 +365,7 @@ mkdir -p \
   "$audit_root/etc/ssh" \
   "$audit_root/etc/systemd/system/multi-user.target.wants" \
   "$audit_root/etc/systemd/system/omarchy-provision-owner.service.d" \
+  "$audit_root/etc/systemd/system/sddm.service.d" \
   "$audit_root/etc/skel/.config/hypr" \
   "$audit_root/usr/bin" \
   "$audit_root/usr/local/share/wayland-sessions" \
@@ -415,6 +424,11 @@ cat >"$audit_root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-g
 [Unit]
 Requires=omarchy-rpi4-grow-root.service
 After=omarchy-rpi4-grow-root.service
+EOF
+cat >"$audit_root/etc/systemd/system/sddm.service.d/10-rpi4-owner-setup.conf" <<'EOF'
+[Unit]
+Requires=omarchy-provision-owner.service
+After=omarchy-provision-owner.service
 EOF
 
 # Minimal little-endian ELF64 header with e_machine = EM_AARCH64 (183).
@@ -485,6 +499,17 @@ grep -F 'owner provisioning requires successful root expansion' "$test_tmp/audit
   fail "image root audit identifies a missing root-growth requirement"
 mv "$test_tmp/complete-grow-dependency.conf" "$grow_dependency"
 pass "image root audit rejects fail-open owner provisioning"
+
+sddm_dependency="$audit_root/etc/systemd/system/sddm.service.d/10-rpi4-owner-setup.conf"
+cp "$sddm_dependency" "$test_tmp/complete-sddm-dependency.conf"
+sed -i.bak '/^Requires=omarchy-provision-owner.service$/d' "$sddm_dependency"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-sddm-dependency" 2>&1; then
+  fail "image root audit rejects fail-open display-manager startup"
+fi
+grep -F 'SDDM requires successful owner provisioning' "$test_tmp/audit-sddm-dependency" >/dev/null ||
+  fail "image root audit identifies a missing SDDM owner requirement"
+mv "$test_tmp/complete-sddm-dependency.conf" "$sddm_dependency"
+pass "image root audit rejects fail-open display-manager startup"
 
 printf 'corrupted\n' >>"$node_bundle"
 if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-node" 2>&1; then

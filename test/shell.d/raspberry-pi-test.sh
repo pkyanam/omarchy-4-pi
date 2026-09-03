@@ -116,6 +116,10 @@ grep -F 'Before=omarchy-provision-owner.service' \
   fail "root growth runs before owner provisioning"
 grep -F '/var/lib/omarchy/provisioning/grow-root-pending' \
   "$ROOT/bin/omarchy-rpi4-grow-root" >/dev/null || fail "root growth is guarded by a one-shot marker"
+grep -F 'omarchy-rpi4-imager-preseed' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
+  fail "owner setup consumes Raspberry Pi Imager settings"
+grep -F 'chpasswd --encrypted' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
+  fail "Imager password hashes are never treated as plaintext"
 pass "image mode arms ordered first-boot storage growth and owner provisioning"
 
 catalog_source="$test_tmp/catalog.img"
@@ -135,7 +139,7 @@ with open(sys.argv[1], encoding="utf-8") as stream:
 entry = catalog["os_list"][0]
 assert entry["devices"] == ["pi4"]
 assert entry["architecture"] == "armv8"
-assert entry["init_format"] == "none"
+assert entry["init_format"] == "rpi-preseed"
 assert entry["extract_size"] == 4096
 assert len(entry["extract_sha256"]) == 64
 assert len(entry["image_download_sha256"]) == 64

@@ -14,8 +14,14 @@
 set -euo pipefail
 
 PROVISIONING_DIR=/var/lib/omarchy/provisioning
+IMAGER_STATE_DIR="$PROVISIONING_DIR/imager"
 OMARCHY_PATH="${OMARCHY_PATH:-/usr/share/omarchy}"
 LOG_FILE=/var/log/omarchy-provision-owner.log
+password_encrypted=false
+passwordless_sudo=false
+imager_preseeded=false
+imager_ssh_enabled=false
+imager_ssh_password_auth=false
 
 if (( EUID != 0 )); then
   echo "Error: omarchy-provision-owner must run as root" >&2
@@ -42,6 +48,42 @@ source "$OMARCHY_PATH/install/provisioning/setup-form.sh"
 # Unlike a fresh install target, this machine already has accounts; a pinned
 # resume (below) bypasses the prompt entirely.
 omarchy_username_taken() { getent passwd "$1" >/dev/null; }
+
+# Raspberry Pi Imager 2.x can place rpi-preseed.toml on the FAT boot partition
+# when this image is selected through its catalog. The parser stages only a
+# complete, hashed-password owner configuration; partial or invalid input keeps
+# this normal interactive onboarding path instead of creating a half-configured
+# machine.
+load_imager_preseed() {
+  [[ ! -f $PROVISIONING_DIR/luks-key ]] || return 1
+
+  local helper=/usr/bin/omarchy-rpi4-imager-preseed status=0
+  [[ -x $helper ]] || helper="$OMARCHY_PATH/bin/omarchy-rpi4-imager-preseed"
+  [[ -x $helper ]] || return 1
+  "$helper" stage || status=$?
+  (( status == 0 )) || return "$status"
+  [[ -f $IMAGER_STATE_DIR/ready ]] || return 1
+
+  username=$(<"$IMAGER_STATE_DIR/username")
+  password=$(<"$IMAGER_STATE_DIR/password-hash")
+  password_confirmation=$password
+  hostname=$(<"$IMAGER_STATE_DIR/hostname")
+  timezone=$(<"$IMAGER_STATE_DIR/timezone")
+  keyboard=$(<"$IMAGER_STATE_DIR/keymap")
+  keyboard_label=$keyboard
+  imager_ssh_enabled=$(<"$IMAGER_STATE_DIR/ssh-enabled")
+  imager_ssh_password_auth=$(<"$IMAGER_STATE_DIR/ssh-password-auth")
+  passwordless_sudo=$(<"$IMAGER_STATE_DIR/passwordless-sudo")
+  full_name=""
+  email_address=""
+  password_encrypted=true
+  imager_preseeded=true
+
+  if [[ -f $IMAGER_STATE_DIR/authorized_keys ]]; then
+    cp "$IMAGER_STATE_DIR/authorized_keys" "$PROVISIONING_DIR/authorized_keys"
+    chmod 600 "$PROVISIONING_DIR/authorized_keys"
+  fi
+}
 
 LOGO_PATH="$OMARCHY_PATH/logo.txt"
 LOGO_WIDTH=$(awk '{ if (length > max) max = length } END { print max+0 }' "$LOGO_PATH" 2>/dev/null || echo 0)
@@ -737,8 +779,13 @@ create_user() {
       ${full_name:+-c "$full_name"} "$username"
   fi
 
-  printf '%s:%s\n' "$username" "$password" | chpasswd
-  printf '%s:%s\n' root "$password" | chpasswd
+  if $password_encrypted; then
+    printf '%s:%s\n' "$username" "$password" | chpasswd --encrypted
+    printf '%s:%s\n' root "$password" | chpasswd --encrypted
+  else
+    printf '%s:%s\n' "$username" "$password" | chpasswd
+    printf '%s:%s\n' root "$password" | chpasswd
+  fi
 
   # Image builds keep the updateable port checkout in /opt. Hand it to the
   # owner created here so normal source-tracked updates can fast-forward and
@@ -754,6 +801,11 @@ create_user() {
   # for specific commands), and a duplicate grant is harmless.
   echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/00-omarchy-wheel
   chmod 440 /etc/sudoers.d/00-omarchy-wheel
+  if $passwordless_sudo; then
+    printf '%s ALL=(ALL:ALL) NOPASSWD: ALL\n' "$username" \
+      >"/etc/sudoers.d/01-omarchy-imager-$username"
+    chmod 440 "/etc/sudoers.d/01-omarchy-imager-$username"
+  fi
 
   source "$OMARCHY_PATH/install/helpers/browser-policy.sh"
   for dir in "${BROWSER_POLICY_MANAGED_DIRS[@]}"; do
@@ -771,6 +823,60 @@ install_authorized_keys() {
   chmod 700 "$ssh_dir"
   chmod 600 "$ssh_dir/authorized_keys"
   chown -R "$username:$username" "$ssh_dir"
+}
+
+configure_imager_network() {
+  $imager_preseeded || return 0
+
+  local connection=/etc/NetworkManager/system-connections/omarchy-imager.nmconnection
+  if [[ -f $connection ]]; then
+    chown root:root "$connection"
+    chmod 600 "$connection"
+    nmcli connection reload >>"$LOG_FILE" 2>&1 || true
+  fi
+
+  if [[ -f /etc/conf.d/wireless-regdom ]] && command -v iw >/dev/null 2>&1; then
+    local country
+    country=$(sed -n 's/^WIRELESS_REGDOM="\([A-Z][A-Z]\)"$/\1/p' /etc/conf.d/wireless-regdom)
+    [[ -z $country ]] || iw reg set "$country" >>"$LOG_FILE" 2>&1 || true
+  fi
+}
+
+configure_imager_ssh() {
+  $imager_preseeded && $imager_ssh_enabled || return 0
+
+  local key config=/etc/ssh/sshd_config.d/10-omarchy-imager.conf
+  if ! $imager_ssh_password_auth; then
+    [[ -s /home/$username/.ssh/authorized_keys ]] || return 1
+    while IFS= read -r key; do
+      [[ -z $key ]] && continue
+      ssh-keygen -lf /dev/stdin <<<"$key" >/dev/null 2>&1 || return 1
+    done </home/$username/.ssh/authorized_keys
+  fi
+
+  install -d -m 755 /etc/ssh/sshd_config.d
+  if $imager_ssh_password_auth; then
+    printf 'PasswordAuthentication yes\nKbdInteractiveAuthentication yes\n' >"$config"
+  else
+    printf 'PasswordAuthentication no\nKbdInteractiveAuthentication no\n' >"$config"
+  fi
+  chmod 644 "$config"
+  ssh-keygen -A
+  sshd -t
+  local effective
+  effective=$(sshd -T)
+  if $imager_ssh_password_auth; then
+    grep -qixF 'passwordauthentication yes' <<<"$effective" || return 1
+  else
+    grep -qixF 'passwordauthentication no' <<<"$effective" || return 1
+    grep -qixF 'kbdinteractiveauthentication no' <<<"$effective" || return 1
+  fi
+  systemctl enable --now sshd.service
+
+  if command -v ufw >/dev/null 2>&1; then
+    ufw limit 22/tcp comment omarchy-imager-sshd >/dev/null
+    ufw reload >/dev/null
+  fi
 }
 
 configure_login() {
@@ -998,7 +1104,12 @@ reset_limine_config() {
 cleanup_oem_state() {
   # Keep groups + packages: omarchy-system-factory-reset stages the bundled Node
   # tarball from these live copies when the factory snapshot predates it.
-  rm -f "$PROVISIONING_DIR/pending" "$PROVISIONING_DIR/authorized_keys" "$PROVISIONING_DIR/setup-user"
+  if [[ -f $IMAGER_STATE_DIR/receipt.json ]]; then
+    install -Dm600 "$IMAGER_STATE_DIR/receipt.json" /var/lib/omarchy/imager-preseed.json
+  fi
+  rm -f "$PROVISIONING_DIR/pending" "$PROVISIONING_DIR/authorized_keys" "$PROVISIONING_DIR/setup-user" \
+    /boot/rpi-preseed.toml /boot/firmware/rpi-preseed.toml
+  rm -rf "$IMAGER_STATE_DIR"
 
   rm -f /etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service
   systemctl daemon-reload 2>/dev/null || true
@@ -1010,6 +1121,8 @@ run_provisioning() {
   log_step "creating user $username"
   create_user
   install_authorized_keys
+  configure_imager_network
+  configure_imager_ssh
   configure_login
 
   log_step "setting hostname to ${hostname:-omarchy}"
@@ -1112,6 +1225,35 @@ run_setup() {
   # Omarchy..." card would only add a flash of screen before the handoff.
 }
 
+run_imager_setup() {
+  apply_keyboard
+  touch "$LOG_FILE"
+  chmod 600 "$LOG_FILE"
+  rm -f "$FINALIZE_WARNING_FLAG"
+  echo account >"$STATE_FILE"
+
+  run_provisioning >>"$LOG_FILE" 2>&1 &
+  local worker=$!
+  set_now
+  SETUP_T0=$NOW
+  SETUP_PHASE_T0=$NOW
+  render_setup_static
+  while kill -0 "$worker" 2>/dev/null; do
+    render_setup_dynamic
+    sleep 0.5
+  done
+
+  local status=0
+  wait "$worker" || status=$?
+  if (( status != 0 )); then
+    printf '%s' "$SHOW_CURSOR"
+    return "$status"
+  fi
+  echo done >"$STATE_FILE"
+  render_setup_dynamic
+  sleep 1
+}
+
 # A failed first-boot setup must not strand the machine at a user-less login
 # screen. Each attempt runs as its own process — bash ignores errexit inside
 # `while !` conditions, but a child process keeps its own set -e — and failure
@@ -1126,6 +1268,14 @@ main() {
   # greeter_screen (which owns that settle) rather than running here on a VT
   # that may still be in a transitional mode this early in first boot.
   set_tokyo_night_colors
+  if load_imager_preseed; then
+    if run_imager_setup; then
+      return 0
+    fi
+    clear_logo
+    say --foreground 1 "Raspberry Pi Imager setup failed; switching to interactive setup."
+    sleep 3
+  fi
   greeter_screen
 
   while ! "$0" --attempt; do

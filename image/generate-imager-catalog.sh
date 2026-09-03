@@ -50,7 +50,7 @@ cat >"$output" <<EOF
       "image_download_size": $download_size,
       "image_download_sha256": "$download_sha",
       "devices": ["pi4"],
-      "init_format": "none",
+      "init_format": "rpi-preseed",
       "architecture": "armv8"
     }
   ]

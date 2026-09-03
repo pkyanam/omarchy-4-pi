@@ -1,0 +1,273 @@
+#!/usr/bin/env python3
+
+"""Stage Raspberry Pi Imager 2.x rpi-preseed settings for Omarchy setup.
+
+This intentionally accepts only the fields Imager itself generates for the
+system, user, SSH, Wi-Fi, and locale sections. Account creation remains owned
+by omarchy-provision-owner so its Quattro setup and security invariants stay in
+one place.
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import re
+import subprocess
+import sys
+import tomllib
+from pathlib import Path
+
+
+ROOT = Path(os.environ.get("OMARCHY_PRESEED_ROOT", "/"))
+STATE = ROOT / "var/lib/omarchy/provisioning/imager"
+CONFIG_CANDIDATES = (
+    ROOT / "boot/rpi-preseed.toml",
+    ROOT / "boot/firmware/rpi-preseed.toml",
+)
+
+USERNAME_RE = re.compile(r"^[a-z_][a-z0-9_-]*[$]?$")
+HOSTNAME_RE = re.compile(r"^[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$")
+PASSWORD_HASH_RE = re.compile(r"^\$(?:y|5|6)\$[^\r\n:]{8,1024}$")
+COUNTRY_RE = re.compile(r"^[A-Z]{2}$")
+RESERVED_USERS = {
+    "root", "bin", "daemon", "mail", "ftp", "http", "nobody", "dbus",
+    "systemd-coredump", "systemd-network", "systemd-oom", "systemd-resolve",
+    "systemd-timesync", "tss", "uuidd", "alpm", "git", "avahi", "cups",
+    "polkitd", "rtkit", "sddm",
+}
+
+
+class PreseedError(ValueError):
+    pass
+
+
+def table(config: dict, name: str) -> dict:
+    value = config.get(name, {})
+    if not isinstance(value, dict):
+        raise PreseedError(f"[{name}] must be a TOML table")
+    return value
+
+
+def string(section: dict, key: str, default: str = "") -> str:
+    value = section.get(key, default)
+    if not isinstance(value, str):
+        raise PreseedError(f"{key} must be a string")
+    if "\0" in value or "\r" in value or "\n" in value:
+        raise PreseedError(f"{key} must be a single-line string")
+    return value
+
+
+def boolean(section: dict, key: str, default: bool = False) -> bool:
+    value = section.get(key, default)
+    if not isinstance(value, bool):
+        raise PreseedError(f"{key} must be true or false")
+    return value
+
+
+def string_array(section: dict, key: str) -> list[str]:
+    value = section.get(key, [])
+    if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+        raise PreseedError(f"{key} must be an array of strings")
+    for item in value:
+        if "\0" in item or "\r" in item or "\n" in item:
+            raise PreseedError(f"{key} entries must be single-line strings")
+    return value
+
+
+def validate_authorized_keys(keys: list[str]) -> None:
+    for key in keys:
+        try:
+            result = subprocess.run(
+                ("ssh-keygen", "-lf", "-"),
+                input=(key + "\n").encode(),
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+        except FileNotFoundError as error:
+            raise PreseedError("ssh-keygen is required to validate authorized keys") from error
+        if result.returncode != 0:
+            raise PreseedError("ssh.authorized_keys contains an invalid public key")
+
+
+def write_private(path: Path, value: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    temporary = path.with_name(f".{path.name}.tmp")
+    temporary.write_text(value, encoding="utf-8")
+    temporary.chmod(0o600)
+    temporary.replace(path)
+
+
+def validate_timezone(value: str) -> str:
+    if not value:
+        return "UTC"
+    if value.startswith("/") or ".." in Path(value).parts:
+        raise PreseedError("locale.timezone is not a safe zone name")
+    if not (ROOT / "usr/share/zoneinfo" / value).is_file():
+        raise PreseedError(f"unknown timezone: {value}")
+    return value
+
+
+def ssid_bytes(wlan: dict) -> bytes | None:
+    plain = string(wlan, "ssid")
+    encoded = string(wlan, "ssid_hex")
+    if plain and encoded:
+        raise PreseedError("wlan.ssid and wlan.ssid_hex are mutually exclusive")
+    if encoded:
+        try:
+            result = bytes.fromhex(encoded)
+        except ValueError as error:
+            raise PreseedError("wlan.ssid_hex is not valid hexadecimal") from error
+    elif plain:
+        result = plain.encode("utf-8")
+    else:
+        return None
+    if not 1 <= len(result) <= 32:
+        raise PreseedError("Wi-Fi SSID must contain 1 to 32 bytes")
+    return result
+
+
+def networkmanager_keyfile(wlan: dict) -> tuple[str, str] | None:
+    raw_ssid = ssid_bytes(wlan)
+    if raw_ssid is None:
+        return None
+
+    password = string(wlan, "password")
+    password_encrypted = boolean(wlan, "password_encrypted")
+    hidden = boolean(wlan, "hidden")
+    if password_encrypted and not re.fullmatch(r"[0-9A-Fa-f]{64}", password):
+        raise PreseedError("encrypted Wi-Fi password must be a 64-digit WPA PSK")
+    if password and not password_encrypted and not 8 <= len(password) <= 63:
+        raise PreseedError("Wi-Fi passphrase must contain 8 to 63 characters")
+
+    key_mgmt = string(wlan, "key_mgmt", "wpa-psk" if password else "none")
+    if key_mgmt not in {"none", "wpa-psk", "sae"}:
+        raise PreseedError(f"unsupported Wi-Fi key management: {key_mgmt}")
+    if key_mgmt in {"wpa-psk", "sae"} and not password:
+        raise PreseedError("secured Wi-Fi requires a password")
+    if key_mgmt == "none" and password:
+        raise PreseedError("open Wi-Fi cannot include a password")
+
+    # A byte-array value avoids NetworkManager keyfile escaping ambiguities for
+    # spaces, punctuation, and non-UTF-8 SSIDs.
+    ssid = ";".join(str(byte) for byte in raw_ssid) + ";"
+    lines = [
+        "[connection]", "id=omarchy-imager", "type=wifi", "autoconnect=true", "",
+        "[wifi]", "mode=infrastructure", f"ssid={ssid}", f"hidden={str(hidden).lower()}", "",
+    ]
+    if key_mgmt != "none":
+        lines.extend(("[wifi-security]", f"key-mgmt={key_mgmt}", f"psk={password}", ""))
+    lines.extend(("[ipv4]", "method=auto", "", "[ipv6]", "method=auto", "addr-gen-mode=default", ""))
+    country = string(wlan, "country").upper()
+    if country and not COUNTRY_RE.fullmatch(country):
+        raise PreseedError("wlan.country must be a two-letter country code")
+    return "\n".join(lines), country
+
+
+def locate_config() -> Path | None:
+    explicit = os.environ.get("OMARCHY_PRESEED_CONFIG")
+    candidates = (Path(explicit),) if explicit else CONFIG_CANDIDATES
+    return next((path for path in candidates if path.is_file()), None)
+
+
+def stage() -> int:
+    config_path = locate_config()
+    if config_path is None:
+        return 3
+
+    try:
+        if config_path.stat().st_size > 1024 * 1024:
+            raise PreseedError("configuration exceeds the 1 MiB safety limit")
+        with config_path.open("rb") as source:
+            config = tomllib.load(source)
+        version = config.get("config_version")
+        if version not in {"1.0", "1.1"}:
+            raise PreseedError("config_version must be 1.0 or 1.1")
+
+        user = table(config, "user")
+        username = string(user, "name")
+        password_hash = string(user, "password")
+        if not username or not password_hash:
+            # Partial Imager settings are not enough to replace secure owner
+            # onboarding, so preserve the normal interactive flow.
+            return 3
+        if not USERNAME_RE.fullmatch(username) or username in RESERVED_USERS:
+            raise PreseedError("user.name is invalid or reserved")
+        if not boolean(user, "password_encrypted"):
+            raise PreseedError("plaintext owner passwords are refused; use Raspberry Pi Imager")
+        if not PASSWORD_HASH_RE.fullmatch(password_hash):
+            raise PreseedError("user.password is not a supported crypt hash")
+
+        system = table(config, "system")
+        hostname = string(system, "hostname", "omarchy") or "omarchy"
+        if not HOSTNAME_RE.fullmatch(hostname):
+            raise PreseedError("system.hostname is invalid")
+
+        locale = table(config, "locale")
+        keymap = string(locale, "keymap", "us") or "us"
+        if not re.fullmatch(r"[A-Za-z0-9_+.-]{1,64}", keymap):
+            raise PreseedError("locale.keymap is invalid")
+        timezone = validate_timezone(string(locale, "timezone", "UTC"))
+
+        ssh = table(config, "ssh")
+        ssh_enabled = boolean(ssh, "enabled")
+        password_auth = boolean(ssh, "password_authentication")
+        authorized_keys = string_array(ssh, "authorized_keys")
+        validate_authorized_keys(authorized_keys)
+        if ssh_enabled and not password_auth and not authorized_keys:
+            raise PreseedError("key-only SSH requires at least one authorized key")
+
+        wifi = networkmanager_keyfile(table(config, "wlan"))
+        passwordless_sudo = boolean(user, "passwordless_sudo")
+    except (OSError, tomllib.TOMLDecodeError, PreseedError) as error:
+        print(f"omarchy-rpi4-imager-preseed: {error}", file=sys.stderr)
+        return 2
+
+    STATE.mkdir(parents=True, exist_ok=True, mode=0o700)
+    STATE.chmod(0o700)
+    values = {
+        "username": username,
+        "password-hash": password_hash,
+        "hostname": hostname,
+        "timezone": timezone,
+        "keymap": keymap,
+        "ssh-enabled": str(ssh_enabled).lower(),
+        "ssh-password-auth": str(password_auth).lower(),
+        "passwordless-sudo": str(passwordless_sudo).lower(),
+    }
+    for name, value in values.items():
+        write_private(STATE / name, value)
+    if authorized_keys:
+        write_private(STATE / "authorized_keys", "\n".join(authorized_keys) + "\n")
+    if wifi:
+        keyfile, country = wifi
+        connection = ROOT / "etc/NetworkManager/system-connections/omarchy-imager.nmconnection"
+        write_private(connection, keyfile)
+        if country:
+            write_private(ROOT / "etc/conf.d/wireless-regdom", f'WIRELESS_REGDOM="{country}"\n')
+    write_private(
+        STATE / "receipt.json",
+        json.dumps(
+            {
+                "source": str(config_path.relative_to(ROOT)),
+                "config_version": version,
+                "username": username,
+                "hostname": hostname,
+                "timezone": timezone,
+                "keymap": keymap,
+                "ssh_enabled": ssh_enabled,
+                "wifi_configured": wifi is not None,
+            },
+            indent=2,
+        ) + "\n",
+    )
+    write_private(STATE / "ready", "1\n")
+    return 0
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2 or sys.argv[1] != "stage":
+        print("Usage: omarchy-rpi4-imager-preseed stage", file=sys.stderr)
+        raise SystemExit(64)
+    raise SystemExit(stage())

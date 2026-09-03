@@ -87,6 +87,20 @@ The output directory contains:
 
 The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Override that floor with `OMARCHY_IMAGE_SIZE_GIB`, but values below 10 GiB are rejected. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM.
 
+### Raspberry Pi Imager 2.x customization
+
+Catalog metadata generated from current `main` declares the official `rpi-preseed` customization format. Raspberry Pi Imager 2.x then writes `rpi-preseed.toml` to the FAT boot partition, where Omarchy's first-boot service consumes the Imager-generated subset:
+
+- owner username and pre-hashed password
+- hostname, keyboard map, and timezone
+- NetworkManager Wi-Fi profile and regulatory country
+- optional SSH with password authentication or validated public keys
+- optional passwordless sudo when explicitly selected
+
+Omarchy refuses a plaintext owner password from the FAT partition, requires a complete username/password pair before bypassing the interactive form, and falls back to the normal HDMI setup if the file is missing, partial, malformed, or unsafe. Encrypted/LUKS installs also retain interactive setup because an Imager password hash cannot re-key a LUKS volume. The boot-partition source and transient staging state are removed after successful provisioning; required credentials remain only in protected system stores, and a non-secret receipt remains in `/var/lib/omarchy/imager-preseed.json` for diagnostics.
+
+Raspberry Pi Imager 2.x deliberately treats a locally selected **Use custom** image as `init_format: none`, because the file itself does not carry catalog metadata. Unattended customization therefore becomes available when selecting the image through its generated catalog. This follows Raspberry Pi's [current customization-format contract](https://github.com/raspberrypi/rpi-imager/blob/main/doc/os_customisation_formats.md), without importing Raspberry Pi OS-specific `firstrun.sh` behavior into Arch Linux ARM.
+
 The same builder runs in `.github/workflows/build-rpi4-image.yml` on GitHub's native `ubuntu-24.04-arm` runner. Manual builds are retained as workflow artifacts. Version tags publish the image directly when it fits GitHub's per-file limit; larger images are released as numbered, independently checksummed parts with exact reassembly instructions.
 
 ## Verification

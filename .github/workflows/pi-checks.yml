@@ -23,4 +23,6 @@ jobs:
           bash -n bin/omarchy-rpi4-grow-root
           bash -n bin/omarchy-pi-status
       - name: Run focused Raspberry Pi tests
-        run: test/shell.d/raspberry-pi-test.sh
+        run: |
+          test/shell.d/raspberry-pi-test.sh
+          test/shell.d/rpi-imager-preseed-test.sh

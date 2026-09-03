@@ -165,11 +165,14 @@ install_official_packages() {
     archlinuxarm-keyring
     cloud-guest-utils
     hicolor-icon-theme
+    iw
     linux-aarch64
     neovim
+    openssh
     pipewire
     pipewire-alsa
     pipewire-pulse
+    python
     qt6-wayland
     snapper
     sudo
@@ -304,6 +307,11 @@ arm_first_boot_provisioning() {
   local unit_source="$checkout/install/provisioning/omarchy-provision-owner.service"
   local grow_unit_source="$checkout/install/provisioning/omarchy-rpi4-grow-root.service"
 
+  # Install this explicitly as well as through the Omarchy package: image-mode
+  # support must not depend on a future upstream PKGBUILD continuing to glob
+  # every bin/ entry.
+  sudo install -Dm755 "$checkout/bin/omarchy-rpi4-imager-preseed" \
+    /usr/bin/omarchy-rpi4-imager-preseed
   sudo install -Dm644 "$unit_source" /etc/systemd/system/omarchy-provision-owner.service
   sudo install -Dm644 "$grow_unit_source" /etc/systemd/system/omarchy-rpi4-grow-root.service
   sudo install -d /var/lib/omarchy/provisioning /etc/systemd/system/multi-user.target.wants

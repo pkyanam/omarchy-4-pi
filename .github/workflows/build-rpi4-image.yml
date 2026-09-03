@@ -70,5 +70,6 @@ jobs:
           for image in build/image/*.img.xz; do
             image/prepare-release-assets.sh "$image" "$release_dir"
           done
-          cp build/image/*.manifest.json build/image/*.audit.txt "$release_dir/"
+          cp build/image/*.manifest.json build/image/*.audit.txt \
+            build/image/*.os-list.json build/image/os-list.json "$release_dir/"
           gh release upload "$GITHUB_REF_NAME" "$release_dir"/* --clobber

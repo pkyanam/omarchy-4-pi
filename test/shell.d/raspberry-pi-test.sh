@@ -171,6 +171,9 @@ grep -F 'linux-firmware-nvidia' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder identifies PC-only firmware for removal"
 grep -F 'raspberrypi-utils' "$ROOT/install-rpi4.sh" >/dev/null ||
   fail "Pi image includes the native firmware diagnostics"
+grep -F 'build/image/*.os-list.json build/image/os-list.json' \
+  "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
+  fail "tag releases publish Raspberry Pi Imager catalogs"
 grep -F 'omarchy-pkgs.commit' "$ROOT/build-packages-rpi4.sh" >/dev/null ||
   fail "local Omarchy packages record their recipe checkout"
 grep -F 'chroot "$root_mount" pacman -Q | LC_ALL=C sort' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

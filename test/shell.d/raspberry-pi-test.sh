@@ -119,6 +119,8 @@ grep -F 'fsck.vfat -n "$(partition_path 1)"' "$ROOT/image/build-rpi4-image.sh" >
   fail "image builder verifies the completed FAT filesystem"
 grep -F 'zerofree "$(partition_path 2)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder zeroes unused ext4 blocks before compression"
+grep -F 'chroot "$root_mount" mkinitcpio -P' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder fails closed when final initramfs regeneration fails"
 unmount_function=$(sed -n '/^unmount_and_verify_image()/,/^}/p' "$ROOT/image/build-rpi4-image.sh")
 ! grep -F 'umount -R -l' <<<"$unmount_function" >/dev/null ||
   fail "image verification never follows a lazy recursive unmount"
@@ -130,6 +132,10 @@ grep -F 'OMARCHY_SOURCE_ORIGIN' "$ROOT/image/build-rpi4-image-macos.sh" >/dev/nu
   fail "macOS builds pass a public source origin into their Git-free archive"
 grep -F 'clone_source=$origin_url' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder reconstructs update metadata for Git-free Mac sources"
+grep -F 'COPYFILE_DISABLE=1 tar' "$ROOT/image/build-rpi4-image-macos.sh" >/dev/null ||
+  fail "macOS source archives suppress AppleDouble metadata"
+grep -F -- "--exclude '._*'" "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image source overlay excludes AppleDouble metadata"
 grep -F 'linux-firmware-broadcom linux-firmware-realtek' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder preserves Pi and common USB adapter firmware"
 grep -F 'linux-firmware-nvidia' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
@@ -353,3 +359,12 @@ fi
 grep -F 'non-Pi firmware package linux-firmware-nvidia is absent' "$test_tmp/audit-firmware" >/dev/null ||
   fail "image root audit identifies the PC-only firmware package"
 pass "image root audit rejects PC-only firmware bloat"
+
+rm -rf "$package_dir"
+touch "$audit_root/etc/._shadow"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-appledouble" 2>&1; then
+  fail "image root audit rejects macOS metadata sidecars"
+fi
+grep -F 'macOS metadata sidecars are absent' "$test_tmp/audit-appledouble" >/dev/null ||
+  fail "image root audit identifies macOS metadata sidecars"
+pass "image root audit rejects macOS metadata sidecars"

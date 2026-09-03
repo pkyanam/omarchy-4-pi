@@ -73,7 +73,7 @@ main() {
     /workspace/image/build-rpi4-image.sh "$@" >/dev/null
 
   git -C "$repo_root" ls-files --cached --others --exclude-standard -z |
-    tar -C "$repo_root" --no-xattrs --null -T - -cf - |
+    COPYFILE_DISABLE=1 tar -C "$repo_root" --no-xattrs --null -T - -cf - |
     docker cp - "$container:/workspace"
 
   docker start "$container" >/dev/null

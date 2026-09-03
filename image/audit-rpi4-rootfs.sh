@@ -123,6 +123,12 @@ require_file "$boot/initramfs-linux.img" "Pi initramfs is present"
 require_file "$boot/bcm2711-rpi-4-b.dtb" "Pi 4 device tree is present"
 require_file "$boot/boot.scr" "Arch Linux ARM boot script is present"
 require_file "$boot/start4.elf" "Pi 4 firmware is present"
+appledouble_files=$(find "$root" "$boot" -xdev -type f -name '._*' -print 2>/dev/null || true)
+if [[ -z $appledouble_files ]]; then
+  pass "macOS metadata sidecars are absent"
+else
+  fail "macOS metadata sidecars are absent: ${appledouble_files//$'\n'/, }"
+fi
 require_line "$boot/config.txt" "dtoverlay=vc4-kms-v3d" "full VC4 KMS is enabled"
 require_line "$boot/config.txt" "max_framebuffers=2" "two KMS framebuffers are enabled"
 require_line "$boot/config.txt" "disable_fw_kms_setup=1" "firmware modesetting is disabled"

@@ -321,6 +321,7 @@ copy_source_checkout() {
     --exclude '/.git/' \
     --exclude '/build/' \
     --exclude '/build-output-rpi4/' \
+    --exclude '._*' \
     "$repo_root/" "$root_mount/opt/omarchy-4-pi/"
 }
 
@@ -441,7 +442,13 @@ finalize_image() {
   chroot "$root_mount" runuser -u omarchy-builder -- gpgconf --kill all 2>/dev/null || true
   chroot "$root_mount" env GNUPGHOME=/etc/pacman.d/gnupg gpgconf --kill all 2>/dev/null || true
   chroot "$root_mount" gpgconf --kill all 2>/dev/null || true
+  # Docker can materialize macOS extended attributes as AppleDouble sidecars.
+  # They are never Linux payload files and can be misread as configuration.
+  find "$root_mount" "$root_mount/boot" -xdev -type f -name '._*' -delete
   trim_pi_image_payload
+  # Package-manager hooks do not reliably fail the transaction when an
+  # initramfs regeneration fails. Run it directly so the image build fails.
+  chroot "$root_mount" mkinitcpio -P
   chroot "$root_mount" chown -R root:root /opt/omarchy-4-pi
   chroot "$root_mount" userdel -r omarchy-builder
   if chroot "$root_mount" getent passwd alarm >/dev/null; then

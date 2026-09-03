@@ -45,7 +45,7 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; keyboard-driven completion is pending |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | Parser- and image-build verified in `alpha.2`; real-hardware setup test pending |
+| Imager 2.x unattended setup | 🧪 | Parser- and image-build verified in `alpha.2`; Imager 2.0.11+ and real-hardware setup test required |
 | Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.2`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) adds secure Imager preconfiguration and clean-at-rest filesystem checks |
 | Public Imager catalog URL | ⏳ | Needs one-file hosting; GitHub's multipart release cannot be an Imager catalog target |
 
@@ -64,6 +64,14 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 ### Download `alpha.2`
 
 Open the [`v0.1.0-alpha.2` release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) and download all three `.img.xz.part-*` files plus the reassembly guide and checksum files. Follow `REASSEMBLE.txt`, verify the final SHA-256 is `d03594b2d1dc50e8bd008fe56fd9a0929303ed60fca77aac5d38744ec0e25e13`, then give the reassembled `.img.xz` to Raspberry Pi Imager with **Use custom**. Never flash an individual part.
+
+On macOS with Raspberry Pi Imager 2.0.11 or newer, this helper opens the complete local image through a generated catalog instead. It serves the image only to `127.0.0.1` while Imager is open, avoiding local-path compatibility problems. Selecting **Omarchy 4 Pi** inside Imager then enables its account, Wi-Fi, locale, and SSH customization wizard, allowing a keyboard-free first boot:
+
+```bash
+image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-20260903-75cc9e22-minimal.img.xz"
+```
+
+Keep that terminal open until the write finishes; closing Imager shuts down the loopback server automatically. Imager 2.0.10 and older prune `rpi-preseed` catalog entries, so the helper stops with a clear upgrade message instead of silently falling back to an uncustomized flash.
 
 ### Build a flashable image
 
@@ -86,7 +94,7 @@ It uses all but two Mac cores by default, keeps build I/O inside Docker's Linux 
 
 Artifacts land in `build/image/`. In Raspberry Pi Imager, choose **Use custom**, select the `.img.xz`, and write it to a 32 GB or larger card/SSD. On first boot, Omarchy expands the filesystem, asks you to create the owner account, and then opens Quattro. The factory removes Arch Linux ARM's default `alarm` account and locks the default root password before compression.
 
-Images built from current `main` also understand Raspberry Pi Imager 2.x's `rpi-preseed` format. When the image is selected through an Imager catalog, the customization wizard can securely supply a pre-hashed owner password, hostname, keyboard, timezone, Wi-Fi, and optional SSH access; complete settings skip the keyboard-driven owner form. Imager intentionally treats a locally selected **Use custom** image as non-customizable, so that path continues to show Omarchy's on-screen setup. See the [official Imager format documentation](https://github.com/raspberrypi/rpi-imager/blob/main/doc/os_customisation_formats.md).
+Images built from current `main` also understand Raspberry Pi Imager 2.x's `rpi-preseed` format. When the image is selected through an Imager catalog or the local manifest helper above, the customization wizard can securely supply a pre-hashed owner password, hostname, keyboard, timezone, Wi-Fi, and optional SSH access; complete settings skip the keyboard-driven owner form. Imager intentionally treats a bare **Use custom** image as non-customizable, so that path continues to show Omarchy's on-screen setup. See the [official Imager format documentation](https://github.com/raspberrypi/rpi-imager/blob/main/doc/os_customisation_formats.md).
 
 `--full` adds the optional ARM-buildable Omarchy applications. It is slower and considerably larger; the minimal image already contains the complete desktop shell, browser, terminal, file manager, developer tools, theming, and core commands.
 

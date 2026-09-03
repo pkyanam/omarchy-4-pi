@@ -89,6 +89,8 @@ bash -n "$ROOT/bin/omarchy-pi-status"
 bash -n "$ROOT/image/build-rpi4-image.sh"
 bash -n "$ROOT/image/build-rpi4-image-macos.sh"
 bash -n "$ROOT/image/generate-imager-catalog.sh"
+bash -n "$ROOT/image/generate-local-imager-manifest.sh"
+bash -n "$ROOT/image/open-in-rpi-imager-macos.sh"
 bash -n "$ROOT/image/prepare-release-assets.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
 
@@ -162,7 +164,7 @@ with open(sys.argv[1], encoding="utf-8") as stream:
     catalog = json.load(stream)
 
 entry = catalog["os_list"][0]
-assert entry["devices"] == ["pi4"]
+assert entry["devices"] == ["pi4", "pi4-64bit"]
 assert entry["architecture"] == "armv8"
 assert entry["init_format"] == "rpi-preseed"
 assert entry["extract_size"] == 4096
@@ -170,3 +172,38 @@ assert len(entry["extract_sha256"]) == 64
 assert len(entry["image_download_sha256"]) == 64
 PY
 pass "Raspberry Pi Imager catalog records image sizes, hashes, and Pi 4 compatibility"
+
+local_catalog_dir="$test_tmp/local catalog"
+local_catalog_archive="$local_catalog_dir/Omarchy 4 Pi.img.xz"
+local_catalog_manifest="$local_catalog_dir/Omarchy 4 Pi.imager.json"
+mkdir -p "$local_catalog_dir"
+cp "$catalog_archive" "$local_catalog_archive"
+"$ROOT/image/generate-local-imager-manifest.sh" \
+  "$local_catalog_archive" "$local_catalog_manifest" >/dev/null
+python3 - "$local_catalog_manifest" "$local_catalog_archive" <<'PY'
+import json
+import sys
+from pathlib import Path
+from urllib.parse import unquote, urlparse
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    entry = json.load(stream)["os_list"][0]
+
+url = urlparse(entry["url"])
+assert url.scheme == "file"
+assert Path(unquote(url.path)).resolve() == Path(sys.argv[2]).resolve()
+assert "%20" in entry["url"]
+assert entry["init_format"] == "rpi-preseed"
+assert entry["image_download_size"] == Path(sys.argv[2]).stat().st_size
+PY
+pass "local Imager manifests preserve customization and path-safe image URLs"
+
+grep -F 'python3 -m http.server' "$ROOT/image/open-in-rpi-imager-macos.sh" >/dev/null ||
+  fail "macOS Imager launcher provides a local HTTP fallback for Imager 2.0"
+grep -F -- '--repo "$base_url/$manifest_name"' "$ROOT/image/open-in-rpi-imager-macos.sh" >/dev/null ||
+  fail "macOS Imager launcher opens its loopback catalog"
+grep -F -- '--bind 127.0.0.1' "$ROOT/image/open-in-rpi-imager-macos.sh" >/dev/null ||
+  fail "macOS Imager launcher never exposes the local image server to the LAN"
+grep -F '2.0.11 or newer is required for rpi-preseed' "$ROOT/image/open-in-rpi-imager-macos.sh" >/dev/null ||
+  fail "macOS Imager launcher rejects versions that prune rpi-preseed catalogs"
+pass "macOS Imager launcher enforces rpi-preseed support and a loopback-only catalog"

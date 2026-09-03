@@ -49,7 +49,7 @@ cat >"$output" <<EOF
       "extract_sha256": "$extract_sha",
       "image_download_size": $download_size,
       "image_download_sha256": "$download_sha",
-      "devices": ["pi4"],
+      "devices": ["pi4", "pi4-64bit"],
       "init_format": "rpi-preseed",
       "architecture": "armv8"
     }

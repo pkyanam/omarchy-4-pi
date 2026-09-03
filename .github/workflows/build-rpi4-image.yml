@@ -39,7 +39,7 @@ jobs:
       OMARCHY_IMAGE_SIZE_GIB: ${{ inputs.image_size_gib || '12' }}
       OMARCHY_XZ_PRESET: ${{ inputs.compression == 'maximum' && '-9e' || '-6' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

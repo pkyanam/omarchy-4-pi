@@ -1,0 +1,214 @@
+#!/bin/bash
+
+# Fail closed unless a mounted image contains the complete, ARM-native Omarchy
+# 4 Pi boot, provisioning, graphics, and Quattro desktop payload.
+
+set -euo pipefail
+
+checks=0
+failures=0
+
+usage() {
+  echo "Usage: $0 ROOT_MOUNT [BOOT_MOUNT]" >&2
+  exit 64
+}
+
+pass() {
+  checks=$((checks + 1))
+  printf 'ok - %s\n' "$1"
+}
+
+fail() {
+  checks=$((checks + 1))
+  failures=$((failures + 1))
+  printf 'not ok - %s\n' "$1" >&2
+}
+
+require_file() {
+  local path="$1" description="$2"
+  if [[ -f $path ]]; then
+    pass "$description"
+  else
+    fail "$description (missing ${path#"$root"})"
+  fi
+}
+
+require_executable() {
+  local path="$1" description="$2"
+  if [[ -x $path ]]; then
+    pass "$description"
+  else
+    fail "$description (missing or not executable: ${path#"$root"})"
+  fi
+}
+
+require_line() {
+  local path="$1" expected="$2" description="$3"
+  if [[ -f $path ]] && grep -Fx "$expected" "$path" >/dev/null; then
+    pass "$description"
+  else
+    fail "$description"
+  fi
+}
+
+require_unit_link() {
+  local path="$1" unit="$2" description="$3" target=""
+  [[ -L $path ]] && target=$(readlink "$path")
+  if [[ ${target##*/} == "$unit" ]]; then
+    pass "$description"
+  else
+    fail "$description"
+  fi
+}
+
+require_aarch64_elf() {
+  local path="$1" description="$2" magic="" machine=""
+  if [[ -f $path ]]; then
+    magic=$(od -An -tx1 -N4 "$path" | tr -d ' \n')
+    machine=$(od -An -tx1 -j18 -N2 "$path" | tr -d ' \n')
+  fi
+  if [[ $magic == "7f454c46" && $machine == "b700" ]]; then
+    pass "$description"
+  else
+    fail "$description (expected an AArch64 ELF at ${path#"$root"})"
+  fi
+}
+
+pacman_field() {
+  local description_file="$1" field="$2"
+  awk -v marker="%$field%" '$0 == marker { getline; print; exit }' "$description_file"
+}
+
+require_package() {
+  local wanted="$1" description_file name arch version
+  for description_file in "$root"/var/lib/pacman/local/*/desc; do
+    [[ -f $description_file ]] || continue
+    name=$(pacman_field "$description_file" NAME)
+    [[ $name == "$wanted" ]] || continue
+    arch=$(pacman_field "$description_file" ARCH)
+    version=$(pacman_field "$description_file" VERSION)
+    if [[ $arch == "aarch64" || $arch == "any" ]]; then
+      pass "package $wanted $version is $arch"
+    else
+      fail "package $wanted has incompatible architecture ${arch:-unknown}"
+    fi
+    return
+  done
+  fail "required package $wanted is installed"
+}
+
+(( $# >= 1 && $# <= 2 )) || usage
+root=${1%/}
+boot=${2:-$root/boot}
+boot=${boot%/}
+[[ -d $root && -d $boot ]] || usage
+
+printf 'Omarchy 4 Pi mounted-root audit\n'
+
+require_file "$boot/kernel8.img" "Pi ARM64 kernel is present"
+require_file "$boot/initramfs-linux.img" "Pi initramfs is present"
+require_file "$boot/bcm2711-rpi-4-b.dtb" "Pi 4 device tree is present"
+require_file "$boot/boot.scr" "Arch Linux ARM boot script is present"
+require_file "$boot/start4.elf" "Pi 4 firmware is present"
+require_line "$boot/config.txt" "dtoverlay=vc4-kms-v3d" "full VC4 KMS is enabled"
+require_line "$boot/config.txt" "max_framebuffers=2" "two KMS framebuffers are enabled"
+require_line "$boot/config.txt" "disable_fw_kms_setup=1" "firmware modesetting is disabled"
+
+require_line "$root/etc/fstab" "LABEL=omarchyroot /     ext4 defaults,noatime 0 1" "root filesystem mounts by label"
+require_line "$root/etc/fstab" "LABEL=OMARCHYBOOT /boot vfat defaults,noatime 0 2" "boot filesystem mounts by label"
+require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "vc4" "VC4 kernel module is configured"
+require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "v3d" "V3D kernel module is configured"
+require_line "$root/etc/pacman.conf" "Architecture = aarch64" "pacman remains pinned to aarch64"
+if [[ -f $root/etc/pacman.d/mirrorlist ]] && grep -F 'mirror.archlinuxarm.org' "$root/etc/pacman.d/mirrorlist" >/dev/null; then
+  pass "Arch Linux ARM mirrors remain configured"
+else
+  fail "Arch Linux ARM mirrors remain configured"
+fi
+
+root_password=""
+[[ -f $root/etc/shadow ]] && root_password=$(awk -F: '$1 == "root" { print $2; exit }' "$root/etc/shadow")
+if [[ $root_password == "!"* || $root_password == "*"* ]]; then
+  pass "root password is locked"
+else
+  fail "root password is locked"
+fi
+
+factory_users=""
+if [[ -f $root/etc/passwd ]]; then
+  factory_users=$(awk -F: '$1 == "alarm" || $1 == "omarchy-builder" || ($3 >= 1000 && $3 < 60000) { print $1 }' "$root/etc/passwd")
+fi
+if [[ -z $factory_users ]]; then
+  pass "image has no factory or pre-created owner account"
+else
+  fail "image has unexpected login accounts: ${factory_users//$'\n'/, }"
+fi
+
+if [[ -f $root/etc/machine-id && ! -s $root/etc/machine-id ]]; then
+  pass "machine identity is blank for first boot"
+else
+  fail "machine identity is blank for first boot"
+fi
+
+ssh_host_keys=$(find "$root/etc/ssh" -maxdepth 1 -type f -name 'ssh_host_*_key' -print 2>/dev/null || true)
+if [[ -z $ssh_host_keys ]]; then
+  pass "factory SSH host keys are absent"
+else
+  fail "factory SSH host keys are absent"
+fi
+
+require_file "$root/var/lib/omarchy/provisioning/pending" "owner provisioning is armed"
+require_file "$root/var/lib/omarchy/provisioning/grow-root-pending" "root expansion is armed"
+require_executable "$root/usr/bin/omarchy-rpi4-grow-root" "root expansion command is installed"
+require_executable "$root/usr/bin/omarchy-rpi4-imager-preseed" "Imager preseed parser is installed"
+require_executable "$root/usr/bin/omarchy-provision-owner" "owner provisioner is installed"
+require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service" "omarchy-rpi4-grow-root.service" "root expansion service is enabled"
+require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service" "omarchy-provision-owner.service" "owner provisioning service is enabled"
+require_unit_link "$root/etc/systemd/system/display-manager.service" "sddm.service" "SDDM display manager is enabled"
+require_unit_link "$root/etc/systemd/system/multi-user.target.wants/NetworkManager.service" "NetworkManager.service" "NetworkManager is enabled"
+
+require_executable "$root/usr/bin/Hyprland" "Hyprland compositor is installed"
+require_executable "$root/usr/bin/quickshell" "Quickshell runtime is installed"
+require_executable "$root/usr/bin/omarchy-shell" "Omarchy shell launcher is installed"
+require_file "$root/usr/share/omarchy/shell/shell.qml" "Quattro shell payload is installed"
+require_file "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Omarchy Wayland session is installed"
+require_line "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Exec=uwsm start -g -1 -e -D Hyprland hyprland.desktop" "Omarchy session starts Hyprland through uwsm"
+require_file "$root/etc/skel/.config/hypr/hyprland.lua" "new users receive the Hyprland configuration"
+require_file "$root/usr/share/omarchy/default/hypr/raspberry-pi.lua" "Pi compositor compatibility profile is installed"
+require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme is installed"
+
+for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 sddm networkmanager uwsm chromium foot omarchy omarchy-settings; do
+  require_package "$package"
+done
+
+incompatible_packages=""
+for description_file in "$root"/var/lib/pacman/local/*/desc; do
+  [[ -f $description_file ]] || continue
+  name=$(pacman_field "$description_file" NAME)
+  arch=$(pacman_field "$description_file" ARCH)
+  if [[ $arch != "aarch64" && $arch != "any" ]]; then
+    incompatible_packages+="${name:-unknown}:${arch:-unknown}"$'\n'
+  fi
+done
+if [[ -z $incompatible_packages ]]; then
+  pass "all installed packages are aarch64 or architecture-independent"
+else
+  fail "incompatible package records found: ${incompatible_packages//$'\n'/, }"
+fi
+
+require_aarch64_elf "$root/usr/bin/Hyprland" "Hyprland executable is AArch64"
+require_aarch64_elf "$root/usr/bin/quickshell" "Quickshell executable is AArch64"
+require_aarch64_elf "$root/usr/bin/foot" "terminal executable is AArch64"
+
+require_file "$root/usr/share/omarchy-rpi4/build-manifest.json" "embedded build manifest is present"
+if [[ -f $root/usr/share/omarchy-rpi4/build-manifest.json ]] && grep -F '"source_dirty": false' "$root/usr/share/omarchy-rpi4/build-manifest.json" >/dev/null; then
+  pass "release source tree was clean"
+else
+  fail "release source tree was clean"
+fi
+
+if (( failures )); then
+  printf 'FAILED: %d of %d checks failed\n' "$failures" "$checks" >&2
+  exit 1
+fi
+
+printf 'PASS: %d image invariants verified\n' "$checks"

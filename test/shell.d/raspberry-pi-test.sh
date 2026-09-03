@@ -88,6 +88,7 @@ bash -n "$ROOT/bin/omarchy-rpi4-grow-root"
 bash -n "$ROOT/bin/omarchy-pi-status"
 bash -n "$ROOT/image/build-rpi4-image.sh"
 bash -n "$ROOT/image/build-rpi4-image-macos.sh"
+bash -n "$ROOT/image/audit-rpi4-rootfs.sh"
 bash -n "$ROOT/image/generate-imager-catalog.sh"
 bash -n "$ROOT/image/generate-local-imager-manifest.sh"
 bash -n "$ROOT/image/open-in-rpi-imager-macos.sh"
@@ -207,3 +208,104 @@ grep -F -- '--bind 127.0.0.1' "$ROOT/image/open-in-rpi-imager-macos.sh" >/dev/nu
 grep -F '2.0.11 or newer is required for rpi-preseed' "$ROOT/image/open-in-rpi-imager-macos.sh" >/dev/null ||
   fail "macOS Imager launcher rejects versions that prune rpi-preseed catalogs"
 pass "macOS Imager launcher enforces rpi-preseed support and a loopback-only catalog"
+
+audit_root="$test_tmp/audit-root"
+audit_boot="$test_tmp/audit-boot"
+mkdir -p \
+  "$audit_boot" \
+  "$audit_root/etc/modules-load.d" \
+  "$audit_root/etc/pacman.d" \
+  "$audit_root/etc/ssh" \
+  "$audit_root/etc/systemd/system/multi-user.target.wants" \
+  "$audit_root/etc/skel/.config/hypr" \
+  "$audit_root/usr/bin" \
+  "$audit_root/usr/local/share/wayland-sessions" \
+  "$audit_root/usr/share/omarchy/shell" \
+  "$audit_root/usr/share/omarchy/default/hypr" \
+  "$audit_root/usr/share/omarchy-rpi4" \
+  "$audit_root/usr/share/sddm/themes/omarchy" \
+  "$audit_root/var/lib/omarchy/provisioning" \
+  "$audit_root/var/lib/pacman/local"
+
+touch \
+  "$audit_boot/kernel8.img" \
+  "$audit_boot/initramfs-linux.img" \
+  "$audit_boot/bcm2711-rpi-4-b.dtb" \
+  "$audit_boot/boot.scr" \
+  "$audit_boot/start4.elf" \
+  "$audit_root/var/lib/omarchy/provisioning/pending" \
+  "$audit_root/var/lib/omarchy/provisioning/grow-root-pending" \
+  "$audit_root/usr/share/omarchy/shell/shell.qml" \
+  "$audit_root/etc/skel/.config/hypr/hyprland.lua" \
+  "$audit_root/usr/share/omarchy/default/hypr/raspberry-pi.lua" \
+  "$audit_root/usr/share/sddm/themes/omarchy/Main.qml"
+
+cat >"$audit_boot/config.txt" <<'EOF'
+dtoverlay=vc4-kms-v3d
+max_framebuffers=2
+disable_fw_kms_setup=1
+EOF
+cat >"$audit_root/etc/fstab" <<'EOF'
+LABEL=omarchyroot /     ext4 defaults,noatime 0 1
+LABEL=OMARCHYBOOT /boot vfat defaults,noatime 0 2
+EOF
+printf 'vc4\nv3d\n' >"$audit_root/etc/modules-load.d/omarchy-rpi.conf"
+printf 'Architecture = aarch64\n' >"$audit_root/etc/pacman.conf"
+printf 'Server = https://mirror.archlinuxarm.org/$arch/$repo\n' >"$audit_root/etc/pacman.d/mirrorlist"
+printf 'root:x:0:0:root:/root:/bin/bash\nnobody:x:65534:65534:nobody:/:/usr/bin/nologin\n' >"$audit_root/etc/passwd"
+printf 'root:!$y$locked:0:0:99999:7:::\n' >"$audit_root/etc/shadow"
+: >"$audit_root/etc/machine-id"
+cat >"$audit_root/usr/local/share/wayland-sessions/omarchy.desktop" <<'EOF'
+[Desktop Entry]
+Name=Omarchy
+Exec=uwsm start -g -1 -e -D Hyprland hyprland.desktop
+EOF
+cat >"$audit_root/usr/share/omarchy-rpi4/build-manifest.json" <<'EOF'
+{"source_dirty": false}
+EOF
+
+ln -s /etc/systemd/system/omarchy-rpi4-grow-root.service \
+  "$audit_root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service"
+ln -s /etc/systemd/system/omarchy-provision-owner.service \
+  "$audit_root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service"
+ln -s /usr/lib/systemd/system/sddm.service \
+  "$audit_root/etc/systemd/system/display-manager.service"
+ln -s /usr/lib/systemd/system/NetworkManager.service \
+  "$audit_root/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+
+# Minimal little-endian ELF64 header with e_machine = EM_AARCH64 (183).
+printf '\177ELF\002\001\001\000\000\000\000\000\000\000\000\000\002\000\267\000' >"$audit_root/usr/bin/Hyprland"
+for executable in quickshell foot; do
+  cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
+done
+for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
+  printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
+done
+chmod +x "$audit_root/usr/bin/"*
+
+for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 sddm networkmanager uwsm chromium foot omarchy omarchy-settings; do
+  package_dir="$audit_root/var/lib/pacman/local/$package-1.0-1"
+  mkdir -p "$package_dir"
+  cat >"$package_dir/desc" <<EOF
+%NAME%
+$package
+
+%VERSION%
+1.0-1
+
+%ARCH%
+aarch64
+EOF
+done
+
+"$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-ok"
+grep -F 'PASS:' "$test_tmp/audit-ok" >/dev/null || fail "image root audit reports its passing invariant count"
+pass "image root audit accepts a complete ARM64 Quattro payload"
+
+printf '\076\000' | dd of="$audit_root/usr/bin/quickshell" bs=1 seek=18 conv=notrunc 2>/dev/null
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-bad" 2>&1; then
+  fail "image root audit rejects an x86 Quickshell executable"
+fi
+grep -F 'Quickshell executable is AArch64' "$test_tmp/audit-bad" >/dev/null ||
+  fail "image root audit identifies the incompatible executable"
+pass "image root audit rejects an incompatible desktop executable"

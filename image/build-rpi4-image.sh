@@ -400,6 +400,10 @@ finalize_image() {
   cp "$root_mount/usr/share/omarchy-rpi4/build-manifest.json" \
     "$work_dir/build-manifest.json"
 
+  log "Auditing the finished Pi boot and Quattro payload"
+  "$script_dir/audit-rpi4-rootfs.sh" "$root_mount" "$root_mount/boot" |
+    tee "$work_dir/rootfs-audit.txt"
+
   unmount_and_verify_image
 
   mkdir -p "$output_dir"
@@ -420,6 +424,7 @@ finalize_image() {
     sha256sum "$artifact_base.img.xz" >"$artifact_base.img.xz.sha256"
   )
   cp "$work_dir/build-manifest.json" "$output_dir/$artifact_base.manifest.json"
+  cp "$work_dir/rootfs-audit.txt" "$output_dir/$artifact_base.audit.txt"
 
   "$script_dir/generate-imager-catalog.sh" "$compressed" \
     "https://github.com/pkyanam/omarchy-4-pi/releases/latest/download/$artifact_base.img.xz" \

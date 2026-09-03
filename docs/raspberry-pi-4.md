@@ -83,6 +83,7 @@ The output directory contains:
 - `*.img.xz` — the compressed flashable disk image
 - `*.img.xz.sha256` — compressed-download integrity hash
 - `*.manifest.json` — source commit, base image, signing key, mode, and build time
+- `*.audit.txt` — enforced Pi boot, provisioning, desktop-payload, package-architecture, and factory-identity checks
 - `*.os-list.json` and `os-list.json` — Raspberry Pi Imager 2.x catalog metadata with hashes of both the compressed download and extracted image
 
 The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Override that floor with `OMARCHY_IMAGE_SIZE_GIB`, but values below 10 GiB are rejected. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM.

@@ -17,6 +17,7 @@ jobs:
         run: |
           bash -n install-rpi4.sh
           bash -n build-packages-rpi4.sh
+          bash -n image/audit-rpi4-rootfs.sh
           bash -n image/build-rpi4-image.sh
           bash -n image/generate-imager-catalog.sh
           bash -n image/prepare-release-assets.sh

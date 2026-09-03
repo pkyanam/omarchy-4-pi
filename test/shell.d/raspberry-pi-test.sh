@@ -217,6 +217,8 @@ grep -F '/var/lib/omarchy/provisioning/grow-root-pending' \
   "$ROOT/bin/omarchy-rpi4-grow-root" >/dev/null || fail "root growth is guarded by a one-shot marker"
 grep -F 'omarchy-rpi4-imager-preseed' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
   fail "owner setup consumes Raspberry Pi Imager settings"
+grep -F 'apply_keyboard "$keyboard"' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
+  fail "unattended owner setup applies the Imager keymap without aborting"
 grep -F 'chpasswd --encrypted' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
   fail "Imager password hashes are never treated as plaintext"
 grep -F 'linux-arm64' "$ROOT/install-rpi4.sh" >/dev/null ||

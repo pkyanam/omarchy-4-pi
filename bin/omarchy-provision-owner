@@ -1226,7 +1226,7 @@ run_setup() {
 }
 
 run_imager_setup() {
-  apply_keyboard
+  apply_keyboard "$keyboard"
   touch "$LOG_FILE"
   chmod 600 "$LOG_FILE"
   rm -f "$FINALIZE_WARNING_FLAG"

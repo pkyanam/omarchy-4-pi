@@ -83,11 +83,12 @@ require_host() {
 cleanup() {
   set +e
   if [[ -n $root_mount && -d $root_mount ]]; then
-    mountpoint -q "$root_mount/dev" && umount -R "$root_mount/dev"
-    mountpoint -q "$root_mount/proc" && umount -R "$root_mount/proc"
-    mountpoint -q "$root_mount/sys" && umount -R "$root_mount/sys"
-    mountpoint -q "$root_mount/boot" && umount "$root_mount/boot"
-    mountpoint -q "$root_mount" && umount "$root_mount"
+    mountpoint -q "$root_mount/dev" && umount -R -l "$root_mount/dev"
+    mountpoint -q "$root_mount/proc" && umount -R -l "$root_mount/proc"
+    mountpoint -q "$root_mount/sys" && umount -R -l "$root_mount/sys"
+    mountpoint -q "$root_mount/mnt/omarchy-build" && umount -l "$root_mount/mnt/omarchy-build"
+    mountpoint -q "$root_mount/boot" && umount -l "$root_mount/boot"
+    mountpoint -q "$root_mount" && umount -R -l "$root_mount"
   fi
   [[ -z $loop_device ]] || losetup -d "$loop_device"
   if (( keep_work == 0 )) && [[ -n $work_dir && -d $work_dir ]]; then
@@ -173,6 +174,11 @@ mount_chroot_filesystems() {
     mount --make-rslave "$root_mount/$directory"
   done
 
+  mkdir -p "$work_dir/package-work/tmp" "$work_dir/package-work/cache" \
+    "$root_mount/mnt/omarchy-build"
+  chmod 1777 "$work_dir/package-work/tmp" "$work_dir/package-work/cache"
+  mount --bind "$work_dir/package-work" "$root_mount/mnt/omarchy-build"
+
   rm -f "$root_mount/etc/resolv.conf"
   cp /etc/resolv.conf "$root_mount/etc/resolv.conf"
 }
@@ -211,6 +217,8 @@ install_omarchy() {
     HOME=/home/omarchy-builder \
     USER=omarchy-builder \
     LOGNAME=omarchy-builder \
+    TMPDIR=/mnt/omarchy-build/tmp \
+    XDG_CACHE_HOME=/mnt/omarchy-build/cache \
     OMARCHY_RPI_MODEL_PATH=/tmp/omarchy-rpi-model \
     OMARCHY_RPI_CONFIG_PATH=/boot/config.txt \
     OMARCHY_RPI4_ALLOW_UNSUPPORTED=1 \
@@ -272,6 +280,7 @@ finalize_image() {
   umount -R "$root_mount/dev"
   umount -R "$root_mount/proc"
   umount -R "$root_mount/sys"
+  umount "$root_mount/mnt/omarchy-build"
   umount "$root_mount/boot"
   umount "$root_mount"
   losetup -d "$loop_device"

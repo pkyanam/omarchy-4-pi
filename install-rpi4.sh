@@ -168,6 +168,13 @@ install_official_packages() {
 
   log "Installing ${#available[@]} packages from Arch Linux ARM"
   sudo pacman -S --needed --noconfirm "${available[@]}"
+
+  # Image builds have a fixed-size staging filesystem. Retaining more than a
+  # gigabyte of package archives while compiling the remaining local packages
+  # can exhaust that staging space even though the finished image fits.
+  if (( image_mode )); then
+    sudo pacman -Scc --noconfirm
+  fi
 }
 
 build_recipe() {

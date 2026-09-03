@@ -96,6 +96,9 @@ grep -F 'e2fsck -fn "$(partition_path 2)"' "$ROOT/image/build-rpi4-image.sh" >/d
   fail "image builder verifies the completed ext4 filesystem"
 grep -F 'fsck.vfat -n "$(partition_path 1)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder verifies the completed FAT filesystem"
+unmount_function=$(sed -n '/^unmount_and_verify_image()/,/^}/p' "$ROOT/image/build-rpi4-image.sh")
+! grep -F 'umount -R -l' <<<"$unmount_function" >/dev/null ||
+  fail "image verification never follows a lazy recursive unmount"
 pass "image publication requires clean filesystems"
 
 release_tmp="$test_tmp/release"

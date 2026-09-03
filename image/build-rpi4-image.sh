@@ -109,14 +109,15 @@ unmount_and_verify_image() {
   local attempt fsck_status=0
 
   sync
-  # These recursive bind mounts contain only host pseudo-filesystems. Detach
-  # them lazily, then require strict unmounts for every image-backed mount.
-  umount -R -l "$root_mount/dev"
-  umount -R -l "$root_mount/proc"
-  umount -R -l "$root_mount/sys"
+  # Stop chrooted agents before touching their pseudo-filesystem mounts. A
+  # lazy detach can keep the loop partition referenced after the visible root
+  # mount is gone, which makes an offline fsck unsafe on some kernels.
+  stop_chroot_helpers
+  umount -R "$root_mount/dev"
+  umount -R "$root_mount/proc"
+  umount -R "$root_mount/sys"
   umount "$root_mount/mnt/omarchy-build"
   umount "$root_mount/boot"
-  stop_chroot_helpers
 
   for attempt in {1..40}; do
     if umount "$root_mount"; then

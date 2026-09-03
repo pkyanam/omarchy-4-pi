@@ -37,6 +37,19 @@ fail() {
   exit 1
 }
 
+pacman_retry() {
+  local attempt=1 max_attempts=4
+  while true; do
+    if sudo pacman "$@"; then
+      return 0
+    fi
+    (( attempt < max_attempts )) || return 1
+    warn "Package transaction failed (attempt $attempt/$max_attempts); retrying with cached downloads."
+    sleep $(( attempt * 5 ))
+    ((attempt++))
+  done
+}
+
 usage() {
   cat <<'USAGE'
 Usage: ./install-rpi4.sh [--minimal] [--image]
@@ -101,7 +114,7 @@ configure_arm_repositories() {
   sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4" /etc/pacman.d/mirrorlist
   sudo pacman-key --init
   sudo pacman-key --populate archlinuxarm
-  sudo pacman -Syyu --needed --noconfirm git base-devel gum
+  pacman_retry -Syyu --needed --noconfirm git base-devel gum
 }
 
 ensure_package_sources() {
@@ -167,7 +180,7 @@ install_official_packages() {
   )
 
   log "Installing ${#available[@]} packages from Arch Linux ARM"
-  sudo pacman -S --needed --noconfirm "${available[@]}"
+  pacman_retry -S --needed --noconfirm "${available[@]}"
 
   # Image builds have a fixed-size staging filesystem. Retaining more than a
   # gigabyte of package archives while compiling the remaining local packages

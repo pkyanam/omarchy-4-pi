@@ -75,7 +75,7 @@ require_host() {
     fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 10."
 
   local command
-  for command in bsdtar chroot curl gpg losetup mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
+  for command in blockdev bsdtar chroot curl gpg losetup mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
     command -v "$command" >/dev/null || fail "Missing host command: $command"
   done
 }
@@ -250,6 +250,11 @@ EOF
 
 finalize_image() {
   log "Removing factory credentials, build caches, and machine identity"
+  # pacman-key and makepkg can leave gpg-agent processes rooted inside the
+  # chroot. Stop them before deleting the build user or unmounting the image.
+  chroot "$root_mount" runuser -u omarchy-builder -- gpgconf --kill all 2>/dev/null || true
+  chroot "$root_mount" env GNUPGHOME=/etc/pacman.d/gnupg gpgconf --kill all 2>/dev/null || true
+  chroot "$root_mount" gpgconf --kill all 2>/dev/null || true
   chroot "$root_mount" chown -R root:root /opt/omarchy-4-pi
   chroot "$root_mount" userdel -r omarchy-builder
   if chroot "$root_mount" getent passwd alarm >/dev/null; then
@@ -286,7 +291,12 @@ finalize_image() {
   umount -R -l "$root_mount/sys"
   umount "$root_mount/mnt/omarchy-build"
   umount "$root_mount/boot"
-  umount "$root_mount"
+  if ! umount "$root_mount"; then
+    echo "Warning: a stopped chroot helper still holds the root mount; detaching after sync." >&2
+    command -v fuser >/dev/null 2>&1 && fuser -vm "$root_mount" >&2 || true
+    umount -R -l "$root_mount"
+  fi
+  blockdev --flushbufs "$loop_device"
   losetup -d "$loop_device"
   loop_device=""
 

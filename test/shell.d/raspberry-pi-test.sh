@@ -411,15 +411,21 @@ import sys
 with open(sys.argv[1], encoding="utf-8") as stream:
     catalog = json.load(stream)
 
+device = catalog["imager"]["devices"][0]
+assert device["name"] == "Raspberry Pi 4"
+assert device["tags"] == ["pi4-64bit", "pi4-32bit"]
+assert device["matching_type"] == "inclusive"
+assert device["architecture"] == "armv8"
 entry = catalog["os_list"][0]
-assert entry["devices"] == ["pi4", "pi4-64bit"]
+assert entry["devices"] == ["pi4-64bit"]
+assert set(device["tags"]) & set(entry["devices"])
 assert entry["architecture"] == "armv8"
 assert entry["init_format"] == "rpi-preseed"
 assert entry["extract_size"] == 4096
 assert len(entry["extract_sha256"]) == 64
 assert len(entry["image_download_sha256"]) == 64
 PY
-pass "Raspberry Pi Imager catalog records image sizes, hashes, and Pi 4 compatibility"
+pass "Raspberry Pi Imager catalog exposes a selectable Pi 4 and records image integrity"
 
 local_catalog_dir="$test_tmp/local catalog"
 local_catalog_archive="$local_catalog_dir/Omarchy 4 Pi.img.xz"

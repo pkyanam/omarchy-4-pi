@@ -37,6 +37,19 @@ icon_url="https://raw.githubusercontent.com/pkyanam/omarchy-4-pi/main/docs/asset
 
 cat >"$output" <<EOF
 {
+  "imager": {
+    "devices": [
+      {
+        "name": "Raspberry Pi 4",
+        "description": "Raspberry Pi 4 Model B, 400, and Compute Module 4 / 4S",
+        "icon": "https://downloads.raspberrypi.com/imager/icons/RPi_4.png",
+        "tags": ["pi4-64bit", "pi4-32bit"],
+        "matching_type": "inclusive",
+        "architecture": "armv8",
+        "capabilities": []
+      }
+    ]
+  },
   "os_list": [
     {
       "name": "Omarchy 4 Pi",
@@ -49,7 +62,7 @@ cat >"$output" <<EOF
       "extract_sha256": "$extract_sha",
       "image_download_size": $download_size,
       "image_download_sha256": "$download_sha",
-      "devices": ["pi4", "pi4-64bit"],
+      "devices": ["pi4-64bit"],
       "init_format": "rpi-preseed",
       "architecture": "armv8"
     }

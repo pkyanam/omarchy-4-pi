@@ -424,6 +424,8 @@ ln -s /usr/lib/systemd/system/sddm.service \
   "$audit_root/etc/systemd/system/display-manager.service"
 ln -s /usr/lib/systemd/system/NetworkManager.service \
   "$audit_root/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+ln -s /dev/null \
+  "$audit_root/etc/systemd/system/NetworkManager-wait-online.service"
 ln -s /usr/lib/systemd/system/avahi-daemon.service \
   "$audit_root/etc/systemd/system/multi-user.target.wants/avahi-daemon.service"
 ln -s /usr/lib/systemd/system/bluetooth.service \
@@ -460,6 +462,10 @@ run_imager_setup() {
   apply_keyboard "$keyboard"
 }
 
+configure_imager_network() {
+  nmcli connection reload >>"$LOG_FILE" 2>&1 || true
+}
+
 configure_imager_ssh() {
   systemctl enable --now sshd.service
   ufw limit 22/tcp comment omarchy-imager-sshd >/dev/null
@@ -469,7 +475,7 @@ chmod +x "$audit_root/usr/bin/"*
 
 audit_packages=(
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils
-  sddm networkmanager wpa_supplicant avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils
+  sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils
   alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber
   uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom
 )

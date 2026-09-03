@@ -60,13 +60,16 @@ state="$valid_root/var/lib/omarchy/provisioning/imager"
 [[ $(<"$state/timezone") == America/New_York ]] || fail "Imager timezone is staged"
 grep -Fx "$public_key" "$state/authorized_keys" >/dev/null ||
   fail "validated SSH key is staged for the owner"
+connection="$valid_root/etc/NetworkManager/system-connections/omarchy-imager.nmconnection"
+grep -Fx 'autoconnect=true' "$connection" >/dev/null ||
+  fail "Imager Wi-Fi is eligible for automatic activation"
 grep -F 'ssid=84;105;110;121;32;66;111;97;114;100;32;87;105;45;70;105;' \
-  "$valid_root/etc/NetworkManager/system-connections/omarchy-imager.nmconnection" >/dev/null ||
+  "$connection" >/dev/null ||
   fail "Wi-Fi SSID is encoded safely for NetworkManager"
 grep -Fx 'WIRELESS_REGDOM="US"' "$valid_root/etc/conf.d/wireless-regdom" >/dev/null ||
   fail "Wi-Fi regulatory domain is staged"
 python3 - "$state/password-hash" \
-  "$valid_root/etc/NetworkManager/system-connections/omarchy-imager.nmconnection" <<'PY'
+  "$connection" <<'PY'
 import os
 import stat
 import sys

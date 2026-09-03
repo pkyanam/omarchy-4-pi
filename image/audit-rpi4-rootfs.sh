@@ -200,6 +200,7 @@ require_executable "$root/usr/bin/omarchy-rpi4-grow-root" "root expansion comman
 require_executable "$root/usr/bin/omarchy-rpi4-imager-preseed" "Imager preseed parser is installed"
 require_executable "$root/usr/bin/omarchy-provision-owner" "owner provisioner is installed"
 require_function_line "$root/usr/bin/omarchy-provision-owner" run_imager_setup 'apply_keyboard "$keyboard"' "unattended owner setup passes the Imager keymap"
+require_function_line "$root/usr/bin/omarchy-provision-owner" configure_imager_network 'nmcli connection reload >>"$LOG_FILE" 2>&1 || true' "Imager Wi-Fi reloads NetworkManager profiles"
 require_function_line "$root/usr/bin/omarchy-provision-owner" configure_imager_ssh 'systemctl enable --now sshd.service' "Imager SSH enables the server"
 require_function_line "$root/usr/bin/omarchy-provision-owner" configure_imager_ssh 'ufw limit 22/tcp comment omarchy-imager-sshd >/dev/null' "Imager SSH opens a rate-limited firewall rule"
 require_line "$root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf" 'Requires=omarchy-rpi4-grow-root.service' "owner provisioning requires successful root expansion"
@@ -210,6 +211,7 @@ require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service" "omarchy-provision-owner.service" "owner provisioning service is enabled"
 require_unit_link "$root/etc/systemd/system/display-manager.service" "sddm.service" "SDDM display manager is enabled"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/NetworkManager.service" "NetworkManager.service" "NetworkManager is enabled"
+require_unit_link "$root/etc/systemd/system/NetworkManager-wait-online.service" "null" "network association cannot delay the desktop"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/avahi-daemon.service" "avahi-daemon.service" "Avahi mDNS hostname discovery is enabled"
 require_unit_link "$root/etc/systemd/system/bluetooth.target.wants/bluetooth.service" "bluetooth.service" "Bluetooth service is enabled"
 require_unit_link "$root/etc/systemd/user/sockets.target.wants/pipewire.socket" "pipewire.socket" "PipeWire audio socket is enabled"
@@ -230,7 +232,7 @@ require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme 
 
 for package in \
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
-  sddm networkmanager wpa_supplicant avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
+  sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
   alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber \
   uwsm chromium foot omarchy omarchy-settings; do
   require_package "$package"

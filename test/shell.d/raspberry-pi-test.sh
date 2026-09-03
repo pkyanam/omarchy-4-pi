@@ -236,7 +236,12 @@ grep -F '/var/lib/omarchy/provisioning/grow-root-pending' \
   "$ROOT/bin/omarchy-rpi4-grow-root" >/dev/null || fail "root growth is guarded by a one-shot marker"
 grep -F 'omarchy-rpi4-imager-preseed' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
   fail "owner setup consumes Raspberry Pi Imager settings"
-grep -F 'apply_keyboard "$keyboard"' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
+awk '
+  $0 == "run_imager_setup() {" { in_function = 1; next }
+  in_function && $0 == "}" { exit }
+  in_function && $0 ~ /^[[:space:]]*apply_keyboard "\$keyboard"[[:space:]]*$/ { found = 1 }
+  END { exit !found }
+' "$ROOT/bin/omarchy-provision-owner" ||
   fail "unattended owner setup applies the Imager keymap without aborting"
 grep -F 'chpasswd --encrypted' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
   fail "Imager password hashes are never treated as plaintext"
@@ -405,7 +410,13 @@ done
 for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
   printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
 done
-printf 'apply_keyboard "$keyboard"\n' >>"$audit_root/usr/bin/omarchy-provision-owner"
+cat >>"$audit_root/usr/bin/omarchy-provision-owner" <<'EOF'
+apply_keyboard "$keyboard"
+
+run_imager_setup() {
+  apply_keyboard "$keyboard"
+}
+EOF
 chmod +x "$audit_root/usr/bin/"*
 
 audit_packages=(hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom)

@@ -51,6 +51,25 @@ require_line() {
   fi
 }
 
+require_function_line() {
+  local path="$1" function_name="$2" expected="$3" description="$4"
+  if [[ -f $path ]] && awk -v function_name="$function_name" -v expected="$expected" '
+    $0 == function_name "() {" { in_function = 1; next }
+    in_function && $0 == "}" { exit }
+    in_function {
+      line = $0
+      sub(/^[[:space:]]+/, "", line)
+      sub(/[[:space:]]+$/, "", line)
+      if (line == expected) found = 1
+    }
+    END { exit !found }
+  ' "$path"; then
+    pass "$description"
+  else
+    fail "$description"
+  fi
+}
+
 require_unit_link() {
   local path="$1" unit="$2" description="$3" target=""
   [[ -L $path ]] && target=$(readlink "$path")
@@ -180,7 +199,7 @@ require_file "$root/var/lib/omarchy/provisioning/grow-root-pending" "root expans
 require_executable "$root/usr/bin/omarchy-rpi4-grow-root" "root expansion command is installed"
 require_executable "$root/usr/bin/omarchy-rpi4-imager-preseed" "Imager preseed parser is installed"
 require_executable "$root/usr/bin/omarchy-provision-owner" "owner provisioner is installed"
-require_line "$root/usr/bin/omarchy-provision-owner" 'apply_keyboard "$keyboard"' "unattended owner setup passes the Imager keymap"
+require_function_line "$root/usr/bin/omarchy-provision-owner" run_imager_setup 'apply_keyboard "$keyboard"' "unattended owner setup passes the Imager keymap"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service" "omarchy-rpi4-grow-root.service" "root expansion service is enabled"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service" "omarchy-provision-owner.service" "owner provisioning service is enabled"
 require_unit_link "$root/etc/systemd/system/display-manager.service" "sddm.service" "SDDM display manager is enabled"

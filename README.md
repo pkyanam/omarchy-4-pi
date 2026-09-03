@@ -22,11 +22,16 @@
 
 Pick an image in Raspberry Pi Imager, flash it, boot the Pi, answer a few friendly setup questions, and land in the full Omarchy 4 “Quattro” desktop: Hyprland, the Quickshell bar and launcher, themes, hotkeys, Chromium, terminal tooling, and the unusually pleasant details that make Omarchy feel like Omarchy.
 
-The finished release flow will look like this:
+For a keyboard-free first boot, use the release catalog so Imager knows how to
+write Omarchy's owner settings:
 
 ```text
-Raspberry Pi Imager → Choose OS → Use custom → omarchy-4-pi-*.img.xz → Write → Boot → ✨
+Imager 2.0.11+ → release catalog → Omarchy 4 Pi → customize → write → boot → ✨
 ```
+
+Selecting a downloaded image through **Use custom** is still supported, but it
+deliberately leads to the on-screen **Press Return to Start Setup** flow and
+therefore needs a USB keyboard. A mouse is optional either way.
 
 Each GitHub release is intended to provide a compressed flashable image, SHA-256 checksum, build manifest, and human-readable release notes. The same image must also be reproducible from this repository.
 
@@ -57,7 +62,7 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 - Raspberry Pi 4 Model B — the 8 GB model is nicest, 4 GB is supported as a target
 - 32 GB or larger microSD card; a USB 3 SSD is strongly recommended
 - The official-quality 5 V / 3 A power supply
-- HDMI display and network access; use a keyboard for interactive setup or Imager 2.0.11+ for keyboard-free setup
+- HDMI display and network access; use a keyboard for interactive setup or Imager 2.0.11+ through the release catalog for keyboard-free setup
 - A taste for tiling windows on improbably small computers
 
 ## Try it today

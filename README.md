@@ -7,6 +7,7 @@
 
   [![Project status: alpha](https://img.shields.io/badge/status-alpha-f5a97f?style=for-the-badge)](#project-status)
   [![Pi port checks](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml/badge.svg)](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml)
+  [![Latest release](https://img.shields.io/github/v/release/pkyanam/omarchy-4-pi?include_prereleases&style=for-the-badge)](https://github.com/pkyanam/omarchy-4-pi/releases)
   [![Target: Raspberry Pi 4](https://img.shields.io/badge/target-Raspberry_Pi_4-c51a4a?style=for-the-badge&logo=raspberrypi&logoColor=white)](#what-you-need)
   [![Architecture: ARM64](https://img.shields.io/badge/architecture-ARM64-1793d1?style=for-the-badge&logo=archlinux&logoColor=white)](#how-it-works)
   [![License: MIT](https://img.shields.io/badge/license-MIT-a6da95?style=for-the-badge)](LICENSE)
@@ -15,7 +16,7 @@
 </div>
 
 > [!IMPORTANT]
-> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The reproducible image factory and in-place installer are implemented, but the first full image build and real-hardware desktop verification are still in progress. Treat artifacts as alpha until the hardware checklist is green.
+> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The reproducible image factory has completed its first end-to-end native ARM64 build, but real-hardware desktop verification is still in progress. Treat artifacts as alpha until the hardware checklist is green.
 
 ## The destination
 
@@ -38,11 +39,11 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | VC4/V3D graphics setup | ✅ | Full KMS, Broadcom Vulkan, Aquamarine compatibility setting |
 | ARM-safe package lifecycle | ✅ | Arch Linux ARM mirrors survive install, refresh, and update flows |
 | In-place Arch Linux ARM installer | 🧪 | Implemented; real-hardware soak testing pending |
-| Reproducible `.img` builder | 🧪 | Signed base verification, native ARM64 CI, manifests, compression, and checksums implemented |
+| Reproducible `.img` builder | ✅ | First end-to-end native ARM64 build passed with signed-base verification, manifests, compression, and checksums |
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding |
 | First-boot owner setup | ✅ | No shared default password; Omarchy's own setup UI creates the owner |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| First prebuilt image release | ⏳ | Follows image-builder and boot verification |
+| First prebuilt image prerelease | 🧪 | [Alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) links the successful 4.61 GB workflow artifact |
 | Public Imager catalog URL | ⏳ | Activates when the first release artifact is hosted |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
@@ -156,7 +157,7 @@ Real-hardware acceptance remains the final word for HDMI scan-out, V3D accelerat
 
 ## Known gaps
 
-- No downloadable release `.img` exists yet. The automated factory is ready; its first end-to-end build and boot test are the active milestone.
+- The first complete `.img.xz` is available as a temporary workflow artifact from the [successful ARM64 build](https://github.com/pkyanam/omarchy-4-pi/actions/runs/33709436126). Durable one-file hosting is still pending because GitHub Releases caps each asset below 2 GiB; the current artifact bundle is 4.61 GB.
 - The stock ext4 image has no Snapper rollback or factory reset.
 - A few x86-only or unavailable apps are omitted; the core Quattro experience does not depend on them.
 - High-resolution video recording and heavy Electron multitasking can overwhelm a Pi 4.

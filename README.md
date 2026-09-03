@@ -16,7 +16,7 @@
 </div>
 
 > [!IMPORTANT]
-> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The first image now boots to Omarchy's HDMI setup splash on a real Pi 4; owner setup, Quattro, and V3D verification are still in progress. Treat artifacts as alpha until the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1) is green.
+> This is an independent community port and is not an official Omarchy or Raspberry Pi product. Alpha.7 now completes unattended owner setup and runs SDDM, Hyprland, Quickshell, and V3D on a real Pi 4. Treat artifacts as alpha until the remaining audio playback, Bluetooth pairing, reboot, and power/thermal checks in the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1) are green.
 
 ## The destination
 
@@ -47,12 +47,12 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Reproducible `.img` builder | ✅ | Native ARM64 builds enforce signed-base, boot-payload, package-architecture, identity, Hyprland config, filesystem, manifest, and checksum gates |
 | Real Pi 4 boot + HDMI splash | ✅ | Alpha image reached Omarchy's first-boot greeter on hardware |
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding; failure keeps provisioning safely armed for retry |
-| First-boot owner setup | 🧪 | Greeter verified on real Pi 4; corrected unattended path is image-audited and ready for hardware testing |
-| Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
+| First-boot owner setup | ✅ | Imager account settings created the owner without a keyboard on a real Pi 4 |
+| Quattro desktop + V3D on hardware | ✅ | SDDM, Hyprland, Quickshell, the V3D module, and `renderD128` are live on a Pi 4 Model B Rev 1.5 |
 | Pi audio + Bluetooth payload | 🧪 | HDMI/3.5 mm audio, PipeWire/ALSA, and BlueZ are enforced by the image audit; hardware playback and pairing remain |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | `alpha.7` passed its 107-check mounted-image audit; its device-first catalog was also exercised in Imager 2.0.11.1 on macOS |
-| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.7`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.7) is published and verified; owner/desktop hardware testing remains |
+| Imager 2.x unattended setup | ✅ | `alpha.7` passed its 107-check mounted-image audit and completed keyboard-free owner provisioning on hardware from Imager 2.0.11.1 |
+| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.7`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.7) is published; its core desktop path is hardware-verified while peripheral and soak checks continue |
 | Public Imager catalog URL | ✅ | The [`alpha.7` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/os-list.json) is live and exposes Raspberry Pi 4 in Imager's device-first flow |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
@@ -93,6 +93,8 @@ The release image is [`omarchy-4-pi-20260903-4bbf8060-minimal.img.xz`](https://g
 
 > [!NOTE]
 > If an earlier image is already waiting at **Press Return to Start Setup** and no keyboard is attached, it cannot consume settings retroactively. Reflash `alpha.7` through the catalog above and complete Imager's account section before writing the card.
+
+Alpha.7 uses Arch Linux ARM's generic kernel, which intentionally has no legacy `/dev/vcio` interface for `vcgencmd`. Current source falls back to Linux's native Raspberry Pi under-voltage sensor and CPU thermal zone, so `omarchy update` makes the hardware report useful without changing kernels or weakening device access.
 
 If you already downloaded the image on macOS, the repository helper serves it only to `127.0.0.1` while Imager is open and provides the same customization flow:
 

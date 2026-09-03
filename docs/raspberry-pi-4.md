@@ -117,6 +117,14 @@ The same builder runs in `.github/workflows/build-rpi4-image.yml` on GitHub's na
 After logging in, check the architecture, renderer, session, and shell:
 
 ```bash
+omarchy-pi-check
+```
+
+It prints a paste-friendly PASS/WARN/FAIL report and exits nonzero when a
+required hardware checkpoint fails. It does not print SSIDs, IP addresses,
+Bluetooth addresses, passwords, or keys. For deeper inspection, run:
+
+```bash
 uname -m
 omarchy-pi-status
 glxinfo -B | sed -n '/Device:/p;/OpenGL renderer/p'

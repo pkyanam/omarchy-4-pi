@@ -1,0 +1,150 @@
+#!/bin/bash
+
+# omarchy:summary=Run the Raspberry Pi 4 hardware acceptance checks
+# omarchy:group=About
+
+set -uo pipefail
+
+failures=0
+warnings=0
+
+pass() { printf 'PASS  %s\n' "$*"; }
+warn() { warnings=$((warnings + 1)); printf 'WARN  %s\n' "$*"; }
+fail() { failures=$((failures + 1)); printf 'FAIL  %s\n' "$*"; }
+
+command_output() {
+  local output
+  output=$("$@" 2>/dev/null) || return 1
+  printf '%s' "$output"
+}
+
+model_path=${OMARCHY_RPI_MODEL_PATH:-/proc/device-tree/model}
+module_root=${OMARCHY_RPI_MODULE_ROOT:-/sys/module}
+dri_root=${OMARCHY_RPI_DRI_ROOT:-/dev/dri}
+provisioning_root=${OMARCHY_RPI_PROVISIONING_ROOT:-/var/lib/omarchy/provisioning}
+
+printf 'Omarchy 4 Pi hardware check\n\n'
+
+model=""
+[[ -r $model_path ]] && model=$(tr -d '\0' <"$model_path")
+if [[ $model == *"Raspberry Pi 4 Model B"* ]]; then
+  pass "Pi identity — $model"
+else
+  fail "Pi identity — ${model:-model unavailable}"
+fi
+
+architecture=$(uname -m 2>/dev/null || true)
+if [[ $architecture == aarch64 ]]; then
+  pass "Architecture — aarch64"
+else
+  fail "Architecture — ${architecture:-unknown}; expected aarch64"
+fi
+
+if [[ -e $provisioning_root/grow-root-pending ]]; then
+  fail "Root expansion — still pending"
+else
+  pass "Root expansion — completed"
+fi
+
+if [[ -e $provisioning_root/pending ]]; then
+  fail "Owner provisioning — still pending"
+else
+  pass "Owner provisioning — completed"
+fi
+
+render_node=""
+for candidate in "$dri_root"/renderD*; do
+  [[ -e $candidate ]] || continue
+  render_node=${candidate##*/}
+  break
+done
+if [[ -d $module_root/v3d && -n $render_node ]]; then
+  pass "V3D graphics — kernel module loaded; $render_node present"
+else
+  fail "V3D graphics — module or DRM render node missing"
+fi
+
+if command -v systemctl >/dev/null 2>&1 && systemctl is-active --quiet sddm.service 2>/dev/null; then
+  pass "Display manager — SDDM active"
+else
+  fail "Display manager — SDDM is not active"
+fi
+
+if command -v pgrep >/dev/null 2>&1 && pgrep -x Hyprland >/dev/null 2>&1; then
+  pass "Desktop — Hyprland running"
+else
+  fail "Desktop — Hyprland process not found"
+fi
+
+if command -v pgrep >/dev/null 2>&1 && pgrep -x quickshell >/dev/null 2>&1; then
+  pass "Quattro shell — Quickshell running"
+else
+  fail "Quattro shell — Quickshell process not found"
+fi
+
+network_state=""
+command -v nmcli >/dev/null 2>&1 &&
+  network_state=$(command_output nmcli -t -f STATE general status || true)
+if [[ $network_state == connected* ]]; then
+  pass "Network — $network_state"
+else
+  fail "Network — ${network_state:-NetworkManager not reachable}"
+fi
+
+audio_state=""
+command -v wpctl >/dev/null 2>&1 &&
+  audio_state=$(command_output wpctl get-volume @DEFAULT_AUDIO_SINK@ || true)
+if [[ -n $audio_state ]]; then
+  pass "Audio — default PipeWire sink ready ($audio_state)"
+else
+  fail "Audio — no default PipeWire sink"
+fi
+
+bluetooth_state=""
+command -v bluetoothctl >/dev/null 2>&1 &&
+  bluetooth_state=$(command_output bluetoothctl show || true)
+if grep -q '^[[:space:]]*Controller ' <<<"$bluetooth_state"; then
+  if grep -q '^[[:space:]]*Powered: yes[[:space:]]*$' <<<"$bluetooth_state"; then
+    pass "Bluetooth — controller present and powered"
+  else
+    fail "Bluetooth — controller present but not powered"
+  fi
+else
+  fail "Bluetooth — controller not found"
+fi
+
+failed_units=""
+if ! command -v systemctl >/dev/null 2>&1; then
+  fail "System services — systemctl unavailable"
+elif failed_units=$(command_output systemctl --failed --no-legend --plain); then
+  if [[ -z $failed_units ]]; then
+    pass "System services — no failed units"
+  else
+    fail "System services — failed units detected"
+    while IFS= read -r unit; do
+      printf '      %s\n' "$unit"
+    done <<<"$failed_units"
+  fi
+else
+  fail "System services — failed-unit query failed"
+fi
+
+power_raw=""
+command -v vcgencmd >/dev/null 2>&1 &&
+  power_raw=$(command_output vcgencmd get_throttled || true)
+power_hex=${power_raw#*=}
+if [[ $power_hex =~ ^0[xX][0-9a-fA-F]+$ ]]; then
+  power_value=$((16#${power_hex:2}))
+  if (( power_value & 15 )); then
+    fail "Power/thermals — active firmware warning ($power_hex)"
+  elif (( power_value & 983040 )); then
+    warn "Power/thermals — healthy now, but a warning occurred earlier ($power_hex)"
+  else
+    pass "Power/thermals — no under-voltage or throttling flags ($power_hex)"
+  fi
+else
+  warn "Power/thermals — vcgencmd result unavailable"
+fi
+
+printf '\nResult: %d failure(s), %d warning(s)\n' "$failures" "$warnings"
+(( failures == 0 ))

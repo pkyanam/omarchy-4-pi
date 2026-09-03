@@ -174,6 +174,7 @@ The image roadmap includes more than “make it boot”:
 - HDMI audio plus the Pi 4's onboard 3.5 mm output, with PipeWire and Bluetooth ready for the first session
 - grow the root filesystem automatically on first boot
 - power/thermal/undervoltage status surfaced in diagnostics
+- one-command, credential-safe Pi hardware acceptance report over SSH
 - sensible 1080p defaults with expensive blur and animation options documented
 - CPU-friendly `wf-recorder` capture at 30 fps
 - SD-card-write reduction for logs, caches, and browser churn

@@ -78,6 +78,93 @@ grep -F 'unknown (unavailable)' "$test_tmp/pi-status-unknown" >/dev/null ||
   fail "Pi status explains an unreadable firmware response"
 pass "Pi status explains Raspberry Pi power flags"
 
+cat >"$fake_bin/uname" <<'EOF'
+#!/bin/bash
+[[ ${PI_CHECK_FAIL:-0} == 0 ]] && echo aarch64 || echo x86_64
+EOF
+cat >"$fake_bin/systemctl" <<'EOF'
+#!/bin/bash
+if [[ $1 == is-active ]]; then
+  [[ ${PI_CHECK_FAIL:-0} == 0 ]]
+elif [[ $1 == --failed ]]; then
+  [[ ${PI_CHECK_SYSTEMCTL_FAIL:-0} == 0 ]] || exit 1
+  [[ ${PI_CHECK_FAIL:-0} == 0 ]] ||
+    echo 'failed-example.service loaded failed failed Example failure'
+fi
+EOF
+cat >"$fake_bin/pgrep" <<'EOF'
+#!/bin/bash
+[[ ${PI_CHECK_FAIL:-0} == 0 ]]
+EOF
+cat >"$fake_bin/nmcli" <<'EOF'
+#!/bin/bash
+[[ ${PI_CHECK_FAIL:-0} == 0 ]] && echo connected || echo disconnected
+EOF
+cat >"$fake_bin/wpctl" <<'EOF'
+#!/bin/bash
+[[ ${PI_CHECK_FAIL:-0} == 0 ]] && echo 'Volume: 0.50' || exit 1
+EOF
+cat >"$fake_bin/bluetoothctl" <<'EOF'
+#!/bin/bash
+echo 'Controller 00:00:00:00:00:00 test'
+[[ ${PI_CHECK_FAIL:-0} == 0 ]] && echo 'Powered: yes' || echo 'Powered: no'
+EOF
+chmod +x "$fake_bin/uname" "$fake_bin/systemctl" "$fake_bin/pgrep" \
+  "$fake_bin/nmcli" "$fake_bin/wpctl" "$fake_bin/bluetoothctl"
+
+check_module_root="$test_tmp/modules"
+check_dri_root="$test_tmp/dri"
+check_provisioning_root="$test_tmp/provisioning"
+mkdir -p "$check_module_root/v3d" "$check_dri_root" "$check_provisioning_root"
+touch "$check_dri_root/renderD128"
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-ok" ||
+  fail "Pi acceptance command succeeds for a healthy hardware fixture"
+grep -Fx 'PASS  V3D graphics — kernel module loaded; renderD128 present' \
+  "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies the V3D render node"
+grep -Fx 'PASS  Audio — default PipeWire sink ready (Volume: 0.50)' \
+  "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies the default audio sink"
+grep -Fx 'Result: 0 failure(s), 0 warning(s)' "$test_tmp/pi-check-ok" >/dev/null ||
+  fail "Pi acceptance command summarizes a healthy system"
+
+touch "$check_provisioning_root/grow-root-pending" "$check_provisioning_root/pending"
+if PI_CHECK_FAIL=1 \
+  OMARCHY_RPI_MODEL_PATH="$model" \
+  OMARCHY_RPI_MODULE_ROOT="$test_tmp/missing-modules" \
+  OMARCHY_RPI_DRI_ROOT="$test_tmp/missing-dri" \
+  OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+  VCGENCMD_OUTPUT=throttled=0x1 \
+  PATH="$fake_bin:$PATH" \
+    "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-failed"; then
+  fail "Pi acceptance command rejects an unhealthy hardware fixture"
+fi
+grep -Fx 'FAIL  Root expansion — still pending' "$test_tmp/pi-check-failed" >/dev/null ||
+  fail "Pi acceptance command reports incomplete storage growth"
+grep -Fx 'FAIL  Power/thermals — active firmware warning (0x1)' \
+  "$test_tmp/pi-check-failed" >/dev/null || fail "Pi acceptance command reports active undervoltage"
+grep -F 'failed-example.service' "$test_tmp/pi-check-failed" >/dev/null ||
+  fail "Pi acceptance command names failed system units"
+
+if PI_CHECK_SYSTEMCTL_FAIL=1 \
+  OMARCHY_RPI_MODEL_PATH="$model" \
+  OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+  OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+  OMARCHY_RPI_PROVISIONING_ROOT="$test_tmp/complete-provisioning" \
+  VCGENCMD_OUTPUT=throttled=0x0 \
+  PATH="$fake_bin:$PATH" \
+    "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-systemctl-failed"; then
+  fail "Pi acceptance command rejects an unreadable failed-unit state"
+fi
+grep -Fx 'FAIL  System services — failed-unit query failed' \
+  "$test_tmp/pi-check-systemctl-failed" >/dev/null ||
+  fail "Pi acceptance command fails closed when systemd cannot report health"
+pass "Pi acceptance command grades the real-hardware checklist"
+
 TEST_LOG="$test_tmp/calls.log" \
 PATH="$fake_bin:$ROOT/bin:$PATH" \
 OMARCHY_RPI_MODEL_PATH="$model" \
@@ -115,6 +202,7 @@ bash -n "$ROOT/build-packages-rpi4.sh"
 bash -n "$ROOT/bin/omarchy-update-rpi4"
 bash -n "$ROOT/bin/omarchy-rpi4-grow-root"
 bash -n "$ROOT/bin/omarchy-pi-status"
+bash -n "$ROOT/bin/omarchy-pi-check"
 bash -n "$ROOT/image/build-rpi4-image.sh"
 bash -n "$ROOT/image/build-rpi4-image-macos.sh"
 bash -n "$ROOT/image/audit-rpi4-rootfs.sh"
@@ -462,7 +550,7 @@ printf '\177ELF\002\001\001\000\000\000\000\000\000\000\000\000\002\000\267\000'
 for executable in quickshell foot vcgencmd; do
   cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
 done
-for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
+for executable in omarchy-shell omarchy-pi-check omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
   printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
 done
 cat >>"$audit_root/usr/bin/omarchy-provision-owner" <<'EOF'

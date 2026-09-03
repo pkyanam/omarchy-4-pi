@@ -10,6 +10,7 @@ readonly package_output="$checkout/build-output-rpi4"
 readonly rpi_profile=/etc/omarchy-rpi4.conf
 
 install_mode=full
+image_mode=0
 
 log() {
   if command -v gum >/dev/null 2>&1; then
@@ -38,13 +39,15 @@ fail() {
 
 usage() {
   cat <<'USAGE'
-Usage: ./install-rpi4.sh [--minimal]
+Usage: ./install-rpi4.sh [--minimal] [--image]
 
 Installs Omarchy Quattro on a Raspberry Pi 4 Model B already running the
 official Arch Linux ARM aarch64 root filesystem.
 
 --minimal  Install the complete Quattro desktop and system integration, but
            skip optional Omarchy applications that must be built locally.
+--image    Prepare an OEM image with first-boot owner provisioning instead of
+           configuring the user running this command.
 USAGE
 }
 
@@ -53,6 +56,10 @@ parse_args() {
     case "$1" in
       --minimal)
         install_mode=minimal
+        shift
+        ;;
+      --image)
+        image_mode=1
         shift
         ;;
       -h|--help)
@@ -111,7 +118,7 @@ ensure_package_sources() {
     git -C "$pkgs_checkout" pull --ff-only || warn "Could not update $pkgs_checkout; using the existing checkout."
   else
     log "Cloning Omarchy PKGBUILDs"
-    git clone --depth 1 https://github.com/omacom-io/omarchy-pkgs.git "$pkgs_checkout"
+    git clone --depth 1 https://github.com/omacom/omarchy-pkgs.git "$pkgs_checkout"
   fi
 
   export OMARCHY_PKGS_PATH="$pkgs_checkout"
@@ -143,6 +150,7 @@ install_official_packages() {
   # dependencies of omarchy. The Pi installer has no ISO to supply them.
   available+=(
     archlinuxarm-keyring
+    cloud-guest-utils
     hicolor-icon-theme
     linux-aarch64
     neovim
@@ -272,9 +280,34 @@ seed_user_defaults() {
   omarchy-reinstall-configs
 }
 
+arm_first_boot_provisioning() {
+  local unit_source="$checkout/install/provisioning/omarchy-provision-owner.service"
+  local grow_unit_source="$checkout/install/provisioning/omarchy-rpi4-grow-root.service"
+
+  sudo install -Dm644 "$unit_source" /etc/systemd/system/omarchy-provision-owner.service
+  sudo install -Dm644 "$grow_unit_source" /etc/systemd/system/omarchy-rpi4-grow-root.service
+  sudo install -d /var/lib/omarchy/provisioning /etc/systemd/system/multi-user.target.wants
+  sudo touch /var/lib/omarchy/provisioning/pending \
+    /var/lib/omarchy/provisioning/grow-root-pending
+  sudo ln -sfn /etc/systemd/system/omarchy-provision-owner.service \
+    /etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service
+  sudo ln -sfn /etc/systemd/system/omarchy-rpi4-grow-root.service \
+    /etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service
+}
+
 run_system_setup() {
+  local -a hardware_env=(OMARCHY_PACMAN_PROFILE=rpi4)
+  [[ -z ${OMARCHY_RPI_MODEL_PATH:-} ]] || hardware_env+=(OMARCHY_RPI_MODEL_PATH="$OMARCHY_RPI_MODEL_PATH")
+  [[ -z ${OMARCHY_RPI_CONFIG_PATH:-} ]] || hardware_env+=(OMARCHY_RPI_CONFIG_PATH="$OMARCHY_RPI_CONFIG_PATH")
+
   log "Applying Raspberry Pi and Omarchy system configuration"
-  sudo env OMARCHY_PACMAN_PROFILE=rpi4 omarchy-apply-system --install-user "$USER" --first-install
+  if (( image_mode )); then
+    sudo env "${hardware_env[@]}" omarchy-apply-system --defer-provisioning --first-install
+    arm_first_boot_provisioning
+    return 0
+  fi
+
+  sudo env "${hardware_env[@]}" omarchy-apply-system --install-user "$USER" --first-install
 
   log "Applying Omarchy user configuration"
   OMARCHY_SETUP_CONTEXT=rpi4 omarchy-provision-user --first-install
@@ -290,7 +323,7 @@ main() {
   build_omarchy_packages
   install_omarchy_packages
   write_rpi_profile
-  seed_user_defaults
+  (( image_mode )) || seed_user_defaults
   run_system_setup
 
   log "Omarchy Quattro for Raspberry Pi 4 is installed. Reboot to start the desktop."

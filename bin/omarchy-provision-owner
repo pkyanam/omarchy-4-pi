@@ -740,6 +740,14 @@ create_user() {
   printf '%s:%s\n' "$username" "$password" | chpasswd
   printf '%s:%s\n' root "$password" | chpasswd
 
+  # Image builds keep the updateable port checkout in /opt. Hand it to the
+  # owner created here so normal source-tracked updates can fast-forward and
+  # rebuild the architecture-independent Omarchy packages without running git
+  # as root.
+  if [[ -d /opt/omarchy-4-pi/.git ]]; then
+    chown -R "$username:$username" /opt/omarchy-4-pi
+  fi
+
   # deferred-provisioning installs skip archinstall's create_users, which is what normally
   # uncomments %wheel in /etc/sudoers. Always write the drop-in: detecting an
   # existing grant is error-prone (omarchy ships narrow %wheel NOPASSWD rules

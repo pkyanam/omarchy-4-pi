@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# omarchy:summary=Show Raspberry Pi temperature, power, memory, storage, and renderer health
+# omarchy:group=About
+
+set -euo pipefail
+
+temperature="unknown"
+if [[ -r /sys/class/thermal/thermal_zone0/temp ]]; then
+  raw_temperature=$(</sys/class/thermal/thermal_zone0/temp)
+  temperature=$(awk -v value="$raw_temperature" 'BEGIN { printf "%.1f°C", value / 1000 }')
+fi
+
+power_state="vcgencmd unavailable"
+if command -v vcgencmd >/dev/null 2>&1; then
+  power_state=$(vcgencmd get_throttled 2>/dev/null || printf unknown)
+fi
+
+renderer="not available outside a graphical session"
+if command -v glxinfo >/dev/null 2>&1 && [[ -n ${WAYLAND_DISPLAY:-}${DISPLAY:-} ]]; then
+  renderer=$(glxinfo -B 2>/dev/null | awk -F: '/OpenGL renderer string/{sub(/^[[:space:]]+/, "", $2); print $2; exit}')
+fi
+
+printf 'Omarchy 4 Pi health\n'
+printf '  Model:       %s\n' "$(tr -d '\0' </proc/device-tree/model 2>/dev/null || printf unknown)"
+printf '  Temperature: %s\n' "$temperature"
+printf '  Power:       %s\n' "$power_state"
+printf '  Memory:      %s\n' "$(free -h | awk '/^Mem:/{print $3 " used / " $2}')"
+printf '  Root disk:   %s\n' "$(df -h / | awk 'NR==2{print $3 " used / " $2 " (" $5 ")"}')"
+printf '  Renderer:    %s\n' "${renderer:-unknown}"

@@ -43,7 +43,7 @@ In `visudo`, uncomment the `%wheel ALL=(ALL:ALL) ALL` line. Log out of the defau
 Clone this Raspberry Pi branch and run the installer:
 
 ```bash
-git clone <URL-OF-THIS-PORT> ~/omarchy-rpi4
+git clone https://github.com/pkyanam/omarchy-4-pi.git ~/omarchy-rpi4
 cd ~/omarchy-rpi4
 ./install-rpi4.sh
 ```
@@ -65,6 +65,29 @@ sudo reboot
 ```
 
 SDDM should start the Omarchy Hyprland session automatically.
+
+## Build a flashable image instead
+
+The repository's image factory runs on a native aarch64 Linux host. It verifies the official Arch Linux ARM detached signature against build key `68B3537F39A313B3E574D06777193F152BDBE6A6`, creates the Pi partition layout, installs the port in a chroot, removes factory credentials, and emits Raspberry Pi Imager-ready metadata.
+
+On Debian or Ubuntu ARM64:
+
+```bash
+sudo apt-get update
+sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils
+sudo image/build-rpi4-image.sh --minimal
+```
+
+The output directory contains:
+
+- `*.img.xz` — the compressed flashable disk image
+- `*.img.xz.sha256` — compressed-download integrity hash
+- `*.manifest.json` — source commit, base image, signing key, mode, and build time
+- `*.os-list.json` and `os-list.json` — Raspberry Pi Imager 2.x catalog metadata with hashes of both the compressed download and extracted image
+
+The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Override that floor with `OMARCHY_IMAGE_SIZE_GIB`, but values below 10 GiB are rejected. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM.
+
+The same builder runs in `.github/workflows/build-rpi4-image.yml` on GitHub's native `ubuntu-24.04-arm` runner. Manual builds are retained as workflow artifacts; version tags publish the generated files to a GitHub release.
 
 ## Verification
 

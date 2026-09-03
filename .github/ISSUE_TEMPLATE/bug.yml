@@ -11,7 +11,7 @@ body:
     id: system-details
     attributes:
       label: System details
-      placeholder: e.g. AMD 9950X, NVIDIA 5090, Omarchy 2.1.0
+      placeholder: e.g. Pi 4 Rev 1.5, 8 GB, USB SSD, 1080p HDMI, build manifest commit
     validations:
       required: true
 

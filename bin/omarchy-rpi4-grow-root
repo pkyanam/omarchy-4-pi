@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# omarchy:summary=Grow a freshly flashed Raspberry Pi image to fill its storage device
+# omarchy:hidden=true
+
+set -euo pipefail
+
+readonly marker=/var/lib/omarchy/provisioning/grow-root-pending
+[[ -e $marker ]] || exit 0
+
+root_source=$(findmnt -nro SOURCE /)
+root_source=${root_source%%\[*}
+root_source=$(realpath "$root_source")
+partition_number=$(lsblk -nro PARTN "$root_source")
+parent_name=$(lsblk -nro PKNAME "$root_source")
+
+if [[ -z $partition_number || -z $parent_name ]]; then
+  echo "Error: cannot identify the root partition behind $root_source" >&2
+  exit 1
+fi
+
+parent_device="/dev/$parent_name"
+echo "Growing root partition $root_source on $parent_device"
+
+# growpart returns 1 when the partition already fills the device. That is a
+# successful end state, and resize2fs below is still useful after an interrupted
+# earlier attempt.
+status=0
+growpart "$parent_device" "$partition_number" || status=$?
+(( status == 0 || status == 1 )) || exit "$status"
+
+udevadm settle
+resize2fs "$root_source"
+
+rm -f "$marker"
+rm -f /etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service
+systemctl daemon-reload 2>/dev/null || true

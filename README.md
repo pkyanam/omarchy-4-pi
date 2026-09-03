@@ -6,6 +6,7 @@
   **The delightfully opinionated Omarchy Quattro desktop, remixed for Raspberry Pi 4.**
 
   [![Project status: alpha](https://img.shields.io/badge/status-alpha-f5a97f?style=for-the-badge)](#project-status)
+  [![Pi port checks](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml/badge.svg)](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml)
   [![Target: Raspberry Pi 4](https://img.shields.io/badge/target-Raspberry_Pi_4-c51a4a?style=for-the-badge&logo=raspberrypi&logoColor=white)](#what-you-need)
   [![Architecture: ARM64](https://img.shields.io/badge/architecture-ARM64-1793d1?style=for-the-badge&logo=archlinux&logoColor=white)](#how-it-works)
   [![License: MIT](https://img.shields.io/badge/license-MIT-a6da95?style=for-the-badge)](LICENSE)
@@ -14,7 +15,7 @@
 </div>
 
 > [!IMPORTANT]
-> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The image builder is under active development; the current in-place installer is ready for controlled testing on Arch Linux ARM, but real-hardware desktop verification is still in progress.
+> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The reproducible image factory and in-place installer are implemented, but the first full image build and real-hardware desktop verification are still in progress. Treat artifacts as alpha until the hardware checklist is green.
 
 ## The destination
 
@@ -37,9 +38,12 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | VC4/V3D graphics setup | ✅ | Full KMS, Broadcom Vulkan, Aquamarine compatibility setting |
 | ARM-safe package lifecycle | ✅ | Arch Linux ARM mirrors survive install, refresh, and update flows |
 | In-place Arch Linux ARM installer | 🧪 | Implemented; real-hardware soak testing pending |
-| Reproducible `.img` builder | 🚧 | Next milestone |
+| Reproducible `.img` builder | 🧪 | Signed base verification, native ARM64 CI, manifests, compression, and checksums implemented |
+| Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding |
+| First-boot owner setup | ✅ | No shared default password; Omarchy's own setup UI creates the owner |
+| Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
 | First prebuilt image release | ⏳ | Follows image-builder and boot verification |
-| Raspberry Pi Imager catalog entry | ⏳ | Requires stable hosted release artifacts |
+| Public Imager catalog URL | ⏳ | Activates when the first release artifact is hosted |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -53,7 +57,24 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 
 ## Try it today
 
-Until the flashable image lands, start with the official [Arch Linux ARM aarch64 Raspberry Pi 4 root filesystem](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4), create a regular sudo-capable user, then run:
+### Build a flashable image
+
+The supported factory runs on an aarch64 Linux host with loop-device support. The easiest route is **Actions → Build Raspberry Pi image → Run workflow** in this repository; it uses GitHub's native ARM64 runner and returns an `.img.xz`, checksum, build manifest, and Raspberry Pi Imager catalog as one workflow artifact.
+
+To build locally on an ARM64 Linux machine:
+
+```bash
+sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils
+sudo image/build-rpi4-image.sh --minimal
+```
+
+Artifacts land in `build/image/`. In Raspberry Pi Imager, choose **Use custom**, select the `.img.xz`, and write it to a 32 GB or larger card/SSD. On first boot, Omarchy expands the filesystem, asks you to create the owner account, and then opens Quattro. The factory removes Arch Linux ARM's default `alarm` account and locks the default root password before compression.
+
+`--full` adds the optional ARM-buildable Omarchy applications. It is slower and considerably larger; the minimal image already contains the complete desktop shell, browser, terminal, file manager, developer tools, theming, and core commands.
+
+### Install onto an existing Arch Linux ARM system
+
+Start with the official [Arch Linux ARM aarch64 Raspberry Pi 4 root filesystem](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4), create a regular sudo-capable user, then run:
 
 ```bash
 git clone https://github.com/pkyanam/omarchy-4-pi.git ~/omarchy-4-pi
@@ -103,15 +124,15 @@ Suggestions are welcome—especially the small, obvious-in-retrospect touches th
 
 ## Build philosophy
 
-The image builder will be boring in the best way:
+The image builder is boring in the best way:
 
-1. Download a pinned Arch Linux ARM Raspberry Pi 4 root filesystem.
-2. Verify its published checksum before touching it.
-3. Assemble the image in a container or Linux host with loop-device support.
+1. Download the official Arch Linux ARM Raspberry Pi 4 root filesystem and detached signature.
+2. Verify that signature against Arch Linux ARM's published build-key fingerprint before touching it.
+3. Assemble an MBR image on a native aarch64 Linux host with loop-device support.
 4. Install pinned Omarchy sources and the ARM package set.
-5. Add a first-boot service for machine-specific expansion and onboarding.
-6. Boot-test the artifact under aarch64 emulation, then verify graphics and input on a real Pi 4.
-7. Compress the image reproducibly and emit checksums plus a software manifest.
+5. Remove factory credentials, blank machine identity and SSH host keys, then arm storage expansion and owner onboarding.
+6. Compress the image and emit exact hashes, a provenance manifest, and schema-compatible Raspberry Pi Imager metadata.
+7. Boot-test the artifact, then verify graphics and input on a real Pi 4.
 
 No mystery blobs will be generated by CI. Every release artifact should be traceable back to a workflow run and the exact source revisions used to build it.
 
@@ -133,7 +154,7 @@ Real-hardware acceptance remains the final word for HDMI scan-out, V3D accelerat
 
 ## Known gaps
 
-- No downloadable `.img` exists yet. That is the active milestone, not a euphemism.
+- No downloadable release `.img` exists yet. The automated factory is ready; its first end-to-end build and boot test are the active milestone.
 - The stock ext4 image has no Snapper rollback or factory reset.
 - A few x86-only or unavailable apps are omitted; the core Quattro experience does not depend on them.
 - High-resolution video recording and heavy Electron multitasking can overwhelm a Pi 4.

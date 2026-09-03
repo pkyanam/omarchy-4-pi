@@ -1,0 +1,13 @@
+[Unit]
+Description=Grow Omarchy 4 Pi root filesystem
+ConditionPathExists=/var/lib/omarchy/provisioning/grow-root-pending
+After=local-fs.target
+Before=omarchy-provision-owner.service display-manager.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/omarchy-rpi4-grow-root
+TimeoutStartSec=2min
+
+[Install]
+WantedBy=multi-user.target

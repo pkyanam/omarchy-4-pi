@@ -2,3 +2,7 @@
 # Python bytecode (orchestrator)
 __pycache__/
 *.pyc
+
+# Raspberry Pi image build artifacts
+/build/
+/build-output-rpi4/

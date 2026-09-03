@@ -79,4 +79,41 @@ pass "ext4 installs skip Btrfs-only Snapper setup"
 bash -n "$ROOT/install-rpi4.sh"
 bash -n "$ROOT/build-packages-rpi4.sh"
 bash -n "$ROOT/bin/omarchy-update-rpi4"
-pass "Raspberry Pi install and update entrypoints parse"
+bash -n "$ROOT/bin/omarchy-rpi4-grow-root"
+bash -n "$ROOT/bin/omarchy-pi-status"
+bash -n "$ROOT/image/build-rpi4-image.sh"
+bash -n "$ROOT/image/generate-imager-catalog.sh"
+pass "Raspberry Pi install, image, and update entrypoints parse"
+
+grep -F -- '--image' "$ROOT/install-rpi4.sh" >/dev/null || fail "installer exposes OEM image mode"
+grep -F 'cloud-guest-utils' "$ROOT/install-rpi4.sh" >/dev/null || fail "image payload includes growpart"
+grep -F 'Before=omarchy-provision-owner.service' \
+  "$ROOT/install/provisioning/omarchy-rpi4-grow-root.service" >/dev/null ||
+  fail "root growth runs before owner provisioning"
+grep -F '/var/lib/omarchy/provisioning/grow-root-pending' \
+  "$ROOT/bin/omarchy-rpi4-grow-root" >/dev/null || fail "root growth is guarded by a one-shot marker"
+pass "image mode arms ordered first-boot storage growth and owner provisioning"
+
+catalog_source="$test_tmp/catalog.img"
+catalog_archive="$catalog_source.xz"
+catalog_json="$test_tmp/os-list.json"
+dd if=/dev/zero of="$catalog_source" bs=4096 count=1 2>/dev/null
+xz --stdout "$catalog_source" >"$catalog_archive"
+"$ROOT/image/generate-imager-catalog.sh" "$catalog_archive" \
+  https://example.invalid/omarchy-4-pi.img.xz "$catalog_json"
+python3 - "$catalog_json" <<'PY'
+import json
+import sys
+
+with open(sys.argv[1], encoding="utf-8") as stream:
+    catalog = json.load(stream)
+
+entry = catalog["os_list"][0]
+assert entry["devices"] == ["pi4"]
+assert entry["architecture"] == "armv8"
+assert entry["init_format"] == "none"
+assert entry["extract_size"] == 4096
+assert len(entry["extract_sha256"]) == 64
+assert len(entry["image_download_sha256"]) == 64
+PY
+pass "Raspberry Pi Imager catalog records image sizes, hashes, and Pi 4 compatibility"

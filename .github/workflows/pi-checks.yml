@@ -1,0 +1,26 @@
+name: Pi port checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  shell:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse image and Pi entrypoints
+        run: |
+          bash -n install-rpi4.sh
+          bash -n build-packages-rpi4.sh
+          bash -n image/build-rpi4-image.sh
+          bash -n image/generate-imager-catalog.sh
+          bash -n bin/omarchy-rpi4-grow-root
+          bash -n bin/omarchy-pi-status
+      - name: Run focused Raspberry Pi tests
+        run: test/shell.d/raspberry-pi-test.sh
+

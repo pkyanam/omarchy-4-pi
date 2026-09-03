@@ -45,9 +45,9 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; keyboard-driven completion is pending |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | Parser and `alpha.5` image payload verified; Imager 2.0.11+ real-hardware setup test required |
-| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.5`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.5) provides one checksum-verified, 74-invariant-audited `.img.xz`; desktop hardware testing remains |
-| Public Imager catalog URL | ✅ | The immutable [`alpha.5` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.5/os-list.json) enables account, Wi-Fi, locale, and SSH customization |
+| Imager 2.x unattended setup | 🚧 | The `alpha.5` keymap handoff bug is fixed; corrected `alpha.6` image build is running |
+| Prebuilt image prerelease | 🚧 | [`v0.1.0-alpha.6`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) is building; `alpha.5` is superseded for keyboard-free setup |
+| Public Imager catalog URL | ⏳ | The immutable `alpha.6` catalog will publish with its verified image |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -61,26 +61,27 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 
 ## Try it today
 
-### Download `alpha.5`
+### `alpha.6` is building
 
-Download the single [flashable `.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.5/omarchy-4-pi-20260903-3eef6872-minimal.img.xz) and its [checksum](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.5/omarchy-4-pi-20260903-3eef6872-minimal.img.xz.sha256) from the [`v0.1.0-alpha.5` release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.5). Its SHA-256 is `b918e89ec559186969e4ffdd10760b2493644ce384306eefcaa8585f639e8dc6`. Choose **Use custom** in Raspberry Pi Imager to flash it and complete the setup form with a keyboard on first boot.
+> [!WARNING]
+> Do not use `alpha.5` for keyboard-free setup. Its image audits cleanly, but its unattended branch omits the staged keymap argument and falls back to **Press Return to Start Setup**. The fix is on `main`; the corrected [`alpha.6` prerelease](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) will become flashable when its image and checksum assets appear.
 
-For a keyboard-free first boot, upgrade to Raspberry Pi Imager 2.0.11 or newer and open the release's public catalog on macOS:
+When those assets are present, use Raspberry Pi Imager 2.0.11 or newer and open the release's public catalog on macOS:
 
 ```bash
 open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.5/os-list.json"
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/os-list.json"
 ```
 
 Select **Omarchy 4 Pi**, then fill in the account, locale, and any Wi-Fi or SSH settings before writing. Complete account settings let the Pi provision the owner and continue without waiting at **Press Return to Start Setup**. The catalog records exact compressed and extracted sizes and SHA-256 hashes, so Imager verifies the download before flashing.
 
 > [!NOTE]
-> If an earlier image is already waiting at **Press Return to Start Setup** and no keyboard is attached, it cannot consume settings retroactively. Reflash `alpha.5` through the catalog above and complete Imager's account section before writing the card.
+> If an earlier image is already waiting at **Press Return to Start Setup** and no keyboard is attached, it cannot consume settings retroactively. Reflash the completed `alpha.6` image through the catalog above and complete Imager's account section before writing the card.
 
 If you already downloaded the image on macOS, the repository helper serves it only to `127.0.0.1` while Imager is open and provides the same customization flow:
 
 ```bash
-image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-20260903-3eef6872-minimal.img.xz"
+image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-*-minimal.img.xz"
 ```
 
 Keep that terminal open until the write finishes; closing Imager shuts down the loopback server automatically. Imager 2.0.10 and older prune `rpi-preseed` catalog entries, so the helper stops with a clear upgrade message instead of silently falling back to an uncustomized flash.

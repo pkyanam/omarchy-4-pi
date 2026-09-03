@@ -43,7 +43,7 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding |
 | First-boot owner setup | ✅ | No shared default password; Omarchy's own setup UI creates the owner |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| First prebuilt image prerelease | 🧪 | [Alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) links the successful 4.61 GB workflow artifact |
+| First prebuilt image prerelease | 🧪 | [Alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) publishes the successful image as checksummed release parts |
 | Public Imager catalog URL | ⏳ | Activates when the first release artifact is hosted |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
@@ -165,7 +165,7 @@ Real-hardware acceptance remains the final word for HDMI scan-out, V3D accelerat
 
 ## Known gaps
 
-- The first complete `.img.xz` is available as a temporary workflow artifact from the [successful ARM64 build](https://github.com/pkyanam/omarchy-4-pi/actions/runs/33709436126). Durable one-file hosting is still pending because GitHub Releases caps each asset below 2 GiB; the current artifact bundle is 4.61 GB.
+- The first complete `.img.xz` exceeds GitHub Releases' per-file limit, so the [alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) provides numbered parts, part checksums, and reassembly instructions. A one-file public Imager catalog URL still needs large-file hosting.
 - The stock ext4 image has no Snapper rollback or factory reset.
 - A few x86-only or unavailable apps are omitted; the core Quattro experience does not depend on them.
 - High-resolution video recording and heavy Electron multitasking can overwhelm a Pi 4.

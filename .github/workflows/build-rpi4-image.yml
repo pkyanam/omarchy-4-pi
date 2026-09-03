@@ -65,4 +65,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --generate-notes --title "Omarchy 4 Pi $GITHUB_REF_NAME"
-          gh release upload "$GITHUB_REF_NAME" build/image/* --clobber
+          mkdir -p build/release
+          for image in build/image/*.img.xz; do
+            image/prepare-release-assets.sh "$image" build/release
+          done
+          cp build/image/*.manifest.json build/release/
+          gh release upload "$GITHUB_REF_NAME" build/release/* --clobber

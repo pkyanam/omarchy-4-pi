@@ -87,7 +87,7 @@ The output directory contains:
 
 The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Override that floor with `OMARCHY_IMAGE_SIZE_GIB`, but values below 10 GiB are rejected. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM.
 
-The same builder runs in `.github/workflows/build-rpi4-image.yml` on GitHub's native `ubuntu-24.04-arm` runner. Manual builds are retained as workflow artifacts; version tags publish the generated files to a GitHub release.
+The same builder runs in `.github/workflows/build-rpi4-image.yml` on GitHub's native `ubuntu-24.04-arm` runner. Manual builds are retained as workflow artifacts. Version tags publish the image directly when it fits GitHub's per-file limit; larger images are released as numbered, independently checksummed parts with exact reassembly instructions.
 
 ## Verification
 

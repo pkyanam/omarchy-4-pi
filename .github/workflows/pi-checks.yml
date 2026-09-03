@@ -19,8 +19,8 @@ jobs:
           bash -n build-packages-rpi4.sh
           bash -n image/build-rpi4-image.sh
           bash -n image/generate-imager-catalog.sh
+          bash -n image/prepare-release-assets.sh
           bash -n bin/omarchy-rpi4-grow-root
           bash -n bin/omarchy-pi-status
       - name: Run focused Raspberry Pi tests
         run: test/shell.d/raspberry-pi-test.sh
-

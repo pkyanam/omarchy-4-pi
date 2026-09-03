@@ -87,7 +87,27 @@ bash -n "$ROOT/bin/omarchy-pi-status"
 bash -n "$ROOT/image/build-rpi4-image.sh"
 bash -n "$ROOT/image/build-rpi4-image-macos.sh"
 bash -n "$ROOT/image/generate-imager-catalog.sh"
+bash -n "$ROOT/image/prepare-release-assets.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
+
+release_tmp="$test_tmp/release"
+mkdir -p "$release_tmp"
+printf '0123456789abcdef' >"$test_tmp/test.img.xz"
+OMARCHY_RELEASE_PART_MIB=1 "$ROOT/image/prepare-release-assets.sh" \
+  "$test_tmp/test.img.xz" "$release_tmp"
+[[ -f $release_tmp/test.img.xz ]] || fail "small release images remain whole"
+grep -q '  test.img.xz$' "$release_tmp/test.img.xz.sha256" ||
+  fail "release checksums use portable basenames"
+
+dd if=/dev/zero of="$test_tmp/large.img.xz" bs=1048576 count=2 2>/dev/null
+OMARCHY_RELEASE_PART_MIB=1 "$ROOT/image/prepare-release-assets.sh" \
+  "$test_tmp/large.img.xz" "$release_tmp"
+[[ -f $release_tmp/large.img.xz.part-00 && -f $release_tmp/large.img.xz.part-01 ]] ||
+  fail "oversized release images are split"
+cat "$release_tmp"/large.img.xz.part-* >"$test_tmp/reassembled.img.xz"
+cmp "$test_tmp/large.img.xz" "$test_tmp/reassembled.img.xz" ||
+  fail "release image parts reassemble exactly"
+pass "release assets remain under GitHub's limit and reassemble losslessly"
 
 grep -F -- '--image' "$ROOT/install-rpi4.sh" >/dev/null || fail "installer exposes OEM image mode"
 grep -F 'cloud-guest-utils' "$ROOT/install-rpi4.sh" >/dev/null || fail "image payload includes growpart"

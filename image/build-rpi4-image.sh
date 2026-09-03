@@ -354,7 +354,10 @@ finalize_image() {
 
   log "Compressing $artifact_base.img.xz"
   XZ_OPT="-T0 $xz_preset" xz --stdout "$image_path" >"$compressed"
-  sha256sum "$compressed" >"$compressed.sha256"
+  (
+    cd "$output_dir"
+    sha256sum "$artifact_base.img.xz" >"$artifact_base.img.xz.sha256"
+  )
   cp "$work_dir/build-manifest.json" "$output_dir/$artifact_base.manifest.json"
 
   "$script_dir/generate-imager-catalog.sh" "$compressed" \

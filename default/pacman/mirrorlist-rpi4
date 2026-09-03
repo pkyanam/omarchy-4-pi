@@ -3,3 +3,5 @@
 Server = http://mirror.archlinuxarm.org/$arch/$repo
 Server = http://fl.us.mirror.archlinuxarm.org/$arch/$repo
 Server = http://ca.us.mirror.archlinuxarm.org/$arch/$repo
+Server = http://de3.mirror.archlinuxarm.org/$arch/$repo
+Server = http://dk.mirror.archlinuxarm.org/$arch/$repo

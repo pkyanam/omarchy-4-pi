@@ -61,6 +61,8 @@ pass "Pi hardware setup is idempotent"
 
 grep -Fx 'Architecture = aarch64' "$ROOT/default/pacman/pacman-rpi4.conf" >/dev/null || fail "Pi pacman profile pins aarch64"
 grep -F 'mirror.archlinuxarm.org/$arch/$repo' "$ROOT/default/pacman/mirrorlist-rpi4" >/dev/null || fail "Pi mirrorlist uses Arch Linux ARM"
+[[ $(grep -c '^Server = ' "$ROOT/default/pacman/mirrorlist-rpi4") -ge 5 ]] ||
+  fail "Pi mirrorlist has enough official failover servers for long image builds"
 ! grep -q 'omarchy.org' "$ROOT/default/pacman/pacman-rpi4.conf" || fail "Pi pacman profile does not reference x86 Omarchy repositories"
 pass "Pi package profile stays on Arch Linux ARM"
 
@@ -100,6 +102,10 @@ unmount_function=$(sed -n '/^unmount_and_verify_image()/,/^}/p' "$ROOT/image/bui
 ! grep -F 'umount -R -l' <<<"$unmount_function" >/dev/null ||
   fail "image verification never follows a lazy recursive unmount"
 pass "image publication requires clean filesystems"
+
+grep -F '(( image_mode == 0 )) || max_attempts=8' "$ROOT/install-rpi4.sh" >/dev/null ||
+  fail "image builds get extended resumable package retries"
+pass "image package downloads tolerate transient mirror failures"
 
 release_tmp="$test_tmp/release"
 mkdir -p "$release_tmp"

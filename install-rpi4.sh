@@ -39,6 +39,10 @@ fail() {
 
 pacman_retry() {
   local attempt=1 max_attempts=4
+  # CI image builds download the complete desktop in one transaction. Give
+  # intermittent community mirrors more chances while retaining every package
+  # already cached by earlier attempts. Interactive installs fail sooner.
+  (( image_mode == 0 )) || max_attempts=8
   while true; do
     if sudo pacman "$@"; then
       return 0

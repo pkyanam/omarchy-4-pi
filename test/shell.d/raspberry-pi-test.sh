@@ -424,6 +424,8 @@ ln -s /usr/lib/systemd/system/sddm.service \
   "$audit_root/etc/systemd/system/display-manager.service"
 ln -s /usr/lib/systemd/system/NetworkManager.service \
   "$audit_root/etc/systemd/system/multi-user.target.wants/NetworkManager.service"
+ln -s /usr/lib/systemd/system/avahi-daemon.service \
+  "$audit_root/etc/systemd/system/multi-user.target.wants/avahi-daemon.service"
 ln -s /usr/lib/systemd/system/bluetooth.service \
   "$audit_root/etc/systemd/system/bluetooth.target.wants/bluetooth.service"
 ln -s /usr/lib/systemd/user/pipewire.socket \
@@ -462,7 +464,7 @@ chmod +x "$audit_root/usr/bin/"*
 
 audit_packages=(
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils
-  sddm networkmanager wpa_supplicant openssh bluez bluez-tools bluez-utils
+  sddm networkmanager wpa_supplicant avahi nss-mdns openssh bluez bluez-tools bluez-utils
   alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber
   uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom
 )

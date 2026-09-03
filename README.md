@@ -75,6 +75,14 @@ open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
 
 Select **Omarchy 4 Pi**, then fill in the account, locale, and any Wi-Fi or SSH settings before writing. Complete account settings let the Pi provision the owner and continue without waiting at **Press Return to Start Setup**. The catalog records exact compressed and extracted sizes and SHA-256 hashes, so Imager verifies the download before flashing.
 
+If you enable SSH, the Pi advertises the hostname chosen in Imager over mDNS. From a Mac on the same network, connect without hunting for its IP address:
+
+```bash
+ssh YOUR_USERNAME@YOUR_HOSTNAME.local
+```
+
+The default hostname is `omarchy`, so that is normally `ssh YOUR_USERNAME@omarchy.local`. If `.local` discovery is filtered by the network, find the Pi in the router's client list and use its IP address instead.
+
 The release image is [`omarchy-4-pi-20260903-826c5daa-minimal.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/omarchy-4-pi-20260903-826c5daa-minimal.img.xz) (2,075,195,288 bytes). Its SHA-256 is `a19456f99cbc441be165f44fdca4facde517bcca8775a7cb8860a0ccbe460f49`; the attached [checksum file](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/omarchy-4-pi-20260903-826c5daa-minimal.img.xz.sha256), GitHub asset digest, and Imager catalog all agree.
 
 > [!NOTE]

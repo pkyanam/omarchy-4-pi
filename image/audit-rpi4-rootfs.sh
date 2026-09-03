@@ -208,6 +208,7 @@ require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service" "omarchy-provision-owner.service" "owner provisioning service is enabled"
 require_unit_link "$root/etc/systemd/system/display-manager.service" "sddm.service" "SDDM display manager is enabled"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/NetworkManager.service" "NetworkManager.service" "NetworkManager is enabled"
+require_unit_link "$root/etc/systemd/system/multi-user.target.wants/avahi-daemon.service" "avahi-daemon.service" "Avahi mDNS hostname discovery is enabled"
 require_unit_link "$root/etc/systemd/system/bluetooth.target.wants/bluetooth.service" "bluetooth.service" "Bluetooth service is enabled"
 require_unit_link "$root/etc/systemd/user/sockets.target.wants/pipewire.socket" "pipewire.socket" "PipeWire audio socket is enabled"
 require_unit_link "$root/etc/systemd/user/sockets.target.wants/pipewire-pulse.socket" "pipewire-pulse.socket" "PulseAudio compatibility socket is enabled"
@@ -227,7 +228,7 @@ require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme 
 
 for package in \
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
-  sddm networkmanager wpa_supplicant openssh bluez bluez-tools bluez-utils \
+  sddm networkmanager wpa_supplicant avahi nss-mdns openssh bluez bluez-tools bluez-utils \
   alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber \
   uwsm chromium foot omarchy omarchy-settings; do
   require_package "$package"

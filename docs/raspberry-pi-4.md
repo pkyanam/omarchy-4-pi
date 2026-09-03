@@ -100,6 +100,8 @@ Catalog metadata generated from current `main` declares the official `rpi-presee
 
 Omarchy refuses a plaintext owner password from the FAT partition, requires a complete username/password pair before bypassing the interactive form, and falls back to the normal HDMI setup if the file is missing, partial, malformed, or unsafe. Encrypted/LUKS installs also retain interactive setup because an Imager password hash cannot re-key a LUKS volume. The boot-partition source and transient staging state are removed after successful provisioning; required credentials remain only in protected system stores, and a non-secret receipt remains in `/var/lib/omarchy/imager-preseed.json` for diagnostics.
 
+When SSH is enabled, Avahi advertises the configured hostname over mDNS. A Mac on the same network can normally connect using `ssh USER@HOSTNAME.local` (for example, `ssh alice@omarchy.local`) without first finding the Pi's address. Networks that filter multicast discovery may require the address shown in the router's client list instead.
+
 Raspberry Pi Imager 2.x deliberately treats a locally selected **Use custom** image as `init_format: none`, because the file itself does not carry catalog metadata. Unattended customization becomes available when selecting the image through its generated catalog or a local manifest. On macOS, generate and open the latter in one step:
 
 ```bash

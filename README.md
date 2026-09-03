@@ -47,7 +47,7 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
 | Imager 2.x unattended setup | 🧪 | Parser- and image-build verified in `alpha.2`; real-hardware setup test pending |
 | Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.2`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) adds secure Imager preconfiguration and clean-at-rest filesystem checks |
-| Public Imager catalog URL | ⏳ | Activates when the first release artifact is hosted |
+| Public Imager catalog URL | ⏳ | Needs one-file hosting; GitHub's multipart release cannot be an Imager catalog target |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -60,6 +60,10 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 - A taste for tiling windows on improbably small computers
 
 ## Try it today
+
+### Download `alpha.2`
+
+Open the [`v0.1.0-alpha.2` release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) and download all three `.img.xz.part-*` files plus the reassembly guide and checksum files. Follow `REASSEMBLE.txt`, verify the final SHA-256 is `d03594b2d1dc50e8bd008fe56fd9a0929303ed60fca77aac5d38744ec0e25e13`, then give the reassembled `.img.xz` to Raspberry Pi Imager with **Use custom**. Never flash an individual part.
 
 ### Build a flashable image
 

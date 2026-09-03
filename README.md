@@ -46,7 +46,7 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
 | Imager 2.x unattended setup | 🧪 | Parser- and image-build verified in `alpha.2`; Imager 2.0.11+ and real-hardware setup test required |
-| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.2`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) adds secure Imager preconfiguration and clean-at-rest filesystem checks |
+| Prebuilt image prerelease | 🚧 | [`v0.1.0-alpha.3`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.3) is tagged and visible; its 66-check local build passed and maximum-compression release assets are building |
 | Public Imager catalog URL | ⏳ | Needs one-file hosting; GitHub's multipart release cannot be an Imager catalog target |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued

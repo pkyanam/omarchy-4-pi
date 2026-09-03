@@ -459,12 +459,17 @@ apply_keyboard "$keyboard"
 run_imager_setup() {
   apply_keyboard "$keyboard"
 }
+
+configure_imager_ssh() {
+  systemctl enable --now sshd.service
+  ufw limit 22/tcp comment omarchy-imager-sshd >/dev/null
+}
 EOF
 chmod +x "$audit_root/usr/bin/"*
 
 audit_packages=(
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils
-  sddm networkmanager wpa_supplicant avahi nss-mdns openssh bluez bluez-tools bluez-utils
+  sddm networkmanager wpa_supplicant avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils
   alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber
   uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom
 )

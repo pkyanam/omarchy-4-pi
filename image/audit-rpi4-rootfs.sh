@@ -200,6 +200,8 @@ require_executable "$root/usr/bin/omarchy-rpi4-grow-root" "root expansion comman
 require_executable "$root/usr/bin/omarchy-rpi4-imager-preseed" "Imager preseed parser is installed"
 require_executable "$root/usr/bin/omarchy-provision-owner" "owner provisioner is installed"
 require_function_line "$root/usr/bin/omarchy-provision-owner" run_imager_setup 'apply_keyboard "$keyboard"' "unattended owner setup passes the Imager keymap"
+require_function_line "$root/usr/bin/omarchy-provision-owner" configure_imager_ssh 'systemctl enable --now sshd.service' "Imager SSH enables the server"
+require_function_line "$root/usr/bin/omarchy-provision-owner" configure_imager_ssh 'ufw limit 22/tcp comment omarchy-imager-sshd >/dev/null' "Imager SSH opens a rate-limited firewall rule"
 require_line "$root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf" 'Requires=omarchy-rpi4-grow-root.service' "owner provisioning requires successful root expansion"
 require_line "$root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf" 'After=omarchy-rpi4-grow-root.service' "owner provisioning waits for root expansion"
 require_line "$root/etc/systemd/system/sddm.service.d/10-rpi4-owner-setup.conf" 'Requires=omarchy-provision-owner.service' "SDDM requires successful owner provisioning"
@@ -228,7 +230,7 @@ require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme 
 
 for package in \
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
-  sddm networkmanager wpa_supplicant avahi nss-mdns openssh bluez bluez-tools bluez-utils \
+  sddm networkmanager wpa_supplicant avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
   alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber \
   uwsm chromium foot omarchy omarchy-settings; do
   require_package "$package"

@@ -16,6 +16,7 @@ RUN apt-get update \
     udev \
     util-linux \
     xz-utils \
+    zerofree \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace

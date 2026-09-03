@@ -97,6 +97,19 @@ require_package() {
   fail "required package $wanted is installed"
 }
 
+forbid_package() {
+  local unwanted="$1" description_file name
+  for description_file in "$root"/var/lib/pacman/local/*/desc; do
+    [[ -f $description_file ]] || continue
+    name=$(pacman_field "$description_file" NAME)
+    if [[ $name == "$unwanted" ]]; then
+      fail "non-Pi firmware package $unwanted is absent"
+      return
+    fi
+  done
+  pass "non-Pi firmware package $unwanted is absent"
+}
+
 (( $# >= 1 && $# <= 2 )) || usage
 root=${1%/}
 boot=${2:-$root/boot}
@@ -205,6 +218,13 @@ if [[ -f $root/usr/share/omarchy-rpi4/build-manifest.json ]] && grep -F '"source
 else
   fail "release source tree was clean"
 fi
+
+require_file "$root/opt/omarchy-4-pi/.git/shallow" "update checkout uses bounded Git history"
+
+require_package linux-firmware-broadcom
+for package in linux-firmware linux-firmware-amdgpu linux-firmware-atheros linux-firmware-cirrus linux-firmware-intel linux-firmware-mediatek linux-firmware-nvidia linux-firmware-other linux-firmware-radeon; do
+  forbid_package "$package"
+done
 
 if (( failures )); then
   printf 'FAILED: %d of %d checks failed\n' "$failures" "$checks" >&2

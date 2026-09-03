@@ -74,7 +74,7 @@ On Debian or Ubuntu ARM64:
 
 ```bash
 sudo apt-get update
-sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils
+sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils zerofree
 sudo image/build-rpi4-image.sh --minimal
 ```
 
@@ -86,7 +86,7 @@ The output directory contains:
 - `*.audit.txt` — enforced Pi boot, provisioning, desktop-payload, package-architecture, and factory-identity checks
 - `*.os-list.json` and `os-list.json` — Raspberry Pi Imager 2.x catalog metadata with hashes of both the compressed download and extracted image
 
-The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Override that floor with `OMARCHY_IMAGE_SIZE_GIB`, but values below 10 GiB are rejected. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM.
+The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Before compression, the factory removes build-only dependencies and PC-only firmware, retains the Pi's Broadcom firmware plus common Realtek USB-adapter support, and zeroes unused ext4 blocks. It also stores only a shallow, upstream-tracking source checkout so updates still work without shipping hundreds of megabytes of unrelated history. Override the image-size floor with `OMARCHY_IMAGE_SIZE_GIB`, but values below 10 GiB are rejected. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM.
 
 ### Raspberry Pi Imager 2.x customization
 

@@ -109,10 +109,20 @@ grep -F 'Waiting for the root loop partition to become idle' "$ROOT/image/build-
   fail "image builder tolerates bounded udev release latency"
 grep -F 'fsck.vfat -n "$(partition_path 1)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder verifies the completed FAT filesystem"
+grep -F 'zerofree "$(partition_path 2)"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder zeroes unused ext4 blocks before compression"
 unmount_function=$(sed -n '/^unmount_and_verify_image()/,/^}/p' "$ROOT/image/build-rpi4-image.sh")
 ! grep -F 'umount -R -l' <<<"$unmount_function" >/dev/null ||
   fail "image verification never follows a lazy recursive unmount"
 pass "image publication requires clean filesystems"
+
+grep -F 'git clone --quiet --no-local --depth 1' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder keeps a shallow source checkout for future updates"
+grep -F 'linux-firmware-broadcom linux-firmware-realtek' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder preserves Pi and common USB adapter firmware"
+grep -F 'linux-firmware-nvidia' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image builder identifies PC-only firmware for removal"
+pass "image builder removes download bloat without narrowing the Quattro payload"
 
 grep -F '(( image_mode == 0 )) || max_attempts=8' "$ROOT/install-rpi4.sh" >/dev/null ||
   fail "image builds get extended resumable package retries"
@@ -224,6 +234,7 @@ mkdir -p \
   "$audit_root/usr/share/omarchy/default/hypr" \
   "$audit_root/usr/share/omarchy-rpi4" \
   "$audit_root/usr/share/sddm/themes/omarchy" \
+  "$audit_root/opt/omarchy-4-pi/.git" \
   "$audit_root/var/lib/omarchy/provisioning" \
   "$audit_root/var/lib/pacman/local"
 
@@ -238,7 +249,8 @@ touch \
   "$audit_root/usr/share/omarchy/shell/shell.qml" \
   "$audit_root/etc/skel/.config/hypr/hyprland.lua" \
   "$audit_root/usr/share/omarchy/default/hypr/raspberry-pi.lua" \
-  "$audit_root/usr/share/sddm/themes/omarchy/Main.qml"
+  "$audit_root/usr/share/sddm/themes/omarchy/Main.qml" \
+  "$audit_root/opt/omarchy-4-pi/.git/shallow"
 
 cat >"$audit_boot/config.txt" <<'EOF'
 dtoverlay=vc4-kms-v3d
@@ -283,7 +295,7 @@ for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-prese
 done
 chmod +x "$audit_root/usr/bin/"*
 
-for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 sddm networkmanager uwsm chromium foot omarchy omarchy-settings; do
+for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom; do
   package_dir="$audit_root/var/lib/pacman/local/$package-1.0-1"
   mkdir -p "$package_dir"
   cat >"$package_dir/desc" <<EOF
@@ -309,3 +321,23 @@ fi
 grep -F 'Quickshell executable is AArch64' "$test_tmp/audit-bad" >/dev/null ||
   fail "image root audit identifies the incompatible executable"
 pass "image root audit rejects an incompatible desktop executable"
+
+cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/quickshell"
+package_dir="$audit_root/var/lib/pacman/local/linux-firmware-nvidia-1.0-1"
+mkdir -p "$package_dir"
+cat >"$package_dir/desc" <<'EOF'
+%NAME%
+linux-firmware-nvidia
+
+%VERSION%
+1.0-1
+
+%ARCH%
+any
+EOF
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-firmware" 2>&1; then
+  fail "image root audit rejects PC-only firmware"
+fi
+grep -F 'non-Pi firmware package linux-firmware-nvidia is absent' "$test_tmp/audit-firmware" >/dev/null ||
+  fail "image root audit identifies the PC-only firmware package"
+pass "image root audit rejects PC-only firmware bloat"

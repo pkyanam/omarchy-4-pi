@@ -91,7 +91,7 @@ require_host() {
     fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 10."
 
   local command
-  for command in blockdev bsdtar chroot curl e2fsck fsck.vfat gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz; do
+  for command in blockdev bsdtar chroot curl e2fsck fsck.vfat git gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz zerofree; do
     command -v "$command" >/dev/null || fail "Missing host command: $command"
   done
 }
@@ -154,6 +154,8 @@ unmount_and_verify_image() {
     udevadm settle
     sleep 0.25
   done
+  log "Zeroing unused ext4 blocks for a smaller deterministic download"
+  zerofree "$(partition_path 2)"
   e2fsck -fn "$(partition_path 2)" || fail "The completed root filesystem is not clean."
   fsck.vfat -n "$(partition_path 1)" || fail "The completed boot filesystem is not clean."
   losetup -d "$loop_device"
@@ -286,8 +288,27 @@ mount_chroot_filesystems() {
 }
 
 copy_source_checkout() {
-  mkdir -p "$root_mount/opt/omarchy-4-pi"
+  local source_branch source_commit origin_url
+  source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf main)
+  source_commit=$(git -C "$repo_root" rev-parse HEAD)
+  origin_url=$(git -C "$repo_root" remote get-url origin 2>/dev/null || printf 'https://github.com/pkyanam/omarchy-4-pi.git')
+
+  mkdir -p "$root_mount/opt"
+  # The upstream Omarchy history is hundreds of megabytes and is not needed to
+  # update an appliance. Keep one exact commit plus an upstream-tracking branch;
+  # the first normal fetch deepens it only as much as a future update requires.
+  git clone --quiet --no-local --depth 1 --branch "$source_branch" \
+    "$repo_root" "$root_mount/opt/omarchy-4-pi"
+  if ! git -C "$root_mount/opt/omarchy-4-pi" cat-file -e "$source_commit^{commit}" 2>/dev/null; then
+    git -C "$root_mount/opt/omarchy-4-pi" fetch --quiet --depth 1 origin "$source_commit"
+  fi
+  git -C "$root_mount/opt/omarchy-4-pi" checkout --quiet -B "$source_branch" "$source_commit"
+  git -C "$root_mount/opt/omarchy-4-pi" remote set-url origin "$origin_url"
+  git -C "$root_mount/opt/omarchy-4-pi" update-ref "refs/remotes/origin/$source_branch" "$source_commit"
+  git -C "$root_mount/opt/omarchy-4-pi" branch --set-upstream-to="origin/$source_branch" "$source_branch" >/dev/null
+
   rsync -a --delete \
+    --exclude '/.git/' \
     --exclude '/build/' \
     --exclude '/build-output-rpi4/' \
     "$repo_root/" "$root_mount/opt/omarchy-4-pi/"
@@ -367,6 +388,42 @@ write_build_manifest() {
 EOF
 }
 
+trim_pi_image_payload() {
+  local package
+  local -a installed=() orphaned=()
+  local -a pc_firmware=(
+    linux-firmware
+    linux-firmware-amdgpu
+    linux-firmware-atheros
+    linux-firmware-cirrus
+    linux-firmware-intel
+    linux-firmware-mediatek
+    linux-firmware-nvidia
+    linux-firmware-other
+    linux-firmware-radeon
+  )
+
+  log "Removing build-only dependencies and firmware for non-Pi hardware"
+  # Broadcom covers the Pi 4's onboard Wi-Fi/Bluetooth. Realtek stays useful
+  # for common USB adapters. Mark both explicit before removing the all-vendor
+  # linux-firmware metapackage so the orphan pass cannot collect them.
+  for package in linux-firmware-broadcom linux-firmware-realtek; do
+    chroot "$root_mount" pacman -Q "$package" >/dev/null 2>&1 || continue
+    chroot "$root_mount" pacman -D --asexplicit "$package" >/dev/null
+  done
+  for package in "${pc_firmware[@]}"; do
+    chroot "$root_mount" pacman -Q "$package" >/dev/null 2>&1 && installed+=("$package")
+  done
+  if (( ${#installed[@]} )); then
+    chroot "$root_mount" pacman -Rdd --noconfirm "${installed[@]}"
+  fi
+
+  mapfile -t orphaned < <(chroot "$root_mount" pacman -Qdtq || true)
+  if (( ${#orphaned[@]} )); then
+    chroot "$root_mount" pacman -Rns --noconfirm "${orphaned[@]}"
+  fi
+}
+
 finalize_image() {
   log "Removing factory credentials, build caches, and machine identity"
   # pacman-key and makepkg can leave gpg-agent processes rooted inside the
@@ -374,6 +431,7 @@ finalize_image() {
   chroot "$root_mount" runuser -u omarchy-builder -- gpgconf --kill all 2>/dev/null || true
   chroot "$root_mount" env GNUPGHOME=/etc/pacman.d/gnupg gpgconf --kill all 2>/dev/null || true
   chroot "$root_mount" gpgconf --kill all 2>/dev/null || true
+  trim_pi_image_payload
   chroot "$root_mount" chown -R root:root /opt/omarchy-4-pi
   chroot "$root_mount" userdel -r omarchy-builder
   if chroot "$root_mount" getent passwd alarm >/dev/null; then

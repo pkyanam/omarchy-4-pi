@@ -10,7 +10,7 @@ trap 'rm -rf "$test_tmp"' EXIT
 mock_bin="$test_tmp/bin"
 mkdir -p "$mock_bin" "$test_tmp/home" "$test_tmp/home/.hermes/profiles/james"
 
-for command in xdg-user-dirs-update xdg-settings xdg-mime; do
+for command in update-desktop-database xdg-user-dirs-update xdg-settings xdg-mime; do
   printf '#!/bin/bash\nexit 0\n' >"$mock_bin/$command"
 done
 chmod +x "$mock_bin"/*

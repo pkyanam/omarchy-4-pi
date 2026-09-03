@@ -277,9 +277,13 @@ finalize_image() {
     "$work_dir/build-manifest.json"
 
   sync
-  umount -R "$root_mount/dev"
-  umount -R "$root_mount/proc"
-  umount -R "$root_mount/sys"
+  # Recursive bind mounts include pseudo-filesystems such as /dev/pts and
+  # /dev/shm that can remain kernel-busy after the final chroot command. They
+  # contain no image data, so detach those virtual mounts lazily; the real boot
+  # and root filesystems below still receive strict, synchronous unmounts.
+  umount -R -l "$root_mount/dev"
+  umount -R -l "$root_mount/proc"
+  umount -R -l "$root_mount/sys"
   umount "$root_mount/mnt/omarchy-build"
   umount "$root_mount/boot"
   umount "$root_mount"

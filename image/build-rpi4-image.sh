@@ -296,7 +296,13 @@ copy_source_checkout() {
     [[ -n $source_branch ]] || source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf main)
     [[ -n $source_commit ]] || source_commit=$(git -C "$repo_root" rev-parse HEAD)
     [[ -n $origin_url ]] || origin_url=$(git -C "$repo_root" remote get-url origin 2>/dev/null || true)
-    clone_source=$repo_root
+    if git -C "$repo_root" show-ref --verify --quiet "refs/heads/$source_branch"; then
+      clone_source=$repo_root
+    else
+      # Actions checks out release tags detached, so the local repository can
+      # contain the tagged commit without exposing the update branch to clone.
+      clone_source=$origin_url
+    fi
   else
     clone_source=$origin_url
   fi

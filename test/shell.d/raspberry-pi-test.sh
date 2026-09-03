@@ -132,6 +132,8 @@ grep -F 'OMARCHY_SOURCE_ORIGIN' "$ROOT/image/build-rpi4-image-macos.sh" >/dev/nu
   fail "macOS builds pass a public source origin into their Git-free archive"
 grep -F 'clone_source=$origin_url' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder reconstructs update metadata for Git-free Mac sources"
+grep -F 'show-ref --verify --quiet "refs/heads/$source_branch"' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "detached release tags fall back to the public update origin"
 grep -F 'COPYFILE_DISABLE=1 tar' "$ROOT/image/build-rpi4-image-macos.sh" >/dev/null ||
   fail "macOS source archives suppress AppleDouble metadata"
 grep -F -- "--exclude '._*'" "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

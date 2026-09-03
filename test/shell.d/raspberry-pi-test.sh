@@ -99,6 +99,8 @@ grep -F 'pacman -S --asdeps --needed --noconfirm' "$ROOT/build-packages-rpi4.sh"
   fail "Raspberry Pi package builder marks temporary build dependencies removable"
 grep -F 'image_size_gib >= 12' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder rejects filesystems too small for the transient Quattro install"
+grep -F "startsWith(github.ref, 'refs/tags/') && '-9e'" "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
+  fail "tagged image builds always select release-grade compression"
 pass "image factory bounds transient package-build storage"
 
 grep -F 'unshare --mount --propagation private' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

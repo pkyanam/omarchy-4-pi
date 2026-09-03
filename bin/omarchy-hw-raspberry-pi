@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# omarchy:summary=Detect Raspberry Pi hardware from the device tree.
+
+model_file="${OMARCHY_RPI_MODEL_PATH:-/proc/device-tree/model}"
+[[ -r $model_file ]] && grep -aq "Raspberry Pi" "$model_file"

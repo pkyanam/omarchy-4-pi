@@ -1,7 +1,9 @@
 # Configure pacman after package installation completes. Offline target package
-# installs use the live ISO's offline pacman.conf until this final restore.
-cp -f "$OMARCHY_PATH/default/pacman/pacman-${OMARCHY_MIRROR:-stable}.conf" /etc/pacman.conf
-cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-${OMARCHY_MIRROR:-stable}" /etc/pacman.d/mirrorlist
+# installs use the live ISO's offline pacman.conf until this final restore. ARM
+# board ports can select a hardware profile rather than an x86 Omarchy mirror.
+pacman_profile="${OMARCHY_PACMAN_PROFILE:-${OMARCHY_MIRROR:-stable}}"
+cp -f "$OMARCHY_PATH/default/pacman/pacman-$pacman_profile.conf" /etc/pacman.conf
+cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-$pacman_profile" /etc/pacman.d/mirrorlist
 
 # Wait for CUPS to own the file, the way omarchy-settings does, so pacman does
 # not turn the override into a .pacnew during ISO package installation.

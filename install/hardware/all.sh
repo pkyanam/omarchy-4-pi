@@ -10,6 +10,7 @@ run_logged "$OMARCHY_INSTALL/hardware/fix-synaptic-touchpad.sh"
 run_logged "$OMARCHY_INSTALL/hardware/bluetooth.sh"
 run_logged "$OMARCHY_INSTALL/hardware/nvidia.sh"
 run_logged "$OMARCHY_INSTALL/hardware/vulkan.sh"
+run_logged "$OMARCHY_INSTALL/hardware/raspberry-pi.sh"
 
 run_logged "$OMARCHY_INSTALL/hardware/intel/video-acceleration.sh"
 run_logged "$OMARCHY_INSTALL/hardware/intel/lpmd.sh"

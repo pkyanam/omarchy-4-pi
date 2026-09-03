@@ -2,6 +2,11 @@
 
 # omarchy:summary=Print the active Omarchy mirror and package channel
 
+if [[ -f /etc/omarchy-rpi4.conf ]] || grep -q "mirror.archlinuxarm.org" /etc/pacman.d/mirrorlist 2>/dev/null; then
+  echo rpi4
+  exit 0
+fi
+
 if grep -q "https://stable-mirror.omarchy.org/" /etc/pacman.d/mirrorlist; then
   mirror="stable"
 elif grep -q "https://rc-mirror.omarchy.org/" /etc/pacman.d/mirrorlist; then

@@ -1,0 +1,20 @@
+# Packages intentionally omitted on Raspberry Pi 4. Everything else in the
+# Quattro base list is installed when it exists in Arch Linux ARM.
+
+# Apple-only hardware control.
+asdcontrol
+
+# No Arch Linux ARM package or ARM-compatible upstream build.
+dotnet-runtime
+hyprland-preview-share-picker
+obsidian
+pinta
+tensaku
+tzupdate
+
+# Not useful on the Pi and disproportionately expensive to build there.
+qemu-user-static-binfmt
+
+# The Pi's V3D stack has no supported gpu-screen-recorder hardware encoder.
+# wf-recorder is installed as the compatible capture backend instead.
+gpu-screen-recorder

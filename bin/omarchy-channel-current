@@ -4,6 +4,11 @@
 
 set -euo pipefail
 
+if [[ -f /etc/omarchy-rpi4.conf ]]; then
+  echo rpi4
+  exit 0
+fi
+
 # Dev is a linked source checkout: OMARCHY_PATH points somewhere other than
 # the package-backed install at /usr/share/omarchy. This takes precedence over
 # the package channels, since the checkout overrides whatever is installed.

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="720" viewBox="0 0 1600 720" role="img" aria-labelledby="title description">
+  <title id="title">Omarchy 4 Pi placeholder banner</title>
+  <desc id="description">A dark terminal-inspired placeholder banner for the Omarchy 4 Raspberry Pi project.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#171724"/><stop offset="0.55" stop-color="#24273a"/><stop offset="1" stop-color="#302d41"/></linearGradient>
+    <radialGradient id="glow" cx="75%" cy="45%" r="55%"><stop offset="0" stop-color="#a6da95" stop-opacity="0.27"/><stop offset="1" stop-color="#a6da95" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000" flood-opacity="0.45"/></filter>
+  </defs>
+  <rect width="1600" height="720" rx="34" fill="url(#background)"/><rect width="1600" height="720" rx="34" fill="url(#glow)"/>
+  <g opacity="0.11" stroke="#cad3f5"><path d="M0 90H1600M0 180H1600M0 270H1600M0 360H1600M0 450H1600M0 540H1600M0 630H1600"/><path d="M100 0V720M200 0V720M300 0V720M400 0V720M500 0V720M600 0V720M700 0V720M800 0V720M900 0V720M1000 0V720M1100 0V720M1200 0V720M1300 0V720M1400 0V720M1500 0V720"/></g>
+  <g transform="translate(930 135)" filter="url(#shadow)">
+    <rect width="460" height="450" rx="42" fill="#11111b" stroke="#494d64" stroke-width="4"/><rect x="38" y="38" width="384" height="250" rx="22" fill="#1e2030" stroke="#5b6078" stroke-width="3"/>
+    <circle cx="84" cy="82" r="10" fill="#ed8796"/><circle cx="116" cy="82" r="10" fill="#eed49f"/><circle cx="148" cy="82" r="10" fill="#a6da95"/>
+    <text x="70" y="155" fill="#8aadf4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26">$ boot omarchy</text><text x="70" y="205" fill="#a6da95" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26">quattro ✓</text><text x="70" y="250" fill="#f5bde6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="23">arch: aarch64</text>
+    <g fill="#c51a4a"><rect x="75" y="320" width="70" height="70" rx="12"/><rect x="195" y="320" width="70" height="70" rx="12"/><rect x="315" y="320" width="70" height="70" rx="12"/></g><g fill="#f4dbd6"><circle cx="110" cy="355" r="13"/><circle cx="230" cy="355" r="13"/><circle cx="350" cy="355" r="13"/></g>
+  </g>
+  <g transform="translate(120 170)"><text fill="#a6da95" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="26" letter-spacing="6">COMMUNITY PORT · ALPHA</text><text y="112" fill="#cad3f5" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="104" font-weight="800">OMARCHY 4</text><text y="220" fill="#f5bde6" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="104" font-weight="800">PI</text><text y="294" fill="#b8c0e0" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="31">Quattro, squeezed onto a Raspberry Pi 4.</text><text y="362" fill="#6e738d" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="23">[ artwork placeholder — glorious pixels incoming ]</text></g>
+</svg>

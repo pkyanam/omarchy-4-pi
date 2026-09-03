@@ -1,0 +1,301 @@
+#!/bin/bash
+
+# Install Omarchy Quattro on an existing Arch Linux ARM aarch64 installation
+# running on a Raspberry Pi 4 Model B.
+
+set -euo pipefail
+
+readonly checkout="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly package_output="$checkout/build-output-rpi4"
+readonly rpi_profile=/etc/omarchy-rpi4.conf
+
+install_mode=full
+
+log() {
+  if command -v gum >/dev/null 2>&1; then
+    gum style --bold --foreground 2 "==> $*"
+  else
+    printf '\033[32m==>\033[0m %s\n' "$*"
+  fi
+}
+
+warn() {
+  if command -v gum >/dev/null 2>&1; then
+    gum style --bold --foreground 3 "Warning: $*" >&2
+  else
+    printf '\033[33mWarning:\033[0m %s\n' "$*" >&2
+  fi
+}
+
+fail() {
+  if command -v gum >/dev/null 2>&1; then
+    gum style --bold --foreground 1 "Error: $*" >&2
+  else
+    printf '\033[31mError:\033[0m %s\n' "$*" >&2
+  fi
+  exit 1
+}
+
+usage() {
+  cat <<'USAGE'
+Usage: ./install-rpi4.sh [--minimal]
+
+Installs Omarchy Quattro on a Raspberry Pi 4 Model B already running the
+official Arch Linux ARM aarch64 root filesystem.
+
+--minimal  Install the complete Quattro desktop and system integration, but
+           skip optional Omarchy applications that must be built locally.
+USAGE
+}
+
+parse_args() {
+  while (($#)); do
+    case "$1" in
+      --minimal)
+        install_mode=minimal
+        shift
+        ;;
+      -h|--help)
+        usage
+        exit 0
+        ;;
+      *)
+        fail "Unknown option: $1"
+        ;;
+    esac
+  done
+}
+
+device_model() {
+  local model_file="${OMARCHY_RPI_MODEL_PATH:-/proc/device-tree/model}"
+  [[ -r $model_file ]] && tr -d '\0' <"$model_file"
+}
+
+check_preconditions() {
+  (( EUID != 0 )) || fail "Run this as your regular user, not as root. It uses sudo where needed."
+  [[ $(uname -m) == "aarch64" ]] || fail "This installer requires Arch Linux ARM aarch64."
+  command -v pacman >/dev/null || fail "pacman is required; start from Arch Linux ARM, not Raspberry Pi OS."
+  command -v sudo >/dev/null || fail "sudo is required. Install it as root before running this script."
+
+  local model
+  model=$(device_model)
+  if [[ $model != *"Raspberry Pi 4 Model B"* ]]; then
+    if [[ ${OMARCHY_RPI4_ALLOW_UNSUPPORTED:-0} == "1" ]]; then
+      warn "Expected a Raspberry Pi 4 Model B, found '${model:-unknown hardware}'; continuing by request."
+    else
+      fail "Expected a Raspberry Pi 4 Model B, found '${model:-unknown hardware}'."
+    fi
+  fi
+}
+
+configure_arm_repositories() {
+  log "Configuring Arch Linux ARM package repositories"
+  sudo install -Dm644 "$checkout/default/pacman/pacman-rpi4.conf" /etc/pacman.conf
+  sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4" /etc/pacman.d/mirrorlist
+  sudo pacman-key --init
+  sudo pacman-key --populate archlinuxarm
+  sudo pacman -Syyu --needed --noconfirm git base-devel gum
+}
+
+ensure_package_sources() {
+  if [[ -n ${OMARCHY_PKGS_PATH:-} && -d ${OMARCHY_PKGS_PATH:-}/pkgbuilds ]]; then
+    return 0
+  fi
+
+  local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy-rpi4"
+  local pkgs_checkout="$cache_dir/omarchy-pkgs"
+  mkdir -p "$cache_dir"
+
+  if [[ -d $pkgs_checkout/.git ]]; then
+    log "Updating the Omarchy PKGBUILD checkout"
+    git -C "$pkgs_checkout" pull --ff-only || warn "Could not update $pkgs_checkout; using the existing checkout."
+  else
+    log "Cloning Omarchy PKGBUILDs"
+    git clone --depth 1 https://github.com/omacom-io/omarchy-pkgs.git "$pkgs_checkout"
+  fi
+
+  export OMARCHY_PKGS_PATH="$pkgs_checkout"
+}
+
+package_is_excluded() {
+  local package="$1" excluded
+  while read -r excluded; do
+    [[ -n $excluded ]] || continue
+    [[ $package == "$excluded" ]] && return 0
+  done < <(grep -vE '^[[:space:]]*(#|$)' "$checkout/install/omarchy-rpi4-unavailable.packages")
+  return 1
+}
+
+install_official_packages() {
+  local package
+  local -a available=()
+
+  log "Resolving the Quattro package set against Arch Linux ARM"
+  while read -r package; do
+    [[ -n $package ]] || continue
+    package_is_excluded "$package" && continue
+    if pacman -Si "$package" >/dev/null 2>&1; then
+      available+=("$package")
+    fi
+  done < <(grep -vE '^[[:space:]]*(#|$)' "$checkout/install/omarchy-base.packages")
+
+  # These normally come from the ISO's secondary package list or as hard
+  # dependencies of omarchy. The Pi installer has no ISO to supply them.
+  available+=(
+    archlinuxarm-keyring
+    hicolor-icon-theme
+    linux-aarch64
+    neovim
+    pipewire
+    pipewire-alsa
+    pipewire-pulse
+    qt6-wayland
+    snapper
+    sudo
+    vulkan-broadcom
+    wf-recorder
+    xdg-user-dirs
+    zram-generator
+  )
+
+  log "Installing ${#available[@]} packages from Arch Linux ARM"
+  sudo pacman -S --needed --noconfirm "${available[@]}"
+}
+
+build_recipe() {
+  local package="$1" required="${2:-0}"
+  local recipe="$OMARCHY_PKGS_PATH/pkgbuilds/$package"
+  local workspace
+
+  [[ -d $recipe ]] || {
+    (( required == 0 )) && warn "No PKGBUILD found for optional package $package; skipping."
+    (( required == 0 )) || fail "No PKGBUILD found for required package $package."
+    return "$required"
+  }
+
+  workspace=$(mktemp -d)
+  cp -a "$recipe/." "$workspace/"
+  if (
+    cd "$workspace"
+    makepkg -s --noconfirm
+  ); then
+    local artifact
+    local -a artifacts=()
+    for artifact in "$workspace/$package-"*.pkg.tar.*; do
+      [[ -f $artifact && $artifact != *.sig ]] && artifacts+=("$artifact")
+    done
+    if (( ${#artifacts[@]} )); then
+      sudo pacman -U --needed --noconfirm "${artifacts[@]}"
+      rm -rf "$workspace"
+    elif (( required )); then
+      rm -rf "$workspace"
+      fail "Required ARM package $package produced no package archive."
+    else
+      rm -rf "$workspace"
+      warn "Optional ARM package $package produced no package archive; skipping."
+    fi
+  else
+    rm -rf "$workspace"
+    if (( required )); then
+      fail "Required ARM package $package failed to build."
+    else
+      warn "Optional ARM package $package failed to build; the desktop will continue without it."
+    fi
+  fi
+}
+
+install_arm_packages() {
+  local package
+  local -a required=(
+    yay
+    mise-bin
+    ufw-docker
+    xdg-terminal-exec
+    yaru-icon-theme
+  )
+  local -a optional=(
+    aether
+    cliamp
+    herdr
+    localsend
+    omacalc
+    omacut
+    omawrite
+    omarchy-nvim
+    tobi-try
+    ttf-ia-writer
+    ttfx
+  )
+
+  log "Building required ARM packages"
+  for package in "${required[@]}"; do
+    pacman -Q "$package" >/dev/null 2>&1 || build_recipe "$package" 1
+  done
+
+  if [[ $install_mode == "full" ]]; then
+    log "Building optional Omarchy applications for ARM (this can take a while on a Pi 4)"
+    for package in "${optional[@]}"; do
+      pacman -Q "$package" >/dev/null 2>&1 || build_recipe "$package" 0
+    done
+  fi
+}
+
+build_omarchy_packages() {
+  log "Building the Raspberry Pi Quattro packages"
+  OMARCHY_PACKAGE_OUTPUT="$package_output" "$checkout/build-packages-rpi4.sh"
+}
+
+install_omarchy_packages() {
+  local artifact
+  local -a built=()
+  for artifact in "$package_output"/*.pkg.tar.*; do
+    [[ -f $artifact && $artifact != *.sig ]] || continue
+    built+=("$artifact")
+  done
+  (( ${#built[@]} )) || fail "No packages were built in $package_output."
+
+  log "Installing the locally built Omarchy packages"
+  sudo pacman -U --noconfirm "${built[@]}"
+  source /usr/share/omarchy/default/bash/env-bootstrap
+}
+
+write_rpi_profile() {
+  local encoded_checkout
+  printf -v encoded_checkout '%q' "$checkout"
+  printf 'OMARCHY_RPI4_SOURCE=%s\nOMARCHY_PACMAN_PROFILE=rpi4\n' "$encoded_checkout" |
+    sudo tee "$rpi_profile" >/dev/null
+  sudo chmod 0644 "$rpi_profile"
+}
+
+seed_user_defaults() {
+  log "Seeding Quattro defaults for $USER"
+  omarchy-reinstall-configs
+}
+
+run_system_setup() {
+  log "Applying Raspberry Pi and Omarchy system configuration"
+  sudo env OMARCHY_PACMAN_PROFILE=rpi4 omarchy-apply-system --install-user "$USER" --first-install
+
+  log "Applying Omarchy user configuration"
+  OMARCHY_SETUP_CONTEXT=rpi4 omarchy-provision-user --first-install
+}
+
+main() {
+  parse_args "$@"
+  check_preconditions
+  configure_arm_repositories
+  ensure_package_sources
+  install_official_packages
+  install_arm_packages
+  build_omarchy_packages
+  install_omarchy_packages
+  write_rpi_profile
+  seed_user_defaults
+  run_system_setup
+
+  log "Omarchy Quattro for Raspberry Pi 4 is installed. Reboot to start the desktop."
+}
+
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+  main "$@"
+fi

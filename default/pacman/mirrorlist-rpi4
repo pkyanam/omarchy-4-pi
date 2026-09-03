@@ -1,0 +1,3 @@
+# Arch Linux ARM aarch64 repositories. Arch Linux ARM's redirector currently
+# uses HTTP and selects a regional mirror.
+Server = http://mirror.archlinuxarm.org/$arch/$repo

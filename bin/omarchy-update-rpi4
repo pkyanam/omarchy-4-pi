@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# omarchy:summary=Rebuild the locally packaged Raspberry Pi port after its source checkout advances
+# omarchy:hidden=true
+
+set -euo pipefail
+
+profile="${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}"
+[[ -r $profile ]] || exit 0
+source "$profile"
+
+checkout="${OMARCHY_RPI4_SOURCE:-}"
+[[ -n $checkout && -d $checkout/.git ]] || {
+  echo "Warning: Raspberry Pi Omarchy source checkout is unavailable; skipping the core update." >&2
+  exit 0
+}
+
+upstream=$(git -C "$checkout" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
+[[ -n $upstream ]] || {
+  echo "Raspberry Pi Omarchy checkout has no upstream; keeping the installed core."
+  exit 0
+}
+
+git -C "$checkout" diff --quiet && git -C "$checkout" diff --cached --quiet || {
+  echo "Warning: Raspberry Pi Omarchy checkout has local changes; skipping the core update." >&2
+  exit 0
+}
+
+git -C "$checkout" fetch --quiet
+behind=$(git -C "$checkout" rev-list --count "HEAD..$upstream")
+(( behind > 0 )) || {
+  echo "Raspberry Pi Omarchy core is up to date."
+  exit 0
+}
+git -C "$checkout" merge --ff-only "$upstream"
+
+output=$(mktemp -d)
+trap 'rm -rf "$output"' EXIT
+OMARCHY_PACKAGE_OUTPUT="$output" "$checkout/build-packages-rpi4.sh"
+
+packages=()
+for package in "$output"/*.pkg.tar.*; do
+  [[ -f $package && $package != *.sig ]] && packages+=("$package")
+done
+(( ${#packages[@]} )) || {
+  echo "Error: Raspberry Pi core rebuild produced no packages." >&2
+  exit 1
+}
+sudo pacman -U --noconfirm "${packages[@]}"

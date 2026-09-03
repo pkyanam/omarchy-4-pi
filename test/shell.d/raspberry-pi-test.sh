@@ -1,0 +1,82 @@
+#!/bin/bash
+
+set -euo pipefail
+
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
+
+test_tmp=$(mktemp -d)
+trap 'rm -rf "$test_tmp"' EXIT
+
+model="$test_tmp/model"
+printf 'Raspberry Pi 4 Model B Rev 1.5\0' >"$model"
+OMARCHY_RPI_MODEL_PATH="$model" "$ROOT/bin/omarchy-hw-raspberry-pi" || fail "Raspberry Pi device-tree detector accepts a Pi 4 model"
+pass "Raspberry Pi device-tree detector accepts a Pi 4 model"
+
+printf 'Apple Mac mini\0' >"$model"
+if OMARCHY_RPI_MODEL_PATH="$model" "$ROOT/bin/omarchy-hw-raspberry-pi"; then
+  fail "Raspberry Pi device-tree detector rejects other ARM hardware"
+fi
+pass "Raspberry Pi device-tree detector rejects other ARM hardware"
+
+printf 'Raspberry Pi 4 Model B Rev 1.5\0' >"$model"
+boot_config="$test_tmp/config.txt"
+modules_file="$test_tmp/modules-load.d/omarchy-rpi.conf"
+cat >"$boot_config" <<'EOF'
+arm_64bit=1
+max_framebuffers=1
+disable_fw_kms_setup=0
+EOF
+
+fake_bin="$test_tmp/bin"
+mkdir -p "$fake_bin"
+cat >"$fake_bin/omarchy-pkg-add" <<'EOF'
+#!/bin/bash
+printf '%s\n' "$*" >>"$TEST_LOG"
+EOF
+chmod +x "$fake_bin/omarchy-pkg-add"
+
+TEST_LOG="$test_tmp/calls.log" \
+PATH="$fake_bin:$ROOT/bin:$PATH" \
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_CONFIG_PATH="$boot_config" \
+OMARCHY_RPI_MODULES_PATH="$modules_file" \
+  bash -euo pipefail "$ROOT/install/hardware/raspberry-pi.sh"
+
+grep -Fx 'dtoverlay=vc4-kms-v3d' "$boot_config" >/dev/null || fail "Pi hardware setup enables full VC4 KMS"
+grep -Fx 'max_framebuffers=2' "$boot_config" >/dev/null || fail "Pi hardware setup configures two KMS framebuffers"
+grep -Fx 'disable_fw_kms_setup=1' "$boot_config" >/dev/null || fail "Pi hardware setup delegates modesetting to KMS"
+[[ $(grep -c '^dtoverlay=vc4-kms-v3d$' "$boot_config") == "1" ]] || fail "Pi hardware setup adds KMS exactly once"
+printf 'vc4\nv3d\n' | cmp -s - "$modules_file" || fail "Pi hardware setup loads the VC4 and V3D modules"
+grep -Fx 'vulkan-broadcom' "$test_tmp/calls.log" >/dev/null || fail "Pi hardware setup installs the Broadcom Vulkan driver"
+pass "Pi hardware setup configures the graphics stack"
+
+TEST_LOG="$test_tmp/calls.log" \
+PATH="$fake_bin:$ROOT/bin:$PATH" \
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_CONFIG_PATH="$boot_config" \
+OMARCHY_RPI_MODULES_PATH="$modules_file" \
+  bash -euo pipefail "$ROOT/install/hardware/raspberry-pi.sh"
+[[ $(grep -c '^dtoverlay=vc4-kms-v3d$' "$boot_config") == "1" ]] || fail "Pi hardware setup is idempotent"
+pass "Pi hardware setup is idempotent"
+
+grep -Fx 'Architecture = aarch64' "$ROOT/default/pacman/pacman-rpi4.conf" >/dev/null || fail "Pi pacman profile pins aarch64"
+grep -F 'mirror.archlinuxarm.org/$arch/$repo' "$ROOT/default/pacman/mirrorlist-rpi4" >/dev/null || fail "Pi mirrorlist uses Arch Linux ARM"
+! grep -q 'omarchy.org' "$ROOT/default/pacman/pacman-rpi4.conf" || fail "Pi pacman profile does not reference x86 Omarchy repositories"
+pass "Pi package profile stays on Arch Linux ARM"
+
+grep -F 'require("default.hypr.raspberry-pi")' "$ROOT/default/hypr/envs.lua" >/dev/null || fail "Hyprland loads the Pi hardware environment"
+grep -F 'hl.env("AQ_NO_MODIFIERS", "1")' "$ROOT/default/hypr/raspberry-pi.lua" >/dev/null || fail "Pi Hyprland environment applies the limited-GPU workaround"
+pass "Hyprland applies the Raspberry Pi graphics compatibility setting"
+
+OMARCHY_ROOT_FSTYPE=ext4 \
+OMARCHY_SNAPPER_CONFIG_PATH="$test_tmp/snapper/root" \
+OMARCHY_SNAPPER_CONF_PATH="$test_tmp/conf.d/snapper" \
+  bash -euo pipefail "$ROOT/install/config/snapper.sh" >"$test_tmp/snapper-output"
+[[ ! -e $test_tmp/snapper/root ]] || fail "ext4 setup does not create an unusable Snapper configuration"
+grep -F 'root filesystem is not Btrfs' "$test_tmp/snapper-output" >/dev/null || fail "ext4 setup explains why Snapper is skipped"
+pass "ext4 installs skip Btrfs-only Snapper setup"
+
+bash -n "$ROOT/install-rpi4.sh"
+bash -n "$ROOT/build-packages-rpi4.sh"
+bash -n "$ROOT/bin/omarchy-update-rpi4"
+pass "Raspberry Pi install and update entrypoints parse"

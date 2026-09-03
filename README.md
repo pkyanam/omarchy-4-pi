@@ -42,12 +42,12 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Reproducible `.img` builder | ✅ | Native ARM64 builds enforce signed-base, boot-payload, package-architecture, identity, filesystem, manifest, and checksum gates |
 | Real Pi 4 boot + HDMI splash | ✅ | Alpha image reached Omarchy's first-boot greeter on hardware |
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding |
-| First-boot owner setup | 🧪 | Greeter verified on real Pi 4; keyboard-driven completion is pending |
+| First-boot owner setup | 🧪 | Greeter verified on real Pi 4; corrected unattended path is image-audited and ready for hardware testing |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🚧 | The `alpha.5` keymap handoff bug is fixed; corrected `alpha.6` image build is running |
-| Prebuilt image prerelease | 🚧 | [`v0.1.0-alpha.6`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) is building; `alpha.5` is superseded for keyboard-free setup |
-| Public Imager catalog URL | ⏳ | The immutable `alpha.6` catalog will publish with its verified image |
+| Imager 2.x unattended setup | 🧪 | The `alpha.5` keymap bug is fixed; corrected `alpha.6` passed the current 75-check mounted-image audit |
+| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.6`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) is published and verified; owner/desktop hardware testing remains |
+| Public Imager catalog URL | ✅ | The immutable [`alpha.6` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/os-list.json) is live |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -61,12 +61,12 @@ Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing 
 
 ## Try it today
 
-### `alpha.6` is building
+### Flash `alpha.6`
 
 > [!WARNING]
-> Do not use `alpha.5` for keyboard-free setup. Its image audits cleanly, but its unattended branch omits the staged keymap argument and falls back to **Press Return to Start Setup**. The fix is on `main`; the corrected [`alpha.6` prerelease](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) will become flashable when its image and checksum assets appear.
+> Do not use `alpha.5` for keyboard-free setup. Its unattended branch omits the staged keymap argument and falls back to **Press Return to Start Setup**. Use the corrected, independently audited [`alpha.6` prerelease](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6).
 
-When those assets are present, use Raspberry Pi Imager 2.0.11 or newer and open the release's public catalog on macOS:
+For an HDMI-only Pi, use Raspberry Pi Imager 2.0.11 or newer and open the release's public catalog on macOS:
 
 ```bash
 open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
@@ -74,6 +74,8 @@ open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
 ```
 
 Select **Omarchy 4 Pi**, then fill in the account, locale, and any Wi-Fi or SSH settings before writing. Complete account settings let the Pi provision the owner and continue without waiting at **Press Return to Start Setup**. The catalog records exact compressed and extracted sizes and SHA-256 hashes, so Imager verifies the download before flashing.
+
+The release image is [`omarchy-4-pi-20260903-826c5daa-minimal.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/omarchy-4-pi-20260903-826c5daa-minimal.img.xz) (2,075,195,288 bytes). Its SHA-256 is `a19456f99cbc441be165f44fdca4facde517bcca8775a7cb8860a0ccbe460f49`; the attached [checksum file](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.6/omarchy-4-pi-20260903-826c5daa-minimal.img.xz.sha256), GitHub asset digest, and Imager catalog all agree.
 
 > [!NOTE]
 > If an earlier image is already waiting at **Press Return to Start Setup** and no keyboard is attached, it cannot consume settings retroactively. Reflash the completed `alpha.6` image through the catalog above and complete Imager's account section before writing the card.

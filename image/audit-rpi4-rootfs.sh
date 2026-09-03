@@ -243,6 +243,32 @@ else
   fail "signed Arch Linux ARM base has exact provenance"
 fi
 
+node_bundle=""
+node_bundle_count=0
+for candidate in "$root"/var/lib/omarchy/provisioning/packages/node-v*-linux-arm64.tar.gz; do
+  [[ -f $candidate ]] || continue
+  node_bundle=$candidate
+  node_bundle_count=$((node_bundle_count + 1))
+done
+if (( node_bundle_count == 1 )); then
+  node_bundle_name=${node_bundle##*/}
+  node_bundle_sha=$(sha256sum "$node_bundle" | awk '{ print $1 }')
+  if grep -F "\"node_bundle\": {\"filename\": \"$node_bundle_name\", \"sha256\": \"$node_bundle_sha\"}" \
+    "$manifest" >/dev/null; then
+    pass "verified ARM64 Node.js bundle is staged for offline owner setup"
+  else
+    fail "ARM64 Node.js bundle matches build provenance"
+  fi
+else
+  fail "exactly one ARM64 Node.js bundle is staged for offline owner setup"
+fi
+if find "$root/var/lib/omarchy/provisioning/packages" -maxdepth 1 -type f \
+  -name 'node-v*-linux-x64.tar.gz' -print -quit 2>/dev/null | grep -q .; then
+  fail "x86_64 Node.js bundles are absent from the Pi image"
+else
+  pass "x86_64 Node.js bundles are absent from the Pi image"
+fi
+
 installed_package_inventory=""
 for description_file in "$root"/var/lib/pacman/local/*/desc; do
   [[ -f $description_file ]] || continue

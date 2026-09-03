@@ -12,14 +12,22 @@ mise trust ~/Work/.mise.toml
 # Offline installs unpack the Node tarball bundled by the ISO: from
 # /opt/packages in the ISO chroot, or from the copy staged in provisioning state when
 # omarchy-provision-owner finalizes the user at first boot.
-case ${OMARCHY_SETUP_CONTEXT:-runtime} in
-  iso-chroot) NODE_PACKAGE_DIR=/opt/packages ;;
-  provision-owner) NODE_PACKAGE_DIR=/var/lib/omarchy/provisioning/packages ;;
-  *) NODE_PACKAGE_DIR="" ;;
-esac
+NODE_PACKAGE_DIR=${OMARCHY_NODE_PACKAGE_DIR:-}
+if [[ -z $NODE_PACKAGE_DIR ]]; then
+  case ${OMARCHY_SETUP_CONTEXT:-runtime} in
+    iso-chroot) NODE_PACKAGE_DIR=/opt/packages ;;
+    provision-owner) NODE_PACKAGE_DIR=/var/lib/omarchy/provisioning/packages ;;
+    *) NODE_PACKAGE_DIR="" ;;
+  esac
+fi
 
 if [[ -n $NODE_PACKAGE_DIR ]]; then
-  NODE_TARBALL=$(find "$NODE_PACKAGE_DIR" -name "node-v*-linux-x64.tar.gz" -type f 2>/dev/null | head -n1)
+  case $(uname -m) in
+    x86_64) NODE_ARCH=x64 ;;
+    aarch64|arm64) NODE_ARCH=arm64 ;;
+    *) NODE_ARCH=unsupported ;;
+  esac
+  NODE_TARBALL=$(find "$NODE_PACKAGE_DIR" -name "node-v*-linux-$NODE_ARCH.tar.gz" -type f 2>/dev/null | head -n1)
   if [[ -z $NODE_TARBALL ]]; then
     if [[ ${OMARCHY_SETUP_CONTEXT:-} == "provision-owner" ]]; then
       # A factory snapshot predating the bundled tarball may not have it staged.
@@ -31,7 +39,9 @@ if [[ -n $NODE_PACKAGE_DIR ]]; then
       exit 1
     fi
   else
-    NODE_VERSION=$(basename "$NODE_TARBALL" | sed 's/node-v\(.*\)-linux-x64.tar.gz/\1/')
+    NODE_FILENAME=$(basename "$NODE_TARBALL")
+    NODE_VERSION=${NODE_FILENAME#node-v}
+    NODE_VERSION=${NODE_VERSION%-linux-$NODE_ARCH.tar.gz}
     NODE_INSTALL_DIR="$HOME/.local/share/mise/installs/node/$NODE_VERSION"
 
     mkdir -p "$NODE_INSTALL_DIR"

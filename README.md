@@ -149,6 +149,7 @@ The image roadmap includes more than “make it boot”:
 - zram tuned for the Pi's smaller memory ceiling
 - first-boot user, locale, timezone, Wi-Fi, and hostname setup
 - Raspberry Pi Imager 2.x unattended setup without a factory account or plaintext owner password
+- checksum-verified ARM64 Node.js staged for offline first-owner finalization
 - SSH opt-in with a clear security posture
 - grow the root filesystem automatically on first boot
 - power/thermal/undervoltage status surfaced in diagnostics

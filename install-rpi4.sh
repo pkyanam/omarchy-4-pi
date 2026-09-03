@@ -308,9 +308,48 @@ seed_user_defaults() {
   omarchy-reinstall-configs
 }
 
+stage_node_tarball() {
+  local node_dist_url=${OMARCHY_NODE_DIST_URL:-https://nodejs.org/dist/latest}
+  local shasums filename expected actual temporary
+
+  [[ $node_dist_url == https://* && $node_dist_url != *'"'* &&
+    $node_dist_url != *$'\r'* && $node_dist_url != *$'\n'* ]] ||
+    fail "OMARCHY_NODE_DIST_URL must be a safe HTTPS URL."
+  command -v curl >/dev/null || fail "curl is required to stage offline Node.js."
+
+  log "Staging a verified ARM64 Node.js bundle for offline owner setup"
+  shasums=$(curl --fail --silent --show-error --location --retry 3 \
+    "$node_dist_url/SHASUMS256.txt") || fail "Could not download Node.js checksums."
+  filename=$(awk '$2 ~ /^node-v[0-9][0-9.]*-linux-arm64[.]tar[.]gz$/ { print $2; exit }' <<<"$shasums")
+  [[ -n $filename ]] || fail "Node.js checksums list has no Linux ARM64 archive."
+  expected=$(awk -v filename="$filename" '$2 == filename { print $1; exit }' <<<"$shasums")
+  [[ $expected =~ ^[0-9a-f]{64}$ ]] || fail "Node.js ARM64 checksum is missing or invalid."
+
+  temporary=$(mktemp -d)
+  if ! curl --fail --silent --show-error --location --retry 3 \
+    --output "$temporary/$filename" "$node_dist_url/$filename"; then
+    rm -rf "$temporary"
+    fail "Could not download the Node.js ARM64 archive."
+  fi
+  actual=$(sha256sum "$temporary/$filename" | awk '{ print $1 }')
+  if [[ $actual != "$expected" ]]; then
+    rm -rf "$temporary"
+    fail "Node.js ARM64 archive checksum does not match its official manifest."
+  fi
+
+  sudo install -d -m 0755 /var/lib/omarchy/provisioning/packages
+  sudo find /var/lib/omarchy/provisioning/packages -maxdepth 1 -type f \
+    -name 'node-v*-linux-*.tar.gz' -delete
+  sudo install -m 0644 "$temporary/$filename" \
+    "/var/lib/omarchy/provisioning/packages/$filename"
+  rm -rf "$temporary"
+}
+
 arm_first_boot_provisioning() {
   local unit_source="$checkout/install/provisioning/omarchy-provision-owner.service"
   local grow_unit_source="$checkout/install/provisioning/omarchy-rpi4-grow-root.service"
+
+  stage_node_tarball
 
   # Install this explicitly as well as through the Omarchy package: image-mode
   # support must not depend on a future upstream PKGBUILD continuing to glob

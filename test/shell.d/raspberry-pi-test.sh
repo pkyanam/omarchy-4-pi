@@ -219,7 +219,40 @@ grep -F 'omarchy-rpi4-imager-preseed' "$ROOT/bin/omarchy-provision-owner" >/dev/
   fail "owner setup consumes Raspberry Pi Imager settings"
 grep -F 'chpasswd --encrypted' "$ROOT/bin/omarchy-provision-owner" >/dev/null ||
   fail "Imager password hashes are never treated as plaintext"
+grep -F 'linux-arm64' "$ROOT/install-rpi4.sh" >/dev/null ||
+  fail "Pi image stages an architecture-correct offline Node.js archive"
+grep -F 'aarch64|arm64) NODE_ARCH=arm64' "$ROOT/install/user/mise-work.sh" >/dev/null ||
+  fail "owner finalization selects the ARM64 Node.js archive"
 pass "image mode arms ordered first-boot storage growth and owner provisioning"
+
+node_test="$test_tmp/node-owner-finalization"
+node_bundle_root="$node_test/bundle/node-v24.2.0-linux-arm64"
+node_mock_bin="$node_test/bin"
+mkdir -p "$node_bundle_root/bin" "$node_mock_bin" "$node_test/packages" "$node_test/home"
+printf '#!/bin/bash\n' >"$node_bundle_root/bin/node"
+chmod +x "$node_bundle_root/bin/node"
+tar -czf "$node_test/packages/node-v24.2.0-linux-arm64.tar.gz" \
+  -C "$node_test/bundle" node-v24.2.0-linux-arm64
+cat >"$node_mock_bin/uname" <<'SH'
+#!/bin/bash
+printf 'aarch64\n'
+SH
+cat >"$node_mock_bin/mise" <<'SH'
+#!/bin/bash
+printf '%s\n' "$*" >>"$MISE_TEST_LOG"
+SH
+chmod +x "$node_mock_bin/uname" "$node_mock_bin/mise"
+MISE_TEST_LOG="$node_test/mise.log" \
+  HOME="$node_test/home" \
+  PATH="$node_mock_bin:$PATH" \
+  OMARCHY_SETUP_CONTEXT=provision-owner \
+  OMARCHY_NODE_PACKAGE_DIR="$node_test/packages" \
+  bash -e -c 'source "$1"' bash "$ROOT/install/user/mise-work.sh"
+[[ -x $node_test/home/.local/share/mise/installs/node/24.2.0/bin/node ]] ||
+  fail "owner finalization extracts the bundled ARM64 Node.js runtime"
+grep -Fx 'use -g node@24.2.0' "$node_test/mise.log" >/dev/null ||
+  fail "owner finalization activates the bundled ARM64 Node.js version"
+pass "owner finalization consumes the offline ARM64 Node.js bundle"
 
 catalog_source="$test_tmp/catalog.img"
 catalog_archive="$catalog_source.xz"
@@ -297,6 +330,7 @@ mkdir -p \
   "$audit_root/usr/share/sddm/themes/omarchy" \
   "$audit_root/opt/omarchy-4-pi/.git" \
   "$audit_root/var/lib/omarchy/provisioning" \
+  "$audit_root/var/lib/omarchy/provisioning/packages" \
   "$audit_root/var/lib/pacman/local"
 
 touch \
@@ -368,6 +402,10 @@ aarch64
 EOF
 done
 
+node_bundle="$audit_root/var/lib/omarchy/provisioning/packages/node-v24.0.0-linux-arm64.tar.gz"
+printf 'verified ARM64 Node fixture\n' >"$node_bundle"
+node_bundle_sha=$(sha256sum "$node_bundle" | awk '{ print $1 }')
+
 manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
 {
   printf '{\n  "source_dirty": false,\n'
@@ -375,6 +413,7 @@ manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
   printf '  "omarchy_pkgs_commit": "0123456789abcdef0123456789abcdef01234567",\n'
   printf '  "base_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",\n'
   printf '  "base_signing_key": "68B3537F39A313B3E574D06777193F152BDBE6A6",\n'
+  printf '  "node_bundle": {"filename": "node-v24.0.0-linux-arm64.tar.gz", "sha256": "%s"},\n' "$node_bundle_sha"
   printf '  "packages": [\n'
   separator=""
   for package in "${audit_packages[@]}"; do
@@ -387,6 +426,15 @@ manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
 "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-ok"
 grep -F 'PASS:' "$test_tmp/audit-ok" >/dev/null || fail "image root audit reports its passing invariant count"
 pass "image root audit accepts a complete ARM64 Quattro payload"
+
+printf 'corrupted\n' >>"$node_bundle"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-node" 2>&1; then
+  fail "image root audit rejects a corrupted offline Node.js bundle"
+fi
+grep -F 'ARM64 Node.js bundle matches build provenance' "$test_tmp/audit-node" >/dev/null ||
+  fail "image root audit identifies a corrupted offline Node.js bundle"
+printf 'verified ARM64 Node fixture\n' >"$node_bundle"
+pass "image root audit rejects a corrupted offline Node.js bundle"
 
 cp "$manifest" "$test_tmp/complete-manifest.json"
 sed -i.bak '/"name": "omarchy"/d' "$manifest"

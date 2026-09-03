@@ -379,7 +379,9 @@ install_omarchy() {
 
 write_build_manifest() {
   local commit dirty rootfs_sha built_at omarchy_pkgs_commit package version
+  local node_bundle node_bundle_name node_bundle_sha candidate
   local package_inventory="" separator=""
+  local -a node_bundles=()
   commit=${OMARCHY_SOURCE_COMMIT:-}
   [[ -n $commit ]] || commit=$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || printf unknown)
   dirty=${OMARCHY_SOURCE_DIRTY:-}
@@ -395,6 +397,15 @@ write_build_manifest() {
   omarchy_pkgs_commit=$(<"$root_mount/opt/omarchy-4-pi/build-output-rpi4/omarchy-pkgs.commit")
   [[ $omarchy_pkgs_commit =~ ^[0-9a-f]{40}$ ]] ||
     fail "The omarchy-pkgs provenance commit is missing or invalid."
+
+  for candidate in "$root_mount"/var/lib/omarchy/provisioning/packages/node-v*-linux-arm64.tar.gz; do
+    [[ -f $candidate ]] && node_bundles+=("$candidate")
+  done
+  (( ${#node_bundles[@]} == 1 )) ||
+    fail "The image must contain exactly one offline Linux ARM64 Node.js bundle."
+  node_bundle=${node_bundles[0]}
+  node_bundle_name=${node_bundle##*/}
+  node_bundle_sha=$(sha256sum "$node_bundle" | awk '{ print $1 }')
 
   while read -r package version; do
     [[ -n $package && -n $version && $package != *'"'* && $version != *'"'* ]] ||
@@ -416,6 +427,7 @@ write_build_manifest() {
   "base_url": "$rootfs_url",
   "base_sha256": "$rootfs_sha",
   "base_signing_key": "$build_key",
+  "node_bundle": {"filename": "$node_bundle_name", "sha256": "$node_bundle_sha"},
   "packages": [
 $package_inventory
   ]

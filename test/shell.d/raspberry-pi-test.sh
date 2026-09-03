@@ -68,6 +68,9 @@ grep -F 'require("default.hypr.raspberry-pi")' "$ROOT/default/hypr/envs.lua" >/d
 grep -F 'hl.env("AQ_NO_MODIFIERS", "1")' "$ROOT/default/hypr/raspberry-pi.lua" >/dev/null || fail "Pi Hyprland environment applies the limited-GPU workaround"
 pass "Hyprland applies the Raspberry Pi graphics compatibility setting"
 
+bash -euo pipefail "$ROOT/install/hardware/apple/fix-spi-keyboard.sh"
+pass "DMI-only hardware probes are harmless on device-tree systems"
+
 OMARCHY_ROOT_FSTYPE=ext4 \
 OMARCHY_SNAPPER_CONFIG_PATH="$test_tmp/snapper/root" \
 OMARCHY_SNAPPER_CONF_PATH="$test_tmp/conf.d/snapper" \
@@ -82,6 +85,7 @@ bash -n "$ROOT/bin/omarchy-update-rpi4"
 bash -n "$ROOT/bin/omarchy-rpi4-grow-root"
 bash -n "$ROOT/bin/omarchy-pi-status"
 bash -n "$ROOT/image/build-rpi4-image.sh"
+bash -n "$ROOT/image/build-rpi4-image-macos.sh"
 bash -n "$ROOT/image/generate-imager-catalog.sh"
 pass "Raspberry Pi install, image, and update entrypoints parse"
 

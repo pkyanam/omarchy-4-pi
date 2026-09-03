@@ -1,3 +1,5 @@
-# Arch Linux ARM aarch64 repositories. Arch Linux ARM's redirector currently
-# uses HTTP and selects a regional mirror.
+# Arch Linux ARM aarch64 repositories. Keep the official GeoIP redirector
+# first, with current official US mirrors as fallbacks for long image builds.
 Server = http://mirror.archlinuxarm.org/$arch/$repo
+Server = http://fl.us.mirror.archlinuxarm.org/$arch/$repo
+Server = http://ca.us.mirror.archlinuxarm.org/$arch/$repo

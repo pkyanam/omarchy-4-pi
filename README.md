@@ -69,6 +69,14 @@ sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz
 sudo image/build-rpi4-image.sh --minimal
 ```
 
+On an Apple-silicon Mac with Docker Desktop running, use the native ARM64 helper:
+
+```bash
+image/build-rpi4-image-macos.sh --minimal
+```
+
+It uses all but two Mac cores by default, keeps build I/O inside Docker's Linux filesystem, and selects fast xz compression. Set `OMARCHY_LOCAL_CPUS=8` to choose an explicit core count or `OMARCHY_XZ_PRESET=-6` for a smaller, slower artifact.
+
 Artifacts land in `build/image/`. In Raspberry Pi Imager, choose **Use custom**, select the `.img.xz`, and write it to a 32 GB or larger card/SSD. On first boot, Omarchy expands the filesystem, asks you to create the owner account, and then opens Quattro. The factory removes Arch Linux ARM's default `alarm` account and locks the default root password before compression.
 
 `--full` adds the optional ARM-buildable Omarchy applications. It is slower and considerably larger; the minimal image already contains the complete desktop shell, browser, terminal, file manager, developer tools, theming, and core commands.

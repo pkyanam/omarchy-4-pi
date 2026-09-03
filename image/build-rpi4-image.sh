@@ -263,9 +263,14 @@ install_omarchy() {
 
 write_build_manifest() {
   local commit dirty rootfs_sha built_at
-  commit=$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || printf unknown)
-  dirty=false
-  [[ -z $(git -C "$repo_root" status --porcelain 2>/dev/null) ]] || dirty=true
+  commit=${OMARCHY_SOURCE_COMMIT:-}
+  [[ -n $commit ]] || commit=$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || printf unknown)
+  dirty=${OMARCHY_SOURCE_DIRTY:-}
+  if [[ -z $dirty ]]; then
+    dirty=false
+    [[ -z $(git -C "$repo_root" status --porcelain 2>/dev/null) ]] || dirty=true
+  fi
+  [[ $dirty == true || $dirty == false ]] || fail "OMARCHY_SOURCE_DIRTY must be true or false."
   rootfs_sha=$(sha256sum "$work_dir/downloads/$rootfs_name" | awk '{print $1}')
   built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
@@ -338,7 +343,11 @@ finalize_image() {
 
   mkdir -p "$output_dir"
   local commit_short stamp artifact_base compressed
-  commit_short=$(git -C "$repo_root" rev-parse --short=8 HEAD 2>/dev/null || printf snapshot)
+  if [[ -n ${OMARCHY_SOURCE_COMMIT:-} ]]; then
+    commit_short=${OMARCHY_SOURCE_COMMIT:0:8}
+  else
+    commit_short=$(git -C "$repo_root" rev-parse --short=8 HEAD 2>/dev/null || printf snapshot)
+  fi
   stamp=$(date -u +%Y%m%d)
   artifact_base="omarchy-4-pi-${stamp}-${commit_short}-${install_mode}"
   compressed="$output_dir/$artifact_base.img.xz"

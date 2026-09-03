@@ -50,6 +50,33 @@ printf 'vc4\nv3d\n' | cmp -s - "$modules_file" || fail "Pi hardware setup loads 
 grep -Fx 'vulkan-broadcom' "$test_tmp/calls.log" >/dev/null || fail "Pi hardware setup installs the Broadcom Vulkan driver"
 pass "Pi hardware setup configures the graphics stack"
 
+cat >"$fake_bin/vcgencmd" <<'EOF'
+#!/bin/bash
+printf '%s\n' "${VCGENCMD_OUTPUT:-throttled=0x50005}"
+EOF
+cat >"$fake_bin/free" <<'EOF'
+#!/bin/bash
+printf 'Mem: 8Gi 2Gi 6Gi\n'
+EOF
+cat >"$fake_bin/df" <<'EOF'
+#!/bin/bash
+printf 'Filesystem Size Used Avail Use%% Mounted\n/dev/root 30G 10G 20G 34%% /\n'
+EOF
+chmod +x "$fake_bin/vcgencmd" "$fake_bin/free" "$fake_bin/df"
+OMARCHY_RPI_MODEL_PATH="$model" PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-status" >"$test_tmp/pi-status"
+grep -F 'ACTIVE: under-voltage, throttled; previously: under-voltage, throttled (0x50005)' \
+  "$test_tmp/pi-status" >/dev/null || fail "Pi status decodes active and historical power flags"
+VCGENCMD_OUTPUT=throttled=0x0 OMARCHY_RPI_MODEL_PATH="$model" PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-status" >"$test_tmp/pi-status-ok"
+grep -F 'OK — no under-voltage or throttling flags (0x0)' "$test_tmp/pi-status-ok" >/dev/null ||
+  fail "Pi status makes a healthy power state obvious"
+VCGENCMD_OUTPUT=unavailable OMARCHY_RPI_MODEL_PATH="$model" PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-status" >"$test_tmp/pi-status-unknown"
+grep -F 'unknown (unavailable)' "$test_tmp/pi-status-unknown" >/dev/null ||
+  fail "Pi status explains an unreadable firmware response"
+pass "Pi status explains Raspberry Pi power flags"
+
 TEST_LOG="$test_tmp/calls.log" \
 PATH="$fake_bin:$ROOT/bin:$PATH" \
 OMARCHY_RPI_MODEL_PATH="$model" \
@@ -142,6 +169,8 @@ grep -F 'linux-firmware-broadcom linux-firmware-realtek' "$ROOT/image/build-rpi4
   fail "image builder preserves Pi and common USB adapter firmware"
 grep -F 'linux-firmware-nvidia' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder identifies PC-only firmware for removal"
+grep -F 'raspberrypi-utils' "$ROOT/install-rpi4.sh" >/dev/null ||
+  fail "Pi image includes the native firmware diagnostics"
 pass "image builder removes download bloat without narrowing the Quattro payload"
 
 grep -F '(( image_mode == 0 )) || max_attempts=8' "$ROOT/install-rpi4.sh" >/dev/null ||
@@ -307,7 +336,7 @@ ln -s /usr/lib/systemd/system/NetworkManager.service \
 
 # Minimal little-endian ELF64 header with e_machine = EM_AARCH64 (183).
 printf '\177ELF\002\001\001\000\000\000\000\000\000\000\000\000\002\000\267\000' >"$audit_root/usr/bin/Hyprland"
-for executable in quickshell foot; do
+for executable in quickshell foot vcgencmd; do
   cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
 done
 for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
@@ -315,7 +344,7 @@ for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-prese
 done
 chmod +x "$audit_root/usr/bin/"*
 
-for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom; do
+for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom; do
   package_dir="$audit_root/var/lib/pacman/local/$package-1.0-1"
   mkdir -p "$package_dir"
   cat >"$package_dir/desc" <<EOF

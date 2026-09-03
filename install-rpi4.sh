@@ -178,6 +178,7 @@ install_official_packages() {
     pipewire-pulse
     python
     qt6-wayland
+    raspberrypi-utils
     snapper
     sudo
     vulkan-broadcom

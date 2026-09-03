@@ -188,6 +188,7 @@ require_unit_link "$root/etc/systemd/system/multi-user.target.wants/NetworkManag
 require_executable "$root/usr/bin/Hyprland" "Hyprland compositor is installed"
 require_executable "$root/usr/bin/quickshell" "Quickshell runtime is installed"
 require_executable "$root/usr/bin/omarchy-shell" "Omarchy shell launcher is installed"
+require_executable "$root/usr/bin/vcgencmd" "Raspberry Pi power diagnostic is installed"
 require_file "$root/usr/share/omarchy/shell/shell.qml" "Quattro shell payload is installed"
 require_file "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Omarchy Wayland session is installed"
 require_line "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Exec=uwsm start -g -1 -e -D Hyprland hyprland.desktop" "Omarchy session starts Hyprland through uwsm"
@@ -195,7 +196,7 @@ require_file "$root/etc/skel/.config/hypr/hyprland.lua" "new users receive the H
 require_file "$root/usr/share/omarchy/default/hypr/raspberry-pi.lua" "Pi compositor compatibility profile is installed"
 require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme is installed"
 
-for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 sddm networkmanager uwsm chromium foot omarchy omarchy-settings; do
+for package in hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings; do
   require_package "$package"
 done
 

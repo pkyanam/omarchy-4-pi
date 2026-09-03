@@ -5,6 +5,43 @@
 
 set -euo pipefail
 
+append_flag() {
+  local list="$1" flag="$2"
+  if [[ -z $list ]]; then
+    printf '%s' "$flag"
+  else
+    printf '%s, %s' "$list" "$flag"
+  fi
+}
+
+decode_throttled() {
+  local raw="$1" hex value active="" history=""
+  hex=${raw#*=}
+  if [[ ! $hex =~ ^0[xX][0-9a-fA-F]+$ ]]; then
+    printf 'unknown (%s)' "${raw:-query failed}"
+    return
+  fi
+
+  value=$((16#${hex:2}))
+  (( value & 1 )) && active=$(append_flag "$active" "under-voltage")
+  (( value & 2 )) && active=$(append_flag "$active" "frequency capped")
+  (( value & 4 )) && active=$(append_flag "$active" "throttled")
+  (( value & 8 )) && active=$(append_flag "$active" "soft temperature limit")
+  (( value & 65536 )) && history=$(append_flag "$history" "under-voltage")
+  (( value & 131072 )) && history=$(append_flag "$history" "frequency capped")
+  (( value & 262144 )) && history=$(append_flag "$history" "throttled")
+  (( value & 524288 )) && history=$(append_flag "$history" "soft temperature limit")
+
+  if [[ -z $active && -z $history ]]; then
+    printf 'OK — no under-voltage or throttling flags (%s)' "$hex"
+    return
+  fi
+  [[ -z $active ]] || printf 'ACTIVE: %s' "$active"
+  [[ -z $active || -z $history ]] || printf '; '
+  [[ -z $history ]] || printf 'previously: %s' "$history"
+  printf ' (%s)' "$hex"
+}
+
 temperature="unknown"
 if [[ -r /sys/class/thermal/thermal_zone0/temp ]]; then
   raw_temperature=$(</sys/class/thermal/thermal_zone0/temp)
@@ -13,7 +50,8 @@ fi
 
 power_state="vcgencmd unavailable"
 if command -v vcgencmd >/dev/null 2>&1; then
-  power_state=$(vcgencmd get_throttled 2>/dev/null || printf unknown)
+  raw_power_state=$(vcgencmd get_throttled 2>/dev/null || true)
+  power_state=$(decode_throttled "$raw_power_state")
 fi
 
 renderer="not available outside a graphical session"
@@ -21,8 +59,14 @@ if command -v glxinfo >/dev/null 2>&1 && [[ -n ${WAYLAND_DISPLAY:-}${DISPLAY:-} 
   renderer=$(glxinfo -B 2>/dev/null | awk -F: '/OpenGL renderer string/{sub(/^[[:space:]]+/, "", $2); print $2; exit}')
 fi
 
+model="unknown"
+model_path=${OMARCHY_RPI_MODEL_PATH:-/proc/device-tree/model}
+if [[ -r $model_path ]]; then
+  model=$(tr -d '\0' <"$model_path")
+fi
+
 printf 'Omarchy 4 Pi health\n'
-printf '  Model:       %s\n' "$(tr -d '\0' </proc/device-tree/model 2>/dev/null || printf unknown)"
+printf '  Model:       %s\n' "$model"
 printf '  Temperature: %s\n' "$temperature"
 printf '  Power:       %s\n' "$power_state"
 printf '  Memory:      %s\n' "$(free -h | awk '/^Mem:/{print $3 " used / " $2}')"

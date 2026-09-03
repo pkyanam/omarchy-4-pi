@@ -21,6 +21,7 @@ jobs:
           bash -n image/build-rpi4-image.sh
           bash -n image/generate-imager-catalog.sh
           bash -n image/prepare-release-assets.sh
+          bash -n image/verify-rpi4-hyprland.sh
           bash -n bin/omarchy-rpi4-grow-root
           bash -n bin/omarchy-pi-status
       - name: Run focused Raspberry Pi tests
@@ -28,3 +29,4 @@ jobs:
           test/shell.d/raspberry-pi-test.sh
           test/shell.d/rpi-imager-preseed-test.sh
           test/shell.d/rpi-grow-root-test.sh
+          test/shell.d/rpi-hyprland-verify-test.sh

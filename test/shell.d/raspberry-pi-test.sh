@@ -390,6 +390,7 @@ touch \
   "$audit_root/var/lib/omarchy/provisioning/pending" \
   "$audit_root/var/lib/omarchy/provisioning/grow-root-pending" \
   "$audit_root/usr/share/omarchy/shell/shell.qml" \
+  "$audit_root/usr/share/omarchy-rpi4/hyprland-config-verified" \
   "$audit_root/etc/skel/.config/hypr/hyprland.lua" \
   "$audit_root/usr/share/omarchy/default/hypr/raspberry-pi.lua" \
   "$audit_root/usr/share/sddm/themes/omarchy/Main.qml" \

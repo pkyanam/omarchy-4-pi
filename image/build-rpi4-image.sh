@@ -507,6 +507,8 @@ finalize_image() {
   chroot "$root_mount" locale-gen
   printf 'LANG=en_US.UTF-8\n' >"$root_mount/etc/locale.conf"
   ln -sfn /usr/share/zoneinfo/UTC "$root_mount/etc/localtime"
+  log "Verifying the ARM64 Hyprland configuration with the Pi profile"
+  "$script_dir/verify-rpi4-hyprland.sh" "$root_mount" omarchy-builder
   write_build_manifest
   rm -rf "$root_mount/opt/omarchy-4-pi/build-output-rpi4"
   cp "$root_mount/usr/share/omarchy-rpi4/build-manifest.json" \

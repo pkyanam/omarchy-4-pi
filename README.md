@@ -39,7 +39,7 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | VC4/V3D graphics setup | ✅ | Full KMS, Broadcom Vulkan, Aquamarine compatibility setting |
 | ARM-safe package lifecycle | ✅ | Arch Linux ARM mirrors survive install, refresh, and update flows |
 | In-place Arch Linux ARM installer | 🧪 | Implemented; real-hardware soak testing pending |
-| Reproducible `.img` builder | ✅ | Native ARM64 builds enforce signed-base, boot-payload, package-architecture, identity, filesystem, manifest, and checksum gates |
+| Reproducible `.img` builder | ✅ | Native ARM64 builds enforce signed-base, boot-payload, package-architecture, identity, Hyprland config, filesystem, manifest, and checksum gates |
 | Real Pi 4 boot + HDMI splash | ✅ | Alpha image reached Omarchy's first-boot greeter on hardware |
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding; failure keeps provisioning safely armed for retry |
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; corrected unattended path is image-audited and ready for hardware testing |
@@ -177,7 +177,7 @@ The image builder is boring in the best way:
 4. Install pinned Omarchy sources and the ARM package set.
 5. Remove factory credentials, blank machine identity and SSH host keys, then arm storage expansion and owner onboarding.
 6. Remove build-only dependencies and PC-only firmware while retaining the Pi's Broadcom firmware and common Realtek USB-adapter support.
-7. Audit the mounted result for Pi firmware, VC4/V3D configuration, armed first-boot services, erased factory identity, Quattro session files, required packages, and AArch64 executables.
+7. Parse the owner configuration with the image's ARM64 Hyprland binary and Pi profile, then audit the mounted result for Pi firmware, VC4/V3D configuration, armed first-boot services, erased factory identity, Quattro session files, required packages, and AArch64 executables.
 8. Zero unused ext4 blocks, compress the image, and emit exact hashes, a provenance manifest, the audit report, and schema-compatible Raspberry Pi Imager metadata.
 9. Boot-test the artifact, then verify graphics and input on a real Pi 4.
 

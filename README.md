@@ -45,8 +45,8 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; keyboard-driven completion is pending |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
-| Imager 2.x unattended setup | 🧪 | Implemented and parser-tested on `main`; next image build and hardware test pending |
-| First prebuilt image prerelease | 🧪 | [Alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) publishes the successful image as checksummed release parts |
+| Imager 2.x unattended setup | 🧪 | Parser- and image-build verified in `alpha.2`; real-hardware setup test pending |
+| Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.2`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) adds secure Imager preconfiguration and clean-at-rest filesystem checks |
 | Public Imager catalog URL | ⏳ | Activates when the first release artifact is hosted |
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
@@ -171,7 +171,7 @@ Real-hardware acceptance remains the final word for HDMI scan-out, V3D accelerat
 
 ## Known gaps
 
-- The first complete `.img.xz` exceeds GitHub Releases' per-file limit, so the [alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) provides numbered parts, part checksums, and reassembly instructions. A one-file public Imager catalog URL still needs large-file hosting.
+- The complete `.img.xz` exceeds GitHub Releases' per-file limit, so the [current alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.2) provides numbered parts, part checksums, and reassembly instructions. A one-file public Imager catalog URL still needs large-file hosting.
 - The stock ext4 image has no Snapper rollback or factory reset.
 - A few x86-only or unavailable apps are omitted; the core Quattro experience does not depend on them.
 - High-resolution video recording and heavy Electron multitasking can overwhelm a Pi 4.

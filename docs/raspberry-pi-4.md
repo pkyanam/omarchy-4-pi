@@ -124,9 +124,11 @@ hyprctl version
 hyprctl monitors
 omarchy-shell shell ping
 omarchy version channel
+wpctl status
+bluetoothctl show
 ```
 
-Expected results are `aarch64`, a V3D/VC4 Mesa renderer rather than `llvmpipe`, a detected HDMI output, a successful shell ping, and the `rpi4` channel. `omarchy-pi-status` summarizes temperature, memory, storage, renderer, and Raspberry Pi firmware power flags. `OK` means no under-voltage or throttling was recorded since boot; an `ACTIVE` warning should be fixed before diagnosing desktop performance, while `previously` identifies a transient event that has cleared.
+Expected results are `aarch64`, a V3D/VC4 Mesa renderer rather than `llvmpipe`, a detected HDMI output, a successful shell ping, the `rpi4` channel, PipeWire audio devices, and a Pi Bluetooth controller. `omarchy-pi-status` summarizes temperature, memory, storage, renderer, and Raspberry Pi firmware power flags. `OK` means no under-voltage or throttling was recorded since boot; an `ACTIVE` warning should be fixed before diagnosing desktop performance, while `previously` identifies a transient event that has cleared.
 
 If `glxinfo` is missing, install `mesa-utils` with `sudo pacman -S mesa-utils`.
 

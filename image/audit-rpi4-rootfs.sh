@@ -151,6 +151,7 @@ fi
 require_line "$boot/config.txt" "dtoverlay=vc4-kms-v3d" "full VC4 KMS is enabled"
 require_line "$boot/config.txt" "max_framebuffers=2" "two KMS framebuffers are enabled"
 require_line "$boot/config.txt" "disable_fw_kms_setup=1" "firmware modesetting is disabled"
+require_line "$boot/config.txt" "dtparam=audio=on" "Pi onboard audio is enabled"
 
 require_line "$root/etc/fstab" "LABEL=omarchyroot /     ext4 defaults,noatime 0 1" "root filesystem mounts by label"
 require_line "$root/etc/fstab" "LABEL=OMARCHYBOOT /boot vfat defaults,noatime 0 2" "boot filesystem mounts by label"
@@ -233,7 +234,7 @@ require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme 
 for package in \
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
-  alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber \
+  alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
   uwsm chromium foot omarchy omarchy-settings; do
   require_package "$package"
 done

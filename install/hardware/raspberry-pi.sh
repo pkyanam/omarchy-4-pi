@@ -40,6 +40,13 @@ EOF
 
     set_config_value max_framebuffers 2
     set_config_value disable_fw_kms_setup 1
+
+    # Keep both HDMI audio (provided by full KMS) and the Pi 4's onboard
+    # analogue output available. Appending this exact setting also wins over
+    # an earlier audio=off while remaining idempotent on repeat installs.
+    if ! grep -Fxq 'dtparam=audio=on' "$config_file"; then
+      echo 'dtparam=audio=on' >>"$config_file"
+    fi
   fi
 
   install -d "$(dirname "$modules_file")"

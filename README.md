@@ -44,6 +44,7 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding; failure keeps provisioning safely armed for retry |
 | First-boot owner setup | 🧪 | Greeter verified on real Pi 4; corrected unattended path is image-audited and ready for hardware testing |
 | Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
+| Pi audio + Bluetooth payload | 🧪 | HDMI/3.5 mm audio, PipeWire/ALSA, and BlueZ are enforced by the image audit; hardware playback and pairing remain |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
 | Imager 2.x unattended setup | 🧪 | The `alpha.5` keymap bug is fixed; corrected `alpha.6` passed its post-tag 75-check mounted-image audit |
 | Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.6`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.6) is published and verified; owner/desktop hardware testing remains |
@@ -165,6 +166,7 @@ The image roadmap includes more than “make it boot”:
 - Raspberry Pi Imager 2.x unattended setup without a factory account or plaintext owner password
 - checksum-verified ARM64 Node.js staged for offline first-owner finalization
 - SSH opt-in with a clear security posture
+- HDMI audio plus the Pi 4's onboard 3.5 mm output, with PipeWire and Bluetooth ready for the first session
 - grow the root filesystem automatically on first boot
 - power/thermal/undervoltage status surfaced in diagnostics
 - sensible 1080p defaults with expensive blur and animation options documented

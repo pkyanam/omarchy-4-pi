@@ -45,6 +45,7 @@ OMARCHY_RPI_MODULES_PATH="$modules_file" \
 grep -Fx 'dtoverlay=vc4-kms-v3d' "$boot_config" >/dev/null || fail "Pi hardware setup enables full VC4 KMS"
 grep -Fx 'max_framebuffers=2' "$boot_config" >/dev/null || fail "Pi hardware setup configures two KMS framebuffers"
 grep -Fx 'disable_fw_kms_setup=1' "$boot_config" >/dev/null || fail "Pi hardware setup delegates modesetting to KMS"
+grep -Fx 'dtparam=audio=on' "$boot_config" >/dev/null || fail "Pi hardware setup enables onboard audio"
 [[ $(grep -c '^dtoverlay=vc4-kms-v3d$' "$boot_config") == "1" ]] || fail "Pi hardware setup adds KMS exactly once"
 printf 'vc4\nv3d\n' | cmp -s - "$modules_file" || fail "Pi hardware setup loads the VC4 and V3D modules"
 grep -Fx 'vulkan-broadcom' "$test_tmp/calls.log" >/dev/null || fail "Pi hardware setup installs the Broadcom Vulkan driver"
@@ -84,6 +85,7 @@ OMARCHY_RPI_CONFIG_PATH="$boot_config" \
 OMARCHY_RPI_MODULES_PATH="$modules_file" \
   bash -euo pipefail "$ROOT/install/hardware/raspberry-pi.sh"
 [[ $(grep -c '^dtoverlay=vc4-kms-v3d$' "$boot_config") == "1" ]] || fail "Pi hardware setup is idempotent"
+[[ $(grep -c '^dtparam=audio=on$' "$boot_config") == "1" ]] || fail "Pi audio setup is idempotent"
 pass "Pi hardware setup is idempotent"
 
 grep -Fx 'Architecture = aarch64' "$ROOT/default/pacman/pacman-rpi4.conf" >/dev/null || fail "Pi pacman profile pins aarch64"
@@ -400,6 +402,7 @@ cat >"$audit_boot/config.txt" <<'EOF'
 dtoverlay=vc4-kms-v3d
 max_framebuffers=2
 disable_fw_kms_setup=1
+dtparam=audio=on
 EOF
 cat >"$audit_root/etc/fstab" <<'EOF'
 LABEL=omarchyroot /     ext4 defaults,noatime 0 1
@@ -476,7 +479,7 @@ chmod +x "$audit_root/usr/bin/"*
 audit_packages=(
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils
-  alsa-utils pipewire pipewire-alsa pipewire-pulse wireplumber
+  alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber
   uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom
 )
 for package in "${audit_packages[@]}"; do

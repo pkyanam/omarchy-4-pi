@@ -72,6 +72,8 @@ Artifacts land in `build/image/`. In Raspberry Pi Imager, choose **Use custom**,
 
 `--full` adds the optional ARM-buildable Omarchy applications. It is slower and considerably larger; the minimal image already contains the complete desktop shell, browser, terminal, file manager, developer tools, theming, and core commands.
 
+Routine builds use balanced multithreaded xz compression. Set `OMARCHY_XZ_PRESET=-9e` (or choose **maximum** in Actions) when a release needs the smallest possible download and extra build time is acceptable.
+
 ### Install onto an existing Arch Linux ARM system
 
 Start with the official [Arch Linux ARM aarch64 Raspberry Pi 4 root filesystem](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4), create a regular sudo-capable user, then run:

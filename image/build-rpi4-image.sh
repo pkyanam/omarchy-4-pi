@@ -13,6 +13,7 @@ readonly keyring_url="${OMARCHY_ALARM_KEYRING_URL:-https://raw.githubusercontent
 readonly build_key=68B3537F39A313B3E574D06777193F152BDBE6A6
 readonly image_size_gib="${OMARCHY_IMAGE_SIZE_GIB:-12}"
 readonly output_dir="${OMARCHY_IMAGE_OUTPUT:-$repo_root/build/image}"
+readonly xz_preset="${OMARCHY_XZ_PRESET:--6}"
 
 install_mode=minimal
 work_dir=""
@@ -38,6 +39,7 @@ Environment:
   OMARCHY_IMAGE_OUTPUT    Artifact directory (default: build/image)
   OMARCHY_IMAGE_WORK      Reusable work directory (default: a temporary dir)
   OMARCHY_ROOTFS_URL      Override the Arch Linux ARM root filesystem URL
+  OMARCHY_XZ_PRESET       xz preset (default: -6; use -9e for release maximum)
 USAGE
 }
 
@@ -308,7 +310,7 @@ finalize_image() {
   compressed="$output_dir/$artifact_base.img.xz"
 
   log "Compressing $artifact_base.img.xz"
-  XZ_OPT='-T0 -9e' xz --stdout "$image_path" >"$compressed"
+  XZ_OPT="-T0 $xz_preset" xz --stdout "$image_path" >"$compressed"
   sha256sum "$compressed" >"$compressed.sha256"
   cp "$work_dir/build-manifest.json" "$output_dir/$artifact_base.manifest.json"
 

@@ -14,6 +14,12 @@ on:
         required: true
         default: "12"
         type: string
+      compression:
+        description: xz preset
+        required: true
+        default: balanced
+        type: choice
+        options: [balanced, maximum]
   push:
     tags: ["v*"]
 
@@ -31,6 +37,7 @@ jobs:
     env:
       OMARCHY_IMAGE_OUTPUT: ${{ github.workspace }}/build/image
       OMARCHY_IMAGE_SIZE_GIB: ${{ inputs.image_size_gib || '12' }}
+      OMARCHY_XZ_PRESET: ${{ inputs.compression == 'maximum' && '-9e' || '-6' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,7 +49,7 @@ jobs:
           sudo apt-get install --yes libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils
 
       - name: Build signed-base ARM64 image
-        run: sudo --preserve-env=OMARCHY_IMAGE_OUTPUT,OMARCHY_IMAGE_SIZE_GIB image/build-rpi4-image.sh --${{ inputs.install_mode || 'minimal' }}
+        run: sudo --preserve-env=OMARCHY_IMAGE_OUTPUT,OMARCHY_IMAGE_SIZE_GIB,OMARCHY_XZ_PRESET image/build-rpi4-image.sh --${{ inputs.install_mode || 'minimal' }}
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4

@@ -507,7 +507,7 @@ finalize_image() {
   unmount_and_verify_image
 
   mkdir -p "$output_dir"
-  local commit_short stamp artifact_base compressed
+  local commit_short stamp artifact_base compressed download_base_url
   if [[ -n ${OMARCHY_SOURCE_COMMIT:-} ]]; then
     commit_short=${OMARCHY_SOURCE_COMMIT:0:8}
   else
@@ -526,8 +526,13 @@ finalize_image() {
   cp "$work_dir/build-manifest.json" "$output_dir/$artifact_base.manifest.json"
   cp "$work_dir/rootfs-audit.txt" "$output_dir/$artifact_base.audit.txt"
 
+  download_base_url=${OMARCHY_IMAGE_DOWNLOAD_BASE_URL:-https://github.com/pkyanam/omarchy-4-pi/releases/latest/download}
+  download_base_url=${download_base_url%/}
+  [[ $download_base_url == https://* && $download_base_url != *'"'* &&
+    $download_base_url != *$'\r'* && $download_base_url != *$'\n'* ]] ||
+    fail "OMARCHY_IMAGE_DOWNLOAD_BASE_URL must be a safe HTTPS URL."
   "$script_dir/generate-imager-catalog.sh" "$compressed" \
-    "https://github.com/pkyanam/omarchy-4-pi/releases/latest/download/$artifact_base.img.xz" \
+    "$download_base_url/$artifact_base.img.xz" \
     "$output_dir/$artifact_base.os-list.json"
   cp "$output_dir/$artifact_base.os-list.json" "$output_dir/os-list.json"
   log "Built artifacts in $output_dir"

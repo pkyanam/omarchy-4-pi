@@ -49,7 +49,12 @@ jobs:
           sudo apt-get install --yes libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils zerofree
 
       - name: Build signed-base ARM64 image
-        run: sudo --preserve-env=OMARCHY_IMAGE_OUTPUT,OMARCHY_IMAGE_SIZE_GIB,OMARCHY_XZ_PRESET image/build-rpi4-image.sh --${{ inputs.install_mode || 'minimal' }}
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            export OMARCHY_IMAGE_DOWNLOAD_BASE_URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME"
+          fi
+          sudo --preserve-env=OMARCHY_IMAGE_OUTPUT,OMARCHY_IMAGE_SIZE_GIB,OMARCHY_XZ_PRESET,OMARCHY_IMAGE_DOWNLOAD_BASE_URL \
+            image/build-rpi4-image.sh --${{ inputs.install_mode || 'minimal' }}
 
       - name: Upload workflow artifact
         uses: actions/upload-artifact@v4

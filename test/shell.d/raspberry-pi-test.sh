@@ -174,6 +174,11 @@ grep -F 'raspberrypi-utils' "$ROOT/install-rpi4.sh" >/dev/null ||
 grep -F 'build/image/*.os-list.json build/image/os-list.json' \
   "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
   fail "tag releases publish Raspberry Pi Imager catalogs"
+grep -F 'releases/download/$GITHUB_REF_NAME' \
+  "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
+  fail "tagged Imager catalogs use their immutable release URL"
+grep -F 'OMARCHY_IMAGE_DOWNLOAD_BASE_URL' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
+  fail "image catalogs accept a release-specific download URL"
 grep -F 'omarchy-pkgs.commit' "$ROOT/build-packages-rpi4.sh" >/dev/null ||
   fail "local Omarchy packages record their recipe checkout"
 grep -F 'chroot "$root_mount" pacman -Q | LC_ALL=C sort' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||

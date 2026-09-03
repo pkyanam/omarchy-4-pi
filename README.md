@@ -16,7 +16,7 @@
 </div>
 
 > [!IMPORTANT]
-> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The reproducible image factory has completed its first end-to-end native ARM64 build, but real-hardware desktop verification is still in progress. Treat artifacts as alpha until the hardware checklist is green.
+> This is an independent community port and is not an official Omarchy or Raspberry Pi product. The first image now boots to Omarchy's HDMI setup splash on a real Pi 4; owner setup, Quattro, and V3D verification are still in progress. Treat artifacts as alpha until the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1) is green.
 
 ## The destination
 
@@ -40,8 +40,10 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | ARM-safe package lifecycle | ✅ | Arch Linux ARM mirrors survive install, refresh, and update flows |
 | In-place Arch Linux ARM installer | 🧪 | Implemented; real-hardware soak testing pending |
 | Reproducible `.img` builder | ✅ | First end-to-end native ARM64 build passed with signed-base verification, manifests, compression, and checksums |
+| Real Pi 4 boot + HDMI splash | ✅ | Alpha image reached Omarchy's first-boot greeter on hardware |
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding |
-| First-boot owner setup | ✅ | No shared default password; Omarchy's own setup UI creates the owner |
+| First-boot owner setup | 🧪 | Greeter verified on real Pi 4; keyboard-driven completion is pending |
+| Quattro desktop + V3D on hardware | 🧪 | Pending completion of the first owner setup |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
 | First prebuilt image prerelease | 🧪 | [Alpha release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.1) publishes the successful image as checksummed release parts |
 | Public Imager catalog URL | ⏳ | Activates when the first release artifact is hosted |

@@ -180,6 +180,7 @@ require_file "$root/var/lib/omarchy/provisioning/grow-root-pending" "root expans
 require_executable "$root/usr/bin/omarchy-rpi4-grow-root" "root expansion command is installed"
 require_executable "$root/usr/bin/omarchy-rpi4-imager-preseed" "Imager preseed parser is installed"
 require_executable "$root/usr/bin/omarchy-provision-owner" "owner provisioner is installed"
+require_line "$root/usr/bin/omarchy-provision-owner" 'apply_keyboard "$keyboard"' "unattended owner setup passes the Imager keymap"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-rpi4-grow-root.service" "omarchy-rpi4-grow-root.service" "root expansion service is enabled"
 require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-owner.service" "omarchy-provision-owner.service" "owner provisioning service is enabled"
 require_unit_link "$root/etc/systemd/system/display-manager.service" "sddm.service" "SDDM display manager is enabled"

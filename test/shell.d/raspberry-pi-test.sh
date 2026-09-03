@@ -405,6 +405,7 @@ done
 for executable in omarchy-shell omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
   printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
 done
+printf 'apply_keyboard "$keyboard"\n' >>"$audit_root/usr/bin/omarchy-provision-owner"
 chmod +x "$audit_root/usr/bin/"*
 
 audit_packages=(hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils sddm networkmanager uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom)

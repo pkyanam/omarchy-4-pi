@@ -293,6 +293,9 @@ grep -F 'build/image/*.os-list.json build/image/os-list.json' \
 grep -F 'releases/download/$GITHUB_REF_NAME' \
   "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
   fail "tagged Imager catalogs use their immutable release URL"
+grep -F 'release_flags+=(--prerelease)' \
+  "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
+  fail "hyphenated image tags publish as prereleases"
 grep -F 'OMARCHY_IMAGE_DOWNLOAD_BASE_URL' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image catalogs accept a release-specific download URL"
 grep -F 'omarchy-pkgs.commit' "$ROOT/build-packages-rpi4.sh" >/dev/null ||

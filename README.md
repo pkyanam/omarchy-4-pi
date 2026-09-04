@@ -15,7 +15,7 @@
 Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Chromium, and a surprisingly grown-up desktop on a very small computer.
 
 > [!IMPORTANT]
-> Independent community port—not an official Omarchy or Raspberry Pi product. **RC1 is a testing prerelease, not a stable release.** The earlier alpha booted on a real Pi 4 with working desktop, graphics, networking, and owner setup. RC1 adds hostname sequencing and display recovery; it still needs a fresh-card hardware acceptance pass. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
+> Independent community port—not an official Omarchy or Raspberry Pi product. **RC1 is our first release candidate, not a stable release.** The tester reports RC1 working on their Pi 4. RC1 adds hostname sequencing and display recovery; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
 
 ## Flash, boot, make it yours
 
@@ -28,7 +28,7 @@ open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
   "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-rc.1/os-list.json"
 ```
 
-The [RC1 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-rc.1) contains the verified image and `os-list.json`. The 2.08 GB download passed checksum/catalog verification and an independent read-only audit of 111 image invariants. It is ready to flash for RC1 hardware testing; that is not a claim that the new image has already passed a physical Pi test.
+The [RC1 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-rc.1) contains the verified image and `os-list.json`. The 2.08 GB download passed checksum/catalog verification and an independent read-only audit of 111 image invariants. The tester reported it working on their Pi 4 on September 4, 2026; this initial success does not establish that every hardware acceptance check has passed.
 
 1. Select the **Raspberry Pi 4** device and **Omarchy 4 Pi** OS entry.
 2. Select your SD card or SSD. Double-check which drive will be erased.

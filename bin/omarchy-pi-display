@@ -1,0 +1,109 @@
+#!/bin/bash
+
+# omarchy:summary=Inspect Pi HDMI detection or save a tested display recovery profile
+# omarchy:group=About
+# omarchy:args=[status|nec-ea243wm|reset] [OUTPUT]
+# omarchy:examples=omarchy-pi-display | omarchy-pi-display nec-ea243wm HDMI-A-1
+
+set -euo pipefail
+
+action=${1:-status}
+output=${2:-HDMI-A-1}
+case "$action" in
+  -h|--help)
+    echo 'Usage: omarchy-pi-display [status|nec-ea243wm|reset] [OUTPUT]'
+    echo 'The NEC profile previews 1920x1200 at 60 Hz, then asks before saving.'
+    echo 'Run as your desktop user, locally or over SSH. No sudo needed.'
+    exit 0
+    ;;
+  status|nec-ea243wm|reset) ;;
+  *) echo "Unknown action: $action" >&2; exit 64 ;;
+esac
+(( $# <= 2 )) || exit 64
+[[ $output =~ ^HDMI-A-[0-9]+$ ]] || { echo 'Expected an HDMI-A-N connector.' >&2; exit 64; }
+
+ctl=(hyprctl)
+if [[ -z ${HYPRLAND_INSTANCE_SIGNATURE:-} ]]; then
+  instances=$(hyprctl -j instances)
+  [[ $(jq 'length' <<<"$instances") == "1" ]] || {
+    echo 'Expected one desktop session. Run from a terminal in the desired desktop.' >&2
+    exit 1
+  }
+  ctl+=(-i 0)
+fi
+
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/toggles/hypr"
+profile="$state_dir/pi-display-$output.lua"
+if [[ $action == "status" ]]; then
+  "${ctl[@]}" -j monitors all | jq '.[] | {name, make, model, width, height, refreshRate, scale, availableModes}'
+  "${ctl[@]}" configerrors
+  for connector in /sys/class/drm/card*-HDMI-A-*; do
+    [[ -r $connector/status ]] || continue
+    printf '%s: %s; ' "${connector##*/}" "$(<"$connector/status")"
+    if [[ -r $connector/edid ]]; then
+      printf 'EDID bytes: %s\n' "$(wc -c <"$connector/edid")"
+    else
+      echo 'EDID unavailable'
+    fi
+  done
+  exit 0
+fi
+
+if [[ $action == "reset" ]]; then
+  if [[ -f $profile ]]; then
+    mv "$profile" "$profile.disabled-$(date +%s)"
+    "${ctl[@]}" reload
+    echo 'Display profile disabled (backup retained). Normal monitor settings restored.'
+  else
+    echo 'No saved Pi display profile for this connector.'
+  fi
+  exit 0
+fi
+
+[[ -t 0 ]] || { echo 'Run interactively to confirm the preview before saving.' >&2; exit 1; }
+current=$("${ctl[@]}" -j monitors | jq -ec --arg output "$output" '.[] | select(.name == $output)')
+# Encode strings as JSON (also valid Lua strings); use only numeric mode fields.
+previous=$(jq -er '
+  select((.width > 0) and (.height > 0) and (.refreshRate > 0) and (.scale > 0)) |
+  "hl.monitor({output=" + (.name|tojson) + ",mode=" +
+  (([.width,"x",.height,"@",.refreshRate]|map(tostring)|join(""))|tojson) +
+  ",position=" + (([.x,"x",.y]|map(tostring)|join(""))|tojson) +
+  ",scale=" + (.scale|tostring) + "})"' <<<"$current")
+candidate="hl.monitor({output=\"$output\",mode=\"modeline 154.00 1920 1968 2000 2080 1200 1203 1209 1235 +hsync -vsync\",position=\"auto\",scale=1})"
+# A saved custom timing may not appear in EDID's advertised modes. Preserve the
+# exact known timing when previewing this profile again.
+if [[ -f $profile ]] && grep -Fx "$candidate" "$profile" >/dev/null; then
+  previous=$candidate
+fi
+saved=0
+restore() {
+  if (( ! saved )); then
+    "${ctl[@]}" eval "$previous" >/dev/null || true
+    echo 'Preview reverted; no settings saved.'
+  fi
+}
+trap restore EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM
+echo 'Previewing NEC EA243WM native resolution. Confirm only if the picture is clear and stable.'
+"${ctl[@]}" eval "$candidate"
+sleep 1
+"${ctl[@]}" -j monitors | jq -e --arg output "$output" \
+  '.[] | select(.name == $output and .width == 1920 and .height == 1200 and .scale == 1)' >/dev/null || {
+  echo 'The display did not accept 1920x1200 at 1x.' >&2
+  exit 1
+}
+answer=""
+read -r -t 30 -p 'Keep this mode across logins? Type yes within 30 seconds: ' answer || true
+echo
+if [[ $answer == "yes" ]]; then
+  mkdir -p "$state_dir"
+  [[ ! -e $profile ]] || cp -p "$profile" "$profile.backup-$(date +%s)"
+  temporary=$(mktemp "$state_dir/.pi-display.XXXXXX")
+  printf '%s\n' '-- Saved by omarchy-pi-display. Disable with: omarchy-pi-display reset' "$candidate" >"$temporary"
+  chmod 600 "$temporary"
+  mv "$temporary" "$profile"
+  saved=1
+  echo "Saved $profile"
+  echo 'This restores video timing; missing EDID can still affect HDMI audio.'
+fi

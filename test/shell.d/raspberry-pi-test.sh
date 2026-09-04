@@ -540,6 +540,7 @@ mkdir -p \
   "$audit_root/etc/systemd/system/bluetooth.target.wants" \
   "$audit_root/etc/systemd/system/multi-user.target.wants" \
   "$audit_root/etc/systemd/system/omarchy-provision-owner.service.d" \
+  "$audit_root/etc/systemd/system/avahi-daemon.service.d" \
   "$audit_root/etc/systemd/system/sddm.service.d" \
   "$audit_root/etc/systemd/user/pipewire.service.wants" \
   "$audit_root/etc/systemd/user/sockets.target.wants" \
@@ -627,11 +628,16 @@ printf '\177ELF\002\001\001\000\000\000\000\000\000\000\000\000\002\000\267\000'
 for executable in quickshell foot vcgencmd; do
   cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
 done
-for executable in omarchy-shell omarchy-pi-check omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
+cp "$ROOT/install/provisioning/omarchy-avahi-rpi4.conf" "$audit_root/etc/systemd/system/avahi-daemon.service.d/10-rpi4-owner-hostname.conf"
+for executable in omarchy-shell omarchy-pi-check omarchy-pi-display omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
   printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
 done
 cat >>"$audit_root/usr/bin/omarchy-provision-owner" <<'EOF'
 apply_keyboard "$keyboard"
+
+configure_hostname() {
+  hostnamectl set-hostname "$hostname"
+}
 
 run_imager_setup() {
   apply_keyboard "$keyboard"

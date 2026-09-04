@@ -53,7 +53,7 @@ cat >"$output" <<EOF
   "os_list": [
     {
       "name": "Omarchy 4 Pi",
-      "description": "Omarchy Quattro for Raspberry Pi 4 — Hyprland, Quickshell, and tiny-board energy.",
+      "description": "Omarchy Quattro for Raspberry Pi 4 Model B with 4GB+ RAM — Hyprland, Quickshell, and tiny-board energy.",
       "url": "$download_url",
       "icon": "$icon_url",
       "website": "$repo_url",

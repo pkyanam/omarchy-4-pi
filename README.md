@@ -5,7 +5,7 @@
 
   **Tiny board. Big desktop energy.**
 
-  The opinionated Omarchy Quattro desktop, remixed for Raspberry Pi 4.
+  The opinionated Omarchy Quattro desktop, remixed for Raspberry Pi 4 Model B with **4GB+ RAM**.
 
   [![Pi port checks](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml/badge.svg)](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml)
   [![Releases](https://img.shields.io/github/v/release/pkyanam/omarchy-4-pi?include_prereleases)](https://github.com/pkyanam/omarchy-4-pi/releases)
@@ -21,7 +21,7 @@ Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Ch
 
 ## Flash, boot, make it yours
 
-You need a **Raspberry Pi 4 Model B**, a reliable power supply, HDMI display, and a **32 GB or larger** microSD card or USB SSD. Back up the target drive: flashing erases it. An SSD and 4–8 GB RAM provide more breathing room. Pi 5, Pi 400, and other boards are not validated targets.
+Designed for **Raspberry Pi 4 Model B with 4GB or more RAM**; 8GB is recommended for larger browser sessions and development workloads. You also need a reliable power supply, HDMI display, and a **32 GB or larger** microSD card or USB SSD. Back up the target drive: flashing erases it. A USB 3 SSD helps with development I/O. Models below 4GB, Pi 5, Pi 400, and other boards are not supported targets for this release.
 
 Install Raspberry Pi Imager **2.0.11 or newer**. On macOS, open the RC1 catalog:
 
@@ -139,6 +139,8 @@ For existing Arch Linux ARM installs and deeper build details, see the [installa
 
 ## Updates and recovery
 
+The current source pins core updates to **[pkyanam/omarchy-4-pi](https://github.com/pkyanam/omarchy-4-pi), `origin/main`** and rejects unexpected repositories, x86 architecture, and dirty checkouts. Arch Linux ARM supplies system packages and signing keys; locally built Pi core packages are excluded from AUR replacement. These additional safeguards are not yet in the original downloadable image. See the [update audit](docs/pi-performance.md#update-path-audit).
+
 Use `omarchy update` for the Pi-aware update path. Back up important files first: this ext4 image has no automatic pre-update snapshot. Reflashing erases the card; testing RC1 on a spare card preserves your existing install. A source update alone does not replay first-boot setup or prove RC1's new image behavior.
 
 If `HOSTNAME.local` does not resolve, try the Pi's IP address from your router. Multicast discovery can be blocked by guest networks or client isolation. Compare `hostnamectl --static` with the non-secret provisioning receipt:
@@ -148,6 +150,22 @@ sudo jq '{hostname}' /var/lib/omarchy/imager-preseed.json
 ```
 
 The generic ARM64 kernel may not expose `/dev/vcio_gencmd`; that does not by itself mean power is bad. Pi diagnostics use Linux's native voltage and thermal sensors when the legacy tool is unavailable.
+
+## Small board, considerate agents
+
+New in source (not yet in the first downloadable image):
+
+```bash
+omarchy pi report --json         # Native sensors and memory/I/O pressure, ready for an agent
+omarchy pi run --plan -- make    # Preview the budget without starting a build
+omarchy pi run -- make           # Run a build with room left for the desktop
+```
+
+Use `omarchy pi run -- YOUR_AGENT_COMMAND` for an interactive agent workload. The scope keeps the terminal and working directory, limits CPU use, sets memory pressure/ceiling thresholds, and budgets build jobs from available RAM. Hitting the memory ceiling can kill the workload; save your work. It is resource control, not a security sandbox, and separate runs have separate budgets. No new monitoring daemon or local language model runs in the background.
+
+Our target is **at least Raspberry Pi OS performance on comparable workloads**, not an achieved benchmark claim. Read the [hardware research, decisions, benchmark protocol, and opt-in overclock proposal](docs/pi-performance.md). Stock clocks and thermal protections remain unchanged.
+
+We also [extracted and compared official Raspberry Pi OS driver packages](docs/rpios-driver-audit.md). The Pi 4 wireless firmware is already shared; vendor-kernel media support is a separate candidate to test, not a set of foreign modules to copy into the current kernel.
 
 ## Testing and contributing
 

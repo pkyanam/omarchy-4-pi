@@ -15,7 +15,7 @@ This port installs the Quattro desktop natively on a Raspberry Pi 4 Model B. It 
 
 ## Hardware and storage
 
-Use a Raspberry Pi 4 Model B with a 64-bit-capable installation, a reliable 3 A power supply, and at least 32 GB of storage. A USB 3 SSD is strongly recommended; a full install builds several packages and writes much more data than a small desktop image. The 8 GB model provides the most comfortable build and browser experience, but the port does not hard-code a memory size.
+Designed for Raspberry Pi 4 Model B with **4GB+ RAM**, a 64-bit installation, a reliable 3 A power supply, and at least 32 GB of storage. A USB 3 SSD is recommended for development I/O. The 8GB model provides more room for browser and agent-driven builds; smaller-than-4GB boards are outside the supported target. This is a support requirement, not a `total_mem` firmware limit.
 
 Connect Ethernet for the first installation when possible. Wi-Fi is managed by NetworkManager after Omarchy setup.
 
@@ -160,7 +160,7 @@ Run normal system and AUR updates through Omarchy:
 omarchy update
 ```
 
-The installer records its source checkout in `/etc/omarchy-rpi4.conf`. During an update, Omarchy fast-forwards that checkout and locally rebuilds the four ported Omarchy packages before continuing with the Arch Linux ARM package and migration steps. Local changes in the checkout cause the core rebuild to be skipped rather than overwritten.
+The installer records its source checkout in `/etc/omarchy-rpi4.conf`. Current source validates that its origin is `pkyanam/omarchy-4-pi` and it tracks `origin/main`; unexpected origins, branches, dirty checkouts, and package repositories stop the update before installation. It fast-forwards that checkout, reconciles minimal runtime dependencies, and rebuilds the four ported core packages before continuing with Arch Linux ARM packages and migrations. A success marker is written only after package installation, so failed rebuilds remain retryable. Local changes are never overwritten. The first downloadable image predates these additional safeguards; see the [audit and rollout notes](pi-performance.md#update-path-audit).
 
 Commands that normally refresh Limine detect this profile and leave the Pi firmware boot partition alone. Plymouth refreshes still rebuild the Arch Linux ARM initramfs directly with `mkinitcpio`, so `omarchy-reinstall-configs` works on the Pi instead of failing on a PC-only bootloader step.
 

@@ -15,7 +15,7 @@
 Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Chromium, and a surprisingly grown-up desktop on a very small computer.
 
 > [!IMPORTANT]
-> Independent community port—not an official Omarchy or Raspberry Pi product. **RC1 is our first release candidate, not a stable release.** The tester reports RC1 working on their Pi 4. RC1 adds hostname sequencing and display recovery; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
+> Independent community port—not an official Omarchy or Raspberry Pi product. **Our first general release is available.** The tested RC1 image has been promoted unchanged, retaining its original `v0.1.0-rc.1` tag and download links. The tester reports it working on their Pi 4; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
 
 ## Flash, boot, make it yours
 

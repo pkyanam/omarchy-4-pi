@@ -364,6 +364,8 @@ arm_first_boot_provisioning() {
     /etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf
   sudo install -Dm644 "$sddm_dependency_source" \
     /etc/systemd/system/sddm.service.d/10-rpi4-owner-setup.conf
+  sudo install -Dm644 "$checkout/install/provisioning/omarchy-avahi-rpi4.conf" \
+    /etc/systemd/system/avahi-daemon.service.d/10-rpi4-owner-hostname.conf
   sudo install -d /var/lib/omarchy/provisioning /etc/systemd/system/multi-user.target.wants
   sudo touch /var/lib/omarchy/provisioning/pending \
     /var/lib/omarchy/provisioning/grow-root-pending

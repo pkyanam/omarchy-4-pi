@@ -928,8 +928,9 @@ UNIT
 # step, overwriting the placeholder the deferred install seeded.
 configure_hostname() {
   [[ -n ${hostname:-} ]] || return 0
-  hostnamectl set-hostname "$hostname" 2>&1 ||
-    printf '%s\n' "$hostname" >/etc/hostname
+  hostnamectl set-hostname "$hostname"
+  [[ $(hostnamectl --static) == "$hostname" ]] || return 1
+  [[ $(hostnamectl --transient) == "$hostname" ]] || return 1
 }
 
 # Apply the owner's timezone, deferred to first boot with the rest of the user
@@ -1118,15 +1119,15 @@ cleanup_oem_state() {
 # The provisioning work, backgrounded under the progress screen. Phase writes
 # to STATE_FILE drive the bar; all output lands in the log.
 run_provisioning() {
+  log_step "setting hostname to ${hostname:-omarchy}"
+  configure_hostname
+
   log_step "creating user $username"
   create_user
   install_authorized_keys
   configure_imager_network
   configure_imager_ssh
   configure_login
-
-  log_step "setting hostname to ${hostname:-omarchy}"
-  configure_hostname
 
   log_step "setting timezone to ${timezone:-UTC}"
   configure_timezone
@@ -1263,13 +1264,21 @@ if [[ ${1:-} == "--attempt" ]]; then
   exit 0
 fi
 
+# Keep errexit active throughout unattended setup. Calling its functions from
+# an if condition suppresses failures deep inside account/hostname setup.
+if [[ ${1:-} == "--imager-attempt" ]]; then
+  load_imager_preseed
+  run_imager_setup
+  exit 0
+fi
+
 main() {
   # Font sizing waits for the console to settle, so it lives inside
   # greeter_screen (which owns that settle) rather than running here on a VT
   # that may still be in a transitional mode this early in first boot.
   set_tokyo_night_colors
   if load_imager_preseed; then
-    if run_imager_setup; then
+    if "$0" --imager-attempt; then
       return 0
     fi
     clear_logo

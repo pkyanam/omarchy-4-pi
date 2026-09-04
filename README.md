@@ -28,7 +28,7 @@ open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
   "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-rc.1/os-list.json"
 ```
 
-The catalog is available once the [RC1 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-rc.1) contains `os-list.json` and the image asset. A tag alone does not mean the build is ready.
+The [RC1 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-rc.1) contains the verified image and `os-list.json`. The 2.08 GB download passed checksum/catalog verification and an independent read-only audit of 111 image invariants. It is ready to flash for RC1 hardware testing; that is not a claim that the new image has already passed a physical Pi test.
 
 1. Select the **Raspberry Pi 4** device and **Omarchy 4 Pi** OS entry.
 2. Select your SD card or SSD. Double-check which drive will be erased.

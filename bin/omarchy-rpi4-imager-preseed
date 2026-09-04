@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# omarchy:summary=Stage Raspberry Pi Imager settings for first-boot owner provisioning
+# omarchy:hidden=true
+
 """Stage Raspberry Pi Imager 2.x rpi-preseed settings for Omarchy setup.
 
 This intentionally accepts only the fields Imager itself generates for the

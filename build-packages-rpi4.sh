@@ -6,7 +6,8 @@
 
 set -euo pipefail
 
-readonly checkout="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+checkout="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly checkout
 readonly output_dir="${OMARCHY_PACKAGE_OUTPUT:-$checkout/build-output-rpi4}"
 readonly source_cache="${OMARCHY_PACKAGE_SRCDEST:-${XDG_CACHE_HOME:-$HOME/.cache}/omarchy-rpi4/sources}"
 readonly packages=(
@@ -62,7 +63,10 @@ strip_boot_settings_entries() {
 prepare_source_tree() {
   source_tree="$build_root/source"
   mkdir -p "$source_tree"
-  cp -a "$checkout/." "$source_tree/"
+  # Do not copy multi-gigabyte image artifacts or Git history onto the Pi's
+  # staging filesystem merely to remove them afterward. Preserve working edits.
+  tar -C "$checkout" --exclude='./.git' --exclude='./build' \
+    --exclude='./build-output-rpi4' -cf - . | tar -xf - -C "$source_tree"
   rm -rf "$source_tree/.git" \
     "$source_tree/build-output-rpi4" \
     "$source_tree/config/autostart/limine-snapper-notify.desktop" \

@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# omarchy:summary=Run an agent or build with Pi-friendly CPU and memory limits
+# omarchy:args=[--plan] -- <command> [args...]
+# omarchy:examples=omarchy pi run -- make | omarchy pi run --plan -- bash
+
+set -euo pipefail
+plan=0
+if [[ ${1:-} == "--plan" ]]; then
+  plan=1
+  shift
+fi
+[[ ${1:-} != "--" ]] || shift
+if (( $# == 0 )); then
+  echo "Usage: omarchy pi run [--plan] -- <command> [args...]" >&2
+  exit 2
+fi
+omarchy-hw-raspberry-pi || { echo "This helper is designed for Raspberry Pi." >&2; exit 1; }
+
+cores=$(nproc)
+jobs=$(( cores > 1 ? cores - 1 : 1 ))
+available_kib=$(awk '/^MemAvailable:/ { print $2 }' "${OMARCHY_PI_MEMINFO:-/proc/meminfo}")
+[[ $available_kib =~ ^[0-9]+$ ]] || { echo "Cannot read available RAM." >&2; exit 1; }
+memory_jobs=$(( available_kib / 1048576 ))
+(( memory_jobs > 0 )) || memory_jobs=1
+(( jobs <= memory_jobs )) || jobs=$memory_jobs
+quota=$(( (cores > 1 ? cores - 1 : 1) * 100 ))
+
+# Scope mode preserves the caller's terminal, directory, environment, and exact
+# argv. Limits apply to this workload and its children, not the whole desktop.
+command=(systemd-run --user --scope --quiet --expand-environment=no
+  -p "CPUQuota=$quota%" -p CPUWeight=50 -p IOWeight=50
+  -p MemoryHigh=50% -p MemoryMax=65%
+  -- env "MAKEFLAGS=-j$jobs" "CARGO_BUILD_JOBS=$jobs" "CMAKE_BUILD_PARALLEL_LEVEL=$jobs"
+  nice -n 5 "$@")
+if (( plan )); then
+  printf '%q ' "${command[@]}"
+  printf '\n'
+else
+  # Fail rather than silently running unrestricted if the user manager cannot
+  # create the scope. MemoryMax can OOM-kill this job; save work accordingly.
+  exec "${command[@]}"
+fi

@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# omarchy:summary=Print a read-only Pi performance report for people and agents
+# omarchy:args=[--json]
+# omarchy:examples=omarchy pi report | omarchy pi report --json
+
+set -euo pipefail
+[[ $# == 0 || ( $# == 1 && $1 == "--json" ) ]] || { echo "Usage: omarchy pi report [--json]" >&2; exit 2; }
+proc_root=${OMARCHY_PI_PROC_ROOT:-/proc}
+sys_root=${OMARCHY_PI_SYS_ROOT:-/sys}
+model="unknown"
+[[ ! -r $proc_root/device-tree/model ]] || model=$(tr -d '\0' <"$proc_root/device-tree/model")
+total=$(awk '/^MemTotal:/ {print $2}' "$proc_root/meminfo")
+available=$(awk '/^MemAvailable:/ {print $2}' "$proc_root/meminfo")
+policies='[]'
+for path in "$sys_root"/devices/system/cpu/cpufreq/policy*; do
+  [[ -r $path/scaling_governor ]] || continue
+  frequency=""
+  [[ ! -r $path/scaling_cur_freq ]] || frequency=$(<"$path/scaling_cur_freq")
+  policies=$(jq --arg name "${path##*/}" --arg governor "$(<"$path/scaling_governor")" --arg khz "$frequency" \
+    '. + [{name:$name, governor:$governor, frequency_khz:($khz | tonumber? // null)}]' <<<"$policies")
+done
+pressure='{}'
+for resource in cpu memory io; do
+  sample=""
+  [[ ! -r $proc_root/pressure/$resource ]] || sample=$(<"$proc_root/pressure/$resource")
+  pressure=$(jq --arg key "$resource" --arg value "$sample" '. + {($key): (if $value == "" then null else $value end)}' <<<"$pressure")
+done
+temperature=""
+for path in "$sys_root"/class/thermal/thermal_zone*; do
+  [[ -r $path/type && -r $path/temp ]] || continue
+  [[ $(<"$path/type") == "cpu-thermal" ]] || continue
+  temperature=$(<"$path/temp")
+  break
+done
+voltage=""
+for path in "$sys_root"/class/hwmon/hwmon*; do
+  [[ -r $path/name && -r $path/in0_lcrit_alarm ]] || continue
+  [[ $(<"$path/name") == "rpi_volt" ]] || continue
+  voltage=$(<"$path/in0_lcrit_alarm")
+  break
+done
+zram_algorithm=""
+zram_memory=""
+[[ ! -r $sys_root/block/zram0/comp_algorithm ]] || zram_algorithm=$(<"$sys_root/block/zram0/comp_algorithm")
+[[ ! -r $sys_root/block/zram0/mm_stat ]] || zram_memory=$(<"$sys_root/block/zram0/mm_stat")
+report=$(jq -n --arg model "$model" --arg arch "$(uname -m)" --arg kernel "$(uname -r)" \
+  --arg total "$total" --arg available "$available" --arg temperature "$temperature" --arg voltage "$voltage" \
+  --arg algorithm "$zram_algorithm" --arg mm_stat "$zram_memory" --argjson policies "$policies" --argjson pressure "$pressure" '
+  {schema:1, model:$model, architecture:$arch, kernel:$kernel,
+   memory_kib:{total:($total|tonumber? // null), available:($available|tonumber? // null)},
+   cpu_policies:$policies, pressure:$pressure,
+   temperature_c:($temperature|try (tonumber / 1000) catch null),
+   undervoltage_alarm:($voltage|tonumber? // null),
+   zram:{algorithms:$algorithm, mm_stat:$mm_stat}}')
+if [[ ${1:-} == "--json" ]]; then
+  printf '%s\n' "$report"
+else
+  printf 'Omarchy 4 Pi — performance snapshot (designed for 4GB+ Pi 4 Model B)\n'
+  jq -r '"Model: \(.model)\nArchitecture: \(.architecture)\nKernel: \(.kernel)\nRAM KiB: \(.memory_kib.available) available / \(.memory_kib.total) total\nCPU temperature: \(.temperature_c // "unknown") °C\nUndervoltage alarm: \(.undervoltage_alarm // "unknown")\nCPU policies: \(.cpu_policies)\nZram algorithms: \(.zram.algorithms)\nZram memory stats: \(.zram.mm_stat)\nPressure: \(.pressure)"' <<<"$report"
+fi

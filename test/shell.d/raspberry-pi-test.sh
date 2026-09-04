@@ -655,7 +655,7 @@ for executable in quickshell foot vcgencmd; do
   cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
 done
 cp "$ROOT/install/provisioning/omarchy-avahi-rpi4.conf" "$audit_root/etc/systemd/system/avahi-daemon.service.d/10-rpi4-owner-hostname.conf"
-for executable in omarchy-shell omarchy-pi-check omarchy-pi-display omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
+for executable in ttfx omarchy-shell omarchy-pi-check omarchy-pi-display omarchy-pi-report omarchy-pi-run omarchy-update-rpi4-guard omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
   printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
 done
 cat >>"$audit_root/usr/bin/omarchy-provision-owner" <<'EOF'
@@ -680,11 +680,17 @@ configure_imager_ssh() {
 EOF
 chmod +x "$audit_root/usr/bin/"*
 
+mkdir -p "$audit_root/usr/lib/firmware/updates/brcm" "$audit_root/usr/share/licenses/broadcom/cypress"
+for firmware in brcmfmac43455-sdio.raspberrypi,4-model-b.bin brcmfmac43455-sdio.raspberrypi,4-model-b.txt brcmfmac43455-sdio.raspberrypi,4-model-b.clm_blob BCM4345C0.hcd; do
+  printf 'firmware fixture\n' >"$audit_root/usr/lib/firmware/updates/brcm/$firmware"
+done
+printf 'license fixture\n' >"$audit_root/usr/share/licenses/broadcom/cypress/LICENSE"
+
 audit_packages=(
-  hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils
+  hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils firmware-raspberrypi
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils
   alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber
-  uwsm chromium foot omarchy omarchy-settings linux-firmware-broadcom
+  uwsm chromium foot ttfx omarchy omarchy-settings linux-firmware-broadcom
 )
 for package in "${audit_packages[@]}"; do
   package_dir="$audit_root/var/lib/pacman/local/$package-1.0-1"
@@ -725,6 +731,17 @@ manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
 "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-ok"
 grep -F 'PASS:' "$test_tmp/audit-ok" >/dev/null || fail "image root audit reports its passing invariant count"
 pass "image root audit accepts a complete ARM64 Quattro payload"
+
+wifi_firmware="$audit_root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.bin"
+mv "$wifi_firmware" "$test_tmp/wifi-payload"
+ln -s missing-firmware.bin "$wifi_firmware"
+if "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-wifi" 2>&1; then
+  fail "image root audit must reject a dangling wireless firmware symlink"
+fi
+grep -F 'Pi 4 Wi-Fi firmware resolves to an installed payload' "$test_tmp/audit-wifi" >/dev/null || fail "audit diagnoses a missing Pi firmware payload"
+rm "$wifi_firmware"
+mv "$test_tmp/wifi-payload" "$wifi_firmware"
+pass "image root audit rejects unresolved Pi 4 wireless firmware"
 
 grow_dependency="$audit_root/etc/systemd/system/omarchy-provision-owner.service.d/10-rpi4-grow-root.conf"
 cp "$grow_dependency" "$test_tmp/complete-grow-dependency.conf"

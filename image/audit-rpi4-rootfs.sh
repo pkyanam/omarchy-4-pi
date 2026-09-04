@@ -229,6 +229,14 @@ require_executable "$root/usr/bin/ttfx" "screensaver renderer is installed"
 require_executable "$root/usr/bin/vcgencmd" "Raspberry Pi power diagnostic is installed"
 require_executable "$root/usr/bin/omarchy-pi-check" "Pi hardware acceptance command is installed"
 require_executable "$root/usr/bin/omarchy-pi-display" "Pi display recovery command is installed"
+require_executable "$root/usr/bin/omarchy-pi-report" "Pi agent-readable diagnostics are installed"
+require_executable "$root/usr/bin/omarchy-pi-run" "Pi workload budgeting command is installed"
+require_executable "$root/usr/bin/omarchy-update-rpi4-guard" "Pi update source and architecture guard is installed"
+require_file "$root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.bin" "Pi 4 Wi-Fi firmware resolves to an installed payload"
+require_file "$root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt" "Pi 4 Wi-Fi board calibration is installed"
+require_file "$root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.clm_blob" "Pi 4 Wi-Fi regulatory data is installed"
+require_file "$root/usr/lib/firmware/updates/brcm/BCM4345C0.hcd" "Pi 4 Bluetooth firmware is installed"
+require_file "$root/usr/share/licenses/broadcom/cypress/LICENSE" "Pi wireless firmware redistribution notice is retained"
 require_file "$root/usr/share/omarchy/shell/shell.qml" "Quattro shell payload is installed"
 require_file "$root/usr/share/omarchy-rpi4/hyprland-config-verified" "ARM64 Hyprland accepted the Pi owner configuration"
 require_file "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Omarchy Wayland session is installed"
@@ -238,7 +246,7 @@ require_file "$root/usr/share/omarchy/default/hypr/raspberry-pi.lua" "Pi composi
 require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme is installed"
 
 for package in \
-  hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
+  hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils firmware-raspberrypi \
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
   alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
   uwsm chromium foot ttfx omarchy omarchy-settings; do

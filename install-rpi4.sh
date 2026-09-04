@@ -176,6 +176,7 @@ install_official_packages() {
   available+=(
     archlinuxarm-keyring
     cloud-guest-utils
+    firmware-raspberrypi
     hicolor-icon-theme
     iw
     linux-aarch64

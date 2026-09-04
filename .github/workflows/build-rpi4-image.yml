@@ -57,6 +57,9 @@ jobs:
           test/shell.d/rpi-owner-hostname-test.sh
           test/shell.d/rpi-display-test.sh
           test/shell.d/screensaver-test.sh
+          test/shell.d/rpi-performance-test.sh
+          test/shell.d/rpi-update-safety-test.sh
+          test/shell.d/rpi-firmware-test.sh
           test/shell.d/rpi-grow-root-test.sh
           test/shell.d/rpi-hyprland-verify-test.sh
 

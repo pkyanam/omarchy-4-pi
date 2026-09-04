@@ -346,10 +346,11 @@ run_chroot_pacman() {
 prepare_build_user() {
   log "Preparing the Arch Linux ARM build environment"
   cp "$repo_root/default/pacman/pacman-rpi4.conf" "$root_mount/etc/pacman.conf"
-  cp "$repo_root/default/pacman/mirrorlist-rpi4" "$root_mount/etc/pacman.d/mirrorlist"
+  cp "$repo_root/default/pacman/mirrorlist-rpi4-image" "$root_mount/etc/pacman.d/mirrorlist"
   chroot "$root_mount" pacman-key --init
   chroot "$root_mount" pacman-key --populate archlinuxarm
-  run_chroot_pacman -Syyu --needed --noconfirm base-devel git sudo
+  # Align even a newer rolling base filesystem with the complete snapshot.
+  run_chroot_pacman -Syyuu --needed --noconfirm base-devel git sudo
 
   chroot "$root_mount" useradd -m -s /bin/bash omarchy-builder
   printf 'omarchy-builder ALL=(ALL:ALL) NOPASSWD: ALL\n' \
@@ -424,6 +425,7 @@ write_build_manifest() {
   "source_dirty": $dirty,
   "omarchy_pkgs_commit": "$omarchy_pkgs_commit",
   "install_mode": "$install_mode",
+  "package_snapshot": "$(awk '$1 == "Server" { print $3 }' "$repo_root/default/pacman/mirrorlist-rpi4-image")",
   "base_url": "$rootfs_url",
   "base_sha256": "$rootfs_sha",
   "base_signing_key": "$build_key",

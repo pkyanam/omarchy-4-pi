@@ -531,6 +531,25 @@ grep -F '2.0.11 or newer is required for rpi-preseed' "$ROOT/image/open-in-rpi-i
 pass "macOS Imager launcher enforces rpi-preseed support and a loopback-only catalog"
 
 audit_root="$test_tmp/audit-root"
+(
+  source "$ROOT/install-rpi4.sh"
+  sudo() { printf '%s\n' "$*" >>"$test_tmp/snapshot-calls"; }
+  pacman_retry() { printf 'pacman %s\n' "$*" >>"$test_tmp/snapshot-calls"; }
+  image_mode=0
+  : >"$test_tmp/snapshot-calls"
+  configure_arm_repositories >/dev/null
+  if grep -F 'mirrorlist-rpi4-image' "$test_tmp/snapshot-calls" >/dev/null; then
+    fail "ordinary installs must retain live ARM mirrors"
+  fi
+  image_mode=1
+  : >"$test_tmp/snapshot-calls"
+  configure_arm_repositories >/dev/null
+  grep -F 'mirrorlist-rpi4-image' "$test_tmp/snapshot-calls" >/dev/null || fail "image installs use the coherent package snapshot"
+)
+grep -Fx 'SigLevel = Required DatabaseOptional' "$ROOT/default/pacman/pacman-rpi4.conf" >/dev/null || fail "archived packages still require trusted signatures"
+grep -F 'run_chroot_pacman -Syyuu' "$ROOT/image/build-rpi4-image.sh" >/dev/null || fail "factory bootstrap aligns a newer base with the snapshot"
+pass "snapshot package selection is image-only and retains signature enforcement"
+
 audit_boot="$test_tmp/audit-boot"
 mkdir -p \
   "$audit_boot" \

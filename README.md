@@ -131,7 +131,7 @@ Or choose **Actions → Build Raspberry Pi image → Run workflow**. Version tag
 
 Each build provides a compressed `.img.xz`, SHA-256 checksum, Imager catalog, package/source manifest, and mounted-root audit report. The image expands from its 12 GiB factory size on first boot. The factory verifies the signed Arch Linux ARM base, removes default accounts and machine identity, checks the actual ARM64 Hyprland configuration, and audits the assembled root filesystem before publishing.
 
-Builds are **traceable, not bit-for-bit reproducible**: Arch Linux ARM repositories and the base filesystem roll forward. Exact resolved packages and source commits are recorded in each manifest.
+RC1 factory builds use the **September 3, 2026 package snapshot** from a community Arch Linux ARM archive, with official package signatures still required. This avoids a later upstream Aquamarine/Hyprland library mismatch. Normal live ARM mirrors are restored before shipping, so updates are not permanently frozen. The archive URL, resolved packages, and source commits are recorded in each manifest. Builds are **traceable, not bit-for-bit reproducible**: the signed base filesystem and some build inputs still roll forward.
 
 For existing Arch Linux ARM installs and deeper build details, see the [installation guide](docs/raspberry-pi-4.md).
 

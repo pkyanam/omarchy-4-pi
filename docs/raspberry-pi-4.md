@@ -70,6 +70,8 @@ SDDM should start the Omarchy Hyprland session automatically.
 
 The repository's image factory runs on a native aarch64 Linux host. It verifies the official Arch Linux ARM detached signature against build key `68B3537F39A313B3E574D06777193F152BDBE6A6`, creates the Pi partition layout, installs the port in a chroot, removes factory credentials, and emits Raspberry Pi Imager-ready metadata.
 
+RC1 selects a complete September 3, 2026 package snapshot from the community archive `pkgmirror.sametimetomorrow.net` using `default/pacman/mirrorlist-rpi4-image`. The bootstrap synchronizes the base to that snapshot, including downgrades when a newer base requires them. Official Arch Linux ARM package signatures remain required. Post-install setup restores the live `mirrorlist-rpi4`, and the mounted-root audit checks that the shipped image uses normal live ARM mirrors. The manifest records the build-only snapshot URL. Ordinary non-image installs continue using live mirrors.
+
 On Debian or Ubuntu ARM64:
 
 ```bash

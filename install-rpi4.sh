@@ -116,6 +116,9 @@ configure_arm_repositories() {
   log "Configuring Arch Linux ARM package repositories"
   sudo install -Dm644 "$checkout/default/pacman/pacman-rpi4.conf" /etc/pacman.conf
   sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4" /etc/pacman.d/mirrorlist
+  if (( image_mode )); then
+    sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4-image" /etc/pacman.d/mirrorlist
+  fi
   sudo pacman-key --init
   sudo pacman-key --populate archlinuxarm
   pacman_retry -Syyu --needed --noconfirm git base-devel gum

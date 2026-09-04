@@ -1,0 +1,4 @@
+# RC1 factory snapshot. Packages retain required Arch Linux ARM signatures.
+# The live mirrorlist-rpi4 is restored after installation for normal updates.
+# This community archive preserves the coherent pre-Aquamarine-14 package set.
+Server = https://pkgmirror.sametimetomorrow.net/aarch64/repos/2026/09/03/$repo

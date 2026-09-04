@@ -17,6 +17,8 @@ Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Ch
 > [!IMPORTANT]
 > Independent community port—not an official Omarchy or Raspberry Pi product. **Our first general release is available.** The tested RC1 image has been promoted unchanged, retaining its original `v0.1.0-rc.1` tag and download links. The tester reports it working on their Pi 4; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
 
+> **First-release workaround:** disable the screensaver with `omarchy-toggle screensaver-off on`. The published minimal image is missing its renderer and can get stuck on idle; screen locking is unaffected. See [recovery instructions](docs/releases/v0.1.0-rc.1.md#known-limits). The source fix is not yet in the downloadable image.
+
 ## Flash, boot, make it yours
 
 You need a **Raspberry Pi 4 Model B**, a reliable power supply, HDMI display, and a **32 GB or larger** microSD card or USB SSD. Back up the target drive: flashing erases it. An SSD and 4–8 GB RAM provide more breathing room. Pi 5, Pi 400, and other boards are not validated targets.

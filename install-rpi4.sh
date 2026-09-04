@@ -256,6 +256,7 @@ install_arm_packages() {
     ufw-docker
     xdg-terminal-exec
     yaru-icon-theme
+    ttfx
   )
   local -a optional=(
     aether
@@ -268,7 +269,6 @@ install_arm_packages() {
     omarchy-nvim
     tobi-try
     ttf-ia-writer
-    ttfx
   )
 
   log "Building required ARM packages"

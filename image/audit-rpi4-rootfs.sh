@@ -225,6 +225,7 @@ require_unit_link "$root/etc/systemd/user/pipewire.service.wants/wireplumber.ser
 require_executable "$root/usr/bin/Hyprland" "Hyprland compositor is installed"
 require_executable "$root/usr/bin/quickshell" "Quickshell runtime is installed"
 require_executable "$root/usr/bin/omarchy-shell" "Omarchy shell launcher is installed"
+require_executable "$root/usr/bin/ttfx" "screensaver renderer is installed"
 require_executable "$root/usr/bin/vcgencmd" "Raspberry Pi power diagnostic is installed"
 require_executable "$root/usr/bin/omarchy-pi-check" "Pi hardware acceptance command is installed"
 require_executable "$root/usr/bin/omarchy-pi-display" "Pi display recovery command is installed"
@@ -240,7 +241,7 @@ for package in \
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils \
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
   alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
-  uwsm chromium foot omarchy omarchy-settings; do
+  uwsm chromium foot ttfx omarchy omarchy-settings; do
   require_package "$package"
 done
 

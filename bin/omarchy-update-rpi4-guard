@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# omarchy:summary=Refuse Pi updates with an unexpected source or package repository
+# omarchy:args=[all|source|packages]
+# omarchy:hidden=true
+
+set -euo pipefail
+fail() { printf 'Pi update refused: %s\n' "$*" >&2; exit 1; }
+mode=${1:-all}
+[[ $mode == "all" || $mode == "source" || $mode == "packages" ]] || fail "invalid guard mode"
+[[ $(uname -m) == "aarch64" ]] || fail "expected aarch64"
+
+if [[ $mode != "packages" ]]; then
+  profile=${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}
+  [[ -r $profile ]] || fail "missing Pi profile; do not fall back to upstream Omarchy"
+  # shellcheck source=/dev/null
+  source "$profile"
+  checkout=${OMARCHY_RPI4_SOURCE:-}
+  [[ -n $checkout && -d $checkout/.git ]] || fail "Pi source checkout is unavailable"
+  origin=$(git -C "$checkout" remote get-url origin)
+  case "$origin" in
+    https://github.com/pkyanam/omarchy-4-pi|https://github.com/pkyanam/omarchy-4-pi.git|git@github.com:pkyanam/omarchy-4-pi.git) ;;
+    *) fail "origin must be pkyanam/omarchy-4-pi, found $origin" ;;
+  esac
+  [[ $(git -C "$checkout" symbolic-ref --quiet --short HEAD) == "main" ]] || fail "expected the Pi main branch"
+  [[ $(git -C "$checkout" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}') == "origin/main" ]] || fail "expected origin/main tracking"
+  [[ -z $(git -C "$checkout" status --porcelain) ]] || fail "source has local changes; preserve or commit them first"
+fi
+
+if [[ $mode != "source" ]]; then
+  [[ $(pacman-conf Architecture) == "aarch64" ]] || fail "pacman Architecture must be aarch64"
+  repositories=$(pacman-conf --repo-list)
+  [[ -n $repositories ]] || fail "no package repositories configured"
+  while IFS= read -r repository; do
+    case "$repository" in
+      core|extra|alarm|aur) ;;
+      *) fail "unexpected repository [$repository]; review it before updating this Pi" ;;
+    esac
+    servers=$(pacman-conf --repo "$repository" Server)
+    [[ -n $servers ]] || fail "[$repository] has no servers"
+    if [[ $servers == *omarchy.org* || $servers == *x86_64* ]]; then
+      fail "[$repository] points to an upstream/x86 mirror"
+    fi
+  done <<<"$repositories"
+fi

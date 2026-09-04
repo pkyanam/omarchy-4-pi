@@ -7,6 +7,12 @@
 
 set -euo pipefail
 
+# This self-contained legacy upgrader installs the x86 boot/package stack.
+if [[ $(uname -m) != "x86_64" || -f /etc/omarchy-rpi4.conf ]]; then
+  echo "This legacy x86 upgrade is not supported on Omarchy 4 Pi; use omarchy update." >&2
+  exit 1
+fi
+
 usage() {
   cat <<'USAGE'
 Usage: omarchy-upgrade-to-quattro [--yes] [--reboot] [--dev] [--channel stable|rc|edge] [--user USER]

@@ -8,7 +8,7 @@ sudo cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 
 channel="${1:-stable}"
 
-if omarchy-hw-raspberry-pi; then
+if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
   channel=rpi4
 fi
 
@@ -25,6 +25,10 @@ sudo cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-$channel" /etc/pacman.d/mirr
 
 # Allow user customization of /etc/pacman.conf before the upgrade runs
 omarchy-hook pre-refresh-pacman
+
+if [[ $channel == "rpi4" ]]; then
+  omarchy-update-rpi4-guard packages || exit 1
+fi
 
 # Reset all package DBs and then update
 sudo env OMARCHY_UPDATE_PACMAN=1 pacman -Syyuu --noconfirm

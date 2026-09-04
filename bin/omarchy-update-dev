@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-if [[ -f /etc/omarchy-rpi4.conf ]]; then
+if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
   omarchy-update-rpi4
   exit 0
 fi

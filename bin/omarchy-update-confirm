@@ -2,13 +2,18 @@
 
 # omarchy:summary=Prompt for confirmation before starting an update
 
+release_url=https://github.com/basecamp/omarchy/releases/latest
+if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
+  release_url=https://github.com/pkyanam/omarchy-4-pi/releases/latest
+fi
+
 gum style --border normal --padding "1 2" \
   "Ready to update?" \
   "" \
   "• You cannot stop the update once you start!" \
   "• Make sure you're connected to power or have a full battery" \
   "" \
-  "What's new: https://github.com/basecamp/omarchy/releases/latest"
+  "What's new: $release_url"
 
 echo
 

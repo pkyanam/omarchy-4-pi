@@ -2,10 +2,17 @@
 
 # omarchy:summary=Update AUR packages if any are installed
 
+ignored=gcc14,gcc14-libs
+if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
+  omarchy-update-rpi4-guard packages || exit 1
+  # Locally rebuilt Pi core packages must never be replaced by AUR namesakes.
+  ignored+=,omarchy,omarchy-settings,omarchy-keyring,ttf-jetbrains-mono-nerd-basic
+fi
+
 if pacman -Qem >/dev/null; then
   if omarchy-pkg-aur-accessible; then
     echo -e "\e[32m\nUpdate AUR packages\e[0m"
-    yay -Sua --noconfirm --cleanafter --ignore gcc14,gcc14-libs
+    yay -Sua --noconfirm --cleanafter --ignore "$ignored"
     echo
   else
     echo -e "\e[31m\nAUR is unavailable (so skipping updates)\e[0m"

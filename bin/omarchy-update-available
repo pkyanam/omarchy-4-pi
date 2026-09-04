@@ -6,16 +6,24 @@ set -euo pipefail
 
 updates=()
 
-if [[ -r /etc/omarchy-rpi4.conf ]]; then
+if [[ -r /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
+  omarchy-update-rpi4-guard source
   source /etc/omarchy-rpi4.conf
   rpi_checkout="${OMARCHY_RPI4_SOURCE:-}"
   if [[ -d $rpi_checkout/.git ]]; then
     upstream=$(git -C "$rpi_checkout" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
     if [[ -n $upstream ]]; then
-      GIT_TERMINAL_PROMPT=0 timeout 10 git -C "$rpi_checkout" fetch --quiet 2>/dev/null || true
+      GIT_TERMINAL_PROMPT=0 timeout 10 git -C "$rpi_checkout" fetch --quiet origin refs/heads/main:refs/remotes/origin/main 2>/dev/null || true
       behind=$(git -C "$rpi_checkout" rev-list --count "HEAD..$upstream" 2>/dev/null || echo 0)
       if (( behind > 0 )); then
         updates+=("omarchy-rpi4 $behind new source commits on $upstream")
+      else
+        installed_commit=""
+        state_file=${OMARCHY_RPI4_UPDATE_STATE:-/var/lib/omarchy/rpi4-source-commit}
+        [[ ! -r $state_file ]] || installed_commit=$(<"$state_file")
+        if [[ $installed_commit != "$(git -C "$rpi_checkout" rev-parse HEAD)" ]]; then
+          updates+=("omarchy-rpi4 source rebuild pending")
+        fi
       fi
     fi
   fi

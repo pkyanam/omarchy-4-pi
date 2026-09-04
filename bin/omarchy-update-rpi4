@@ -6,7 +6,8 @@
 set -euo pipefail
 
 profile="${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}"
-[[ -r $profile ]] || exit 0
+omarchy-update-rpi4-guard
+# shellcheck source=/dev/null
 source "$profile"
 
 checkout="${OMARCHY_RPI4_SOURCE:-}"
@@ -26,13 +27,32 @@ git -C "$checkout" diff --quiet && git -C "$checkout" diff --cached --quiet || {
   exit 0
 }
 
-git -C "$checkout" fetch --quiet
+git -C "$checkout" fetch --quiet origin refs/heads/main:refs/remotes/origin/main
 behind=$(git -C "$checkout" rev-list --count "HEAD..$upstream")
-(( behind > 0 )) || {
+if (( behind > 0 )); then
+  git -C "$checkout" merge --ff-only "$upstream"
+fi
+
+# A failed build must remain retryable after the checkout has advanced.
+# HEAD alone does not prove that its packages were installed successfully.
+state_file=${OMARCHY_RPI4_UPDATE_STATE:-/var/lib/omarchy/rpi4-source-commit}
+source_commit=$(git -C "$checkout" rev-parse HEAD)
+installed_commit=""
+[[ ! -r $state_file ]] || installed_commit=$(<"$state_file")
+[[ $installed_commit != "$source_commit" ]] || {
   echo "Raspberry Pi Omarchy core is up to date."
   exit 0
 }
-git -C "$checkout" merge --ff-only "$upstream"
+
+# Minimal still includes runtime dependencies such as the screensaver renderer.
+# Reuse the package-only leaves, never replay owner provisioning or reset config.
+(
+  source "$checkout/install-rpi4.sh"
+  # shellcheck disable=SC2034
+  install_mode=minimal
+  ensure_package_sources
+  install_arm_packages
+)
 
 output=$(mktemp -d)
 trap 'rm -rf "$output"' EXIT
@@ -47,3 +67,5 @@ done
   exit 1
 }
 sudo pacman -U --noconfirm "${packages[@]}"
+sudo install -d "$(dirname "$state_file")"
+printf '%s\n' "$source_commit" | sudo tee "$state_file" >/dev/null

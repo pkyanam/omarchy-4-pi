@@ -1,4 +1,8 @@
 # RC1 factory snapshot. Packages retain required Arch Linux ARM signatures.
 # The live mirrorlist-rpi4 is restored after installation for normal updates.
 # This community archive preserves the coherent pre-Aquamarine-14 package set.
+# CacheServer supplies exact package files, never repository databases. Use the
+# official mirrors for unchanged files to avoid overloading the snapshot host.
+CacheServer = https://fl.us.mirror.archlinuxarm.org/$arch/$repo
+CacheServer = https://ca.us.mirror.archlinuxarm.org/$arch/$repo
 Server = https://pkgmirror.sametimetomorrow.net/aarch64/repos/2026/09/03/$repo

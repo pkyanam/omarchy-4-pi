@@ -339,13 +339,15 @@ run_chroot_pacman() {
     fi
     (( attempt < 4 )) || fail "Arch Linux ARM package bootstrap failed after $attempt attempts."
     echo "Package mirror failed; retrying bootstrap ($attempt/4)..." >&2
-    sleep $((attempt * 10))
+    sleep $((attempt * 30))
   done
 }
 
 prepare_build_user() {
   log "Preparing the Arch Linux ARM build environment"
   cp "$repo_root/default/pacman/pacman-rpi4.conf" "$root_mount/etc/pacman.conf"
+  # Archived files are the exception, and the community host rate-limits bursts.
+  sed -i 's/^ParallelDownloads = .*/ParallelDownloads = 1/' "$root_mount/etc/pacman.conf"
   cp "$repo_root/default/pacman/mirrorlist-rpi4-image" "$root_mount/etc/pacman.d/mirrorlist"
   chroot "$root_mount" pacman-key --init
   chroot "$root_mount" pacman-key --populate archlinuxarm

@@ -49,7 +49,11 @@ pacman_retry() {
     fi
     (( attempt < max_attempts )) || return 1
     warn "Package transaction failed (attempt $attempt/$max_attempts); retrying with cached downloads."
-    sleep $(( attempt * 5 ))
+    if (( image_mode )); then
+      sleep $(( attempt * 30 ))
+    else
+      sleep $(( attempt * 5 ))
+    fi
     ((attempt++))
   done
 }
@@ -118,6 +122,7 @@ configure_arm_repositories() {
   sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4" /etc/pacman.d/mirrorlist
   if (( image_mode )); then
     sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4-image" /etc/pacman.d/mirrorlist
+    sudo sed -i 's/^ParallelDownloads = .*/ParallelDownloads = 1/' /etc/pacman.conf
   fi
   sudo pacman-key --init
   sudo pacman-key --populate archlinuxarm

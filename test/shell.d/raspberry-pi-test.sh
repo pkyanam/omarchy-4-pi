@@ -541,11 +541,18 @@ audit_root="$test_tmp/audit-root"
   if grep -F 'mirrorlist-rpi4-image' "$test_tmp/snapshot-calls" >/dev/null; then
     fail "ordinary installs must retain live ARM mirrors"
   fi
+  if grep -F 'ParallelDownloads = 1' "$test_tmp/snapshot-calls" >/dev/null; then
+    fail "ordinary installs retain their normal parallel download budget"
+  fi
   image_mode=1
   : >"$test_tmp/snapshot-calls"
   configure_arm_repositories >/dev/null
   grep -F 'mirrorlist-rpi4-image' "$test_tmp/snapshot-calls" >/dev/null || fail "image installs use the coherent package snapshot"
+  grep -F 'ParallelDownloads = 1' "$test_tmp/snapshot-calls" >/dev/null || fail "image installs limit snapshot download pressure"
 )
+[[ $(grep -c '^Server = ' "$ROOT/default/pacman/mirrorlist-rpi4-image") == 1 ]] || fail "snapshot is the only repository database source"
+grep -Fx 'CacheServer = https://fl.us.mirror.archlinuxarm.org/$arch/$repo' "$ROOT/default/pacman/mirrorlist-rpi4-image" >/dev/null || fail "official mirrors supply exact cached package files only"
+grep -F 'ParallelDownloads = 1' "$ROOT/image/build-rpi4-image.sh" >/dev/null || fail "bootstrap also limits snapshot download pressure"
 grep -Fx 'SigLevel = Required DatabaseOptional' "$ROOT/default/pacman/pacman-rpi4.conf" >/dev/null || fail "archived packages still require trusted signatures"
 grep -F 'run_chroot_pacman -Syyuu' "$ROOT/image/build-rpi4-image.sh" >/dev/null || fail "factory bootstrap aligns a newer base with the snapshot"
 pass "snapshot package selection is image-only and retains signature enforcement"

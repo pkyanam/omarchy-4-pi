@@ -48,12 +48,15 @@ Each GitHub release is intended to provide a compressed flashable image, SHA-256
 | Real Pi 4 boot + HDMI splash | ✅ | Alpha image reached Omarchy's first-boot greeter on hardware |
 | Automatic storage expansion | ✅ | Root partition and ext4 filesystem grow before onboarding; failure keeps provisioning safely armed for retry |
 | First-boot owner setup | ✅ | Imager account settings created the owner without a keyboard on a real Pi 4 |
-| Quattro desktop + V3D on hardware | ✅ | SDDM, Hyprland, Quickshell, the V3D module, and `renderD128` are live on a Pi 4 Model B Rev 1.5 |
+| Quattro desktop + V3D driver on hardware | 🧪 | SDDM, Hyprland, Quickshell, the V3D module, and `renderD128` were observed running; a later HDMI blanking report needs diagnosis, and the actual renderer still needs checking |
 | Pi audio + Bluetooth payload | 🧪 | HDMI/3.5 mm audio, PipeWire/ALSA, and BlueZ are enforced by the image audit; hardware playback and pairing remain |
 | Raspberry Pi Imager metadata | ✅ | Catalog generator emits exact compressed and extracted SHA-256 hashes |
 | Imager 2.x unattended setup | ✅ | `alpha.7` passed its 107-check mounted-image audit and completed keyboard-free owner provisioning on hardware from Imager 2.0.11.1 |
 | Prebuilt image prerelease | 🧪 | [`v0.1.0-alpha.7`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.7) is published; its core desktop path is hardware-verified while peripheral and soak checks continue |
 | Public Imager catalog URL | ✅ | The [`alpha.7` catalog](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/os-list.json) is live and exposes Raspberry Pi 4 in Imager's device-first flow |
+| Native power/temperature readings | ✅ | Tester reported under-voltage alarm `0` and CPU `43.8°C` on the existing card; this is a snapshot, not a completed soak test |
+
+[`alpha.8`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-alpha.8) is also published with the native sensor diagnostic fix. Its hostname and monitor defaults are unchanged from alpha.7. See the [latest hardware follow-up](docs/pi4-hardware-follow-up.md) before reflashing to investigate either issue.
 
 Legend: ✅ implemented and locally verified · 🧪 ready for hardware testing · 🚧 being built · ⏳ queued
 
@@ -87,7 +90,7 @@ If you enable SSH, the Pi advertises the hostname chosen in Imager over mDNS. Fr
 ssh YOUR_USERNAME@YOUR_HOSTNAME.local
 ```
 
-The default hostname is `omarchy`, so that is normally `ssh YOUR_USERNAME@omarchy.local`. If `.local` discovery is filtered by the network, find the Pi in the router's client list and use its IP address instead.
+Enter a short hostname such as `omarchy-pi` in Imager, without `.local`; connect using `ssh YOUR_USERNAME@omarchy-pi.local`. The default hostname is `omarchy`, so an unset hostname normally gives `ssh YOUR_USERNAME@omarchy.local`. A tester reported the default name despite choosing a custom name; that handoff remains under investigation. If `.local` discovery is filtered by the network, find the Pi in the router's client list and use its IP address instead.
 
 The release image is [`omarchy-4-pi-20260903-4bbf8060-minimal.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/omarchy-4-pi-20260903-4bbf8060-minimal.img.xz) (2,067,192,764 bytes). Its SHA-256 is `4ea64fbfb0028def4c3f967ad675af9cd6e6ebde1d73421935687f4591ad2096`; the attached [checksum file](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/omarchy-4-pi-20260903-4bbf8060-minimal.img.xz.sha256), GitHub asset digest, and Imager catalog all agree. The mounted image passed 107 enforced invariants.
 
@@ -177,7 +180,7 @@ The image roadmap includes more than “make it boot”:
 - grow the root filesystem automatically on first boot
 - power/thermal/undervoltage status surfaced in diagnostics
 - one-command, credential-safe Pi hardware acceptance report over SSH
-- sensible 1080p defaults with expensive blur and animation options documented
+- planned: a Pi-friendly 1080p default; current images use the display's preferred mode and automatic scaling
 - CPU-friendly `wf-recorder` capture at 30 fps
 - SD-card-write reduction for logs, caches, and browser churn
 - safe headless recovery when the graphical session cannot start

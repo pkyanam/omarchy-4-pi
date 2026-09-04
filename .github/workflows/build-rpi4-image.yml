@@ -48,7 +48,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils zerofree
 
-      - name: Build signed-base ARM64 image
+      - name: Run focused Pi release gates
+        # Tagged builds must pass the same regression gates as main.
+        # Keep this separate from image assembly so failures are inexpensive.
+        run: |
+          test/shell.d/raspberry-pi-test.sh
+          test/shell.d/rpi-imager-preseed-test.sh
+          test/shell.d/rpi-owner-hostname-test.sh
+          test/shell.d/rpi-display-test.sh
+          test/shell.d/rpi-grow-root-test.sh
+          test/shell.d/rpi-hyprland-verify-test.sh
+
+      - name: Assemble signed-base ARM64 image
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             export OMARCHY_IMAGE_DOWNLOAD_BASE_URL="https://github.com/$GITHUB_REPOSITORY/releases/download/$GITHUB_REF_NAME"

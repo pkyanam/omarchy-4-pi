@@ -100,7 +100,7 @@ Catalog metadata generated from current `main` declares the official `rpi-presee
 
 Omarchy refuses a plaintext owner password from the FAT partition, requires a complete username/password pair before bypassing the interactive form, and falls back to the normal HDMI setup if the file is missing, partial, malformed, or unsafe. Encrypted/LUKS installs also retain interactive setup because an Imager password hash cannot re-key a LUKS volume. The boot-partition source and transient staging state are removed after successful provisioning; required credentials remain only in protected system stores, and a non-secret receipt remains in `/var/lib/omarchy/imager-preseed.json` for diagnostics.
 
-When SSH is enabled, Avahi advertises the configured hostname over mDNS. A Mac on the same network can normally connect using `ssh USER@HOSTNAME.local` (for example, `ssh alice@omarchy.local`) without first finding the Pi's address. Networks that filter multicast discovery may require the address shown in the router's client list instead.
+Enter a short hostname such as `omarchy-pi` in Imager, without `.local`. Starting with RC1, owner setup applies and verifies the static and transient hostnames before configuring SSH; Avahi waits until owner provisioning finishes before advertising the device. A failed hostname assignment stops that unattended attempt instead of silently continuing with the factory name. A Mac on the same network can normally connect using `ssh USER@omarchy-pi.local`. Networks that filter multicast discovery may require the address shown in the router's client list instead. The receipt in `/var/lib/omarchy/imager-preseed.json` records the requested hostname without credentials; compare it with `hostnamectl --static` when troubleshooting.
 
 Raspberry Pi Imager 2.x deliberately treats a locally selected **Use custom** image as `init_format: none`, because the file itself does not carry catalog metadata. Unattended customization becomes available when selecting the image through its generated catalog or a local manifest. On macOS, generate and open the latter in one step:
 
@@ -113,6 +113,16 @@ The helper verifies the compressed and extracted image hashes, writes a path-saf
 The same builder runs in `.github/workflows/build-rpi4-image.yml` on GitHub's native `ubuntu-24.04-arm` runner. Manual builds are retained as workflow artifacts. Version tags publish the image directly when it fits GitHub's per-file limit; larger images are released as numbered, independently checksummed parts with exact reassembly instructions.
 
 ## Verification
+
+### Display recovery
+
+Run `omarchy-pi-display` as your desktop user to see detected modes, scaling, configuration errors, and HDMI EDID byte counts. Scaling changes desktop density, not the physical video mode. Empty EDID and only low-resolution fallback modes indicate missing monitor capability data; they do not establish which cable, adapter, monitor, or driver caused the problem.
+
+For the NEC MultiSync EA243WM only, `omarchy-pi-display nec-ea243wm HDMI-A-1` previews the native 1920×1200, 60 Hz reduced-blanking timing at scale 1. It requires an interactive terminal, checks that Hyprland accepted the mode, and asks for `yes` within 30 seconds. No confirmation means it attempts to restore the previous mode without saving. Confirmation writes a private Lua profile under `$XDG_STATE_HOME/omarchy/toggles/hypr` (normally `~/.local/state/omarchy/toggles/hypr`), which the desktop loads after user monitor settings. This also works over SSH when exactly one desktop session is running.
+
+Disable the override with `omarchy-pi-display reset HDMI-A-1`; the profile is renamed to a backup and Hyprland reloads normal settings. This does not guarantee HDMI audio when EDID remains unreadable. Do not apply that model-specific profile to an unrelated display. Other monitors retain their normal preferred-mode detection.
+
+### System checks
 
 After logging in, check the architecture, renderer, session, and shell:
 

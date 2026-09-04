@@ -29,5 +29,7 @@ jobs:
         run: |
           test/shell.d/raspberry-pi-test.sh
           test/shell.d/rpi-imager-preseed-test.sh
+          test/shell.d/rpi-owner-hostname-test.sh
+          test/shell.d/rpi-display-test.sh
           test/shell.d/rpi-grow-root-test.sh
           test/shell.d/rpi-hyprland-verify-test.sh

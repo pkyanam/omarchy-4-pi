@@ -1,11 +1,20 @@
-name: Bug
-description: Report a validated bug -- NOT FOR SUPPORT REQUESTS
+name: Pi bug or hardware test report
+description: Help improve the image with a reproducible bug or a real-board test result.
 labels: [bug]
 body:
   - type: markdown
     attributes:
       value: |
-        Remember: Omarchy is an open source gift, not a product you bought from a vendor
+        Thanks for testing Omarchy 4 Pi! Share what happened and what you expected. Review logs before posting: never include passwords, SSH private keys, or the raw rpi-preseed.toml file.
+
+  - type: input
+    id: release
+    attributes:
+      label: Release and build commit
+      description: Read source_commit from /usr/share/omarchy-rpi4/build-manifest.json.
+      placeholder: v0.1.0-rc.1, source commit…
+    validations:
+      required: true
 
   - type: input
     id: system-details
@@ -19,6 +28,12 @@ body:
     id: steps
     attributes:
       label: What's wrong?
-      description: Describe the issue, include steps to recreate it if possible, and attach the output of `omarchy-debug` if possible
+      description: Include steps, expected/actual behavior, and whether this is a fresh flash or an updated older image.
     validations:
       required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Hardware check and relevant diagnostics
+      description: Paste omarchy-pi-check output. For display issues, include omarchy-pi-display output, monitor model, and cable/adapter details. Remove personal information first.
+      render: text

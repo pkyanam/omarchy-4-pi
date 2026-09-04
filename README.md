@@ -90,7 +90,7 @@ If you enable SSH, the Pi advertises the hostname chosen in Imager over mDNS. Fr
 ssh YOUR_USERNAME@YOUR_HOSTNAME.local
 ```
 
-Enter a short hostname such as `omarchy-pi` in Imager, without `.local`; connect using `ssh YOUR_USERNAME@omarchy-pi.local`. The default hostname is `omarchy`, so an unset hostname normally gives `ssh YOUR_USERNAME@omarchy.local`. A tester reported the default name despite choosing a custom name; that handoff remains under investigation. If `.local` discovery is filtered by the network, find the Pi in the router's client list and use its IP address instead.
+Enter a short hostname such as `omarchy-pi` in Imager, without `.local`; connect using `ssh YOUR_USERNAME@omarchy-pi.local`. The default hostname is `omarchy`, so an unset hostname normally gives `ssh YOUR_USERNAME@omarchy.local`. Hardware diagnostics confirmed that a tester's chosen `omarchy-pi` name was preserved in both provisioning and the current system hostname; an earlier discovery under the default name remains under investigation. If `.local` discovery is filtered by the network, find the Pi in the router's client list and use its IP address instead.
 
 The release image is [`omarchy-4-pi-20260903-4bbf8060-minimal.img.xz`](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/omarchy-4-pi-20260903-4bbf8060-minimal.img.xz) (2,067,192,764 bytes). Its SHA-256 is `4ea64fbfb0028def4c3f967ad675af9cd6e6ebde1d73421935687f4591ad2096`; the attached [checksum file](https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-alpha.7/omarchy-4-pi-20260903-4bbf8060-minimal.img.xz.sha256), GitHub asset digest, and Imager catalog all agree. The mounted image passed 107 enforced invariants.
 

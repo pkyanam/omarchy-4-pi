@@ -20,10 +20,15 @@ omarchy-hw-raspberry-pi || { echo "This helper is designed for Raspberry Pi." >&
 cores=$(nproc)
 jobs=$(( cores > 1 ? cores - 1 : 1 ))
 available_kib=$(awk '/^MemAvailable:/ { print $2 }' "${OMARCHY_PI_MEMINFO:-/proc/meminfo}")
+total_kib=$(awk '/^MemTotal:/ { print $2 }' "${OMARCHY_PI_MEMINFO:-/proc/meminfo}")
 [[ $available_kib =~ ^[0-9]+$ ]] || { echo "Cannot read available RAM." >&2; exit 1; }
+[[ $total_kib =~ ^[0-9]+$ ]] || { echo "Cannot read total RAM." >&2; exit 1; }
 memory_jobs=$(( available_kib / 1048576 ))
 (( memory_jobs > 0 )) || memory_jobs=1
 (( jobs <= memory_jobs )) || jobs=$memory_jobs
+if (( total_kib < 5242880 && jobs > 2 )); then
+  jobs=2
+fi
 quota=$(( (cores > 1 ? cores - 1 : 1) * 100 ))
 
 # Scope mode preserves the caller's terminal, directory, environment, and exact

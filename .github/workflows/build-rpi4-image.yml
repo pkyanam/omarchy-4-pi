@@ -58,6 +58,8 @@ jobs:
           test/shell.d/rpi-display-test.sh
           test/shell.d/screensaver-test.sh
           test/shell.d/rpi-performance-test.sh
+          test/shell.d/rpi-tune-test.sh
+          test/shell.d/rpi-optimization-test.sh
           test/shell.d/rpi-update-safety-test.sh
           test/shell.d/rpi-firmware-test.sh
           test/shell.d/rpi-grow-root-test.sh
@@ -92,7 +94,7 @@ jobs:
         run: |
           release_flags=()
           if [[ $GITHUB_REF_NAME == *-* ]]; then
-            release_flags+=(--prerelease)
+            release_flags+=(--prerelease --latest=false)
           fi
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 || \
             gh release create "$GITHUB_REF_NAME" --generate-notes \

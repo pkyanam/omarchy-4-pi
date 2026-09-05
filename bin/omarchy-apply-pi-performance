@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# omarchy:summary=Install conservative Pi build/log defaults and the opt-in clock guard
+# omarchy:hidden=true
+# omarchy:requires-sudo=true
+
+set -euo pipefail
+(( EUID == 0 )) || { echo "Run this setup leaf as root." >&2; exit 1; }
+omarchy-hw-raspberry-pi || { echo "This setup leaf is Pi-only." >&2; exit 1; }
+
+# This is also called after a Pi core update. Install named drop-ins only;
+# never reset owner config, firmware clocks, hostname, or service preferences.
+install -Dm644 "$OMARCHY_PATH/install/provisioning/omarchy-pi-tune-guard.service" \
+  /etc/systemd/system/omarchy-pi-tune-guard.service
+install -Dm644 "$OMARCHY_PATH/install/provisioning/omarchy-pi-cpu-policy.service" \
+  /etc/systemd/system/omarchy-pi-cpu-policy.service
+install -Dm644 "$OMARCHY_PATH/default/pi/makepkg.conf" \
+  /etc/makepkg.conf.d/50-omarchy-pi.conf
+install -Dm644 "$OMARCHY_PATH/default/pi/journald.conf" \
+  /etc/systemd/journald.conf.d/50-omarchy-pi.conf
+install -Dm644 "$OMARCHY_PATH/default/pi/zram.conf" \
+  /etc/systemd/zram-generator.conf.d/50-omarchy-pi.conf
+install -Dm644 "$OMARCHY_PATH/default/pi/sysctl.conf" \
+  /etc/sysctl.d/99-omarchy-pi-writeback.conf
+install -Dm644 "$OMARCHY_PATH/default/systemd/user/app.slice.d/10-oomd.conf" \
+  /etc/systemd/user/app.slice.d/50-omarchy-pi.conf
+install -Dm644 "$OMARCHY_PATH/default/pi/oomd.conf" \
+  /etc/systemd/oomd.conf.d/50-omarchy-pi.conf
+# Preserve a user's explicit disable/mask across later updates. The marker is
+# ours, not a system-wide install flag; do not continually re-enable services.
+if [[ ! -e /var/lib/omarchy/pi-performance-initialized ]]; then
+  systemctl enable omarchy-pi-cpu-policy.service
+  install -Dm644 /dev/null /var/lib/omarchy/pi-performance-initialized
+fi
+# Do not start/restart journald, or enable the clock guard on stock machines.
+# The next reboot picks up log limits; tune apply enables its guard on demand.

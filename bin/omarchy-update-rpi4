@@ -67,5 +67,7 @@ done
   exit 1
 }
 sudo pacman -U --noconfirm "${packages[@]}"
+sudo env OMARCHY_PATH="$OMARCHY_PATH" omarchy-apply-pi-performance
+sudo systemctl daemon-reload
 sudo install -d "$(dirname "$state_file")"
 printf '%s\n' "$source_commit" | sudo tee "$state_file" >/dev/null

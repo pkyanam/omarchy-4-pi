@@ -136,15 +136,24 @@ ensure_package_sources() {
 
   local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy-rpi4"
   local pkgs_checkout="$cache_dir/omarchy-pkgs"
+  local recipe_commit
+  recipe_commit=$(<"$checkout/image/omarchy-pkgs.commit")
+  [[ $recipe_commit =~ ^[0-9a-f]{40}$ ]] || fail "Missing reviewed Pi package-recipe commit."
   mkdir -p "$cache_dir"
 
   if [[ -d $pkgs_checkout/.git ]]; then
-    log "Updating the Omarchy PKGBUILD checkout"
-    git -C "$pkgs_checkout" pull --ff-only || warn "Could not update $pkgs_checkout; using the existing checkout."
+    [[ -z $(git -C "$pkgs_checkout" status --porcelain) ]] || fail "Package recipes contain local edits; preserve them before updating."
+    [[ $(git -C "$pkgs_checkout" remote get-url origin) == "https://github.com/omacom/omarchy-pkgs.git" ]] ||
+      fail "Unexpected package-recipe origin."
   else
     log "Cloning Omarchy PKGBUILDs"
-    git clone --depth 1 https://github.com/omacom/omarchy-pkgs.git "$pkgs_checkout"
+    git clone --depth 1 --no-checkout https://github.com/omacom/omarchy-pkgs.git "$pkgs_checkout"
   fi
+  log "Using the Pi-reviewed package recipes at $recipe_commit"
+  if ! git -C "$pkgs_checkout" cat-file -e "$recipe_commit^{commit}" 2>/dev/null; then
+    git -C "$pkgs_checkout" fetch --depth 1 origin "$recipe_commit"
+  fi
+  git -C "$pkgs_checkout" checkout --detach "$recipe_commit"
 
   export OMARCHY_PKGS_PATH="$pkgs_checkout"
 }

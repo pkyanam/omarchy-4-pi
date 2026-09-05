@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# omarchy:summary=Select load-responsive CPU scaling when a Pi boots with the performance governor
+# omarchy:hidden=true
+
+set -euo pipefail
+omarchy-hw-raspberry-pi || exit 0
+for policy in "${OMARCHY_PI_CPUFREQ_ROOT:-/sys/devices/system/cpu/cpufreq}"/policy*; do
+  [[ -r $policy/scaling_governor && -r $policy/scaling_available_governors ]] || continue
+  # Preserve another explicitly selected governor. A later power-profile service
+  # remains free to change policy; this is a boot-time default, not a daemon.
+  [[ $(<"$policy/scaling_governor") == "performance" ]] || continue
+  available=" $(<"$policy/scaling_available_governors") "
+  if [[ $available == *" schedutil "* ]]; then
+    printf '%s\n' schedutil >"$policy/scaling_governor"
+  elif [[ $available == *" ondemand "* ]]; then
+    printf '%s\n' ondemand >"$policy/scaling_governor"
+  fi
+done

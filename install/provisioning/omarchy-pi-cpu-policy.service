@@ -1,0 +1,11 @@
+[Unit]
+Description=Omarchy Pi load-responsive CPU scaling default
+After=systemd-modules-load.service
+Before=power-profiles-daemon.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/omarchy-pi-cpu-policy
+
+[Install]
+WantedBy=multi-user.target

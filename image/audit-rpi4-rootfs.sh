@@ -231,6 +231,26 @@ require_executable "$root/usr/bin/omarchy-pi-check" "Pi hardware acceptance comm
 require_executable "$root/usr/bin/omarchy-pi-display" "Pi display recovery command is installed"
 require_executable "$root/usr/bin/omarchy-pi-report" "Pi agent-readable diagnostics are installed"
 require_executable "$root/usr/bin/omarchy-pi-run" "Pi workload budgeting command is installed"
+require_executable "$root/usr/bin/omarchy-pi-tune" "Pi clock trial command is installed"
+require_executable "$root/usr/bin/omarchy-pi-benchmark" "Pi guarded CPU benchmark is installed"
+require_file "$root/usr/share/omarchy/default/pi/tune.py" "Pi clock trial implementation is packaged"
+require_file "$root/usr/share/omarchy/default/pi/benchmark.py" "Pi CPU benchmark implementation is packaged"
+require_file "$root/usr/share/omarchy/default/pi/build-budget.sh" "Pi compiler budget implementation is packaged"
+require_file "$root/etc/systemd/system/omarchy-pi-tune-guard.service" "Pi clock recovery unit is available"
+require_executable "$root/usr/bin/omarchy-pi-cpu-policy" "Pi boot CPU policy is installed"
+require_file "$root/etc/systemd/system/omarchy-pi-cpu-policy.service" "Pi load-responsive CPU policy unit is available"
+require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-pi-cpu-policy.service" "omarchy-pi-cpu-policy.service" "Pi load-responsive boot CPU policy is enabled"
+require_line "$root/etc/makepkg.conf.d/50-omarchy-pi.conf" "source /usr/share/omarchy/default/pi/build-budget.sh" "Pi local package builds use memory-aware defaults"
+require_line "$root/etc/systemd/journald.conf.d/50-omarchy-pi.conf" "SystemMaxUse=128M" "Pi persistent journal has a bounded SD-card budget"
+require_line "$root/etc/systemd/zram-generator.conf.d/50-omarchy-pi.conf" "zram-size = ram / 2" "Pi compressed swap is configured independently of upstream ARM packaging"
+require_line "$root/etc/systemd/user/app.slice.d/50-omarchy-pi.conf" "ManagedOOMMemoryPressure=kill" "Pi application scopes have a memory-pressure escape path"
+require_line "$root/etc/systemd/oomd.conf.d/50-omarchy-pi.conf" "DefaultMemoryPressureDurationSec=20s" "Pi oomd waits for sustained application pressure"
+require_line "$root/etc/sysctl.d/99-omarchy-pi-writeback.conf" "vm.dirty_bytes=134217728" "Pi SD-card dirty-write bursts are bounded"
+if [[ ! -e $root/var/lib/omarchy/pi-tune/state.json ]] && ! grep -Eq '^[[:space:]]*(arm_freq|over_voltage[^=]*|force_turbo|temp_limit)[[:space:]]*=' "$boot/config.txt"; then
+  pass "image ships without an applied CPU overclock or thermal override"
+else
+  fail "image must ship without applied clock trials or thermal overrides"
+fi
 require_executable "$root/usr/bin/omarchy-update-rpi4-guard" "Pi update source and architecture guard is installed"
 require_file "$root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.bin" "Pi 4 Wi-Fi firmware resolves to an installed payload"
 require_file "$root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.txt" "Pi 4 Wi-Fi board calibration is installed"
@@ -281,6 +301,8 @@ else
 fi
 if [[ -f $manifest ]] && grep -Eq '"source_commit": "[0-9a-f]{40}"' "$manifest"; then
   pass "port source has exact provenance"
+  manifest_commit=$(sed -nE 's/.*"source_commit": "([0-9a-f]{40})".*/\1/p' "$manifest")
+  require_line "$root/var/lib/omarchy/rpi4-source-commit" "$manifest_commit" "installed-core receipt avoids an unnecessary first-update rebuild"
 else
   fail "port source has exact provenance"
 fi

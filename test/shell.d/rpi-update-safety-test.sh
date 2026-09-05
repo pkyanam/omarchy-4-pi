@@ -33,7 +33,7 @@ cat >"$test_tmp/bin/sudo" <<'SH'
 printf '%s\n' "$*" >>"$CALL_LOG"
 SH
 chmod +x "$test_tmp/bin/"*
-export PATH="$test_tmp/bin:$ROOT/bin:$PATH"
+export PATH="$test_tmp/bin:$ROOT/bin:$PATH" OMARCHY_PATH="$ROOT"
 omarchy-update-rpi4-guard
 pass "canonical Pi checkout and ARM repositories pass update preflight"
 reject() {
@@ -81,6 +81,7 @@ printf '%s\n' "$*" >>"$CALL_LOG"
 case "$1" in
   pacman) exit "${TEST_INSTALL_STATUS:-0}" ;;
   install|tee) exec "$@" ;;
+  env|systemctl) exit 0 ;;
   *) exit 1 ;;
 esac
 SH

@@ -34,6 +34,11 @@ cat >"$fake_bin/omarchy-pkg-add" <<'EOF'
 printf '%s\n' "$*" >>"$TEST_LOG"
 EOF
 chmod +x "$fake_bin/omarchy-pkg-add"
+cat >"$fake_bin/omarchy-apply-pi-performance" <<'EOF'
+#!/bin/bash
+exit 0
+EOF
+chmod +x "$fake_bin/omarchy-apply-pi-performance"
 
 TEST_LOG="$test_tmp/calls.log" \
 PATH="$fake_bin:$ROOT/bin:$PATH" \
@@ -325,7 +330,7 @@ grep -F 'build/image/*.os-list.json build/image/os-list.json' \
 grep -F 'releases/download/$GITHUB_REF_NAME' \
   "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
   fail "tagged Imager catalogs use their immutable release URL"
-grep -F 'release_flags+=(--prerelease)' \
+grep -F 'release_flags+=(--prerelease --latest=false)' \
   "$ROOT/.github/workflows/build-rpi4-image.yml" >/dev/null ||
   fail "hyphenated image tags publish as prereleases"
 grep -F 'OMARCHY_IMAGE_DOWNLOAD_BASE_URL' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
@@ -655,7 +660,19 @@ for executable in quickshell foot vcgencmd; do
   cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
 done
 cp "$ROOT/install/provisioning/omarchy-avahi-rpi4.conf" "$audit_root/etc/systemd/system/avahi-daemon.service.d/10-rpi4-owner-hostname.conf"
-for executable in ttfx omarchy-shell omarchy-pi-check omarchy-pi-display omarchy-pi-report omarchy-pi-run omarchy-update-rpi4-guard omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
+mkdir -p "$audit_root/usr/share/omarchy/default/pi" "$audit_root/etc/makepkg.conf.d" "$audit_root/etc/systemd/journald.conf.d"
+cp "$ROOT/default/pi/tune.py" "$ROOT/default/pi/benchmark.py" "$ROOT/default/pi/build-budget.sh" "$audit_root/usr/share/omarchy/default/pi/"
+cp "$ROOT/install/provisioning/omarchy-pi-tune-guard.service" "$audit_root/etc/systemd/system/omarchy-pi-tune-guard.service"
+cp "$ROOT/default/pi/makepkg.conf" "$audit_root/etc/makepkg.conf.d/50-omarchy-pi.conf"
+cp "$ROOT/default/pi/journald.conf" "$audit_root/etc/systemd/journald.conf.d/50-omarchy-pi.conf"
+mkdir -p "$audit_root/etc/systemd/zram-generator.conf.d" "$audit_root/etc/systemd/user/app.slice.d" "$audit_root/etc/systemd/oomd.conf.d" "$audit_root/etc/sysctl.d"
+cp "$ROOT/default/pi/zram.conf" "$audit_root/etc/systemd/zram-generator.conf.d/50-omarchy-pi.conf"
+cp "$ROOT/default/pi/sysctl.conf" "$audit_root/etc/sysctl.d/99-omarchy-pi-writeback.conf"
+cp "$ROOT/default/systemd/user/app.slice.d/10-oomd.conf" "$audit_root/etc/systemd/user/app.slice.d/50-omarchy-pi.conf"
+cp "$ROOT/default/pi/oomd.conf" "$audit_root/etc/systemd/oomd.conf.d/50-omarchy-pi.conf"
+cp "$ROOT/install/provisioning/omarchy-pi-cpu-policy.service" "$audit_root/etc/systemd/system/omarchy-pi-cpu-policy.service"
+ln -s /etc/systemd/system/omarchy-pi-cpu-policy.service "$audit_root/etc/systemd/system/multi-user.target.wants/omarchy-pi-cpu-policy.service"
+for executable in ttfx omarchy-shell omarchy-pi-check omarchy-pi-display omarchy-pi-report omarchy-pi-run omarchy-pi-tune omarchy-pi-benchmark omarchy-pi-cpu-policy omarchy-apply-pi-performance omarchy-update-rpi4-guard omarchy-rpi4-grow-root omarchy-rpi4-imager-preseed omarchy-provision-owner; do
   printf '#!/bin/bash\n' >"$audit_root/usr/bin/$executable"
 done
 cat >>"$audit_root/usr/bin/omarchy-provision-owner" <<'EOF'
@@ -727,6 +744,7 @@ manifest="$audit_root/usr/share/omarchy-rpi4/build-manifest.json"
   done
   printf '\n  ]\n}\n'
 } >"$manifest"
+printf '89abcdef0123456789abcdef0123456789abcdef\n' >"$audit_root/var/lib/omarchy/rpi4-source-commit"
 
 "$ROOT/image/audit-rpi4-rootfs.sh" "$audit_root" "$audit_boot" >"$test_tmp/audit-ok"
 grep -F 'PASS:' "$test_tmp/audit-ok" >/dev/null || fail "image root audit reports its passing invariant count"

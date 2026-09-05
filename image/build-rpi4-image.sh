@@ -437,6 +437,11 @@ $package_inventory
   ]
 }
 EOF
+  # This exact source was already packaged successfully into the image. Avoid
+  # asking a 4GB first-boot desktop to rebuild it just to establish a receipt.
+  [[ $commit =~ ^[0-9a-f]{40}$ && $dirty == "false" ]] || fail "A clean source commit is required for the installed-core receipt."
+  install -d "$root_mount/var/lib/omarchy"
+  printf '%s\n' "$commit" >"$root_mount/var/lib/omarchy/rpi4-source-commit"
 }
 
 trim_pi_image_payload() {

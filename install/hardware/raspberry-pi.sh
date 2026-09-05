@@ -52,4 +52,5 @@ EOF
   install -d "$(dirname "$modules_file")"
   printf '%s\n' vc4 v3d raspberrypi_hwmon >"$modules_file"
   omarchy-pkg-add vulkan-broadcom
+  omarchy-apply-pi-performance
 fi

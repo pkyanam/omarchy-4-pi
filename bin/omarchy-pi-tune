@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# omarchy:summary=Preview, apply, confirm, or restore a guarded Pi 4 CPU clock profile
+# omarchy:args=status | preview <boost|1800|1900|2000> | apply <profile> | confirm | restore
+# omarchy:examples=omarchy pi tune preview 1900 | omarchy pi tune apply boost | omarchy pi tune restore
+
+set -euo pipefail
+case ${1:-status} in
+  apply|confirm|restore)
+    sudo -- python3 "$OMARCHY_PATH/default/pi/tune.py" "$@"
+    ;;
+  status|preview|--help)
+    python3 "$OMARCHY_PATH/default/pi/tune.py" "$@"
+    ;;
+  *) echo "Use status, preview PROFILE, apply PROFILE, confirm, or restore." >&2; exit 2 ;;
+esac

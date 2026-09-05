@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# omarchy:summary=Run a short, temperature-guarded CPU comparison without storage writes
+# omarchy:args=[--seconds 10..300]
+# omarchy:examples=omarchy pi benchmark --seconds 30
+
+set -euo pipefail
+omarchy-pi-run -- python3 "$OMARCHY_PATH/default/pi/benchmark.py" "$@"

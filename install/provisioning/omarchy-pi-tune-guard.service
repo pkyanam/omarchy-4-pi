@@ -1,0 +1,13 @@
+[Unit]
+Description=Omarchy Pi clock trial and health guard
+After=local-fs.target
+ConditionPathExists=/var/lib/omarchy/pi-tune/state.json
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/share/omarchy/default/pi/tune.py guard
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

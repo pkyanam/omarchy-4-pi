@@ -306,6 +306,26 @@ unmount_function=$(sed -n '/^unmount_and_verify_image()/,/^}/p' "$ROOT/image/bui
   fail "image verification never follows a lazy recursive unmount"
 pass "image publication requires clean filesystems"
 
+(
+  root_mount="$test_tmp/cache-image"
+  work_dir="$test_tmp/cache-work"
+  mkdir -p "$root_mount/etc" "$root_mount/var/cache/pacman/pkg"
+  printf 'cached package\n' >"$root_mount/var/cache/pacman/pkg/base.pkg.tar.zst"
+  mount() { printf '%s\n' "$*" >>"$test_tmp/cache-mounts"; }
+  eval "$(sed -n '/^mount_chroot_filesystems()/,/^}/p' "$ROOT/image/build-rpi4-image.sh")"
+  mount_chroot_filesystems
+  [[ -f $work_dir/package-work/pacman/base.pkg.tar.zst ]] || fail "factory preserves base package cache outside image"
+  [[ ! -e $root_mount/var/cache/pacman/pkg/base.pkg.tar.zst ]] || fail "base cache does not occupy the hidden image directory"
+  grep -Fx -- "--bind $work_dir/package-work/pacman $root_mount/var/cache/pacman/pkg" "$test_tmp/cache-mounts" >/dev/null ||
+    fail "factory binds pacman downloads to external build storage"
+)
+grep -F 'umount "$root_mount/var/cache/pacman/pkg"' <<<"$unmount_function" >/dev/null ||
+  fail "factory detaches package cache before filesystem validation"
+cleanup_function=$(sed -n '/^cleanup()/,/^}/p' "$ROOT/image/build-rpi4-image.sh")
+grep -F 'umount -l "$root_mount/var/cache/pacman/pkg"' <<<"$cleanup_function" >/dev/null ||
+  fail "failed builds detach the external package cache"
+pass "factory package downloads do not fill the image filesystem"
+
 grep -F 'git clone --quiet --no-local --depth 1' "$ROOT/image/build-rpi4-image.sh" >/dev/null ||
   fail "image builder keeps a shallow source checkout for future updates"
 grep -F 'OMARCHY_SOURCE_ORIGIN' "$ROOT/image/build-rpi4-image-macos.sh" >/dev/null ||

@@ -130,6 +130,7 @@ unmount_and_verify_image() {
   umount -R "$root_mount/dev"
   umount -R "$root_mount/proc"
   umount -R "$root_mount/sys"
+  umount "$root_mount/var/cache/pacman/pkg"
   umount "$root_mount/mnt/omarchy-build"
   umount "$root_mount/boot"
 
@@ -168,6 +169,7 @@ cleanup() {
     mountpoint -q "$root_mount/dev" && umount -R -l "$root_mount/dev"
     mountpoint -q "$root_mount/proc" && umount -R -l "$root_mount/proc"
     mountpoint -q "$root_mount/sys" && umount -R -l "$root_mount/sys"
+    mountpoint -q "$root_mount/var/cache/pacman/pkg" && umount -l "$root_mount/var/cache/pacman/pkg"
     mountpoint -q "$root_mount/mnt/omarchy-build" && umount -l "$root_mount/mnt/omarchy-build"
     mountpoint -q "$root_mount/boot" && umount -l "$root_mount/boot"
     mountpoint -q "$root_mount" && umount -R -l "$root_mount"
@@ -282,6 +284,14 @@ mount_chroot_filesystems() {
     "$root_mount/mnt/omarchy-build"
   chmod 1777 "$work_dir/package-work/tmp" "$work_dir/package-work/cache"
   mount --bind "$work_dir/package-work" "$root_mount/mnt/omarchy-build"
+
+  # Downloads for the whole desktop plus compiler toolchains must not compete
+  # with the installed payload inside the 12GiB image. Keep pacman's ordinary
+  # cache path, but back it with host workspace storage during assembly only.
+  mkdir -p "$work_dir/package-work/pacman" "$root_mount/var/cache/pacman/pkg"
+  find "$root_mount/var/cache/pacman/pkg" -maxdepth 1 -type f \
+    -exec mv -- {} "$work_dir/package-work/pacman/" \;
+  mount --bind "$work_dir/package-work/pacman" "$root_mount/var/cache/pacman/pkg"
 
   rm -f "$root_mount/etc/resolv.conf"
   cp /etc/resolv.conf "$root_mount/etc/resolv.conf"

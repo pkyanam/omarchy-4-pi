@@ -2,6 +2,8 @@
 
 Research date: September 4, 2026. Target: **Raspberry Pi 4 Model B, 4GB+ RAM**, with 8GB recommended for larger development workloads. Objective: at least Raspberry Pi OS parity on a declared workload suite while retaining Omarchy's desktop and agent workflows. **Parity is not yet measured or achieved.** Changes described as implemented below are in source, not the original `v0.1.0-rc.1` image.
 
+Follow-up implementation: [the next alpha's CPU, memory, build, logging, and opt-in clock controls](pi-tuning.md). The initial memory finding below has been corrected after inspecting what the upstream ARM package actually installs, not just what exists in this source tree.
+
 ## Hardware and kernel findings
 
 Follow-up: [verified extraction and comparison of official Raspberry Pi OS firmware/kernel packages](rpios-driver-audit.md) includes byte-level comparisons against the published image and a vendor-kernel candidate boundary.
@@ -14,7 +16,7 @@ Mesa's V3D driver handles rendering and V3DV handles Vulkan; VC4 handles display
 
 Increasing `gpu_mem` does not give Pi 4 more 3D performance: its 3D allocations are managed dynamically by Linux. Excess firmware-reserved memory takes RAM away from applications, while the minimum reservation disables some firmware features. We therefore do not add a blanket `gpu_mem=16`, oversized allocation, or arbitrary CMA value. Missing EDID is treated as a display-detection problem, not solved through memory tuning. [Raspberry Pi legacy memory options](https://www.raspberrypi.com/documentation/computers/legacy_config_txt.html#gpu_mem).
 
-CPU governors are policy, not magic speed switches. `schedutil` responds to scheduler utilization; forcing maximum frequency can increase idle consumption and consume thermal headroom. The new report exposes the actual policy and current frequency instead of assuming what this kernel implements. No governor, clock, voltage, or thermal trip is changed in this pass. [Linux CPU performance scaling](https://www.kernel.org/doc/html/latest/admin-guide/pm/cpufreq.html).
+CPU governors are policy, not magic speed switches. The initial audit changed none; the follow-up alpha adds a boot-time dynamic-governor default after the inspected ALARM config showed `CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE=y`. It chooses only supported governors and leaves later user profile choices alone. Stock clock and thermal limits remain unchanged. [Linux CPU performance scaling](https://www.kernel.org/doc/html/latest/admin-guide/pm/cpufreq.html).
 
 ## Source audit and implemented efficiency work
 
@@ -27,7 +29,7 @@ CPU governors are policy, not magic speed switches. `schedutil` responds to sche
 | Agent/build contention | Unbounded builds can compete with the compositor and browser. | Add opt-in `omarchy pi run`: user-scope resource limits and RAM-aware build parallelism; no always-running service. |
 | Shell wakeups | Agent data refresh defaults to 900 seconds; the panel's 30-second text timer runs only while open. Local plugin changes use inotify. | Preserve event-driven behavior and existing lazy UI updates. Do not add a Pi-specific sub-second monitoring loop. |
 | Diagnostics | Aggregate free memory cannot distinguish CPU contention from reclaim or SD-card stalls. | Add `omarchy pi report [--json]`: native sensors, CPU policy, zram statistics, and PSI. Unknown sensors remain unknown. |
-| Memory | Upstream already configures zram with zstd and a logical size equal to RAM. | Keep it pending representative compression/reclaim tests. Do not promise a fixed compression ratio or disable swap. |
+| Memory | Correction: zstd/whole-RAM defaults exist in source, but the ARM package recipe omits them and the inspected ALARM kernel does not enable the zstd zram backend. | The alpha explicitly installs half-RAM logical zram using the kernel-default compressor and app-scope oomd policy; audit the packaged result. |
 
 Zram trades CPU work for reduced storage-backed paging; logical device size is not RAM preallocation, and compression ratio depends on data. LZ4 versus zstd and different sizes belong in controlled tests with actual builds/browser tabs, not folklore defaults. [Linux zram documentation](https://docs.kernel.org/admin-guide/blockdev/zram.html).
 
@@ -81,7 +83,9 @@ Run at least five repetitions where practical, separate cold/warm cache results,
 
 Current evidence: automated fixture tests exercise update refusal/retry, scope construction/failure, native sensor parsing, and source-staging exclusions. No new physical-Pi speed, power, cgroup-enforcement, or Raspberry Pi OS comparison measurements were made in this pass. The previous user's successful desktop report does not fill those blanks.
 
-## Opt-in overclock proposal — not enabled
+## Original overclock design — now implemented for alpha
+
+The proposal below informed the implementation. The [current operational guide](pi-tuning.md) is authoritative: supported actions are status/preview/apply/confirm/restore, no clock is enabled by default, and physical-board validation remains outstanding.
 
 A future `omarchy pi tune` could provide **inspect**, **preview**, **apply**, and **restore**, with stock as the default. Clock experimentation is separate from baseline efficiency work. There is no universally safe frequency for every board, and thermal protection cannot prevent every instability or storage corruption caused by an unstable clock.
 

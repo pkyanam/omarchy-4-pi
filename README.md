@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/assets/hero-placeholder.svg" alt="Omarchy 4 Pi — Quattro on Raspberry Pi 4" width="100%">
+  <img src="docs/assets/hero.png" alt="Omarchy 4 Pi artwork: a lime-lit Raspberry Pi on dark tiled circuit surfaces" width="100%">
 
   # Omarchy 4 Pi
 
@@ -163,7 +163,7 @@ omarchy pi run -- make           # Run a build with room left for the desktop
 
 Use `omarchy pi run -- YOUR_AGENT_COMMAND` for an interactive agent workload. The scope keeps the terminal and working directory, limits CPU use, sets memory pressure/ceiling thresholds, and budgets build jobs from available RAM. Hitting the memory ceiling can kill the workload; save your work. It is resource control, not a security sandbox, and separate runs have separate budgets. No new monitoring daemon or local language model runs in the background.
 
-Our target is **at least Raspberry Pi OS performance on comparable workloads**, not an achieved benchmark claim. Read the [hardware research, decisions, benchmark protocol, and opt-in overclock proposal](docs/pi-performance.md). Stock clocks and thermal protections remain unchanged.
+Our target is **at least Raspberry Pi OS performance on comparable workloads**, not an achieved benchmark claim. Read the [hardware research and benchmark protocol](docs/pi-performance.md). The next alpha adds [implemented clock trials, recovery, load-responsive CPU scaling, Pi-specific compressed swap, bounded logging, and gentler package builds](docs/pi-tuning.md). Images still ship at stock clocks with thermal protections intact.
 
 We also [extracted and compared official Raspberry Pi OS driver packages](docs/rpios-driver-audit.md). The Pi 4 wireless firmware is already shared; vendor-kernel media support is a separate candidate to test, not a set of foreign modules to copy into the current kernel.
 

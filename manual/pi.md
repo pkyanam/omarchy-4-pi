@@ -2,7 +2,7 @@
 
 Omarchy 4 Pi is designed for Raspberry Pi 4 Model B with **4GB+ RAM**. Keep your familiar Omarchy terminal, editor, themes, and agent workflow; give heavy jobs a budget so the desktop has room to breathe.
 
-The commands below are new in source and are not in the first downloadable image yet.
+These commands target the new alpha track; they are not in the first stable downloadable image.
 
 ## Ask the board how it feels
 
@@ -40,4 +40,4 @@ Use the Omarchy default-agent picker and normal launchers for your preferred pro
 
 ## Clocks are not a first-aid kit
 
-Stock clocks and thermal protections remain unchanged. Fix cooling, power, storage pressure, and runaway processes first. An overclock UI is a researched proposal, not an installed feature or a promise of safe clocks. Never disable thermal protection to obtain a benchmark result.
+The alpha ships at stock clocks, with an implemented opt-in tuner. Start with `omarchy pi tune preview boost`; applying a profile requires an interactive risk/recovery confirmation, a backup, cooling, and healthy sensors. Read the [clock trial and SD-card recovery guide](../docs/pi-tuning.md) before applying anything. The guide also explains the new CPU, memory, build, and logging defaults. Never disable thermal protection to obtain a benchmark result.

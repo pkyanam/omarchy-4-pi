@@ -15,14 +15,14 @@ bash -c '
 set -euo pipefail
 checkout=/opt/omarchy-4-pi
 refuse() { echo "Upgrade stopped: $*" >&2; exit 1; }
-[[ -d "$checkout/.git" ]] || refuse "the original-image checkout is missing"
+[[ -d $checkout/.git ]] || refuse "the original-image checkout is missing"
 case "$(git -C "$checkout" remote get-url origin)" in
   https://github.com/pkyanam/omarchy-4-pi|https://github.com/pkyanam/omarchy-4-pi.git|git@github.com:pkyanam/omarchy-4-pi.git) ;;
   *) refuse "unexpected repository; do not replace it blindly" ;;
 esac
-[[ "$(git -C "$checkout" symbolic-ref --quiet --short HEAD)" == "main" ]] || refuse "expected main"
-[[ "$(git -C "$checkout" rev-parse --abbrev-ref --symbolic-full-name @{upstream})" == "origin/main" ]] || refuse "expected origin/main tracking"
-[[ -z "$(git -C "$checkout" status --porcelain)" ]] || refuse "preserve your local source changes first"
+[[ $(git -C "$checkout" symbolic-ref --quiet --short HEAD) == "main" ]] || refuse "expected main"
+[[ $(git -C "$checkout" rev-parse --abbrev-ref --symbolic-full-name @{upstream}) == "origin/main" ]] || refuse "expected origin/main tracking"
+[[ -z $(git -C "$checkout" status --porcelain) ]] || refuse "preserve your local source changes first"
 git -C "$checkout" fetch origin refs/heads/main:refs/remotes/origin/main
 git -C "$checkout" merge --ff-only origin/main
 export PATH="$checkout/bin:$PATH"

@@ -1,6 +1,6 @@
 # Pi 4 alpha: gentle defaults, optional clock trials
 
-Target: Raspberry Pi 4 Model B with 4GB+ RAM. The next alpha, `v0.2.0-alpha.2`, is a testing release, not a new RC or a replacement for the stable image. Automated tests cannot establish overclock stability, storage integrity under load, or Raspberry Pi OS performance parity.
+Target: Raspberry Pi 4 Model B with 4GB+ RAM. [Alpha `v0.2.0-alpha.2`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.2) is a testing release, not a new RC or a replacement for the stable image. Automated tests cannot establish overclock stability, storage integrity under load, or Raspberry Pi OS performance parity.
 
 ## Improvements without overclocking
 

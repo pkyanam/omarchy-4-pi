@@ -17,7 +17,20 @@ Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Ch
 > [!IMPORTANT]
 > Independent community port—not an official Omarchy or Raspberry Pi product. **Our first general release is available.** The tested RC1 image has been promoted unchanged, retaining its original `v0.1.0-rc.1` tag and download links. The tester reports it working on their Pi 4; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
 
-> **First-release workaround:** disable the screensaver with `omarchy-toggle screensaver-off on`. The published minimal image is missing its renderer and can get stuck on idle; screen locking is unaffected. See [recovery instructions](docs/releases/v0.1.0-rc.1.md#known-limits). The source fix is not yet in the downloadable image.
+> **First-release workaround:** disable the screensaver with `omarchy-toggle screensaver-off on`. The original stable image is missing its renderer and can get stuck on idle; screen locking is unaffected. See [recovery instructions](docs/releases/v0.1.0-rc.1.md#known-limits). The new alpha includes the renderer and failure-loop fix.
+
+## Try the 4GB-first alpha
+
+[**v0.2.0-alpha.2 is available**](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.2): a 2.05GB flashable download with Pi-specific memory/build defaults, load-responsive CPU scaling, guarded opt-in clock trials, agent-friendly diagnostics, and stronger ARM update safeguards. **Stock clocks by default.** This is an alpha, not another RC; the stable release remains unchanged. Test on a spare card and keep your working installation as rollback. Read the [release notes](docs/releases/v0.2.0-alpha.2.md).
+
+Open the **alpha** catalog on macOS:
+
+```bash
+open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.2/os-list.json"
+```
+
+Choose Pi 4, configure your account/network/hostname in Imager, and verify the target card before writing. First-boot hostname provisioning is retained. The image passed 139 assembled-filesystem checks; physical testing of this new build is still needed. To keep your existing card instead, see the [in-place upgrade guide](docs/pi-upgrade.md).
 
 ## Flash, boot, make it yours
 
@@ -139,7 +152,7 @@ For existing Arch Linux ARM installs and deeper build details, see the [installa
 
 ## Updates and recovery
 
-The current source pins core updates to **[pkyanam/omarchy-4-pi](https://github.com/pkyanam/omarchy-4-pi), `origin/main`** and rejects unexpected repositories, x86 architecture, and dirty checkouts. Arch Linux ARM supplies system packages and signing keys; locally built Pi core packages are excluded from AUR replacement. These additional safeguards are not yet in the original downloadable image. See the [update audit](docs/pi-performance.md#update-path-audit).
+The alpha and current source pin core updates to **[pkyanam/omarchy-4-pi](https://github.com/pkyanam/omarchy-4-pi), `origin/main`** and reject unexpected repositories, x86 architecture, and dirty checkouts. Arch Linux ARM supplies system packages and signing keys; locally built Pi core packages are excluded from AUR replacement. These additional safeguards are not in the original stable image. See the [update audit](docs/pi-performance.md#update-path-audit).
 
 Use `omarchy update` for the Pi-aware update path. Back up important files first: this ext4 image has no automatic pre-update snapshot. Reflashing erases the card; testing RC1 on a spare card preserves your existing install. A source update alone does not replay first-boot setup or prove RC1's new image behavior.
 
@@ -155,7 +168,7 @@ The generic ARM64 kernel may not expose `/dev/vcio_gencmd`; that does not by its
 
 ## Small board, considerate agents
 
-New in source (not yet in the first downloadable image):
+Included in the alpha (not in the original stable image):
 
 ```bash
 omarchy pi report --json         # Native sensors and memory/I/O pressure, ready for an agent
@@ -165,7 +178,7 @@ omarchy pi run -- make           # Run a build with room left for the desktop
 
 Use `omarchy pi run -- YOUR_AGENT_COMMAND` for an interactive agent workload. The scope keeps the terminal and working directory, limits CPU use, sets memory pressure/ceiling thresholds, and budgets build jobs from available RAM. Hitting the memory ceiling can kill the workload; save your work. It is resource control, not a security sandbox, and separate runs have separate budgets. No new monitoring daemon or local language model runs in the background.
 
-Our target is **at least Raspberry Pi OS performance on comparable workloads**, not an achieved benchmark claim. Read the [hardware research and benchmark protocol](docs/pi-performance.md). The next alpha adds [implemented clock trials, recovery, load-responsive CPU scaling, Pi-specific compressed swap, bounded logging, and gentler package builds](docs/pi-tuning.md). Images still ship at stock clocks with thermal protections intact.
+Our target is **at least Raspberry Pi OS performance on comparable workloads**, not an achieved benchmark claim. Read the [hardware research and benchmark protocol](docs/pi-performance.md). The alpha adds [implemented clock trials, recovery, load-responsive CPU scaling, Pi-specific compressed swap, bounded logging, and gentler package builds](docs/pi-tuning.md). Images still ship at stock clocks with thermal protections intact.
 
 We also [extracted and compared official Raspberry Pi OS driver packages](docs/rpios-driver-audit.md). The Pi 4 wireless firmware is already shared; vendor-kernel media support is a separate candidate to test, not a set of foreign modules to copy into the current kernel.
 
@@ -192,4 +205,4 @@ Known limits: missing-EDID displays need troubleshooting; high-resolution captur
 
 Built on [Omarchy](https://github.com/omacom/omarchy) by DHH and contributors, [Arch Linux ARM](https://archlinuxarm.org/), [Hyprland](https://hypr.land/), [Quickshell](https://quickshell.org/), and Raspberry Pi's kernel, firmware, and Mesa ecosystem.
 
-MIT-licensed; upstream attribution is retained. The header artwork is a placeholder—real Pi desktop glamour shots are welcome.
+MIT-licensed; upstream attribution is retained. The [header artwork](docs/assets/hero-art-direction.md) is an Omarchy-inspired illustration, not a desktop screenshot—real Pi desktop glamour shots are welcome.

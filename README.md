@@ -143,6 +143,8 @@ The current source pins core updates to **[pkyanam/omarchy-4-pi](https://github.
 
 Use `omarchy update` for the Pi-aware update path. Back up important files first: this ext4 image has no automatic pre-update snapshot. Reflashing erases the card; testing RC1 on a spare card preserves your existing install. A source update alone does not replay first-boot setup or prove RC1's new image behavior.
 
+**Upgrading from the original general-release image?** Its older updater needs a [one-time bootstrap](docs/pi-upgrade.md) to reconcile the new runtime dependencies and Pi defaults. After that, use `omarchy update` normally. Updates follow this fork's `main` branch, not a selected image-release tag; they preserve owner setup and do not opt you into overclocking.
+
 If `HOSTNAME.local` does not resolve, try the Pi's IP address from your router. Multicast discovery can be blocked by guest networks or client isolation. Compare `hostnamectl --static` with the non-secret provisioning receipt:
 
 ```bash

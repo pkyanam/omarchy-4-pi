@@ -63,6 +63,9 @@ apply_fixture() {
   else
     sudo env PATH="$PATH" OMARCHY_PATH="$ROOT" TEST_DEST="$TEST_DEST" REAL_INSTALL="$REAL_INSTALL" \
       "$ROOT/bin/omarchy-apply-pi-performance"
+    # The setup leaf created root-owned fixture directories. Return this exact
+    # mktemp-owned test tree to the runner so its EXIT cleanup remains unprivileged.
+    sudo chown -R "$(id -u):$(id -g)" "$TEST_DEST"
   fi
 }
 apply_fixture

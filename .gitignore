@@ -6,3 +6,4 @@ __pycache__/
 # Raspberry Pi image build artifacts
 /build/
 /build-output-rpi4/
+.claude/

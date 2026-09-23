@@ -3,7 +3,7 @@
 # omarchy:summary=Ensure the Omarchy and Arch keyring packages are installed and populated
 # omarchy:requires-sudo=true
 
-set -e
+set -euo pipefail
 
 if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
   omarchy-update-rpi4-guard packages
@@ -13,6 +13,9 @@ if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
   sudo pacman-key --populate archlinuxarm
   exit 0
 fi
+
+# omarchy-update runs this under strict mode as a trusted pre-step, so a failed
+# recv or broken keyring stops before signature errors derail the main transaction.
 
 if omarchy-pkg-missing omarchy-keyring || ! sudo pacman-key --list-keys 40DFB630FF42BCFFB047046CF0134EE680CAC571 &>/dev/null; then
   sudo pacman-key --recv-keys 40DFB630FF42BCFFB047046CF0134EE680CAC571 --keyserver keys.openpgp.org
@@ -30,4 +33,8 @@ fi
 # Always reinstall, as the keyring can be updated without a package version bump.
 echo -e "\e[32m\nUpdate Arch signing keys\e[0m"
 sudo pacman -Sy --noconfirm archlinux-keyring >/dev/null 2> >(grep -vE '^warning: archlinux-keyring-[^ ]+ is up to date -- reinstalling$' >&2)
+
+# Say "correct" only once the key verifiably is: before the failure checks
+# above, a failed recv or reinstall still ended here with exit 0.
+sudo pacman-key --list-keys 40DFB630FF42BCFFB047046CF0134EE680CAC571 >/dev/null
 echo "Keys are correct"

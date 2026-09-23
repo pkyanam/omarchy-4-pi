@@ -11,6 +11,7 @@
   [![Releases](https://img.shields.io/github/v/release/pkyanam/omarchy-4-pi?include_prereleases)](https://github.com/pkyanam/omarchy-4-pi/releases)
   [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 </div>
+  [Manual](manual/)
 
 Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Chromium, and a surprisingly grown-up desktop on a very small computer.
 

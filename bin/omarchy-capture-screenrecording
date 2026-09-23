@@ -14,10 +14,11 @@
 # DMA-BUF modifier import on some configurations, leaving recording unable to
 # start.
 #
-# Env: OMARCHY_SCREENRECORD_DEBUG=true appends the recorder's stderr (and the
-# picker target it was launched with) to /tmp/omarchy-screenrecord.log so users
-# can attach a log when reporting capture failures. wf-recorder is used when
-# gpu-screen-recorder is unavailable, including on the Raspberry Pi port.
+# Env: OMARCHY_SCREENRECORD_DEBUG=true appends gpu-screen-recorder's stderr (and
+# the picker target it was launched with) to
+# $XDG_RUNTIME_DIR/omarchy-screenrecord.log so users can attach a log when
+# reporting capture failures. wf-recorder is used when gpu-screen-recorder is
+# unavailable, including on the Raspberry Pi port.
 
 [[ -f ~/.config/user-dirs.dirs ]] && source ~/.config/user-dirs.dirs
 OUTPUT_DIR="${OMARCHY_SCREENRECORD_DIR:-${XDG_VIDEOS_DIR:-$HOME/Videos}}"
@@ -35,11 +36,14 @@ WEBCAM_SIZE="medium"
 RESOLUTION=""
 FULLSCREEN="false"
 STOP_RECORDING="false"
-RECORDING_FILE="/tmp/omarchy-screenrecord-filename"
-REGION_FILE="${XDG_RUNTIME_DIR:-/tmp}/omarchy-screenrecord-region"
-LOG_FILE=$([[ ${OMARCHY_SCREENRECORD_DEBUG:-false} == "true" ]] && echo "/tmp/omarchy-screenrecord.log" || echo "/dev/null")
+# Keep path-bearing state in the private per-user runtime directory (or a
+# protected state-dir fallback), not a fixed world-writable /tmp filename.
+RUNTIME_DIR="${XDG_RUNTIME_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/omarchy}"
+RECORDING_FILE="$RUNTIME_DIR/omarchy-screenrecord-filename"
+REGION_FILE="$RUNTIME_DIR/omarchy-screenrecord-region"
+LOG_FILE=$([[ ${OMARCHY_SCREENRECORD_DEBUG:-false} == "true" ]] && echo "$RUNTIME_DIR/omarchy-screenrecord.log" || echo "/dev/null")
 RECORDER_PROCESS_RE="^(gpu-screen-recorder|wf-recorder)"
-PA_MODULES_FILE="/tmp/omarchy-screenrecord-pa-modules"
+PA_MODULES_FILE="$RUNTIME_DIR/omarchy-screenrecord-pa-modules"
 REC_PID=""
 
 if omarchy-cmd-present gpu-screen-recorder; then
@@ -206,6 +210,11 @@ launch_wf_recorder() {
 }
 
 start_screenrecording() {
+  mkdir -p "$RUNTIME_DIR" || return 1
+  # XDG_STATE_HOME may be outside a private home; protect existing fallbacks too.
+  if [[ -z ${XDG_RUNTIME_DIR:-} ]]; then
+    chmod 700 "$RUNTIME_DIR" || return 1
+  fi
   local capture_args=()
   local target
 

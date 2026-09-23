@@ -125,26 +125,63 @@ cat >"$fake_bin/wpctl" <<'EOF'
 #!/bin/bash
 [[ ${PI_CHECK_FAIL:-0} == 0 ]] && echo 'Volume: 0.50' || exit 1
 EOF
+cat >"$fake_bin/hyprctl" <<'EOF'
+#!/bin/bash
+[[ -n ${HYPRCTL_LOG:-} ]] && printf '%s\n' "$*" >>"$HYPRCTL_LOG"
+action=${!#}
+if [[ $action == instances ]]; then
+  if [[ -n ${PI_CHECK_INSTANCES_JSON:-} ]]; then
+    printf '%s\n' "$PI_CHECK_INSTANCES_JSON"
+  else
+    printf '[{"instance":"test","pid":%d}]\n' "${PI_CHECK_LIVE_PID:-$PPID}"
+  fi
+elif [[ $action == monitors ]]; then
+  [[ ${PI_CHECK_DISPLAY_FAIL:-0} == 0 ]] && printf '[{"name":"HDMI-A-1","width":1920,"height":1080,"disabled":false}]\n' || printf '[]\n'
+elif [[ $action == devices ]]; then
+  [[ ${PI_CHECK_INPUT_MISSING:-0} == 0 ]] && printf '{"keyboards":[{"name":"test-keyboard"}],"mice":[],"touch":[],"tablets":[]}\n' || printf '{"keyboards":[],"mice":[],"touch":[],"tablets":[]}\n'
+else
+  exit 1
+fi
+EOF
 cat >"$fake_bin/bluetoothctl" <<'EOF'
 #!/bin/bash
 echo 'Controller 00:00:00:00:00:00 test'
 [[ ${PI_CHECK_FAIL:-0} == 0 ]] && echo 'Powered: yes' || echo 'Powered: no'
 EOF
 chmod +x "$fake_bin/uname" "$fake_bin/systemctl" "$fake_bin/pgrep" \
-  "$fake_bin/nmcli" "$fake_bin/wpctl" "$fake_bin/bluetoothctl"
+  "$fake_bin/nmcli" "$fake_bin/wpctl" "$fake_bin/hyprctl" "$fake_bin/bluetoothctl"
 
 check_module_root="$test_tmp/modules"
 check_dri_root="$test_tmp/dri"
 check_provisioning_root="$test_tmp/provisioning"
 mkdir -p "$check_module_root/v3d" "$check_dri_root" "$check_provisioning_root"
 touch "$check_dri_root/renderD128"
+check_drm_root="$test_tmp/drm"
+check_alsa_root="$test_tmp/asound"
+hyprctl_log="$test_tmp/hyprctl.log"
+mkdir -p "$check_drm_root/card1-HDMI-A-1" "$check_alsa_root/card2" "$check_alsa_root/card3"
+cat >"$check_alsa_root/cards" <<'EOF'
+ 2 [vc4hdmi0       ]: vc4-hdmi - vc4-hdmi-0
+ 3 [vc4hdmi1       ]: vc4-hdmi - vc4-hdmi-1
+EOF
+printf 'connected\n' >"$check_drm_root/card1-HDMI-A-1/status"
+printf 'fixture-edid\n' >"$check_drm_root/card1-HDMI-A-1/edid"
+cat >"$check_alsa_root/card2/eld#0" <<'EOF'
+monitor_present         1
+eld_valid               1
+sad_count               1
+EOF
 OMARCHY_RPI_MODEL_PATH="$model" \
 OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
 OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
 OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
 OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
 OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
 VCGENCMD_OUTPUT=throttled=0x0 \
+HYPRCTL_LOG="$hyprctl_log" \
+PI_CHECK_LIVE_PID=$$ \
 PATH="$fake_bin:$PATH" \
   "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-ok" ||
   fail "Pi acceptance command succeeds for a healthy hardware fixture"
@@ -152,6 +189,18 @@ grep -Fx 'PASS  V3D graphics — kernel module loaded; renderD128 present' \
   "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies the V3D render node"
 grep -Fx 'PASS  Audio — default PipeWire sink ready (Volume: 0.50)' \
   "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies the default audio sink"
+grep -Fx 'PASS  Display link — card1-HDMI-A-1 connected; EDID ready on card1-HDMI-A-1' \
+  "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies connected output and EDID"
+grep -Fx 'PASS  Desktop output — Hyprland reports an active monitor' \
+  "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies compositor output"
+grep -Fx 'PASS  Desktop input — Hyprland reports an input device' \
+  "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies compositor input"
+grep -Fx -- '-i 0 -j monitors' "$hyprctl_log" >/dev/null ||
+  fail "Pi acceptance command targets the sole live Hyprland instance"
+grep -Fx -- '-i 0 -j devices' "$hyprctl_log" >/dev/null ||
+  fail "Pi acceptance command queries input in the sole live Hyprland instance"
+grep -Fx 'PASS  HDMI audio — kernel ELD reports audio descriptors' \
+  "$test_tmp/pi-check-ok" >/dev/null || fail "Pi acceptance command verifies the HDMI audio handshake"
 grep -Fx 'Result: 0 failure(s), 0 warning(s)' "$test_tmp/pi-check-ok" >/dev/null ||
   fail "Pi acceptance command summarizes a healthy system"
 
@@ -161,12 +210,194 @@ OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
 OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
 OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
 OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
 VCGENCMD_FAIL=1 \
 PATH="$fake_bin:$PATH" \
   "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-kernel-sensors"
 grep -Fx 'PASS  Power/thermals — under-voltage alarm clear; CPU 47.2°C' \
   "$test_tmp/pi-check-kernel-sensors" >/dev/null ||
   fail "Pi acceptance command falls back to kernel-native voltage and temperature sensors"
+
+: >"$check_drm_root/card1-HDMI-A-1/edid"
+: >"$check_alsa_root/card2/eld#0"
+PI_CHECK_INPUT_MISSING=1 \
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-degraded" ||
+  fail "Pi acceptance command keeps recoverable peripheral gaps as warnings"
+grep -Fx 'WARN  Display link — card1-HDMI-A-1 connected without EDID; native modes and HDMI audio are not proven' \
+  "$test_tmp/pi-check-degraded" >/dev/null || fail "Pi acceptance command detects a missing EDID"
+grep -Fx 'WARN  HDMI audio — no valid ELD audio descriptors; a default sink does not prove monitor audio' \
+  "$test_tmp/pi-check-degraded" >/dev/null || fail "Pi acceptance command distinguishes PipeWire from HDMI readiness"
+grep -Fx 'WARN  Desktop input — Hyprland reports no keyboard, pointer, touch, or tablet device' \
+  "$test_tmp/pi-check-degraded" >/dev/null || fail "Pi acceptance command reports missing desktop input"
+pass "Pi acceptance command detects appliance-facing display, audio, and input regressions"
+
+printf 'disconnected\n' >"$check_drm_root/card1-HDMI-A-1/status"
+if OMARCHY_RPI_MODEL_PATH="$model" \
+  OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+  OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+  OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+  OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+  OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+  OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+  OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+  VCGENCMD_OUTPUT=throttled=0x0 \
+  PATH="$fake_bin:$PATH" \
+    "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-disconnected"; then
+  fail "Pi acceptance command rejects a disconnected physical display"
+fi
+grep -Fx 'FAIL  Display link — no connected DRM output' "$test_tmp/pi-check-disconnected" >/dev/null ||
+  fail "Pi acceptance command reports a disconnected physical display"
+printf 'connected\n' >"$check_drm_root/card1-HDMI-A-1/status"
+pass "Pi acceptance command rejects a disconnected physical display"
+
+printf 'unknown\n' >"$check_drm_root/card1-HDMI-A-1/status"
+printf 'fixture-edid\n' >"$check_drm_root/card1-HDMI-A-1/edid"
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-unknown-status" ||
+  fail "Pi acceptance command does not reject an output with unknown status and readable EDID"
+grep -Fx 'WARN  Display link — card1-HDMI-A-1 reports unknown status with readable EDID; compositor state determines usability' \
+  "$test_tmp/pi-check-unknown-status" >/dev/null ||
+  fail "Pi acceptance command distinguishes unknown connector status from disconnection"
+printf 'connected\n' >"$check_drm_root/card1-HDMI-A-1/status"
+pass "Pi acceptance command preserves uncertain but usable DRM outputs"
+
+stale_pid=999999
+: >"$hyprctl_log"
+PI_CHECK_LIVE_PID=$$ \
+PI_CHECK_INSTANCES_JSON="[{\"instance\":\"stale\",\"pid\":$stale_pid},{\"instance\":\"live\",\"pid\":$$}]" \
+HYPRCTL_LOG="$hyprctl_log" \
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-stale-instance" ||
+  fail "Pi acceptance command selects the sole live Hyprland instance"
+grep -Fx -- '-i 1 -j monitors' "$hyprctl_log" >/dev/null ||
+  fail "Pi acceptance command ignores a stale Hyprland instance"
+pass "Pi acceptance command selects the sole live Hyprland instance"
+
+# sysfs attributes commonly report a zero stat size even when reading them
+# returns data. A FIFO reproduces that behavior for the EDID byte check.
+mv "$check_drm_root/card1-HDMI-A-1/edid" "$check_drm_root/card1-HDMI-A-1/edid-empty"
+edid_fifo="$check_drm_root/card1-HDMI-A-1/edid"
+mkfifo "$edid_fifo"
+(
+  printf 'fixture-edid\n' >"$edid_fifo"
+) &
+edid_writer=$!
+cat >"$check_alsa_root/card2/eld#0" <<'EOF'
+monitor_present         1
+eld_valid               1
+sad_count               1
+EOF
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-sysfs-edid" ||
+  fail "Pi acceptance command reads data from a zero-stat-size EDID attribute"
+wait "$edid_writer" || fail "EDID FIFO writer completed successfully"
+grep -Fx 'PASS  Display link — card1-HDMI-A-1 connected; EDID ready on card1-HDMI-A-1' \
+  "$test_tmp/pi-check-sysfs-edid" >/dev/null || fail "Pi acceptance command reads EDID bytes instead of trusting stat size"
+mv "$check_drm_root/card1-HDMI-A-1/edid" "$check_drm_root/card1-HDMI-A-1/edid-fifo"
+mv "$check_drm_root/card1-HDMI-A-1/edid-empty" "$check_drm_root/card1-HDMI-A-1/edid"
+pass "Pi acceptance command handles sysfs EDID attributes with zero reported size"
+
+cat >"$check_alsa_root/card2/eld#0" <<'EOF'
+monitor_name            fixture-monitor
+sad_count               1
+EOF
+printf 'fixture-edid\n' >"$check_drm_root/card1-HDMI-A-1/edid"
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-vc4-eld" ||
+  fail "Pi acceptance command accepts VC4 ELD descriptors"
+grep -Fx 'PASS  HDMI audio — kernel ELD reports audio descriptors' \
+  "$test_tmp/pi-check-vc4-eld" >/dev/null || fail "Pi acceptance command accepts VC4 ELD without optional PC fields"
+pass "Pi acceptance command accepts the Raspberry Pi VC4 ELD shape"
+
+mkdir -p "$check_drm_root/card1-HDMI-A-2"
+printf 'disconnected\n' >"$check_drm_root/card1-HDMI-A-1/status"
+printf 'connected\n' >"$check_drm_root/card1-HDMI-A-2/status"
+printf 'fixture-edid\n' >"$check_drm_root/card1-HDMI-A-2/edid"
+: >"$check_alsa_root/card3/eld#0"
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-wrong-eld" ||
+  fail "Pi acceptance command keeps a missing matching HDMI ELD as a warning"
+grep -Fx 'WARN  HDMI audio — no valid ELD audio descriptors; a default sink does not prove monitor audio' \
+  "$test_tmp/pi-check-wrong-eld" >/dev/null ||
+  fail "Pi acceptance command ignores ELD descriptors from a different HDMI port"
+cat >"$check_alsa_root/card3/eld#0" <<'EOF'
+monitor_name            fixture-monitor-two
+sad_count               2
+EOF
+OMARCHY_RPI_MODEL_PATH="$model" \
+OMARCHY_RPI_MODULE_ROOT="$check_module_root" \
+OMARCHY_RPI_DRI_ROOT="$check_dri_root" \
+OMARCHY_RPI_DRM_ROOT="$check_drm_root" \
+OMARCHY_RPI_ALSA_ROOT="$check_alsa_root" \
+OMARCHY_RPI_PROVISIONING_ROOT="$check_provisioning_root" \
+OMARCHY_RPI_HWMON_ROOT="$hwmon_root" \
+OMARCHY_RPI_THERMAL_ROOT="$thermal_root" \
+VCGENCMD_OUTPUT=throttled=0x0 \
+PATH="$fake_bin:$PATH" \
+  "$ROOT/bin/omarchy-pi-check" >"$test_tmp/pi-check-matching-eld" ||
+  fail "Pi acceptance command accepts the matching HDMI port's ELD"
+grep -Fx 'PASS  HDMI audio — kernel ELD reports audio descriptors' \
+  "$test_tmp/pi-check-matching-eld" >/dev/null ||
+  fail "Pi acceptance command accepts ELD descriptors from the connected HDMI port"
+printf 'connected\n' >"$check_drm_root/card1-HDMI-A-1/status"
+printf 'disconnected\n' >"$check_drm_root/card1-HDMI-A-2/status"
+pass "Pi acceptance command correlates HDMI audio evidence to the connected port"
 
 touch "$check_provisioning_root/grow-root-pending" "$check_provisioning_root/pending"
 if PI_CHECK_FAIL=1 \

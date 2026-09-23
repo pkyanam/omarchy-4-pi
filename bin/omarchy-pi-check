@@ -24,6 +24,8 @@ dri_root=${OMARCHY_RPI_DRI_ROOT:-/dev/dri}
 provisioning_root=${OMARCHY_RPI_PROVISIONING_ROOT:-/var/lib/omarchy/provisioning}
 hwmon_root=${OMARCHY_RPI_HWMON_ROOT:-/sys/class/hwmon}
 thermal_root=${OMARCHY_RPI_THERMAL_ROOT:-/sys/class/thermal}
+drm_root=${OMARCHY_RPI_DRM_ROOT:-/sys/class/drm}
+alsa_root=${OMARCHY_RPI_ALSA_ROOT:-/proc/asound}
 
 printf 'Omarchy 4 Pi hardware check\n\n'
 
@@ -84,6 +86,69 @@ else
   fail "Quattro shell — Quickshell process not found"
 fi
 
+connected_outputs=()
+edid_outputs=()
+uncertain_outputs=()
+hdmi_outputs=()
+for status_path in "$drm_root"/card*-*/status; do
+  [[ -r $status_path ]] || continue
+  connector=${status_path%/status}
+  connector_name=${connector##*/}
+  connector_status=$(<"$status_path")
+  edid_bytes=0
+  [[ -r $connector/edid ]] && edid_bytes=$(wc -c <"$connector/edid")
+  edid_bytes=${edid_bytes//[[:space:]]/}
+  edid_ready=0
+  [[ $edid_bytes =~ ^[0-9]+$ ]] && (( edid_bytes > 0 )) && edid_ready=1
+  [[ $connector_status == "connected" || ( $connector_status == "unknown" && $edid_ready == 1 ) ]] || continue
+  connected_outputs+=("${connector##*/}")
+  [[ $connector_name == *-HDMI-A-* ]] && hdmi_outputs+=("$connector_name")
+  (( edid_ready )) && edid_outputs+=("$connector_name")
+  [[ $connector_status == "unknown" ]] && uncertain_outputs+=("$connector_name")
+done
+if (( ${#connected_outputs[@]} == 0 )); then
+  fail "Display link — no connected DRM output"
+elif (( ${#uncertain_outputs[@]} > 0 )); then
+  warn "Display link — ${uncertain_outputs[*]} reports unknown status with readable EDID; compositor state determines usability"
+elif (( ${#edid_outputs[@]} > 0 )); then
+  pass "Display link — ${connected_outputs[*]} connected; EDID ready on ${edid_outputs[*]}"
+else
+  warn "Display link — ${connected_outputs[*]} connected without EDID; native modes and HDMI audio are not proven"
+fi
+
+hyprctl_command=(hyprctl)
+if [[ -z ${HYPRLAND_INSTANCE_SIGNATURE:-} ]]; then
+  instances=$(command_output hyprctl -j instances || true)
+  live_instances=()
+  if [[ -n $instances ]]; then
+    while IFS=$'\t' read -r instance_index instance_pid; do
+      [[ $instance_index =~ ^[0-9]+$ && $instance_pid =~ ^[0-9]+$ ]] || continue
+      kill -0 "$instance_pid" 2>/dev/null && live_instances+=("$instance_index")
+    done < <(jq -r 'to_entries[] | select((.value.pid // 0) > 0) | [.key, .value.pid] | @tsv' <<<"$instances" 2>/dev/null)
+    if (( ${#live_instances[@]} == 1 )); then
+      hyprctl_command+=(-i "${live_instances[0]}")
+    elif (( ${#live_instances[@]} == 0 )) && jq -e 'length == 1 and (.[0].pid? == null)' <<<"$instances" >/dev/null 2>&1; then
+      hyprctl_command+=(-i 0)
+    fi
+  fi
+fi
+
+desktop_state=""
+desktop_state=$(command_output "${hyprctl_command[@]}" -j monitors || true)
+if [[ -n $desktop_state ]] && jq -e 'any(.[]; (.disabled // false) == false and .width > 0 and .height > 0)' <<<"$desktop_state" >/dev/null 2>&1; then
+  pass "Desktop output — Hyprland reports an active monitor"
+else
+  fail "Desktop output — Hyprland does not report an active monitor"
+fi
+
+input_state=""
+input_state=$(command_output "${hyprctl_command[@]}" -j devices || true)
+if [[ -n $input_state ]] && jq -e '([.keyboards[], .mice[], .touch[], .tablets[]] | length) > 0' <<<"$input_state" >/dev/null 2>&1; then
+  pass "Desktop input — Hyprland reports an input device"
+else
+  warn "Desktop input — Hyprland reports no keyboard, pointer, touch, or tablet device"
+fi
+
 network_state=""
 command -v nmcli >/dev/null 2>&1 &&
   network_state=$(command_output nmcli -t -f STATE general status || true)
@@ -100,6 +165,40 @@ if [[ -n $audio_state ]]; then
   pass "Audio — default PipeWire sink ready ($audio_state)"
 else
   fail "Audio — no default PipeWire sink"
+fi
+
+if (( ${#hdmi_outputs[@]} > 0 )); then
+  eld_ready=0
+  for hdmi_output in "${hdmi_outputs[@]}"; do
+    [[ $hdmi_output =~ ^card([0-9]+)-HDMI-A-([0-9]+)$ ]] || continue
+    vc4_hdmi_index=$((${BASH_REMATCH[2]} - 1))
+    alsa_card=""
+    if [[ -r $alsa_root/cards ]]; then
+      while IFS= read -r card_line; do
+        if [[ $card_line =~ ^[[:space:]]*([0-9]+)[[:space:]]+\[vc4hdmi${vc4_hdmi_index}[[:space:]]*\] ]]; then
+          alsa_card=${BASH_REMATCH[1]}
+          break
+        fi
+      done <"$alsa_root/cards"
+    fi
+    [[ -n $alsa_card ]] || continue
+    for eld_path in "$alsa_root/card$alsa_card"/eld#*; do
+      [[ -r $eld_path ]] || continue
+      monitor_present=$(sed -n 's/^monitor_present[[:space:]][[:space:]]*//p' "$eld_path")
+      eld_valid=$(sed -n 's/^eld_valid[[:space:]][[:space:]]*//p' "$eld_path")
+      [[ -z $monitor_present || $monitor_present == "1" ]] || continue
+      [[ -z $eld_valid || $eld_valid == "1" ]] || continue
+      sad_count=$(sed -n 's/^sad_count[[:space:]][[:space:]]*//p' "$eld_path")
+      [[ $sad_count =~ ^[0-9]+$ ]] && (( sad_count > 0 )) || continue
+      eld_ready=1
+      break 2
+    done
+  done
+  if (( eld_ready )); then
+    pass "HDMI audio — kernel ELD reports audio descriptors"
+  else
+    warn "HDMI audio — no valid ELD audio descriptors; a default sink does not prove monitor audio"
+  fi
 fi
 
 bluetooth_state=""

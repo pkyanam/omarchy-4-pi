@@ -437,7 +437,7 @@ write_build_manifest() {
   "source_dirty": $dirty,
   "omarchy_pkgs_commit": "$omarchy_pkgs_commit",
   "install_mode": "$install_mode",
-  "package_snapshot": "$(awk '$1 == "Server" { print $3 }' "$repo_root/default/pacman/mirrorlist-rpi4-image")",
+  "package_repository": "$(awk '$1 == "Server" { print $3 }' "$repo_root/default/pacman/mirrorlist-rpi4-image")",
   "base_url": "$rootfs_url",
   "base_sha256": "$rootfs_sha",
   "base_signing_key": "$build_key",

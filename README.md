@@ -22,13 +22,13 @@ Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Ch
 
 ## Try the 4GB-first alpha
 
-[**v0.2.0-alpha.2 is available**](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.2): a 2.05GB flashable download with Pi-specific memory/build defaults, load-responsive CPU scaling, guarded opt-in clock trials, agent-friendly diagnostics, and stronger ARM update safeguards. **Stock clocks by default.** This is an alpha, not another RC; the stable release remains unchanged. Test on a spare card and keep your working installation as rollback. Read the [release notes](docs/releases/v0.2.0-alpha.2.md).
+[**v0.2.0-alpha.4**](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.4) refreshes the Pi port with Omarchy 4.0.4's latest desktop, shell, agent-tooling, and maintenance updates while retaining the Pi-specific installer, update safeguards, and conservative 4GB defaults. It is a prerelease—not a new stable release—and uses stock clocks by default. Flash it to a spare card and keep your working install as rollback. See the [release notes](docs/releases/v0.2.0-alpha.4.md).
 
 Open the **alpha** catalog on macOS:
 
 ```bash
 open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.2/os-list.json"
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.4/os-list.json"
 ```
 
 Choose Pi 4, configure your account/network/hostname in Imager, and verify the target card before writing. First-boot hostname provisioning is retained. The image passed 139 assembled-filesystem checks; physical testing of this new build is still needed. To keep your existing card instead, see the [in-place upgrade guide](docs/pi-upgrade.md).
@@ -37,14 +37,14 @@ Choose Pi 4, configure your account/network/hostname in Imager, and verify the t
 
 Designed for **Raspberry Pi 4 Model B with 4GB or more RAM**; 8GB is recommended for larger browser sessions and development workloads. You also need a reliable power supply, HDMI display, and a **32 GB or larger** microSD card or USB SSD. Back up the target drive: flashing erases it. A USB 3 SSD helps with development I/O. Models below 4GB, Pi 5, Pi 400, and other boards are not supported targets for this release.
 
-Install Raspberry Pi Imager **2.0.11 or newer**. On macOS, open the RC1 catalog:
+Install Raspberry Pi Imager **2.0.11 or newer**. On macOS, open the latest Alpha 4 catalog:
 
 ```bash
 open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.1.0-rc.1/os-list.json"
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.4/os-list.json"
 ```
 
-The [RC1 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.1.0-rc.1) contains the verified image and `os-list.json`. The 2.08 GB download passed checksum/catalog verification and an independent read-only audit of 111 image invariants. The tester reported it working on their Pi 4 on September 4, 2026; this initial success does not establish that every hardware acceptance check has passed.
+The [Alpha 4 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.4) contains the flashable image, checksum, manifest, audit report, and Imager catalog. It has passed Pi source checks; physical testing of this refreshed image is still needed.
 
 1. Select the **Raspberry Pi 4** device and **Omarchy 4 Pi** OS entry.
 2. Select your SD card or SSD. Double-check which drive will be erased.
@@ -147,7 +147,7 @@ Or choose **Actions → Build Raspberry Pi image → Run workflow**. Version tag
 
 Each build provides a compressed `.img.xz`, SHA-256 checksum, Imager catalog, package/source manifest, and mounted-root audit report. The image expands from its 12 GiB factory size on first boot. The factory verifies the signed Arch Linux ARM base, removes default accounts and machine identity, checks the actual ARM64 Hyprland configuration, and audits the assembled root filesystem before publishing.
 
-RC1 factory builds use the **September 3, 2026 package snapshot** from a community Arch Linux ARM archive, with official package signatures still required. This avoids a later upstream Aquamarine/Hyprland library mismatch. Normal live ARM mirrors are restored before shipping, so updates are not permanently frozen. The archive URL, resolved packages, and source commits are recorded in each manifest. Builds are **traceable, not bit-for-bit reproducible**: the signed base filesystem and some build inputs still roll forward.
+Factory builds use signed packages from the official rolling Arch Linux ARM repositories. The manifest records the package repository, resolved package versions, and source commits. Builds are **traceable, not bit-for-bit reproducible**: the signed base filesystem and rolling package inputs continue to advance.
 
 For existing Arch Linux ARM installs and deeper build details, see the [installation guide](docs/raspberry-pi-4.md).
 

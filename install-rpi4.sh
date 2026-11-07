@@ -228,6 +228,7 @@ install_official_packages() {
   check_existing_package_policy
   local resolved omissions
   local -a selected=()
+  source "$checkout/install/helpers/rpi4-bluez.sh"
   log "Resolving the complete Pi $install_mode package contract"
   # Capture status before reading the plan: process substitution would hide an
   # unresolved required runtime and allow the core replacement to proceed.
@@ -242,7 +243,8 @@ install_official_packages() {
   [[ -n $resolved ]] || fail "The Pi package plan is empty."
   mapfile -t selected <<<"$resolved"
   pacman_retry -S --needed --noconfirm "${selected[@]}"
-  python3 "$checkout/install/helpers/rpi4-packages.py" "$checkout" "$install_mode" --verify >/dev/null ||
+  omarchy_pi_install_bluez_backport "$checkout" || fail "Bluetooth client backport failed; runtime reconciliation is incomplete."
+  python3 "$checkout/install/helpers/rpi4-packages.py" "$checkout" "$install_mode" --verify --require-backports >/dev/null ||
     fail "Installed Pi runtime does not match the selected stable binaries."
   sudo install -d /var/lib/omarchy
   printf '%s\n' "$resolved" | sudo tee /var/lib/omarchy/rpi4-package-plan >/dev/null

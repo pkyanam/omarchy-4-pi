@@ -1,0 +1,53 @@
+# Temporary backport for the exact stable-4.5 ARM package. Rebuild only the
+# affected client; preserve every other file from the signed ALARM archive.
+# Source package: Arch bluez 5.87-2, commit 5fc5809b7caf4ebb16dfe77c5f224f9a1146786d.
+pkgname=bluez-utils
+pkgver=5.87
+pkgrel=2.1
+pkgdesc='Development and debugging utilities for the bluetooth protocol stack (system-bus fix)'
+arch=('aarch64')
+url='https://www.bluez.org/'
+license=('GPL-2.0-only')
+depends=('dbus' 'systemd-libs' 'glib2' 'glibc' 'readline')
+makedepends=('python')
+optdepends=('ell: for btpclient' 'perl: for parse_companies.pl')
+provides=('bluez-plugins')
+replaces=('bluez-plugins')
+# Never re-strip/recompress the vendor payload or emit a second debug package.
+options=('!strip' '!debug' '!lto' '!zipman')
+source=(
+  "https://www.kernel.org/pub/linux/bluetooth/bluez-$pkgver.tar.xz"
+  'https://arm-stable-mirror.omarchy.org/aarch64/extra/bluez-utils-5.87-2-aarch64.pkg.tar.xz'
+  'system-bus.patch'
+  'check-system-bus.py'
+)
+noextract=('bluez-utils-5.87-2-aarch64.pkg.tar.xz')
+sha256sums=(
+  '26bdcf2cebd7310c6f598850606b037ef0c515fe6608ebc54d22c50c4c32b35f'
+  '87bcd79e63ad7867a5ca19fa53b7b7989efc90657ddafb67c82a6359a2429d3b'
+  'e2b7b9ec1d88ca463ef033584c9252347f85911bddc561ab359918b1e359f6ac'
+  '3db0ed98cafdc279c4a25e25907f762150e095bf809f0b22dcf4e4520b98f586'
+)
+
+prepare() {
+  cd "bluez-$pkgver"
+  patch --fuzz=0 -Np1 -i "$srcdir/system-bus.patch"
+}
+
+build() {
+  cd "bluez-$pkgver"
+  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+    --libexecdir=/usr/lib --enable-experimental --disable-manpages \
+    --disable-obex --disable-mesh --disable-btpclient
+  make client/bluetoothctl
+  strip --strip-unneeded client/bluetoothctl
+}
+
+check() {
+  python3 "$srcdir/check-system-bus.py" "$srcdir/bluez-$pkgver/client/bluetoothctl"
+}
+
+package() {
+  bsdtar -xf "$srcdir/bluez-utils-5.87-2-aarch64.pkg.tar.xz" -C "$pkgdir" usr
+  install -m755 "$srcdir/bluez-$pkgver/client/bluetoothctl" "$pkgdir/usr/bin/bluetoothctl"
+}

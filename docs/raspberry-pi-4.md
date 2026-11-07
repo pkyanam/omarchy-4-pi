@@ -154,6 +154,8 @@ wpctl status
 bluetoothctl show
 ```
 
+Run Bluetooth diagnostics from a normal terminal with access to the system D-Bus. An agent sandbox may deny access to `/run/dbus/system_bus_socket` even while Bluetooth is healthy. Check `busctl --system --no-pager list` before invoking `bluetoothctl` from an agent; if access is denied, use an individually authorized host command. The Pi package path backports BlueZ's connection-error fix for the affected `5.87-2` client, so denial returns an error instead of producing a crash notification. See the [backport and removal criteria](../default/pi/bluez-utils/README.md).
+
 Expected results are `aarch64`, a V3D/VC4 Mesa renderer rather than `llvmpipe`, a detected HDMI output, a successful shell ping, the `rpi4` channel, PipeWire audio devices, and a Pi Bluetooth controller. `omarchy-pi-status` summarizes temperature, memory, storage, renderer, and Raspberry Pi firmware power flags. `OK` means no under-voltage or throttling was recorded since boot; an `ACTIVE` warning should be fixed before diagnosing desktop performance, while `previously` identifies a transient event that has cleared.
 
 If `glxinfo` is missing, install `mesa-utils` with `sudo pacman -S mesa-utils`.

@@ -166,13 +166,33 @@ def plan(root, mode, packages):
     return list(selected.values())
 
 
-def verify(selected):
+def verify(selected, require_backports=False):
     for record in selected:
         name, expected = record["NAME"][0], record["VERSION"][0]
+        acceptable = {expected}
+        # Older installed updaters verify the full repository transaction
+        # before calling the new checkout's runtime reconciliation. Permit
+        # that intermediate base version, but require the fix at completion.
+        if name == "bluez-utils" and expected == "5.87-2":
+            acceptable = {"5.87-2.1"} if require_backports else {"5.87-2", "5.87-2.1"}
         result = subprocess.run(["pacman", "-Q", name], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         installed = result.stdout.split()
-        if result.returncode or len(installed) != 2 or installed[1] != expected:
-            raise ValueError(f"Pi runtime {name} must be {expected}; installed: {result.stdout.strip() or 'absent'}")
+        if result.returncode or len(installed) != 2 or installed[1] not in acceptable:
+            raise ValueError(f"Pi runtime {name} must be {' or '.join(sorted(acceptable))}; installed: {result.stdout.strip() or 'absent'}")
+
+
+def install_targets(selected):
+    for record in selected:
+        name, version = record["NAME"][0], record["VERSION"][0]
+        if name == "bluez-utils" and version == "5.87-2":
+            installed = subprocess.run(["pacman", "-Q", name], text=True,
+                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            if installed.returncode == 0 and installed.stdout.split() == [name, "5.87-2.1"]:
+                # An explicit -S target downgrades even with --needed. Keep
+                # the backport out of both old and new updaters' targets;
+                # it remains in the complete solver/verification contract.
+                continue
+        yield f"{record['REPO']}/{name}={version}"
 
 
 def main():
@@ -181,12 +201,13 @@ def main():
     parser.add_argument("mode", choices=("minimal", "full"))
     parser.add_argument("--dbpath", type=Path, default=Path("/var/lib/pacman"))
     parser.add_argument("--verify", action="store_true")
+    parser.add_argument("--require-backports", action="store_true")
     args = parser.parse_args()
     selected = plan(args.root, args.mode, databases(args.dbpath))
     if args.verify:
-        verify(selected)
-    for record in selected:
-        print(f"{record['REPO']}/{record['NAME'][0]}={record['VERSION'][0]}")
+        verify(selected, args.require_backports)
+    for target in install_targets(selected):
+        print(target)
 
 
 if __name__ == "__main__":

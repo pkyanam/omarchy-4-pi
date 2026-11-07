@@ -50,3 +50,30 @@ for field in ("extract_size", "extract_sha256", "image_download_size", "image_do
 assert local["init_format"] == "rpi-preseed"
 PY
 pass "reassembled image keeps compressed/extracted integrity and customization through the local catalog flow"
+
+# Docker's /output file URLs must be rebased after archive copy to the Mac.
+mkdir "$test_tmp/copied host output"
+cp "$image" "$test_tmp/copied host output/candidate.img.xz"
+"$BASH" "$ROOT/image/generate-local-imager-manifest.sh" "$image" "$test_tmp/candidate.os-list.json" >/dev/null
+cp "$test_tmp/candidate.os-list.json" "$test_tmp/copied host output/candidate.os-list.json"
+cp "$test_tmp/candidate.os-list.json" "$test_tmp/copied host output/os-list.json"
+if "$BASH" "$ROOT/image/validate-imager-catalog.sh" "$test_tmp/copied host output/os-list.json" "$test_tmp/copied host output" >/dev/null 2>&1; then
+  fail "copied container file URL must fail before relocation"
+fi
+python3 "$ROOT/image/relocate-imager-catalogs.py" "$test_tmp/copied host output"
+python3 - "$test_tmp" <<'PY'
+import json
+from pathlib import Path
+import sys
+root = Path(sys.argv[1]).resolve()
+original = json.loads((root / 'candidate.os-list.json').read_text())
+expected = original.copy()
+expected['os_list'] = [dict(original['os_list'][0], url=(root / 'copied host output/candidate.img.xz').as_uri())]
+for name in ('candidate.os-list.json', 'os-list.json'):
+  assert json.loads((root / 'copied host output' / name).read_text()) == expected
+PY
+printf tamper >>"$test_tmp/copied host output/candidate.img.xz"
+if python3 "$ROOT/image/relocate-imager-catalogs.py" "$test_tmp/copied host output" >"$test_tmp/relocate-tamper.log" 2>&1; then
+  fail "catalog relocation must reject damaged copies instead of blessing new hashes"
+fi
+pass "copied Mac catalogs resolve host paths with original integrity and reject copy corruption"

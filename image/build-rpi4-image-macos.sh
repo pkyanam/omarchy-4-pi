@@ -82,6 +82,7 @@ main() {
   [[ $(uname -s) == Darwin && $(uname -m) == arm64 ]] ||
     fail "This helper requires an Apple-silicon Mac."
   command -v docker >/dev/null || fail "Install Docker Desktop or OrbStack first."
+  command -v python3 >/dev/null || fail "python3 is required to verify the copied image catalogs."
   docker info >/dev/null 2>&1 || fail "Start the selected Docker engine, then run this command again."
   [[ $(docker info --format '{{.Architecture}}') == aarch64 ]] ||
     fail "The selected Docker engine must be native aarch64."
@@ -171,6 +172,7 @@ main() {
 
   mkdir -p "$output_dir"
   docker cp "$container:/output/." "$output_dir"
+  python3 "$script_dir/relocate-imager-catalogs.py" "$output_dir"
   log "Local image build complete"
 }
 

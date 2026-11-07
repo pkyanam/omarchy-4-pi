@@ -1,4 +1,4 @@
-# Pi 4.5: gentle defaults, optional clock trials
+# Pi 4 on Omarchy 4.5: gentle defaults, optional clock trials
 
 Target: Omarchy 4 Pi 4.5 on Raspberry Pi 4 Model B with 4GB or 8GB RAM. These policies are included in the [4.5 release](releases/v4.5.0.md); clock trials remain optional. Automated tests cannot establish overclock stability, storage integrity under load, or Raspberry Pi OS performance parity.
 

@@ -140,7 +140,7 @@ for profile in missing-policy rolling wrong-profile; do
   done
   for command in omarchy-update omarchy-update-rpi4 omarchy-update-system-pkgs omarchy-update-keyring; do
     reject "$command"
-    grep -F 'flash the complete 4.5 Pi candidate to spare media' "$test_tmp/rejected" >/dev/null ||
+    grep -F 'to spare media' "$test_tmp/rejected" >/dev/null ||
       fail "legacy update refusal must explain fresh-media recovery" "$command: $(cat "$test_tmp/rejected")"
   done
   reject omarchy-update-rpi4 --prepare

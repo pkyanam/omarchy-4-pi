@@ -58,16 +58,9 @@ This leaves room for the desktop. It limits resources; it is not a security sand
 
 ## Flash with Raspberry Pi Imager
 
-The [release assets](https://github.com/pkyanam/omarchy-4-pi/releases/latest) include the image, checksum, package/source manifest, and filesystem audit. When a whole-image download fits GitHub's asset limit, the release also provides `os-list.json` for direct Imager customization. If the image is split, follow its `REASSEMBLE.txt`, verify every part and the joined image, then use the local helper below.
+The [4.5 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v4.5.0) contains numbered image parts because the compressed image exceeds GitHub's per-file limit. Download every `.img.xz.part-*` file, the `.parts.sha256` and `.sha256` files, and the `REASSEMBLE.txt` instructions. Verify the parts, join them, and verify the complete image as instructed.
 
-For a release with `os-list.json`, open its catalog on macOS:
-
-```bash
-open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v4.5.0/os-list.json"
-```
-
-On Linux, pass the same URL to `rpi-imager --repo`. Choose the **Raspberry Pi 4** device and **Omarchy 4 Pi** entry, then configure the account and network before writing. Use a short hostname such as `omarchy-pi`, without `.local`. SSH is opt-in; there is no reusable factory login.
+Then use the local helper below to open the complete image in Imager with customization enabled. This release has no remote whole-image catalog. Choose the **Raspberry Pi 4** device and **Omarchy 4 Pi** entry, then configure your account and network before writing. Use a short hostname such as `omarchy-pi`, without `.local`. SSH is opt-in; there is no reusable factory login.
 
 ### Already downloaded the image?
 
@@ -128,7 +121,7 @@ For display problems, start with [display recovery](docs/raspberry-pi-4.md#displ
 
 The image uses Arch Linux ARM, the Pi firmware/U-Boot boot path and plain ext4. “Minimal” omits optional heavyweight applications while keeping the complete desktop. Disk encryption, Limine and automatic Snapper rollback are not part of this image.
 
-The 4.5 candidate **boots and runs on the maintainer's Pi**, as reported on November 7, 2026. Automated validation includes 192 assembled-image checks, native ARM64 Hyprland configuration parsing, dependency and service-unit checks, filesystem checks, and offline Node/npm execution. Detailed performance, media decoding, peripherals and separate 4GB/8GB qualification remain open. **Pi 5 is deferred.** See the [validation ledger](plans/omarchy-4.5-pi4.md).
+The preceding 4.5 candidate **boots and runs on the maintainer's Pi**, as reported on November 7, 2026. The published 4.5 image passed 192 assembled-image checks, native ARM64 Hyprland configuration parsing, dependency and service-unit checks, filesystem checks, the production update guard, offline Node/npm execution and actual ARM64 Codex installation/launcher execution. Detailed performance, media decoding, peripherals and separate 4GB/8GB qualification remain open. **Pi 5 is deferred.** See the [validation ledger](plans/omarchy-4.5-pi4.md).
 
 ## Updates and recovery
 

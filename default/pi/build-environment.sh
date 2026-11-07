@@ -65,6 +65,8 @@ omarchy_pi_prepare_build() {
   _omarchy_pi_build_pid=$BASHPID
   _omarchy_pi_build_owner="$$:$BASHPID:$RANDOM:$RANDOM"
   if ! (umask 077; printf '%s\n' "$_omarchy_pi_build_owner" >"$work/.omarchy-pi-build-owner"); then
+    # A failed write can still leave a partial marker in the new directory.
+    rm -f -- "$work/.omarchy-pi-build-owner" 2>/dev/null || true
     rmdir -- "$work" 2>/dev/null || true
     unset _omarchy_pi_owned_build _omarchy_pi_build_owner _omarchy_pi_build_pid
     return 1

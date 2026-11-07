@@ -105,6 +105,23 @@ omarchy_pi_cleanup_build
 [[ $BUILDDIR == /tmp/unsafe-build-override && $SRCDEST == /tmp/unsafe-source-override ]] || fail "cleanup did not restore caller environment"
 pass "private build storage, makepkg integration, explicit outputs and ownership cleanup"
 
+# A failed marker write can leave a nonempty file (ENOSPC/EDQUOT).
+(
+  printf() {
+    if [[ ${1:-} == '%s\n' && ${2:-} == "$$:"* ]]; then
+      builtin printf partial
+      return 1
+    fi
+    builtin printf "$@"
+  }
+  if omarchy_pi_prepare_build marker-failure; then fail "partial ownership marker write succeeded"; fi
+)
+if compgen -G "$OMARCHY_PI_BUILD_PARENT/omarchy-pi-marker-failure.*" >/dev/null; then
+  fail "failed ownership marker write retained its build workspace"
+fi
+[[ -f $OMARCHY_PI_BUILD_PARENT/sentinel ]] || fail "marker cleanup removed caller files"
+pass "failed ownership marker writes remove only their new workspace"
+
 for filesystem in tmpfs ramfs overlay; do
   if TEST_FSTYPE=$filesystem omarchy_pi_prepare_build fixture >"$test_tmp/refused-$filesystem" 2>&1; then fail "unverified $filesystem build storage accepted"; fi
 done

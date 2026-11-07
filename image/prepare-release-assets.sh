@@ -12,6 +12,8 @@ fi
 
 readonly image="$1"
 readonly output_dir="$2"
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly script_dir
 # GitHub accepts release assets smaller than 2 GiB. Keep an 8 MiB safety
 # margin while avoiding needless splitting of maximum-compressed Pi images.
 readonly part_mib="${OMARCHY_RELEASE_PART_MIB:-2040}"
@@ -32,15 +34,42 @@ sha256() {
 }
 
 readonly basename="${image##*/}"
-readonly image_size="$(wc -c <"$image" | tr -d ' ')"
+image_size="$(wc -c <"$image" | tr -d ' ')"
+readonly image_size
 readonly part_bytes=$((part_mib * 1024 * 1024))
-readonly image_sha="$(sha256 "$image")"
+image_sha="$(sha256 "$image")"
+readonly image_sha
 
 mkdir -p "$output_dir"
+[[ $(cd -- "$(dirname -- "$image")" && pwd -P)/${image##*/} != "$(cd -- "$output_dir" && pwd -P)/${image##*/}" ]] || {
+  echo "Release staging directory must be separate from the source image directory." >&2
+  exit 1
+}
 printf '%s  %s\n' "$image_sha" "$basename" >"$output_dir/$basename.sha256"
+catalog="${image%.img.xz}.os-list.json"
+catalog_name="${basename%.img.xz}.os-list.json"
+# A repeated staging attempt must not keep a whole image or a dangling catalog
+# from an earlier direct/split run. Remove only assets belonging to this image.
+rm -f "$output_dir/$basename" "$output_dir/$catalog_name"
+if [[ -f $output_dir/os-list.json ]]; then
+  python3 - "$output_dir/os-list.json" "$basename" <<'PY'
+import json
+from pathlib import Path
+import sys
+from urllib.parse import unquote, urlsplit
+path = Path(sys.argv[1])
+if any(Path(unquote(urlsplit(item["url"]).path)).name == sys.argv[2] for item in json.loads(path.read_text())["os_list"]):
+  path.unlink()
+PY
+fi
 
 if (( image_size <= part_bytes )); then
   cp "$image" "$output_dir/$basename"
+  if [[ -f $catalog ]]; then
+    "$script_dir/validate-imager-catalog.sh" "$catalog" "$output_dir"
+    cp "$catalog" "$output_dir/$catalog_name"
+    cp "$catalog" "$output_dir/os-list.json"
+  fi
   exit 0
 fi
 
@@ -67,8 +96,18 @@ Linux:
   cat $basename.part-* > $basename
   sha256sum -c $basename.sha256
 
-After the final checksum passes, select $basename with Raspberry Pi Imager's
-"Use custom" option. The complete image SHA-256 is:
+After the final checksum passes, preserve Imager's account/Wi-Fi/SSH wizard
+by using this repository's local catalog flow (Raspberry Pi Imager 2.0.11+):
+
+  image/generate-local-imager-manifest.sh "$basename"
+
+On macOS, open the image with the customization-aware launcher:
+
+  image/open-in-rpi-imager-macos.sh "$basename"
+
+On Linux, launch Imager with --repo pointing at the generated local catalog.
+No remote catalog is published for the split image: its whole-image URL would
+not be downloadable. The complete image SHA-256 is:
 
   $image_sha
 EOF

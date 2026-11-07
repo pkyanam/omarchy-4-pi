@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# omarchy:summary=Verify the platform's boot chain after the update's package changes
+# omarchy:hidden=true
+# omarchy:requires-sudo=true
+
+# Validates the boot artifacts left by package changes. File/initramfs checks
+# cannot prove a physical Pi will boot; that requires a real reboot test.
+
+set -e
+
+pi_boot_check() {
+  local boot=/boot kernel modules initramfs free_kib file
+  (( EUID == 0 )) || { echo "Pi boot check requires root." >&2; return 1; }
+  # An unmounted /boot can make mkinitcpio write into the root filesystem while
+  # the firmware partition keeps stale artifacts. Refuse it before rebuilding.
+  [[ $(findmnt -n -o FSTYPE --mountpoint "$boot") == "vfat" ]] || {
+    echo "Pi update incomplete: /boot must be its mounted FAT firmware partition. Mount it correctly, then rerun omarchy update; do not reboot yet." >&2
+    return 1
+  }
+  free_kib=$(df -Pk "$boot" | awk 'NR == 2 {print $4}')
+  [[ $free_kib =~ ^[0-9]+$ ]] && (( free_kib >= 65536 )) || {
+    echo "Pi update incomplete: /boot needs at least 64MiB free for initramfs rebuilding. Free space safely and retry before rebooting." >&2
+    return 1
+  }
+  # ALARM boots U-Boot as kernel8.img; U-Boot then loads Linux Image, its DTB
+  # and initramfs. Both DTBs matter: firmware and Linux use distinct paths.
+  for file in kernel8.img Image boot.scr boot.txt start4.elf fixup4.dat config.txt \
+    bcm2711-rpi-4-b.dtb dtbs/broadcom/bcm2711-rpi-4-b.dtb; do
+    [[ -s $boot/$file ]] || { echo "Pi boot asset missing/empty: $boot/$file. Restore it from the matching signed Pi boot packages before rebooting." >&2; return 1; }
+  done
+  modules=$(pacman -Qql linux-aarch64) || return 1
+  kernel=$(sed -n 's|^/usr/lib/modules/\([^/]*\)/modules.builtin$|\1|p' <<<"$modules")
+  [[ -n $kernel && $kernel != *$'\n'* && -s /usr/lib/modules/$kernel/modules.builtin ]] || {
+    echo "Pi update incomplete: cannot identify one installed linux-aarch64 module tree." >&2
+    return 1
+  }
+  # Unlike a failed pacman post-transaction hook, this status is mandatory.
+  mkinitcpio -P || { echo "Pi initramfs rebuild failed. Correct the error and retry before rebooting." >&2; return 1; }
+  [[ -s $boot/initramfs-linux.img ]] || return 1
+  initramfs=$(lsinitcpio -l "$boot/initramfs-linux.img") || return 1
+  [[ $initramfs == *"usr/lib/modules/$kernel/"* ]] || {
+    echo "Pi initramfs does not contain the installed kernel's modules ($kernel). Do not reboot; repair the preset and retry." >&2
+    return 1
+  }
+  echo "Pi boot files and rebuilt initramfs passed static checks. Physical boot remains unverified."
+}
+
+if [[ ${1:-} == "--pi4-check" && $# == 1 ]]; then
+  omarchy-update-rpi4-guard packages
+  pi_boot_check
+  exit $?
+fi
+
+if (( $# )); then
+  echo "Usage: omarchy-update-boot" >&2
+  exit 2
+fi
+if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
+  omarchy-update-rpi4-guard packages
+  sudo "$OMARCHY_PATH/bin/omarchy-update-boot" --pi4-check
+  # Parse the owner's actual configuration as that owner, without starting a
+  # compositor or borrowing root's HOME. SSH/TTY can perform this parser check.
+  config="${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.lua"
+  if [[ -f $config ]]; then
+    parsed=$(Hyprland --verify-config --config "$config" 2>&1) || {
+      printf '%s\n' "$parsed" >&2
+      echo "Pi update incomplete: correct the Hyprland configuration, then retry." >&2
+      exit 1
+    }
+    grep -qx 'config ok' <<<"$parsed" || { printf '%s\n' "$parsed" >&2; exit 1; }
+  else
+    echo "No user Hyprland configuration exists to parse; graphical validation remains pending." >&2
+  fi
+  exit 0
+fi
+operation=update-verify
+
+# Resolving as the user keeps sudo, and its password prompt, out of updates
+# with nothing to run. Root resolves again from its own fixed paths before
+# anything runs.
+errors=$(mktemp)
+trap 'rm -f "$errors"' EXIT
+status=0
+resolved=$(omarchy-lifecycle-dispatch --resolve "$operation" 2>"$errors") || status=$?
+
+# 3: the platform's boot package is not installed at all. Such a machine
+# predates it and boots a chain the package does not manage, so verification
+# warns instead of failing every update until the package is installed.
+if (( status == 3 )); then
+  echo -e "\e[33m\n$(sed 's/^Error: //' "$errors")\nThe boot files were not verified. This machine predates its platform's boot package; updates verify them once it is installed.\e[0m" >&2
+elif (( status != 0 )); then
+  cat "$errors" >&2
+  exit "$status"
+elif [[ -n $resolved ]]; then
+  sudo omarchy-lifecycle-dispatch "$operation"
+fi

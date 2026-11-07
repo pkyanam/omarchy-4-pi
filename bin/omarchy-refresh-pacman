@@ -3,32 +3,70 @@
 # omarchy:summary=Overwrite the package configuration for /etc/pacman with the Omarchy default of using its dedicated mirrors and repositories, then update all packages.
 # omarchy:requires-sudo=true
 
-sudo cp -f /etc/pacman.conf /etc/pacman.conf.bak
-sudo cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+set -e
 
-channel="${1:-stable}"
-
-if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
-  channel=rpi4
+channel="${1:-}"
+if [[ -n $channel && $channel != "stable" && $channel != "rc" && $channel != "edge" && $channel != "rpi4" ]]; then
+  echo "Invalid channel: $channel" >&2
+  exit 2
 fi
 
-if [[ $channel != "stable" && $channel != "rc" && $channel != "edge" && $channel != "rpi4" ]]; then
-  echo "Error: Invalid channel '$channel'. Must be one of: stable, rc, edge"
+source "$OMARCHY_PATH/install/helpers/pacman.sh"
+pi_profile=0
+if omarchy_pacman_pi_profile; then
+  pi_profile=1
+  # Legacy rolling cards must not acquire stable mirrors through refresh.
+  omarchy-update-rpi4-guard packages
+  case $channel in
+    ""|stable|rpi4) channel=rpi4 ;;
+    *) echo "Pi 4 only supports its stable rpi4 profile; no configuration changed." >&2; exit 1 ;;
+  esac
+fi
+platform=$(omarchy-hw-platform) || exit 1
+templates=$(omarchy_pacman_templates "$platform") || exit 1
+if [[ -z $channel ]]; then
+  channel=$(omarchy-channel-current) || exit 1
+  case $channel in
+    stable|rc|edge) ;;
+    dev) channel=edge ;;
+    unknown) channel=$(omarchy_pacman_default_channel "$platform") || exit 1 ;;
+    *) echo "Cannot tell this machine's channel; no configuration changed." >&2; exit 1 ;;
+  esac
+fi
+if [[ ! -f $templates/pacman-$channel.conf || ! -f $templates/mirrorlist-$channel ]]; then
+  echo "Omarchy has no $channel channel for $platform; no configuration changed." >&2
   exit 1
 fi
 
+# Render the channel templates plus this machine's regional additions as the
+# caller, so root only copies finished files. The scratch directory goes on
+# every exit, including a failed render, a refused sudo prompt, or a signal.
+rendered=$(mktemp -d)
+trap 'rm -rf "$rendered"' EXIT
+"$OMARCHY_PATH/bin/omarchy-apply-pacman" --render "$channel" "$rendered"
+
+sudo cp -f /etc/pacman.conf /etc/pacman.conf.bak
+sudo cp -f /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 echo "Setting channel to $channel"
-echo
+sudo cp -f "$rendered/pacman.conf" /etc/pacman.conf
+sudo cp -f "$rendered/mirrorlist" /etc/pacman.d/mirrorlist
+rm -rf "$rendered"
 
-sudo cp -f "$OMARCHY_PATH/default/pacman/pacman-$channel.conf" /etc/pacman.conf
-sudo cp -f "$OMARCHY_PATH/default/pacman/mirrorlist-$channel" /etc/pacman.d/mirrorlist
-
-# Allow user customization of /etc/pacman.conf before the upgrade runs
+# Allow user customization of /etc/pacman.conf before the upgrade runs, so
+# custom repositories and IgnorePkg entries shape the downgrade-capable
+# transaction below.
 omarchy-hook pre-refresh-pacman
 
-if [[ $channel == "rpi4" ]]; then
-  omarchy-update-rpi4-guard packages || exit 1
+ignore=()
+if (( pi_profile )); then
+  omarchy-update-rpi4-guard packages
+  # A refresh retains the same closure. Do not permit an automatic downgrade.
+  omarchy-update-keyring
+  omarchy-update-system-pkgs
+else
+  # Never replace the edge pair with an obsolete -dev build during a switch.
+  if [[ $channel == "stable" || $channel == "rc" ]]; then
+    ignore=(--ignore "omarchy-dev,omarchy-settings-dev")
+  fi
+  omarchy-update-pacman -Syyuu --noconfirm "${ignore[@]}"
 fi
-
-# Reset all package DBs and then update
-omarchy-update-pacman -Syyuu --noconfirm

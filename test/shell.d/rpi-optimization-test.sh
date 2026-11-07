@@ -54,7 +54,7 @@ export PATH="$test_tmp/bin:$PATH" TEST_DEST="$test_tmp/root" OMARCHY_PATH="$ROOT
 (
   export MAKEFLAGS=-j1 CARGO_BUILD_JOBS=1 CMAKE_BUILD_PARALLEL_LEVEL=1
   source "$ROOT/default/pi/build-budget.sh"
-  [[ $MAKEFLAGS == -j1 && $CARGO_BUILD_JOBS == 1 ]] || fail "explicit caller budgets are respected"
+  [[ $MAKEFLAGS == *-j1 && $CARGO_BUILD_JOBS == 1 ]] || fail "explicit caller budgets are respected"
 )
 pass "makepkg defaults cap 4GB parallelism and compression without changing architecture flags"
 apply_fixture() {
@@ -105,6 +105,7 @@ else
   case $3 in
     status) [[ ${TEST_DIRTY:-0} == 0 ]] || echo ' M PKGBUILD' ;;
     remote) echo https://github.com/omacom/omarchy-pkgs.git ;;
+    rev-parse) echo "${TEST_RECIPE_HEAD:-$TEST_RECIPE_PIN}" ;;
     cat-file) exit 1 ;;
     fetch|checkout) ;;
     *) exit 1 ;;
@@ -114,6 +115,8 @@ exit 0
 SH
 chmod +x "$test_tmp/bin/git"
 export TEST_GIT_LOG="$test_tmp/recipe-calls" XDG_CACHE_HOME="$test_tmp/cache"
+export TEST_RECIPE_PIN
+TEST_RECIPE_PIN=$(<"$ROOT/image/omarchy-pkgs.commit")
 (
   source "$ROOT/install-rpi4.sh"
   unset OMARCHY_PKGS_PATH
@@ -129,5 +132,13 @@ if (
   ensure_package_sources
 ) >"$test_tmp/dirty-error" 2>&1; then
   fail "modified recipe checkout must not be overwritten"
+fi
+if (
+  source "$ROOT/install-rpi4.sh"
+  unset OMARCHY_PKGS_PATH
+  export TEST_RECIPE_HEAD=0000000000000000000000000000000000000000
+  ensure_package_sources
+) >"$test_tmp/unreviewed-error" 2>&1; then
+  fail "a checkout that did not reach the reviewed recipe commit must fail"
 fi
 pass "Pi package recipes are pinned and local recipe edits are preserved"

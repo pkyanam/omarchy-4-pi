@@ -1,8 +1,2 @@
-# Use Arch Linux ARM's signed live repositories during image assembly. The
-# community snapshot used for RC1 is no longer resolving; upstream Omarchy 4.0.4
-# has also moved beyond the package set that snapshot captured.
-CacheServer = https://fl.us.mirror.archlinuxarm.org/$arch/$repo
-CacheServer = https://ca.us.mirror.archlinuxarm.org/$arch/$repo
-Server = http://mirror.archlinuxarm.org/$arch/$repo
-Server = https://fl.us.mirror.archlinuxarm.org/$arch/$repo
-Server = https://ca.us.mirror.archlinuxarm.org/$arch/$repo
+# Released stable ALARM closure; never mix with the rolling ALARM mirror.
+Server = https://arm-stable-mirror.omarchy.org/$arch/$repo

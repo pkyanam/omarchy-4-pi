@@ -1,7 +1,2 @@
-# Arch Linux ARM aarch64 repositories. Keep the official GeoIP redirector
-# first, with current official US mirrors as fallbacks for long image builds.
-Server = http://mirror.archlinuxarm.org/$arch/$repo
-Server = http://fl.us.mirror.archlinuxarm.org/$arch/$repo
-Server = http://ca.us.mirror.archlinuxarm.org/$arch/$repo
-Server = http://de3.mirror.archlinuxarm.org/$arch/$repo
-Server = http://dk.mirror.archlinuxarm.org/$arch/$repo
+# Released stable ALARM closure; never mix with the rolling ALARM mirror.
+Server = https://arm-stable-mirror.omarchy.org/$arch/$repo

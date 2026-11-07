@@ -4,9 +4,12 @@
 # Raspberry Pi aarch64 root filesystem. Run on an aarch64 Linux host as root.
 
 set -euo pipefail
+export PYTHONDONTWRITEBYTECODE=1
 
-readonly script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-readonly repo_root="$(cd -- "$script_dir/.." && pwd)"
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly script_dir
+repo_root="$(cd -- "$script_dir/.." && pwd)"
+readonly repo_root
 readonly rootfs_name=ArchLinuxARM-rpi-aarch64-latest.tar.gz
 readonly rootfs_url="${OMARCHY_ROOTFS_URL:-http://os.archlinuxarm.org/os/$rootfs_name}"
 readonly keyring_url="${OMARCHY_ALARM_KEYRING_URL:-https://raw.githubusercontent.com/archlinuxarm/archlinuxarm-keyring/master/archlinuxarm.gpg}"
@@ -14,6 +17,9 @@ readonly build_key=68B3537F39A313B3E574D06777193F152BDBE6A6
 readonly image_size_gib="${OMARCHY_IMAGE_SIZE_GIB:-12}"
 readonly output_dir="${OMARCHY_IMAGE_OUTPUT:-$repo_root/build/image}"
 readonly xz_preset="${OMARCHY_XZ_PRESET:--6}"
+readonly build_jobs="${OMARCHY_IMAGE_JOBS:-1}"
+readonly xz_threads="${OMARCHY_XZ_THREADS:-1}"
+readonly xz_memory_mib="${OMARCHY_XZ_MEMORY_MIB:-512}"
 
 install_mode=minimal
 work_dir=""
@@ -21,6 +27,7 @@ loop_device=""
 root_mount=""
 image_path=""
 keep_work=0
+workspace_token=""
 
 log() { printf '\033[32m==>\033[0m %s\n' "$*"; }
 fail() { printf '\033[31mError:\033[0m %s\n' "$*" >&2; exit 1; }
@@ -30,16 +37,20 @@ usage() {
 Usage: sudo image/build-rpi4-image.sh [--minimal|--full] [--keep-work]
 
 Builds a Raspberry Pi Imager-compatible .img.xz plus checksums and manifests.
-The default minimal image contains the full Quattro desktop but omits optional
-locally compiled applications. --full adds those applications and takes much
-longer to build.
+The default minimal image contains the complete desktop and required 4.5 apps.
+--full also requests the explicitly optional applications from the same signed
+ARM repositories. Both modes build the adapted core/settings pair locally.
 
 Environment:
   OMARCHY_IMAGE_SIZE_GIB  Uncompressed image size (default: 12)
   OMARCHY_IMAGE_OUTPUT    Artifact directory (default: build/image)
-  OMARCHY_IMAGE_WORK      Reusable work directory (default: a temporary dir)
+  OMARCHY_IMAGE_WORK      Disk-backed workspace parent (default: /var/tmp/omarchy-images)
+                         Only a unique owned child is ever removed.
   OMARCHY_ROOTFS_URL      Override the Arch Linux ARM root filesystem URL
   OMARCHY_XZ_PRESET       xz preset (default: -6; use -9e for release maximum)
+  OMARCHY_IMAGE_JOBS      Compiler workers (default: 1)
+  OMARCHY_XZ_THREADS      Compression workers (default: 1)
+  OMARCHY_XZ_MEMORY_MIB   Compression memory limit in MiB (default: 512)
 USAGE
 }
 
@@ -89,11 +100,27 @@ require_host() {
   [[ $(uname -m) == aarch64 ]] || fail "Use an aarch64 Linux host; GitHub Actions provides ubuntu-24.04-arm."
   [[ $image_size_gib =~ ^[0-9]+$ ]] && (( image_size_gib >= 12 )) ||
     fail "OMARCHY_IMAGE_SIZE_GIB must be an integer of at least 12."
+  [[ $build_jobs =~ ^[1-9][0-9]*$ && $xz_threads =~ ^[1-9][0-9]*$ && $xz_memory_mib =~ ^[1-9][0-9]*$ ]] ||
+    fail "Image compiler/compression budgets must be positive integers."
+  (( xz_memory_mib >= 64 )) || fail "Compression needs at least 64 MiB."
+  [[ $xz_preset =~ ^-[0-9]e?$ ]] || fail "OMARCHY_XZ_PRESET must be -0 through -9, optionally with e."
+  export MAKEFLAGS="${MAKEFLAGS:--j$build_jobs}"
+  export CMAKE_BUILD_PARALLEL_LEVEL="${CMAKE_BUILD_PARALLEL_LEVEL:-$build_jobs}"
+  export CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-$build_jobs}"
+  export GOMAXPROCS="${GOMAXPROCS:-$build_jobs}"
 
   local command
-  for command in blockdev bsdtar chroot curl e2fsck fsck.vfat git gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted rsync sha256sum udevadm umount xz zerofree; do
+  for command in blockdev bsdtar chroot curl e2fsck findmnt fsck.vfat git gpg losetup mknod mount mountpoint mkfs.ext4 mkfs.vfat parted python3 rsync sha256sum sha512sum udevadm umount xz zerofree; do
     command -v "$command" >/dev/null || fail "Missing host command: $command"
   done
+  if git -C "$repo_root" rev-parse --git-dir >/dev/null 2>&1; then
+    [[ -z $(git -C "$repo_root" ls-files --unmerged) ]] || fail "Resolve source merge conflicts before assembly."
+    git -C "$repo_root" merge-base --is-ancestor ac2690cd7be4f47e4a255f5e2e78d904d436b068 HEAD ||
+      fail "Source must contain the exact released Omarchy 4.5.0 commit."
+  else
+    [[ ${OMARCHY_SOURCE_UPSTREAM_COMMIT:-} == ac2690cd7be4f47e4a255f5e2e78d904d436b068 ]] ||
+      fail "A transferred source snapshot needs the wrapper's verified 4.5 lineage."
+  fi
 }
 
 stop_chroot_helpers() {
@@ -106,7 +133,7 @@ stop_chroot_helpers() {
     for attempt in {1..20}; do
       local found=0
       for process in /proc/[0-9]*; do
-        [[ ${process##*/} == $$ ]] && continue
+        [[ ${process##*/} == "$$" ]] && continue
         process_root=$(readlink "$process/root" 2>/dev/null || true)
         if [[ $process_root == "$root_mount" || $process_root == "$root_mount/"* ]]; then
           kill "-$signal" "${process##*/}" 2>/dev/null || true
@@ -166,6 +193,7 @@ unmount_and_verify_image() {
 cleanup() {
   set +e
   if [[ -n $root_mount && -d $root_mount ]]; then
+    stop_chroot_helpers
     mountpoint -q "$root_mount/dev" && umount -R -l "$root_mount/dev"
     mountpoint -q "$root_mount/proc" && umount -R -l "$root_mount/proc"
     mountpoint -q "$root_mount/sys" && umount -R -l "$root_mount/sys"
@@ -176,10 +204,22 @@ cleanup() {
   fi
   [[ -z $loop_device ]] || losetup -d "$loop_device"
   if (( keep_work == 0 )) && [[ -n $work_dir && -d $work_dir ]]; then
-    rm -rf -- "$work_dir"
+    python3 "$script_dir/workspace.py" remove "$work_dir" "$workspace_token" ||
+      log "Kept workspace after an unsafe/incomplete cleanup: $work_dir"
   elif [[ -n $work_dir ]]; then
     log "Kept build workspace at $work_dir"
   fi
+}
+
+prepare_workspace() {
+  local allocation
+  allocation=$(python3 "$script_dir/workspace.py" create \
+    "${OMARCHY_IMAGE_WORK:-/var/tmp/omarchy-images}" "$repo_root" "$output_dir" "$image_size_gib") ||
+    fail "Image storage preflight failed."
+  work_dir=${allocation%%$'\n'*}
+  workspace_token=${allocation#*$'\n'}
+  [[ -n $work_dir && $workspace_token =~ ^[0-9a-f]{64}$ ]] || fail "Invalid workspace allocation."
+  log "Using owned disk-backed workspace $work_dir"
 }
 
 download_and_verify_rootfs() {
@@ -262,7 +302,7 @@ extract_rootfs() {
   log "Extracting the signed aarch64 root filesystem"
   bsdtar -xpf "$work_dir/downloads/$rootfs_name" -C "$root_mount"
   cp -a "$root_mount/boot/." "$boot_staging/"
-  rm -rf "$root_mount/boot"
+  rm -rf "${root_mount:?}/boot"
   mkdir -p "$root_mount/boot"
   mount "$(partition_path 1)" "$root_mount/boot"
   cp -R "$boot_staging/." "$root_mount/boot/"
@@ -298,47 +338,76 @@ mount_chroot_filesystems() {
 }
 
 copy_source_checkout() {
-  local clone_source origin_url source_branch source_commit
+  local clone_source origin_url source_branch source_commit source_dirty tracking_commit source
   source_branch=${OMARCHY_SOURCE_BRANCH:-}
   source_commit=${OMARCHY_SOURCE_COMMIT:-}
+  source_dirty=${OMARCHY_SOURCE_DIRTY:-}
   origin_url=${OMARCHY_SOURCE_ORIGIN:-}
-  if [[ -d $repo_root/.git ]]; then
-    [[ -n $source_branch ]] || source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf main)
-    [[ -n $source_commit ]] || source_commit=$(git -C "$repo_root" rev-parse HEAD)
-    [[ -n $origin_url ]] || origin_url=$(git -C "$repo_root" remote get-url origin 2>/dev/null || true)
-    if git -C "$repo_root" show-ref --verify --quiet "refs/heads/$source_branch"; then
-      clone_source=$repo_root
-    else
-      # Actions checks out release tags detached, so the local repository can
-      # contain the tagged commit without exposing the update branch to clone.
-      clone_source=$origin_url
-    fi
+  tracking_commit=${OMARCHY_SOURCE_TRACKING_COMMIT:-}
+  if git -C "$repo_root" rev-parse --git-dir >/dev/null 2>&1; then
+    [[ -z $(git -C "$repo_root" ls-files --unmerged) ]] || fail "Resolve source merge conflicts before assembly."
+    [[ -z $source_commit || $source_commit == "$(git -C "$repo_root" rev-parse HEAD)" ]] || fail "Source commit override differs from the checkout."
+    source_commit=$(git -C "$repo_root" rev-parse HEAD)
+    source_branch=$(git -C "$repo_root" symbolic-ref --quiet --short HEAD || printf detached)
+    source_dirty=false
+    [[ -z $(git -C "$repo_root" status --porcelain) ]] || source_dirty=true
+    origin_url=$(git -C "$repo_root" remote get-url origin)
+    clone_source=$repo_root
+    tracking_commit=$(git -C "$repo_root" rev-parse --verify "refs/remotes/origin/$source_branch" 2>/dev/null || true)
   else
-    clone_source=$origin_url
+    # The Mac wrapper transfers a shallow local Git object store separately
+    # from its working snapshot, including commits on unpublished branches.
+    clone_source=${OMARCHY_SOURCE_REPOSITORY:-}
   fi
-  [[ -n $source_branch && -n $source_commit && -n $origin_url && -n $clone_source ]] ||
-    fail "Source branch, commit, and origin are required to create the update checkout."
-
-  mkdir -p "$root_mount/opt"
-  # The upstream Omarchy history is hundreds of megabytes and is not needed to
-  # update an appliance. Keep one exact commit plus an upstream-tracking branch;
-  # the first normal fetch deepens it only as much as a future update requires.
-  git clone --quiet --no-local --depth 1 --branch "$source_branch" \
-    "$clone_source" "$root_mount/opt/omarchy-4-pi"
-  if ! git -C "$root_mount/opt/omarchy-4-pi" cat-file -e "$source_commit^{commit}" 2>/dev/null; then
-    git -C "$root_mount/opt/omarchy-4-pi" fetch --quiet --depth 1 origin "$source_commit"
+  [[ $source_commit =~ ^[0-9a-f]{40}$ && ( $source_dirty == true || $source_dirty == false ) &&
+    -n $source_branch && -n $origin_url && -d $clone_source ]] ||
+    fail "Exact source metadata and a local Git object store are required."
+  [[ -z $tracking_commit || $tracking_commit =~ ^[0-9a-f]{40}$ ]] || fail "Invalid source tracking commit."
+  source="$root_mount/opt/omarchy-4-pi"
+  mkdir -p "$source"
+  # Do not infer origin/main from a local integration branch. Fetch only the
+  # actual source commit, and carry the observed remote ref only if it exists.
+  git -C "$source" init --quiet
+  git -C "$source" fetch --quiet --depth 1 "$clone_source" "$source_commit"
+  if [[ $source_branch == detached ]]; then
+    git -C "$source" checkout --quiet --detach "$source_commit"
+  else
+    git -C "$source" checkout --quiet -B "$source_branch" "$source_commit"
   fi
-  git -C "$root_mount/opt/omarchy-4-pi" checkout --quiet -B "$source_branch" "$source_commit"
-  git -C "$root_mount/opt/omarchy-4-pi" remote set-url origin "$origin_url"
-  git -C "$root_mount/opt/omarchy-4-pi" update-ref "refs/remotes/origin/$source_branch" "$source_commit"
-  git -C "$root_mount/opt/omarchy-4-pi" branch --set-upstream-to="origin/$source_branch" "$source_branch" >/dev/null
-
+  git -C "$source" remote add origin "$origin_url"
+  if [[ -n $tracking_commit ]]; then
+    if ! git -C "$source" cat-file -e "$tracking_commit^{commit}" 2>/dev/null; then
+      git -C "$source" fetch --quiet --depth 1 "$clone_source" "$tracking_commit"
+    fi
+    git -C "$source" update-ref "refs/remotes/origin/$source_branch" "$tracking_commit"
+    git -C "$source" branch --set-upstream-to="origin/$source_branch" "$source_branch" >/dev/null
+  fi
   rsync -a --delete \
     --exclude '/.git/' \
     --exclude '/build/' \
     --exclude '/build-output-rpi4/' \
     --exclude '._*' \
-    "$repo_root/" "$root_mount/opt/omarchy-4-pi/"
+    "$repo_root/" "$source/"
+  python3 - "$source" "$work_dir/source-provenance.json" "$source_commit" "$source_branch" \
+    "$origin_url" "$source_dirty" "$tracking_commit" "$script_dir/rpi4-manifest.py" <<'PY_SOURCE'
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+source, output = map(Path, sys.argv[1:3])
+commit, branch, origin, dirty, tracking, module_path = sys.argv[3:]
+spec = importlib.util.spec_from_file_location("manifest", module_path)
+manifest = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(manifest)
+data = {
+  "source_commit": commit, "source_branch": branch, "source_origin": origin,
+  "source_tracking_commit": tracking or None, "source_dirty": dirty == "true",
+  "source_tree_sha256": manifest.tree_digest(source),
+  "build_kind": "release" if branch == "main" and tracking == commit and dirty == "false" else "candidate",
+}
+output.write_text(json.dumps(data, indent=2) + "\n")
+PY_SOURCE
 }
 
 run_chroot_pacman() {
@@ -353,23 +422,31 @@ run_chroot_pacman() {
   done
 }
 
+stage_image_target() {
+  local directory="$root_mount/var/lib/omarchy/image"
+  install -d -m 0755 -o root -g root "$directory"
+  printf 'format=1\nplatform=aarch64\n' >"$directory/target"
+  chmod 0644 "$directory/target"
+  chown root:root "$directory/target"
+}
+
+
 prepare_build_user() {
   log "Preparing the Arch Linux ARM build environment"
   cp "$repo_root/default/pacman/pacman-rpi4.conf" "$root_mount/etc/pacman.conf"
-  # Archived files are the exception, and the community host rate-limits bursts.
+  # Keep the signed stable-closure bootstrap download pressure bounded.
   sed -i 's/^ParallelDownloads = .*/ParallelDownloads = 1/' "$root_mount/etc/pacman.conf"
   cp "$repo_root/default/pacman/mirrorlist-rpi4-image" "$root_mount/etc/pacman.d/mirrorlist"
-  chroot "$root_mount" pacman-key --init
-  chroot "$root_mount" pacman-key --populate archlinuxarm
+  chroot "$root_mount" env TMPDIR=/mnt/omarchy-build/tmp OMARCHY_PATH=/opt/omarchy-4-pi \
+    /bin/bash -euo pipefail -c 'source "$OMARCHY_PATH/install/helpers/pacman.sh"; omarchy_pi_bootstrap_keyring'
   # Align even a newer rolling base filesystem with the complete snapshot.
   run_chroot_pacman -Syyuu --needed --noconfirm base-devel git sudo
-
   chroot "$root_mount" useradd -m -s /bin/bash omarchy-builder
   printf 'omarchy-builder ALL=(ALL:ALL) NOPASSWD: ALL\n' \
     >"$root_mount/etc/sudoers.d/99-omarchy-image-builder"
   chmod 0440 "$root_mount/etc/sudoers.d/99-omarchy-image-builder"
   chroot "$root_mount" chown -R omarchy-builder:omarchy-builder \
-    /home/omarchy-builder /opt/omarchy-4-pi
+    /home/omarchy-builder /opt/omarchy-4-pi /mnt/omarchy-build/cache
   printf 'Raspberry Pi 4 Model B Rev 1.5\0' >"$root_mount/tmp/omarchy-rpi-model"
 }
 
@@ -384,74 +461,47 @@ install_omarchy() {
     LOGNAME=omarchy-builder \
     TMPDIR=/mnt/omarchy-build/tmp \
     XDG_CACHE_HOME=/mnt/omarchy-build/cache \
+    OMARCHY_PI_BUILD_PARENT=/mnt/omarchy-build/tmp \
+    MAKEFLAGS="$MAKEFLAGS" \
+    CMAKE_BUILD_PARALLEL_LEVEL="$CMAKE_BUILD_PARALLEL_LEVEL" \
+    CARGO_BUILD_JOBS="$CARGO_BUILD_JOBS" \
+    GOMAXPROCS="$GOMAXPROCS" \
     OMARCHY_RPI_MODEL_PATH=/tmp/omarchy-rpi-model \
     OMARCHY_RPI_CONFIG_PATH=/boot/config.txt \
     OMARCHY_RPI4_ALLOW_UNSUPPORTED=1 \
     /opt/omarchy-4-pi/install-rpi4.sh "${installer_args[@]}"
 }
 
-write_build_manifest() {
-  local commit dirty rootfs_sha built_at omarchy_pkgs_commit package version
-  local node_bundle node_bundle_name node_bundle_sha candidate
-  local package_inventory="" separator=""
-  local -a node_bundles=()
-  commit=${OMARCHY_SOURCE_COMMIT:-}
-  [[ -n $commit ]] || commit=$(git -C "$repo_root" rev-parse HEAD 2>/dev/null || printf unknown)
-  dirty=${OMARCHY_SOURCE_DIRTY:-}
-  if [[ -z $dirty ]]; then
-    dirty=false
-    [[ -z $(git -C "$repo_root" status --porcelain 2>/dev/null) ]] || dirty=true
-  fi
-  [[ $dirty == true || $dirty == false ]] || fail "OMARCHY_SOURCE_DIRTY must be true or false."
-  rootfs_sha=$(sha256sum "$work_dir/downloads/$rootfs_name" | awk '{print $1}')
-  built_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-  [[ -f $root_mount/opt/omarchy-4-pi/build-output-rpi4/omarchy-pkgs.commit ]] ||
-    fail "The omarchy-pkgs provenance file is missing."
-  omarchy_pkgs_commit=$(<"$root_mount/opt/omarchy-4-pi/build-output-rpi4/omarchy-pkgs.commit")
-  [[ $omarchy_pkgs_commit =~ ^[0-9a-f]{40}$ ]] ||
-    fail "The omarchy-pkgs provenance commit is missing or invalid."
-
-  for candidate in "$root_mount"/var/lib/omarchy/provisioning/packages/node-v*-linux-arm64.tar.gz; do
-    [[ -f $candidate ]] && node_bundles+=("$candidate")
-  done
-  (( ${#node_bundles[@]} == 1 )) ||
-    fail "The image must contain exactly one offline Linux ARM64 Node.js bundle."
-  node_bundle=${node_bundles[0]}
-  node_bundle_name=${node_bundle##*/}
-  node_bundle_sha=$(sha256sum "$node_bundle" | awk '{ print $1 }')
-
-  while read -r package version; do
-    [[ -n $package && -n $version && $package != *'"'* && $version != *'"'* ]] ||
-      fail "An installed package cannot be represented safely in the build manifest."
-    package_inventory+="$separator    {\"name\": \"$package\", \"version\": \"$version\"}"
-    separator=$',\n'
-  done < <(chroot "$root_mount" pacman -Q | LC_ALL=C sort)
-  [[ -n $package_inventory ]] || fail "The final package inventory is empty."
-
-  install -d "$root_mount/usr/share/omarchy-rpi4"
-  cat >"$root_mount/usr/share/omarchy-rpi4/build-manifest.json" <<EOF
-{
-  "project": "omarchy-4-pi",
-  "built_at": "$built_at",
-  "source_commit": "$commit",
-  "source_dirty": $dirty,
-  "omarchy_pkgs_commit": "$omarchy_pkgs_commit",
-  "install_mode": "$install_mode",
-  "package_repository": "$(awk '$1 == "Server" { print $3 }' "$repo_root/default/pacman/mirrorlist-rpi4-image")",
-  "base_url": "$rootfs_url",
-  "base_sha256": "$rootfs_sha",
-  "base_signing_key": "$build_key",
-  "node_bundle": {"filename": "$node_bundle_name", "sha256": "$node_bundle_sha"},
-  "packages": [
-$package_inventory
-  ]
+stage_pi_policy() {
+  # Generic hardware setup stays deferred. This one target-specific leaf is
+  # required in the factory: the first Pi boot already needs KMS, modules, and
+  # conservative memory policy. It sees only the explicit Pi model fixture.
+  chroot "$root_mount" env OMARCHY_PATH=/usr/share/omarchy \
+    OMARCHY_INSTALL=/usr/share/omarchy/install PATH=/usr/share/omarchy/bin:/usr/bin \
+    OMARCHY_RPI_MODEL_PATH=/tmp/omarchy-rpi-model OMARCHY_RPI_CONFIG_PATH=/boot/config.txt \
+    /bin/bash -euo pipefail -c 'source "$OMARCHY_INSTALL/hardware/raspberry-pi.sh"'
+  chroot "$root_mount" systemctl enable bluetooth.service
+  install -Dm644 "$repo_root/install/provisioning/omarchy-provision-owner-rpi4-image.conf" \
+    "$root_mount/etc/systemd/system/omarchy-provision-owner.service.d/20-rpi4-image-hardware.conf"
+  install -Dm644 "$repo_root/install/provisioning/omarchy-provision-hardware-rpi4.conf" \
+    "$root_mount/etc/systemd/system/omarchy-provision-hardware.service.d/10-rpi4-grow-root.conf"
 }
-EOF
-  # This exact source was already packaged successfully into the image. Avoid
-  # asking a 4GB first-boot desktop to rebuild it just to establish a receipt.
-  [[ $commit =~ ^[0-9a-f]{40}$ && $dirty == "false" ]] || fail "A clean source commit is required for the installed-core receipt."
-  install -d "$root_mount/var/lib/omarchy"
-  printf '%s\n' "$commit" >"$root_mount/var/lib/omarchy/rpi4-source-commit"
+
+scrub_factory_keyring() {
+  local directory="$root_mount/etc/pacman.d/gnupg"
+  [[ -d $root_mount/etc/pacman.d && ! -L $root_mount/etc/pacman.d && ! -L $directory ]] ||
+    fail "Refusing to scrub a symlinked pacman keyring."
+  chroot "$root_mount" env GNUPGHOME=/etc/pacman.d/gnupg gpgconf --kill all 2>/dev/null || true
+  rm -rf -- "$directory"
+  install -m 0644 /dev/null "$root_mount/var/lib/omarchy/image/pacman-keyring"
+  [[ -f $root_mount/var/lib/omarchy/image/deferred-steps ]] || fail "The hardware queue was not armed."
+}
+
+write_build_manifest() {
+  local rootfs_sha
+  rootfs_sha=$(sha256sum "$work_dir/downloads/$rootfs_name" | awk '{print $1}')
+  python3 "$script_dir/rpi4-manifest.py" write "$root_mount" "$work_dir/source-provenance.json" \
+    "$rootfs_url" "$rootfs_sha" "$install_mode"
 }
 
 trim_pi_image_payload() {
@@ -531,6 +581,7 @@ finalize_image() {
   chroot "$root_mount" locale-gen
   printf 'LANG=en_US.UTF-8\n' >"$root_mount/etc/locale.conf"
   ln -sfn /usr/share/zoneinfo/UTC "$root_mount/etc/localtime"
+  scrub_factory_keyring
   write_build_manifest
   rm -rf "$root_mount/opt/omarchy-4-pi/build-output-rpi4"
   cp "$root_mount/usr/share/omarchy-rpi4/build-manifest.json" \
@@ -543,33 +594,43 @@ finalize_image() {
   unmount_and_verify_image
 
   mkdir -p "$output_dir"
-  local commit_short stamp artifact_base compressed download_base_url
-  if [[ -n ${OMARCHY_SOURCE_COMMIT:-} ]]; then
-    commit_short=${OMARCHY_SOURCE_COMMIT:0:8}
-  else
-    commit_short=$(git -C "$repo_root" rev-parse --short=8 HEAD 2>/dev/null || printf snapshot)
-  fi
+  local commit_short stamp artifact_base compressed download_base_url kind suffix
+  read -r commit_short kind < <(python3 - "$work_dir/build-manifest.json" <<'PY_ARTIFACT'
+import json
+import sys
+with open(sys.argv[1]) as stream:
+  data = json.load(stream)
+print(data["source_commit"][:8], data["build_kind"])
+PY_ARTIFACT
+  )
   stamp=$(date -u +%Y%m%d)
-  artifact_base="omarchy-4-pi-${stamp}-${commit_short}-${install_mode}"
+  suffix=""
+  [[ $kind != candidate ]] || suffix=-candidate
+  artifact_base="omarchy-4-pi-${stamp}-${commit_short}-${install_mode}$suffix"
   compressed="$output_dir/$artifact_base.img.xz"
 
   log "Compressing $artifact_base.img.xz"
-  XZ_OPT="-T0 $xz_preset" xz --stdout "$image_path" >"$compressed"
+  env -u XZ_OPT -u XZ_DEFAULTS xz -T"$xz_threads" --memlimit-compress="${xz_memory_mib}MiB" "$xz_preset" --stdout "$image_path" >"$compressed.partial"
+  mv "$compressed.partial" "$compressed"
   (
     cd "$output_dir"
     sha256sum "$artifact_base.img.xz" >"$artifact_base.img.xz.sha256"
   )
   cp "$work_dir/build-manifest.json" "$output_dir/$artifact_base.manifest.json"
+  cmp "$work_dir/build-manifest.json" "$output_dir/$artifact_base.manifest.json"
+  python3 "$script_dir/rpi4-manifest.py" validate "$output_dir/$artifact_base.manifest.json"
   cp "$work_dir/rootfs-audit.txt" "$output_dir/$artifact_base.audit.txt"
 
-  download_base_url=${OMARCHY_IMAGE_DOWNLOAD_BASE_URL:-https://github.com/pkyanam/omarchy-4-pi/releases/latest/download}
-  download_base_url=${download_base_url%/}
-  [[ $download_base_url == https://* && $download_base_url != *'"'* &&
-    $download_base_url != *$'\r'* && $download_base_url != *$'\n'* ]] ||
-    fail "OMARCHY_IMAGE_DOWNLOAD_BASE_URL must be a safe HTTPS URL."
-  "$script_dir/generate-imager-catalog.sh" "$compressed" \
-    "$download_base_url/$artifact_base.img.xz" \
-    "$output_dir/$artifact_base.os-list.json"
+  download_base_url=${OMARCHY_IMAGE_DOWNLOAD_BASE_URL:-}
+  if [[ -n $download_base_url ]]; then
+    "$script_dir/generate-imager-catalog.sh" "$compressed" \
+      "${download_base_url%/}/$artifact_base.img.xz" "$output_dir/$artifact_base.os-list.json"
+  else
+    # A local candidate is not a published 'latest' asset. Keep customization
+    # available using the existing local-catalog/reassembly workflow.
+    "$script_dir/generate-local-imager-manifest.sh" "$compressed" "$output_dir/$artifact_base.os-list.json"
+  fi
+  "$script_dir/validate-imager-catalog.sh" "$output_dir/$artifact_base.os-list.json" "$output_dir"
   cp "$output_dir/$artifact_base.os-list.json" "$output_dir/os-list.json"
   log "Built artifacts in $output_dir"
 }
@@ -578,22 +639,23 @@ main() {
   enter_private_mount_namespace "$@"
   parse_args "$@"
   require_host
-  if [[ -n ${OMARCHY_IMAGE_WORK:-} ]]; then
-    work_dir=$OMARCHY_IMAGE_WORK
-    mkdir -p "$work_dir"
-  else
-    work_dir=$(mktemp -d)
-  fi
+  prepare_workspace
   trap cleanup EXIT
+  trap 'exit 130' INT
+  trap 'exit 143' TERM HUP
 
   download_and_verify_rootfs
   create_filesystems
   extract_rootfs
   mount_chroot_filesystems
   copy_source_checkout
+  stage_image_target
   prepare_build_user
   install_omarchy
+  stage_pi_policy
   finalize_image
 }
 
-main "$@"
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+  main "$@"
+fi

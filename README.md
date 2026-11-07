@@ -15,6 +15,16 @@
 
 Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Chromium, and a surprisingly grown-up desktop on a very small computer.
 
+## Omarchy 4.5 candidate
+
+This branch integrates the released Omarchy 4.5 source for **Pi 4 Model B with 4GB and 8GB RAM**. It uses a matching signed stable ARM64 package set, keeps the Pi firmware/U-Boot boot path, and prepares fresh accounts with conservative graphics and build defaults. Paper Mono is bundled with its open font license. Pi 5 qualification is deferred.
+
+Source checks, image assembly, and physical-board validation are separate gates. Follow the [4.5 work ledger](plans/omarchy-4.5-pi4.md) and [design and validation guide](docs/omarchy-4.5-pi4.md) for the current evidence. **This candidate has not been qualified on either Pi 4 memory variant.** The older downloads below contain the previous port.
+
+Use spare media for the 4.5 transition. Existing rolling ALARM installations cannot safely switch to the release library set through a partial update; the new updater refuses that transition. See [updates and recovery](docs/pi-upgrade.md). An unpublished candidate branch also intentionally fails the production updater's `origin/main` check.
+
+## Previously published images
+
 > [!IMPORTANT]
 > Independent community port—not an official Omarchy or Raspberry Pi product. **Our first general release is available.** The tested RC1 image has been promoted unchanged, retaining its original `v0.1.0-rc.1` tag and download links. The tester reports it working on their Pi 4; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
 
@@ -31,7 +41,7 @@ open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
   "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.4/os-list.json"
 ```
 
-Choose Pi 4, configure your account/network/hostname in Imager, and verify the target card before writing. First-boot hostname provisioning is retained. The image passed 139 assembled-filesystem checks; physical testing of this new build is still needed. To keep your existing card instead, see the [in-place upgrade guide](docs/pi-upgrade.md).
+Choose Pi 4, configure your account/network/hostname in Imager, and verify the target card before writing. First-boot hostname provisioning is retained. That image passed 139 assembled-filesystem checks; those historical checks do not qualify the 4.5 candidate. Keep an existing card intact while testing 4.5 on spare media.
 
 ## Flash, boot, make it yours
 
@@ -123,15 +133,13 @@ This profile is specific to that NEC model. Other monitors keep normal preferred
 
 ### Apple-silicon Mac
 
-With Docker Desktop running:
+From a reviewed 4.5 checkout on an Apple-silicon Mac, with Docker Desktop or OrbStack running:
 
 ```bash
-git clone https://github.com/pkyanam/omarchy-4-pi.git
-cd omarchy-4-pi
 image/build-rpi4-image-macos.sh --minimal
 ```
 
-The builder uses native ARM64, leaves two logical CPU cores free by default, keeps heavy I/O inside Docker, and uses fast xz compression. Artifacts land in `build/image/`. Override `OMARCHY_LOCAL_CPUS` to set a smaller budget, or `OMARCHY_XZ_PRESET=-6` for a smaller, slower download.
+The builder uses native ARM64, at most two workers, and a memory limit that leaves 512MiB for the VM. It keeps staging on a dedicated disk-backed volume and uses bounded xz compression. Artifacts land in `build/image/`. Override `OMARCHY_LOCAL_CPUS` to set a smaller budget, or `OMARCHY_XZ_PRESET=-6` for a smaller, slower download. The source must contain the released 4.5 commit with all merge conflicts resolved. Unpublished or dirty sources retain explicit candidate provenance.
 
 ### ARM64 Linux or GitHub Actions
 
@@ -143,21 +151,21 @@ sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz
 sudo image/build-rpi4-image.sh --minimal
 ```
 
-Or choose **Actions → Build Raspberry Pi image → Run workflow**. Version tags publish release assets; manual runs retain workflow artifacts. `--full` also builds optional ARM-compatible applications and takes considerably longer.
+Or choose **Actions → Build Raspberry Pi image → Run workflow** on a reviewed source ref. Version tags publish release assets; manual runs retain workflow artifacts. `--full` also requests the explicitly optional applications available from the same signed ARM repositories. Required desktop and migration applications are included in both modes.
 
 Each build provides a compressed `.img.xz`, SHA-256 checksum, Imager catalog, package/source manifest, and mounted-root audit report. The image expands from its 12 GiB factory size on first boot. The factory verifies the signed Arch Linux ARM base, removes default accounts and machine identity, checks the actual ARM64 Hyprland configuration, and audits the assembled root filesystem before publishing.
 
-Factory builds use signed packages from the official rolling Arch Linux ARM repositories. The manifest records the package repository, resolved package versions, and source commits. Builds are **traceable, not bit-for-bit reproducible**: the signed base filesystem and rolling package inputs continue to advance.
+The 4.5 factory aligns a fresh root filesystem with Omarchy's stable ARM64 packages and matching ALARM mirror. The local core/settings pair retains the Pi adaptations. The manifest records source lineage, recipe identity, server URLs, exact package versions, and the offline Node bundle. Repository URLs and the base filesystem are mutable, so these records establish traceability rather than bit-for-bit reproducibility.
 
 For existing Arch Linux ARM installs and deeper build details, see the [installation guide](docs/raspberry-pi-4.md).
 
 ## Updates and recovery
 
-The alpha and current source pin core updates to **[pkyanam/omarchy-4-pi](https://github.com/pkyanam/omarchy-4-pi), `origin/main`** and reject unexpected repositories, x86 architecture, and dirty checkouts. Arch Linux ARM supplies system packages and signing keys; locally built Pi core packages are excluded from AUR replacement. These additional safeguards are not in the original stable image. See the [update audit](docs/pi-performance.md#update-path-audit).
+Production core updates follow **[pkyanam/omarchy-4-pi](https://github.com/pkyanam/omarchy-4-pi), `origin/main`** and reject unexpected repositories, architectures, and dirty checkouts. The 4.5 path additionally requires the `stable-4.5` profile and matching signed ARM repositories, protects the local core/settings pair, and keeps failed installation work pending for retry.
 
-Use `omarchy update` for the Pi-aware update path. Back up important files first: this ext4 image has no automatic pre-update snapshot. Reflashing erases the card; testing RC1 on a spare card preserves your existing install. A source update alone does not replay first-boot setup or prove RC1's new image behavior.
+After a 4.5 installation is on the reviewed production branch, use `omarchy update`. Back up important files first: this ext4 image has no automatic pre-update snapshot. Candidate branches remain outside that production-update contract. Preserve the original card when testing a candidate; flashing erases the selected drive.
 
-**Upgrading from the original general-release image?** Its older updater needs a [one-time bootstrap](docs/pi-upgrade.md) to reconcile the new runtime dependencies and Pi defaults. After that, use `omarchy update` normally. Updates follow this fork's `main` branch, not a selected image-release tag; they preserve owner setup and do not opt you into overclocking.
+**Coming from a 4.0 image or rolling installation?** Follow the [fresh-media transition guide](docs/pi-upgrade.md). Do not bootstrap the current updater onto an old library set or edit repository guards to force it through. An in-place transition needs separate validation on a cloned installation.
 
 If `HOSTNAME.local` does not resolve, try the Pi's IP address from your router. Multicast discovery can be blocked by guest networks or client isolation. Compare `hostnamectl --static` with the non-secret provisioning receipt:
 

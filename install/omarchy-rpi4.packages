@@ -1,0 +1,55 @@
+# Pi 4 package contract. All base + aarch64 entries are REQUIRED unless a row
+# below explicitly makes them optional or install/omarchy-rpi4-unavailable.packages
+# excludes them. New upstream entries therefore fail closed, never disappear.
+# Syntax: required|optional <dependency expression>, or map <upstream> <binary>.
+# The stable ALARM snapshot names the Neovim package neovim; unlike the live
+# mirror observed in the audit, it has no nvim Provides. This is the same app.
+map nvim neovim
+# A separate traditional ex/vi is supplemental; Neovim is the required editor.
+# Stable ALARM has no vi package/provider. Report that omission in full mode;
+# do not pretend that vim supplies /usr/bin/vi (its archive does not).
+optional vi
+# Stable compositor/plugin/Quickshell pairing reviewed for released 4.5.
+required hyprland=0.56.2-7
+required aquamarine=0.15.1-1.3
+required omarchy-hyprland-titlebars=0.2.2-2
+required quickshell=0.3.2.r7.g2b4501a-1
+# Lazy tool declarations must never reach an old mise.
+required mise-bin>=2026.10.11
+required archlinuxarm-keyring
+required omarchy-keyring
+required cloud-guest-utils
+required firmware-raspberrypi
+required hicolor-icon-theme
+required iw
+required uboot-raspberrypi
+required linux-aarch64
+required mkinitcpio
+required openssh
+required omarchy-speedtest
+required pipewire
+required pipewire-alsa
+required pipewire-pulse
+required python
+required rtkit
+required raspberrypi-utils
+required sudo
+required vulkan-broadcom
+required wf-recorder
+required xdg-user-dirs
+required zram-generator
+# Applications that --minimal may omit. Required 4.5 migration apps (Monologue,
+# Hype, Disktree, Gliff and Signed) remain required even with --minimal.
+optional aether
+optional cliamp
+optional herdr
+optional localsend
+optional omacalc
+optional omacut
+optional omawrite
+optional omarchy-nvim
+optional tobi-try
+optional ttf-ia-writer
+# Stable ARM has Pinta, but dotnet's closure must resolve before opting in.
+optional pinta
+optional dotnet-runtime

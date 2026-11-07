@@ -1,43 +1,36 @@
-# Updating an existing Pi without reflashing
+# Moving a Pi 4 to Omarchy 4.5
 
-Normal updates use `omarchy update`. This port follows `pkyanam/omarchy-4-pi`, `origin/main`; it is not a release-tag selector. Arch Linux ARM system packages also move forward. The latest alpha image and a fully updated existing installation therefore need not contain identical package versions.
+The 4.5 transition starts with a complete fresh image on spare media for Raspberry Pi 4 Model B with 4GB or 8GB RAM. Pi 5 is deferred. The current work is a candidate, not a hardware-qualified release; neither memory variant has a 4.5 hardware validation result here. See [the 4.5 design and validation boundary](omarchy-4.5-pi4.md) and [the work ledger](../plans/omarchy-4.5-pi4.md) for current evidence.
 
-Back up important files or the whole card first. This ext4 installation has no automatic pre-update snapshot. Keep reliable power connected, close large browser/build workloads, and do not interrupt package installation. A failed update must be investigated and retried, not followed by an immediate reboot.
+## Existing rolling images: keep the working card
 
-## Original general release: one-time updater bootstrap
+Older Pi images, including `v0.1.0-rc.1`, use rolling Arch Linux ARM packages. The 4.5 candidate uses signed Omarchy stable ARM64 packages and their matching stable ALARM libraries. Switching only mirrors or downgrading selected graphics libraries can leave an inconsistent system. There is no supported automatic rolling-to-stable downgrade.
 
-The original `v0.1.0-rc.1` image contains an older updater. Its first core rebuild does not reconcile the new runtime dependencies or apply the new Pi defaults; it may also lack the factory's temporary package-recipe checkout. Merely running that old updater once is not a complete upgrade to the new Pi features.
+Do not run a downloaded bootstrap from mutable `main`, rerun `install-rpi4.sh` over an existing installation, or edit the profile to bypass the updater. The new updater refuses a legacy rolling profile before fetching source, refreshing repositories or changing packages. An old installed updater may not contain this protection; running it is not a safe migration procedure. A Git reset cannot roll back installed libraries, the kernel, or the boot partition.
 
-On an unmodified original-image source checkout, the following launches the current updater directly from this fork. It verifies the repository, branch, upstream, and clean working tree before fetching. It does not re-run first-boot setup, reset the hostname, replace your display profile, or enable overclocking. Run as your normal desktop user in an interactive terminal, not with `sudo` around the whole command:
+1. Back up personal files and make a recoverable whole-card copy, including the boot partition. Keep the working card untouched as the rollback.
+2. Choose an explicitly identified 4.5 Pi 4 candidate when available. Keep its source/recipe identities, package inventory, build manifest, complete build/test logs and compressed-image checksum together. A latest-alpha filename alone does not identify a 4.5 image. Do not treat an unpublished candidate as a release.
+3. Verify the downloaded image checksum before writing it to a separate card or SSD. Use its matching Raspberry Pi Imager catalog to retain customization. For split downloads, verify the parts and reassembled image, then follow [the Imager guide](raspberry-pi-4.md#raspberry-pi-imager-2x-customization) to generate/open a local Imager catalog. Never select the working card as the destination.
+4. Boot the spare media and complete HDMI or Imager owner setup. Check root growth, hostname, networking/SSH choices, display, input, audio, first login and a second boot. Restore personal data selectively; copying an old `/etc`, package database or entire desktop configuration over the candidate can undo its boot, repository and resource policies.
+5. Keep the old card until the new system passes your own checks. Report each 4GB/8GB board independently. A successful source fixture or rootfs audit does not establish physical boot, accelerated rendering/video decoding, or responsiveness.
+
+An eventual in-place transition needs separate validation on a disposable clone, a complete reviewed package transaction and a tested whole-card rollback before instructions can be offered.
+
+## Future updates on a validated 4.5 installation
+
+Normal updates will use the reviewed Pi fork at `pkyanam/omarchy-4-pi`, on a clean `main` checkout tracking `origin/main`. This is a moving-source update contract, not a release-tag selector. The installed profile must contain both `OMARCHY_PACMAN_PROFILE=rpi4` and `OMARCHY_RPI4_PACKAGE_POLICY=stable-4.5`. Its repositories must be ordered `omarchy`, `core`, `extra`, `alarm`: Omarchy uses `https://pkgs.omarchy.org/stable/aarch64`; the others use `https://arm-stable-mirror.omarchy.org/aarch64/<repo>`. Trusted package signatures and protection of the locally adapted core/settings pair are required. Profile markers alone cannot make a rolling installation compatible.
+
+An unpublished `codex/omarchy-4.5-pi4` image keeps its actual candidate branch and source provenance. Dirty candidates record that state and receive no clean installed-core receipt. The production updater intentionally refuses a candidate branch or local source edits, even with the stable package policy. Do not rename its branch, manufacture `origin/main` refs, delete edits, or write a receipt to bypass the guard. Test a newer complete candidate on spare media until a reviewed production update path is available.
+
+After the production path is available and your installed source meets that contract, back up the card, connect reliable power and close large workloads. Run as the normal desktop user in an interactive terminal:
 
 ```bash
-bash -c '
-set -euo pipefail
-checkout=/opt/omarchy-4-pi
-refuse() { echo "Upgrade stopped: $*" >&2; exit 1; }
-[[ -d $checkout/.git ]] || refuse "the original-image checkout is missing"
-case "$(git -C "$checkout" remote get-url origin)" in
-  https://github.com/pkyanam/omarchy-4-pi|https://github.com/pkyanam/omarchy-4-pi.git|git@github.com:pkyanam/omarchy-4-pi.git) ;;
-  *) refuse "unexpected repository; do not replace it blindly" ;;
-esac
-[[ $(git -C "$checkout" symbolic-ref --quiet --short HEAD) == "main" ]] || refuse "expected main"
-[[ $(git -C "$checkout" rev-parse --abbrev-ref --symbolic-full-name @{upstream}) == "origin/main" ]] || refuse "expected origin/main tracking"
-[[ -z $(git -C "$checkout" status --porcelain) ]] || refuse "preserve your local source changes first"
-git -C "$checkout" fetch origin refs/heads/main:refs/remotes/origin/main
-git -C "$checkout" merge --ff-only origin/main
-export PATH="$checkout/bin:$PATH"
-export MAKEFLAGS="${MAKEFLAGS:--j2}" CARGO_BUILD_JOBS="${CARGO_BUILD_JOBS:-2}" CMAKE_BUILD_PARALLEL_LEVEL="${CMAKE_BUILD_PARALLEL_LEVEL:-2}"
-"$checkout/bin/omarchy-update"
-'
+omarchy update
 ```
 
-Stop if a check fails. Do not use `git reset --hard`, change the remote, or remove your edits just to bypass it. The updater performs additional ARM/package-channel checks and asks for normal update/sudo confirmation. This is a source/package rebuild, not a quick image download; it can take time on a 4GB Pi. If it fails after the checkout advances, the same bootstrap can retry: the new updater records successful package installation separately from the Git commit.
+The updater checks the installed policy before any source/package mutation, prepares source, refreshes the ARM/Omarchy keyrings, performs the coherent full system/runtime transaction, then verifies and installs the matching local Pi core/settings artifacts. It restarts the current shell before migrations. A failed runtime resolution, incomplete core pair, failed installation or shell restart stops completion; core installation is tracked separately from Git HEAD so a failed install remains retryable. Preserve the log and investigate before retrying. Do not reboot immediately after a failed transaction or replay owner provisioning to repair it.
 
-The bootstrap preflight and handoff are fixture-tested; the full upgrade from a user's original SD card is not yet hardware-validated. Keep your working-card backup. Reflashing a spare card remains the way to test the exact factory image and first-boot behavior.
-
-## After a successful update
-
-Reboot when the update offers it, then check:
+After a successful update and the offered reboot, inspect:
 
 ```bash
 hostnamectl --static
@@ -47,4 +40,4 @@ zramctl
 systemctl --failed
 ```
 
-The new CPU, compressed-swap, logging, and writeback policies take effect at boot. Existing owner provisioning and display customization are not replayed. Clock trials are still a separate, explicit operation; read [tuning and recovery](pi-tuning.md) first. Future updates use the ordinary `omarchy update` command.
+These diagnostics help identify problems; they do not prove audible HDMI playback, a hardware renderer/decoder, or desktop performance. ext4 has no automatic pre-update snapshot here. Retain the whole-card backup, preserve your display/font/effect choices, and keep clock experiments separate; see [tuning and recovery](pi-tuning.md).

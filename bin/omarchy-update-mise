@@ -2,6 +2,16 @@
 
 # omarchy:summary=Update mise-managed tools
 
+if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
+  omarchy-update-rpi4-guard packages || exit 1
+  installed_mise=$(mise --version | awk '{print $1}')
+  if [[ ! $installed_mise =~ ^[0-9]+[.][0-9]+[.][0-9]+$ ]] ||
+    (( $(vercmp "$installed_mise" 2026.10.11) < 0 )); then
+    echo "Pi mise must be 2026.10.11 or newer before lazy tool updates; run omarchy update." >&2
+    exit 1
+  fi
+fi
+
 if omarchy-cmd-present mise; then
   echo -e "\e[32m\nUpdate mise tools\e[0m"
 

@@ -1,24 +1,37 @@
 #!/bin/bash
 
-# omarchy:summary=Refuse Pi updates with an unexpected source or package repository
-# omarchy:args=[all|source|packages]
+# omarchy:summary=Refuse Pi updates outside the reviewed source and stable ARM package policy
+# omarchy:args=[all|source|packages|transaction]
 # omarchy:hidden=true
 
 set -euo pipefail
 fail() { printf 'Pi update refused: %s\n' "$*" >&2; exit 1; }
 mode=${1:-all}
+
+# Installed as an AbortOnFail hook by the adapted settings package. IgnorePkg
+# also shields full upgrades, but only the hook covers explicit -S/-U/removal.
+if [[ $mode == "transaction" ]]; then
+  [[ ${OMARCHY_RPI4_CORE_INSTALL:-} == "1" ]] ||
+    fail "the local Pi core/settings pair can only be installed together by the reviewed Pi installer/updater. Repository core packages and direct replacements are blocked."
+  exit 0
+fi
 [[ $mode == "all" || $mode == "source" || $mode == "packages" ]] || fail "invalid guard mode"
-[[ $(uname -m) == "aarch64" ]] || fail "expected aarch64"
+omarchy-hw-aarch64 || fail "expected aarch64"
+profile=${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}
+[[ -r $profile ]] || fail "missing Pi profile; do not fall back to upstream Omarchy"
+# Qualify the installed profile itself. A caller's exported build/profile
+# variables must not make an older card appear to have completed transition.
+unset OMARCHY_RPI4_SOURCE OMARCHY_PACMAN_PROFILE OMARCHY_RPI4_PACKAGE_POLICY
+# shellcheck source=/dev/null
+source "$profile"
+[[ ${OMARCHY_RPI4_PACKAGE_POLICY:-} == "stable-4.5" && ${OMARCHY_PACMAN_PROFILE:-} == "rpi4" ]] ||
+  fail "legacy rolling ALARM profile: no automatic repository switch or partial downgrade is supported. Back up personal data and flash the complete 4.5 Pi candidate to spare media; keep the old card for recovery. A coherent in-place transition still requires validation. No repositories or packages were changed."
 
 if [[ $mode != "packages" ]]; then
-  profile=${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}
-  [[ -r $profile ]] || fail "missing Pi profile; do not fall back to upstream Omarchy"
-  # shellcheck source=/dev/null
-  source "$profile"
   checkout=${OMARCHY_RPI4_SOURCE:-}
   [[ -n $checkout && -d $checkout/.git ]] || fail "Pi source checkout is unavailable"
   origin=$(git -C "$checkout" remote get-url origin)
-  case "$origin" in
+  case $origin in
     https://github.com/pkyanam/omarchy-4-pi|https://github.com/pkyanam/omarchy-4-pi.git|git@github.com:pkyanam/omarchy-4-pi.git) ;;
     *) fail "origin must be pkyanam/omarchy-4-pi, found $origin" ;;
   esac
@@ -30,16 +43,23 @@ fi
 if [[ $mode != "source" ]]; then
   [[ $(pacman-conf Architecture) == "aarch64" ]] || fail "pacman Architecture must be aarch64"
   repositories=$(pacman-conf --repo-list)
-  [[ -n $repositories ]] || fail "no package repositories configured"
+  [[ $repositories == $'omarchy\ncore\nextra\nalarm' ]] || fail "expected repositories in order: omarchy, core, extra, alarm"
+  for protected in omarchy omarchy-settings omarchy-dev omarchy-settings-dev; do
+    ignored=$(pacman-conf IgnorePkg)
+    [[ " ${ignored//$'\n'/ } " == *" $protected "* ]] || fail "IgnorePkg must protect $protected"
+  done
   while IFS= read -r repository; do
-    case "$repository" in
-      core|extra|alarm|aur) ;;
-      *) fail "unexpected repository [$repository]; review it before updating this Pi" ;;
-    esac
-    servers=$(pacman-conf --repo "$repository" Server)
-    [[ -n $servers ]] || fail "[$repository] has no servers"
-    if [[ $servers == *omarchy.org* || $servers == *x86_64* ]]; then
-      fail "[$repository] points to an upstream/x86 mirror"
+    if [[ $repository == "omarchy" ]]; then
+      expected=https://pkgs.omarchy.org/stable/aarch64
+    else
+      expected="https://arm-stable-mirror.omarchy.org/aarch64/$repository"
     fi
+    [[ $(pacman-conf --repo "$repository" Server) == "$expected" ]] ||
+      fail "[$repository] must use $expected; mixed or rolling mirrors are refused"
+    cache=$(pacman-conf --repo "$repository" CacheServer)
+    [[ -z $cache || $cache == "$expected" ]] || fail "unreviewed [$repository] CacheServer"
+    signatures=$(pacman-conf --repo "$repository" SigLevel)
+    [[ $signatures =~ (^|[[:space:]])(Required|PackageRequired)($|[[:space:]]) &&
+      ! $signatures =~ (Never|TrustAll|PackageOptional) ]] || fail "[$repository] must require trusted package signatures"
   done <<<"$repositories"
 fi

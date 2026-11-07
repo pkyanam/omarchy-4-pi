@@ -3,6 +3,8 @@
 # Generate a Raspberry Pi Imager 2.x OS-list entry for a finished .img.xz.
 
 set -euo pipefail
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly script_dir
 
 if (($# != 3)); then
   echo "Usage: $0 IMAGE.img.xz DOWNLOAD_URL OUTPUT.json" >&2
@@ -16,6 +18,7 @@ readonly repo_url=https://github.com/pkyanam/omarchy-4-pi
 
 [[ -f $image ]] || { echo "Image not found: $image" >&2; exit 1; }
 command -v xz >/dev/null || { echo "xz is required" >&2; exit 1; }
+command -v python3 >/dev/null || { echo "python3 is required" >&2; exit 1; }
 sha256() {
   if command -v sha256sum >/dev/null 2>&1; then
     sha256sum "$@" | awk '{print $1}'
@@ -35,13 +38,20 @@ fi
 release_date=$(date -u +%Y-%m-%d)
 icon_url="https://raw.githubusercontent.com/pkyanam/omarchy-4-pi/main/docs/assets/imager-icon.svg"
 
-cat >"$output" <<EOF
-{
+temporary=$(mktemp "${output}.XXXXXXXX")
+trap 'rm -f "$temporary"' EXIT
+python3 - "$download_url" "$icon_url" "$repo_url" "$release_date" \
+  "$extract_size" "$extract_sha" "$download_size" "$download_sha" >"$temporary" <<'PY'
+import json
+import sys
+
+url, icon, website, date, extracted, extracted_sha, size, sha = sys.argv[1:]
+catalog = {
   "imager": {
     "devices": [
       {
         "name": "Raspberry Pi 4",
-        "description": "Raspberry Pi 4 Model B, 400, and Compute Module 4 / 4S",
+        "description": "Raspberry Pi 4 Model B, 4GB or 8GB (candidate validation required)",
         "icon": "https://downloads.raspberrypi.com/imager/icons/RPi_4.png",
         "tags": ["pi4-64bit", "pi4-32bit"],
         "matching_type": "inclusive",
@@ -54,18 +64,22 @@ cat >"$output" <<EOF
     {
       "name": "Omarchy 4 Pi",
       "description": "Omarchy Quattro for Raspberry Pi 4 Model B with 4GB+ RAM — Hyprland, Quickshell, and tiny-board energy.",
-      "url": "$download_url",
-      "icon": "$icon_url",
-      "website": "$repo_url",
-      "release_date": "$release_date",
-      "extract_size": $extract_size,
-      "extract_sha256": "$extract_sha",
-      "image_download_size": $download_size,
-      "image_download_sha256": "$download_sha",
+      "url": url,
+      "icon": icon,
+      "website": website,
+      "release_date": date,
+      "extract_size": int(extracted),
+      "extract_sha256": extracted_sha,
+      "image_download_size": int(size),
+      "image_download_sha256": sha,
       "devices": ["pi4-64bit"],
       "init_format": "rpi-preseed",
       "architecture": "armv8"
     }
   ]
 }
-EOF
+json.dump(catalog, sys.stdout, indent=2)
+print()
+PY
+"$script_dir/validate-imager-catalog.sh" "$temporary" >/dev/null
+mv "$temporary" "$output"

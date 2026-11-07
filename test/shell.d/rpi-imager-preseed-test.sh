@@ -135,6 +135,7 @@ sed -n '/^run_imager_setup() {$/,/^}$/p' "$ROOT/bin/omarchy-provision-owner" >"$
     printf '%s\n' "$1" >"$handoff/keymap"
   }
   run_provisioning() { printf 'provisioned\n'; }
+  platform_ready() { :; }
   set_now() { NOW=1; }
   render_setup_static() { :; }
   render_setup_dynamic() { :; }

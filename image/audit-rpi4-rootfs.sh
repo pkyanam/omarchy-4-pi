@@ -4,6 +4,9 @@
 # 4 Pi boot, provisioning, graphics, and Quattro desktop payload.
 
 set -euo pipefail
+export PYTHONDONTWRITEBYTECODE=1
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+readonly script_dir
 
 checks=0
 failures=0
@@ -93,40 +96,31 @@ require_aarch64_elf() {
   fi
 }
 
-pacman_field() {
-  local description_file="$1" field="$2"
-  awk -v marker="%$field%" '$0 == marker { getline; print; exit }' "$description_file"
-}
-
 require_package() {
-  local wanted="$1" description_file name arch version
-  for description_file in "$root"/var/lib/pacman/local/*/desc; do
-    [[ -f $description_file ]] || continue
-    name=$(pacman_field "$description_file" NAME)
-    [[ $name == "$wanted" ]] || continue
-    arch=$(pacman_field "$description_file" ARCH)
-    version=$(pacman_field "$description_file" VERSION)
-    if [[ $arch == "aarch64" || $arch == "any" ]]; then
-      pass "package $wanted $version is $arch"
-    else
-      fail "package $wanted has incompatible architecture ${arch:-unknown}"
-    fi
-    return
-  done
-  fail "required package $wanted is installed"
+  local wanted=$1 arch=${installed_architectures[$1]:-} version=${installed_versions[$1]:-}
+  if [[ -z $version ]]; then
+    fail "required package $wanted is installed"
+  elif [[ $arch == aarch64 || $arch == any ]]; then
+    pass "package $wanted $version is $arch"
+  else
+    fail "package $wanted has incompatible architecture ${arch:-unknown}"
+  fi
 }
 
 forbid_package() {
-  local unwanted="$1" description_file name
-  for description_file in "$root"/var/lib/pacman/local/*/desc; do
-    [[ -f $description_file ]] || continue
-    name=$(pacman_field "$description_file" NAME)
-    if [[ $name == "$unwanted" ]]; then
-      fail "non-Pi firmware package $unwanted is absent"
-      return
-    fi
-  done
-  pass "non-Pi firmware package $unwanted is absent"
+  if [[ -n ${installed_versions[$1]:-} ]]; then
+    fail "non-Pi firmware package $1 is absent"
+  else
+    pass "non-Pi firmware package $1 is absent"
+  fi
+}
+
+require_package_version() {
+  if [[ ${installed_versions[$1]:-} == "$2" ]]; then
+    pass "$1 matches reviewed version $2"
+  else
+    fail "$1 matches reviewed version $2"
+  fi
 }
 
 (( $# >= 1 && $# <= 2 )) || usage
@@ -137,11 +131,36 @@ boot=${boot%/}
 
 printf 'Omarchy 4 Pi mounted-root audit\n'
 
-require_file "$boot/kernel8.img" "Pi ARM64 kernel is present"
+# Read metadata once: repeatedly starting awk for each package in every check
+# makes the mounted-root gate unnecessarily expensive on a one-CPU builder.
+installed_metadata=$(python3 - "$root" <<'PY_INVENTORY'
+from pathlib import Path
+import sys
+for path in sorted((Path(sys.argv[1]) / "var/lib/pacman/local").glob("*/desc")):
+  lines = path.read_text().splitlines()
+  values = [lines[lines.index(f"%{field}%") + 1] for field in ("NAME", "VERSION", "ARCH")]
+  if not all(value and not any(c.isspace() for c in value) for value in values):
+    raise SystemExit("Malformed installed package metadata")
+  print("\t".join(values))
+PY_INVENTORY
+)
+declare -A installed_versions=() installed_architectures=()
+while IFS=$'\t' read -r name version arch; do
+  [[ -n $name ]] || continue
+  [[ -z ${installed_versions[$name]:-} ]] || { fail "duplicate installed package $name"; continue; }
+  installed_versions[$name]=$version
+  installed_architectures[$name]=$arch
+done <<<"$installed_metadata"
+
+require_file "$boot/kernel8.img" "Pi firmware-loaded U-Boot is present"
+require_file "$boot/Image" "AArch64 Linux image loaded by U-Boot is present"
 require_file "$boot/initramfs-linux.img" "Pi initramfs is present"
 require_file "$boot/bcm2711-rpi-4-b.dtb" "Pi 4 device tree is present"
+require_file "$boot/dtbs/broadcom/bcm2711-rpi-4-b.dtb" "Pi 4 Linux device tree loaded by U-Boot is present"
 require_file "$boot/boot.scr" "Arch Linux ARM boot script is present"
+require_file "$boot/boot.txt" "Arch Linux ARM boot script source is present"
 require_file "$boot/start4.elf" "Pi 4 firmware is present"
+require_file "$boot/fixup4.dat" "Pi 4 firmware fixup is present"
 appledouble_files=$(find "$root" "$boot" -xdev -type f -name '._*' -print 2>/dev/null || true)
 if [[ -z $appledouble_files ]]; then
   pass "macOS metadata sidecars are absent"
@@ -152,6 +171,22 @@ require_line "$boot/config.txt" "dtoverlay=vc4-kms-v3d" "full VC4 KMS is enabled
 require_line "$boot/config.txt" "max_framebuffers=2" "two KMS framebuffers are enabled"
 require_line "$boot/config.txt" "disable_fw_kms_setup=1" "firmware modesetting is disabled"
 require_line "$boot/config.txt" "dtparam=audio=on" "Pi onboard audio is enabled"
+if python3 - "$root/usr/share/omarchy/default/pi/firmware-config.py" "$boot/config.txt" <<'PY'
+import importlib.util
+from pathlib import Path
+import sys
+spec = importlib.util.spec_from_file_location("pi_firmware", sys.argv[1])
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+original = Path(sys.argv[2]).read_bytes()
+if module.proposed(original) != original:
+  raise SystemExit("Pi boot policy is not the effective, final managed configuration")
+PY
+then
+  pass "Pi 4 KMS/audio policy accounts for firmware sections and final priority"
+else
+  fail "Pi 4 KMS/audio policy accounts for firmware sections and final priority"
+fi
 
 require_line "$root/etc/fstab" "LABEL=omarchyroot /     ext4 defaults,noatime 0 1" "root filesystem mounts by label"
 require_line "$root/etc/fstab" "LABEL=OMARCHYBOOT /boot vfat defaults,noatime 0 2" "boot filesystem mounts by label"
@@ -159,10 +194,12 @@ require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "vc4" "VC4 kernel modul
 require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "v3d" "V3D kernel module is configured"
 require_line "$root/etc/modules-load.d/omarchy-rpi.conf" "raspberrypi_hwmon" "Pi under-voltage sensor is configured"
 require_line "$root/etc/pacman.conf" "Architecture = aarch64" "pacman remains pinned to aarch64"
-if [[ -f $root/etc/pacman.d/mirrorlist ]] && grep -F 'mirror.archlinuxarm.org' "$root/etc/pacman.d/mirrorlist" >/dev/null; then
-  pass "Arch Linux ARM mirrors remain configured"
+require_line "$root/etc/pacman.conf" "SigLevel = Required DatabaseOptional" "package signatures remain required"
+require_line "$root/etc/omarchy-rpi4.conf" "OMARCHY_RPI4_PACKAGE_POLICY=stable-4.5" "image uses the reviewed stable 4.5 ARM closure"
+if [[ -f $root/etc/pacman.d/mirrorlist ]] && grep -Fx 'Server = https://arm-stable-mirror.omarchy.org/$arch/$repo' "$root/etc/pacman.d/mirrorlist" >/dev/null; then
+  pass "coherent stable Arch Linux ARM mirrors remain configured"
 else
-  fail "Arch Linux ARM mirrors remain configured"
+  fail "coherent stable Arch Linux ARM mirrors remain configured"
 fi
 
 root_password=""
@@ -198,6 +235,38 @@ fi
 
 require_file "$root/var/lib/omarchy/provisioning/pending" "owner provisioning is armed"
 require_file "$root/var/lib/omarchy/provisioning/grow-root-pending" "root expansion is armed"
+require_file "$root/var/lib/omarchy/image/pacman-keyring" "per-device pacman identity is armed"
+require_file "$root/var/lib/omarchy/image/deferred-steps" "hardware setup remains deferred to the Pi"
+require_line "$root/var/lib/omarchy/image/target" "format=1" "trusted 4.5 image target format is staged"
+require_line "$root/var/lib/omarchy/image/target" "platform=aarch64" "image identifies its target rather than its builder"
+require_line "$root/var/lib/omarchy/image/deferred-steps" "install/hardware/raspberry-pi.sh" "Pi hardware setup remains queued for the real device"
+if python3 - "$root" <<'PY'
+from pathlib import Path
+import stat
+import sys
+root = Path(sys.argv[1])
+for name in ("var/lib/omarchy/image", "var/lib/omarchy/image/target", "var/lib/omarchy/image/pacman-keyring", "var/lib/omarchy/image/deferred-steps"):
+  path = root / name
+  info = path.lstat()
+  if path.is_symlink() or info.st_uid != 0 or stat.S_IMODE(info.st_mode) & 0o022:
+    raise SystemExit("Untrusted image target/keyring/queue state")
+if (root / "etc/pacman.d/gnupg").exists() or (root / "etc/pacman.d/gnupg").is_symlink():
+  raise SystemExit("Factory pacman identity must be absent")
+PY
+then
+  pass "image state is root-owned and factory pacman private identity is absent"
+else
+  fail "image state is root-owned and factory pacman private identity is absent"
+fi
+require_file "$root/usr/share/pacman/keyrings/archlinuxarm.gpg" "packaged ALARM public trust remains available offline"
+require_file "$root/usr/share/pacman/keyrings/omarchy.gpg" "packaged Omarchy public trust remains available offline"
+require_executable "$root/usr/bin/omarchy-provision-hardware" "deferred hardware/keyring runner is installed"
+require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-provision-hardware.service" "omarchy-provision-hardware.service" "hardware/keyring setup service is enabled"
+require_line "$root/etc/systemd/system/omarchy-provision-owner.service.d/20-rpi4-image-hardware.conf" 'Requires=omarchy-provision-hardware.service' "owner setup requires successful per-device keyring/hardware setup"
+require_line "$root/etc/systemd/system/omarchy-provision-owner.service.d/20-rpi4-image-hardware.conf" 'After=omarchy-provision-hardware.service' "owner setup waits for per-device keyring/hardware setup"
+require_line "$root/etc/systemd/system/omarchy-provision-owner.service.d/20-rpi4-image-hardware.conf" 'Environment=OMARCHY_PATH=/usr/share/omarchy' "owner setup has the runtime path before uwsm exists"
+require_line "$root/etc/systemd/system/omarchy-provision-hardware.service.d/10-rpi4-grow-root.conf" 'Requires=omarchy-rpi4-grow-root.service' "hardware/keyring setup requires root growth"
+require_line "$root/etc/systemd/system/omarchy-provision-hardware.service.d/10-rpi4-grow-root.conf" 'After=omarchy-rpi4-grow-root.service' "hardware/keyring setup waits for root growth"
 require_executable "$root/usr/bin/omarchy-rpi4-grow-root" "root expansion command is installed"
 require_executable "$root/usr/bin/omarchy-rpi4-imager-preseed" "Imager preseed parser is installed"
 require_executable "$root/usr/bin/omarchy-provision-owner" "owner provisioner is installed"
@@ -243,6 +312,12 @@ require_unit_link "$root/etc/systemd/system/multi-user.target.wants/omarchy-pi-c
 require_line "$root/etc/makepkg.conf.d/50-omarchy-pi.conf" "source /usr/share/omarchy/default/pi/build-budget.sh" "Pi local package builds use memory-aware defaults"
 require_line "$root/etc/systemd/journald.conf.d/50-omarchy-pi.conf" "SystemMaxUse=128M" "Pi persistent journal has a bounded SD-card budget"
 require_line "$root/etc/systemd/zram-generator.conf.d/50-omarchy-pi.conf" "zram-size = ram / 2" "Pi compressed swap is configured independently of upstream ARM packaging"
+if [[ ! -e $root/usr/lib/systemd/zram-generator.conf.d/90-omarchy.conf ]] ||
+  [[ -L $root/etc/systemd/zram-generator.conf.d/90-omarchy.conf && $(readlink "$root/etc/systemd/zram-generator.conf.d/90-omarchy.conf") == /dev/null ]]; then
+  pass "generic ARM zram does not override Pi memory/compressor policy"
+else
+  fail "generic ARM zram does not override Pi memory/compressor policy"
+fi
 require_line "$root/etc/systemd/user/app.slice.d/50-omarchy-pi.conf" "ManagedOOMMemoryPressure=kill" "Pi application scopes have a memory-pressure escape path"
 require_line "$root/etc/systemd/oomd.conf.d/50-omarchy-pi.conf" "DefaultMemoryPressureDurationSec=20s" "Pi oomd waits for sustained application pressure"
 require_line "$root/etc/sysctl.d/99-omarchy-pi-writeback.conf" "vm.dirty_bytes=134217728" "Pi SD-card dirty-write bursts are bounded"
@@ -263,23 +338,37 @@ require_file "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Omarchy W
 require_line "$root/usr/local/share/wayland-sessions/omarchy.desktop" "Exec=uwsm start -g -1 -e -D Hyprland hyprland.desktop" "Omarchy session starts Hyprland through uwsm"
 require_file "$root/etc/skel/.config/hypr/hyprland.lua" "new users receive the Hyprland configuration"
 require_file "$root/usr/share/omarchy/default/hypr/raspberry-pi.lua" "Pi compositor compatibility profile is installed"
+require_aarch64_elf "$root/usr/lib/omarchy-hyprland-titlebars/titlebars.so" "floating titlebar plugin is AArch64"
 require_file "$root/usr/share/sddm/themes/omarchy/Main.qml" "Omarchy SDDM theme is installed"
 
 for package in \
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils firmware-raspberrypi \
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils \
   alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber \
-  uwsm chromium foot ttfx omarchy omarchy-settings; do
+  uwsm chromium foot ttfx omarchy omarchy-settings omarchy-keyring archlinuxarm-keyring \
+  omasnap owe omarchy-hyprland-titlebars omarchy-speedtest omarchy-power-profiles-daemon \
+  monologue hype disktree-bin gliff signed mise-bin rtkit zram-generator cloud-guest-utils python \
+  fcitx5 fcitx5-chewing fcitx5-chinese-addons fcitx5-gtk fcitx5-hangul fcitx5-mozc fcitx5-qt fcitx5-table-extra; do
   require_package "$package"
+done
+require_package_version omarchy 4.5.0.pi4.1-1
+require_package_version omarchy-settings 4.5.0.pi4.1-1
+require_package_version hyprland 0.56.2-7
+require_package_version omarchy-hyprland-titlebars 0.2.2-2
+require_package_version quickshell 0.3.2.r7.g2b4501a-1
+for unwanted in 00-omarchy-hooks.conf omarchy_hooks.conf thunderbolt_module.conf omarchy_vconsole.conf i2c_hid_of_module.conf; do
+  if [[ -e $root/etc/mkinitcpio.conf.d/$unwanted ]]; then
+    fail "generic ARM boot fragment $unwanted is absent"
+  else
+    pass "generic ARM boot fragment $unwanted is absent"
+  fi
 done
 
 incompatible_packages=""
-for description_file in "$root"/var/lib/pacman/local/*/desc; do
-  [[ -f $description_file ]] || continue
-  name=$(pacman_field "$description_file" NAME)
-  arch=$(pacman_field "$description_file" ARCH)
+for name in "${!installed_architectures[@]}"; do
+  arch=${installed_architectures[$name]}
   if [[ $arch != "aarch64" && $arch != "any" ]]; then
-    incompatible_packages+="${name:-unknown}:${arch:-unknown}"$'\n'
+    incompatible_packages+="$name:$arch"$'\n'
   fi
 done
 if [[ -z $incompatible_packages ]]; then
@@ -294,74 +383,10 @@ require_aarch64_elf "$root/usr/bin/foot" "terminal executable is AArch64"
 
 require_file "$root/usr/share/omarchy-rpi4/build-manifest.json" "embedded build manifest is present"
 manifest="$root/usr/share/omarchy-rpi4/build-manifest.json"
-if [[ -f $manifest ]] && grep -F '"source_dirty": false' "$manifest" >/dev/null; then
-  pass "release source tree was clean"
+if python3 "$script_dir/rpi4-manifest.py" validate "$manifest" "$root"; then
+  pass "strict build provenance matches source, recipes, mirrors, Node bundle, and installed inventory"
 else
-  fail "release source tree was clean"
-fi
-if [[ -f $manifest ]] && grep -Eq '"source_commit": "[0-9a-f]{40}"' "$manifest"; then
-  pass "port source has exact provenance"
-  manifest_commit=$(sed -nE 's/.*"source_commit": "([0-9a-f]{40})".*/\1/p' "$manifest")
-  require_line "$root/var/lib/omarchy/rpi4-source-commit" "$manifest_commit" "installed-core receipt avoids an unnecessary first-update rebuild"
-else
-  fail "port source has exact provenance"
-fi
-if [[ -f $manifest ]] && grep -Eq '"omarchy_pkgs_commit": "[0-9a-f]{40}"' "$manifest"; then
-  pass "Omarchy package recipes have exact provenance"
-else
-  fail "Omarchy package recipes have exact provenance"
-fi
-if [[ -f $manifest ]] && grep -Eq '"base_sha256": "[0-9a-f]{64}"' "$manifest" &&
-  grep -F '"base_signing_key": "68B3537F39A313B3E574D06777193F152BDBE6A6"' "$manifest" >/dev/null; then
-  pass "signed Arch Linux ARM base has exact provenance"
-else
-  fail "signed Arch Linux ARM base has exact provenance"
-fi
-
-node_bundle=""
-node_bundle_count=0
-for candidate in "$root"/var/lib/omarchy/provisioning/packages/node-v*-linux-arm64.tar.gz; do
-  [[ -f $candidate ]] || continue
-  node_bundle=$candidate
-  node_bundle_count=$((node_bundle_count + 1))
-done
-if (( node_bundle_count == 1 )); then
-  node_bundle_name=${node_bundle##*/}
-  node_bundle_sha=$(sha256sum "$node_bundle" | awk '{ print $1 }')
-  if grep -F "\"node_bundle\": {\"filename\": \"$node_bundle_name\", \"sha256\": \"$node_bundle_sha\"}" \
-    "$manifest" >/dev/null; then
-    pass "verified ARM64 Node.js bundle is staged for offline owner setup"
-  else
-    fail "ARM64 Node.js bundle matches build provenance"
-  fi
-else
-  fail "exactly one ARM64 Node.js bundle is staged for offline owner setup"
-fi
-if find "$root/var/lib/omarchy/provisioning/packages" -maxdepth 1 -type f \
-  -name 'node-v*-linux-x64.tar.gz' -print -quit 2>/dev/null | grep -q .; then
-  fail "x86_64 Node.js bundles are absent from the Pi image"
-else
-  pass "x86_64 Node.js bundles are absent from the Pi image"
-fi
-
-installed_package_inventory=""
-for description_file in "$root"/var/lib/pacman/local/*/desc; do
-  [[ -f $description_file ]] || continue
-  name=$(pacman_field "$description_file" NAME)
-  version=$(pacman_field "$description_file" VERSION)
-  installed_package_inventory+="$name"$'\t'"$version"$'\n'
-done
-installed_package_inventory=$(printf '%s' "$installed_package_inventory" | LC_ALL=C sort)
-manifest_package_inventory=""
-if [[ -f $manifest ]]; then
-  manifest_package_inventory=$(sed -n \
-    's/^    {"name": "\([^"]*\)", "version": "\([^"]*\)"},*$/\1\	\2/p' \
-    "$manifest" | LC_ALL=C sort)
-fi
-if [[ -n $installed_package_inventory && $manifest_package_inventory == "$installed_package_inventory" ]]; then
-  pass "build manifest records every installed package and exact version"
-else
-  fail "build manifest records every installed package and exact version"
+  fail "strict build provenance matches source, recipes, mirrors, Node bundle, and installed inventory"
 fi
 
 require_file "$root/opt/omarchy-4-pi/.git/shallow" "update checkout uses bounded Git history"

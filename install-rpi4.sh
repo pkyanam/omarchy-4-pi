@@ -5,9 +5,11 @@
 
 set -euo pipefail
 
-readonly checkout="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+checkout=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+readonly checkout
 readonly package_output="$checkout/build-output-rpi4"
 readonly rpi_profile=/etc/omarchy-rpi4.conf
+source "$checkout/install/helpers/rpi4-packages.sh"
 
 install_mode=full
 image_mode=0
@@ -66,7 +68,8 @@ Installs Omarchy Quattro on a Raspberry Pi 4 Model B already running the
 official Arch Linux ARM aarch64 root filesystem.
 
 --minimal  Install the complete Quattro desktop and system integration, but
-           skip optional Omarchy applications that must be built locally.
+           skip the explicitly optional application set. Required migration apps
+           are installed as signed ARM binaries in both modes.
 --image    Prepare an OEM image with first-boot owner provisioning instead of
            configuring the user running this command.
 USAGE
@@ -101,9 +104,17 @@ device_model() {
 
 check_preconditions() {
   (( EUID != 0 )) || fail "Run this as your regular user, not as root. It uses sudo where needed."
-  [[ $(uname -m) == "aarch64" ]] || fail "This installer requires Arch Linux ARM aarch64."
+  "$checkout/bin/omarchy-hw-aarch64" || fail "This installer requires Arch Linux ARM aarch64."
   command -v pacman >/dev/null || fail "pacman is required; start from Arch Linux ARM, not Raspberry Pi OS."
   command -v sudo >/dev/null || fail "sudo is required. Install it as root before running this script."
+
+  # Replaying fresh install would reset defaults and provisioning state. An
+  # existing system must use the guarded updater; rolling-to-stable transition
+  # is intentionally unsupported until validated on a disposable clone.
+  if [[ -e $rpi_profile || -e /var/lib/omarchy/provisioning ||
+    -e /usr/share/omarchy || -e $HOME/.config/omarchy ]]; then
+    fail "Omarchy is already provisioned. Use 'omarchy update' on a stable-4.5 Pi installation. For a legacy rolling Pi, back up personal data and flash the complete 4.5 candidate to spare media; an in-place repo switch or partial downgrade is not supported."
+  fi
 
   local model
   model=$(device_model)
@@ -116,29 +127,50 @@ check_preconditions() {
   fi
 }
 
+prepare_build_environment() {
+  source "$checkout/default/pi/build-environment.sh"
+  omarchy_pi_prepare_build install
+  trap omarchy_pi_cleanup_build EXIT
+}
+
 configure_arm_repositories() {
-  log "Configuring Arch Linux ARM package repositories"
+  log "Configuring the signed released stable ARM package closure"
+  source "$checkout/install/helpers/pacman.sh"
+  # Trust precedes any sync against [omarchy]; never disable signatures.
+  omarchy_pi_bootstrap_keyring
   sudo install -Dm644 "$checkout/default/pacman/pacman-rpi4.conf" /etc/pacman.conf
   sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4" /etc/pacman.d/mirrorlist
   if (( image_mode )); then
-    sudo install -Dm644 "$checkout/default/pacman/mirrorlist-rpi4-image" /etc/pacman.d/mirrorlist
     sudo sed -i 's/^ParallelDownloads = .*/ParallelDownloads = 1/' /etc/pacman.conf
   fi
-  sudo pacman-key --init
-  sudo pacman-key --populate archlinuxarm
-  pacman_retry -Syyu --needed --noconfirm git base-devel gum
+  # A fresh ALARM rootfs may be newer than this closure. Align the WHOLE fresh
+  # system, never selected libraries. check_preconditions excludes owned installs.
+  pacman_retry -Syyuu --needed --noconfirm git base-devel gum python
+}
+
+check_existing_package_policy() {
+  local profile=${OMARCHY_RPI4_PROFILE:-$rpi_profile}
+  if [[ -f $profile ]] && ! grep -qx 'OMARCHY_RPI4_PACKAGE_POLICY=stable-4.5' "$profile"; then
+    # An old installed updater can source these leaves after fetching this
+    # checkout. Stop it before recipe/package changes as well as guarding the
+    # new top-level updater. Its earlier source fetch cannot be undone here.
+    fail "Legacy rolling ALARM profile: no automatic stable transition is supported. Back up personal data and flash the complete 4.5 Pi candidate to spare media; retain the old card for recovery. No repositories or packages were changed."
+  fi
 }
 
 ensure_package_sources() {
-  if [[ -n ${OMARCHY_PKGS_PATH:-} && -d ${OMARCHY_PKGS_PATH:-}/pkgbuilds ]]; then
-    return 0
-  fi
-
+  check_existing_package_policy
   local cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy-rpi4"
   local pkgs_checkout="$cache_dir/omarchy-pkgs"
   local recipe_commit
   recipe_commit=$(<"$checkout/image/omarchy-pkgs.commit")
   [[ $recipe_commit =~ ^[0-9a-f]{40}$ ]] || fail "Missing reviewed Pi package-recipe commit."
+  if [[ -n ${OMARCHY_PKGS_PATH:-} ]]; then
+    pkgs_checkout=${OMARCHY_PKGS_PATH%/pkgbuilds}
+    omarchy_pi_verify_recipes "$pkgs_checkout" "$recipe_commit" || fail "Unreviewed explicit package recipes."
+    export OMARCHY_PKGS_PATH="$pkgs_checkout"
+    return 0
+  fi
   mkdir -p "$cache_dir"
 
   if [[ -d $pkgs_checkout/.git ]]; then
@@ -155,143 +187,40 @@ ensure_package_sources() {
   fi
   git -C "$pkgs_checkout" checkout --detach "$recipe_commit"
 
+  omarchy_pi_verify_recipes "$pkgs_checkout" "$recipe_commit" || fail "Package recipe provenance failed."
   export OMARCHY_PKGS_PATH="$pkgs_checkout"
 }
 
-package_is_excluded() {
-  local package="$1" excluded
-  while read -r excluded; do
-    [[ -n $excluded ]] || continue
-    [[ $package == "$excluded" ]] && return 0
-  done < <(grep -vE '^[[:space:]]*(#|$)' "$checkout/install/omarchy-rpi4-unavailable.packages")
-  return 1
-}
-
 install_official_packages() {
-  local package
-  local -a available=()
-
-  log "Resolving the Quattro package set against Arch Linux ARM"
-  while read -r package; do
-    [[ -n $package ]] || continue
-    package_is_excluded "$package" && continue
-    if pacman -Si "$package" >/dev/null 2>&1; then
-      available+=("$package")
-    fi
-  done < <(grep -vE '^[[:space:]]*(#|$)' "$checkout/install/omarchy-base.packages")
-
-  # These normally come from the ISO's secondary package list or as hard
-  # dependencies of omarchy. The Pi installer has no ISO to supply them.
-  available+=(
-    archlinuxarm-keyring
-    cloud-guest-utils
-    firmware-raspberrypi
-    hicolor-icon-theme
-    iw
-    linux-aarch64
-    neovim
-    openssh
-    pipewire
-    pipewire-alsa
-    pipewire-pulse
-    python
-    qt6-wayland
-    raspberrypi-utils
-    snapper
-    sudo
-    vulkan-broadcom
-    wf-recorder
-    xdg-user-dirs
-    zram-generator
-  )
-
-  log "Installing ${#available[@]} packages from Arch Linux ARM"
-  pacman_retry -S --needed --noconfirm "${available[@]}"
-
-  # Image builds have a fixed-size staging filesystem. Retaining more than a
-  # gigabyte of package archives while compiling the remaining local packages
-  # can exhaust that staging space even though the finished image fits.
-  if (( image_mode )); then
-    sudo pacman -Scc --noconfirm
-  fi
-}
-
-build_recipe() {
-  local package="$1" required="${2:-0}"
-  local recipe="$OMARCHY_PKGS_PATH/pkgbuilds/$package"
-  local workspace
-
-  [[ -d $recipe ]] || {
-    (( required == 0 )) && warn "No PKGBUILD found for optional package $package; skipping."
-    (( required == 0 )) || fail "No PKGBUILD found for required package $package."
-    return "$required"
-  }
-
-  workspace=$(mktemp -d)
-  cp -a "$recipe/." "$workspace/"
-  if (
-    cd "$workspace"
-    makepkg -s --noconfirm
-  ); then
-    local artifact
-    local -a artifacts=()
-    for artifact in "$workspace/$package-"*.pkg.tar.*; do
-      [[ -f $artifact && $artifact != *.sig ]] && artifacts+=("$artifact")
-    done
-    if (( ${#artifacts[@]} )); then
-      sudo pacman -U --needed --noconfirm "${artifacts[@]}"
-      rm -rf "$workspace"
-    elif (( required )); then
-      rm -rf "$workspace"
-      fail "Required ARM package $package produced no package archive."
-    else
-      rm -rf "$workspace"
-      warn "Optional ARM package $package produced no package archive; skipping."
-    fi
+  check_existing_package_policy
+  local resolved omissions
+  local -a selected=()
+  log "Resolving the complete Pi $install_mode package contract"
+  # Capture status before reading the plan: process substitution would hide an
+  # unresolved required runtime and allow the core replacement to proceed.
+  omissions=$(mktemp)
+  if resolved=$(python3 "$checkout/install/helpers/rpi4-packages.py" "$checkout" "$install_mode" 2>"$omissions"); then
+    cat "$omissions" >&2
   else
-    rm -rf "$workspace"
-    if (( required )); then
-      fail "Required ARM package $package failed to build."
-    else
-      warn "Optional ARM package $package failed to build; the desktop will continue without it."
-    fi
+    cat "$omissions" >&2
+    rm -f "$omissions"
+    fail "Required Pi packages did not resolve; no core packages were replaced."
   fi
+  [[ -n $resolved ]] || fail "The Pi package plan is empty."
+  mapfile -t selected <<<"$resolved"
+  pacman_retry -S --needed --noconfirm "${selected[@]}"
+  python3 "$checkout/install/helpers/rpi4-packages.py" "$checkout" "$install_mode" --verify >/dev/null ||
+    fail "Installed Pi runtime does not match the selected stable binaries."
+  sudo install -d /var/lib/omarchy
+  printf '%s\n' "$resolved" | sudo tee /var/lib/omarchy/rpi4-package-plan >/dev/null
+  sudo install -m0644 "$omissions" /var/lib/omarchy/rpi4-package-omissions
+  rm -f "$omissions"
 }
 
+# Compatibility leaf for callers of the old installer. Runtime packages now
+# come from verified binaries, and already-installed versions are reconciled.
 install_arm_packages() {
-  local package
-  local -a required=(
-    yay
-    mise-bin
-    ufw-docker
-    xdg-terminal-exec
-    yaru-icon-theme
-    ttfx
-  )
-  local -a optional=(
-    aether
-    cliamp
-    herdr
-    localsend
-    omacalc
-    omacut
-    omawrite
-    omarchy-nvim
-    tobi-try
-    ttf-ia-writer
-  )
-
-  log "Building required ARM packages"
-  for package in "${required[@]}"; do
-    pacman -Q "$package" >/dev/null 2>&1 || build_recipe "$package" 1
-  done
-
-  if [[ $install_mode == "full" ]]; then
-    log "Building optional Omarchy applications for ARM (this can take a while on a Pi 4)"
-    for package in "${optional[@]}"; do
-      pacman -Q "$package" >/dev/null 2>&1 || build_recipe "$package" 0
-    done
-  fi
+  install_official_packages
 }
 
 build_omarchy_packages() {
@@ -300,23 +229,18 @@ build_omarchy_packages() {
 }
 
 install_omarchy_packages() {
-  local artifact
-  local -a built=()
-  for artifact in "$package_output"/*.pkg.tar.*; do
-    [[ -f $artifact && $artifact != *.sig ]] || continue
-    built+=("$artifact")
-  done
-  (( ${#built[@]} )) || fail "No packages were built in $package_output."
-
-  log "Installing the locally built Omarchy packages"
-  sudo pacman -U --noconfirm "${built[@]}"
+  omarchy_pi_verify_artifacts "$package_output" || fail "Incomplete or stale Pi core artifact set."
+  log "Installing the complete locally built Pi core/settings pair"
+  sudo env OMARCHY_RPI4_CORE_INSTALL=1 OMARCHY_UPDATE_PACMAN=1 \
+    pacman -U --noconfirm "${omarchy_pi_artifacts[@]}"
+  omarchy_pi_verify_installed_artifacts || fail "The Pi core artifact set did not install completely."
   source /usr/share/omarchy/default/bash/env-bootstrap
 }
 
 write_rpi_profile() {
   local encoded_checkout
   printf -v encoded_checkout '%q' "$checkout"
-  printf 'OMARCHY_RPI4_SOURCE=%s\nOMARCHY_PACMAN_PROFILE=rpi4\n' "$encoded_checkout" |
+  printf 'OMARCHY_RPI4_SOURCE=%s\nOMARCHY_PACMAN_PROFILE=rpi4\nOMARCHY_RPI4_PACKAGE_POLICY=stable-4.5\n' "$encoded_checkout" |
     sudo tee "$rpi_profile" >/dev/null
   sudo chmod 0644 "$rpi_profile"
 }
@@ -408,16 +332,16 @@ run_system_setup() {
   sudo env "${hardware_env[@]}" omarchy-apply-system --install-user "$USER" --first-install
 
   log "Applying Omarchy user configuration"
-  OMARCHY_SETUP_CONTEXT=rpi4 omarchy-provision-user --first-install
+  OMARCHY_SETUP_CONTEXT=iso-chroot omarchy-provision-user --first-install
 }
 
 main() {
   parse_args "$@"
   check_preconditions
+  prepare_build_environment
   configure_arm_repositories
   ensure_package_sources
   install_official_packages
-  install_arm_packages
   build_omarchy_packages
   install_omarchy_packages
   write_rpi_profile

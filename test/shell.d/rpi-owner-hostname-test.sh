@@ -35,6 +35,8 @@ hostnamectl() {
 }
 log_step() { :; }
 create_user() { echo user >>"$fixture/events"; }
+getent() { :; }
+configure_password() { :; }
 install_authorized_keys() { :; }
 configure_imager_network() { :; }
 configure_imager_ssh() {
@@ -44,9 +46,12 @@ configure_imager_ssh() {
 configure_login() { :; }
 configure_timezone() { :; }
 finalize_user() { :; }
+luks_rekey_pending() { return 1; }
+luks_staged_unlock_remains() { return 1; }
 limine_entries_stale() { return 1; }
 cleanup_oem_state() { echo cleanup >>"$fixture/events"; }
 apply_keyboard() { :; }
+platform_ready() { :; }
 set_now() { NOW=1; }
 render_setup_static() { :; }
 render_setup_dynamic() { :; }

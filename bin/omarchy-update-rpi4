@@ -1,73 +1,84 @@
 #!/bin/bash
 
-# omarchy:summary=Rebuild the locally packaged Raspberry Pi port after its source checkout advances
+# omarchy:summary=Reconcile Pi runtime binaries and rebuild the local core after a source advance
+# omarchy:args=[--prepare]
 # omarchy:hidden=true
 
 set -euo pipefail
-
-profile="${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}"
+[[ $# == 0 || ( $# == 1 && $1 == "--prepare" ) ]] || exit 2
 omarchy-update-rpi4-guard
+profile=${OMARCHY_RPI4_PROFILE:-/etc/omarchy-rpi4.conf}
 # shellcheck source=/dev/null
 source "$profile"
+checkout=$OMARCHY_RPI4_SOURCE
 
-checkout="${OMARCHY_RPI4_SOURCE:-}"
-[[ -n $checkout && -d $checkout/.git ]] || {
-  echo "Warning: Raspberry Pi Omarchy source checkout is unavailable; skipping the core update." >&2
-  exit 0
-}
-
-upstream=$(git -C "$checkout" rev-parse --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null || true)
-[[ -n $upstream ]] || {
-  echo "Raspberry Pi Omarchy checkout has no upstream; keeping the installed core."
-  exit 0
-}
-
-git -C "$checkout" diff --quiet && git -C "$checkout" diff --cached --quiet || {
-  echo "Warning: Raspberry Pi Omarchy checkout has local changes; skipping the core update." >&2
-  exit 0
-}
-
+# Source-only preparation lets the outer updater obtain the current contract
+# before its keyring/full system transaction, without building against old libs.
 git -C "$checkout" fetch --quiet origin refs/heads/main:refs/remotes/origin/main
-behind=$(git -C "$checkout" rev-list --count "HEAD..$upstream")
-if (( behind > 0 )); then
-  git -C "$checkout" merge --ff-only "$upstream"
-fi
+git -C "$checkout" merge --ff-only origin/main
+[[ ${1:-} != "--prepare" ]] || exit 0
 
-# A failed build must remain retryable after the checkout has advanced.
-# HEAD alone does not prove that its packages were installed successfully.
+source "$checkout/default/pi/build-environment.sh"
+omarchy_pi_prepare_build update
+output=""
+cleanup() {
+  [[ -z $output ]] || rm -rf "$output"
+  omarchy_pi_cleanup_build
+}
+trap cleanup EXIT
+
+# This path is also callable directly. Keep keyrings and the complete coherent
+# system upgrade ahead of runtime/core reconciliation, not only in the wrapper.
+# The wrapper supplies the flag after its own successful system transaction.
+if [[ ${OMARCHY_RPI4_SYSTEM_READY:-} != "1" ]]; then
+  omarchy-update-keyring
+  omarchy-update-system-pkgs
+fi
+(
+  source "$checkout/install-rpi4.sh"
+  install_mode=minimal
+  ensure_package_sources
+  install_official_packages
+)
+
 state_file=${OMARCHY_RPI4_UPDATE_STATE:-/var/lib/omarchy/rpi4-source-commit}
 source_commit=$(git -C "$checkout" rev-parse HEAD)
 installed_commit=""
 [[ ! -r $state_file ]] || installed_commit=$(<"$state_file")
-[[ $installed_commit != "$source_commit" ]] || {
-  echo "Raspberry Pi Omarchy core is up to date."
+source "$checkout/install/helpers/rpi4-packages.sh"
+# A receipt is insufficient if another operation removed/replaced an artifact.
+core_current=1
+for core in omarchy omarchy-settings; do
+  [[ $(pacman -Q "$core" 2>/dev/null) == "$core $omarchy_pi_core_version-1" ]] || core_current=0
+done
+if [[ $installed_commit == "$source_commit" ]] && (( core_current )); then
+  echo "Raspberry Pi core and required runtime are current."
   exit 0
-}
-
-# Minimal still includes runtime dependencies such as the screensaver renderer.
-# Reuse the package-only leaves, never replay owner provisioning or reset config.
-(
-  source "$checkout/install-rpi4.sh"
-  # shellcheck disable=SC2034
-  install_mode=minimal
-  ensure_package_sources
-  install_arm_packages
-)
+fi
 
 output=$(mktemp -d)
-trap 'rm -rf "$output"' EXIT
 OMARCHY_PACKAGE_OUTPUT="$output" "$checkout/build-packages-rpi4.sh"
-
-packages=()
-for package in "$output"/*.pkg.tar.*; do
-  [[ -f $package && $package != *.sig ]] && packages+=("$package")
-done
-(( ${#packages[@]} )) || {
-  echo "Error: Raspberry Pi core rebuild produced no packages." >&2
+omarchy_pi_verify_artifacts "$output" || {
+  echo "Error: Pi core rebuild produced an incomplete or stale artifact set; no receipt was advanced." >&2
   exit 1
 }
-sudo pacman -U --noconfirm "${packages[@]}"
+# The installed release carries the current reload guard and matching hooks.
+# Legacy releases cannot reach this point: their profile is refused at entry.
+sudo omarchy-hyprland-reload-guard pause
+reload_paused=1
+cleanup() {
+  if (( ${reload_paused:-0} )); then
+    sudo omarchy-hyprland-reload-guard resume || true
+  fi
+  [[ -z $output ]] || rm -rf "$output"
+  omarchy_pi_cleanup_build
+}
+sudo env OMARCHY_RPI4_CORE_INSTALL=1 OMARCHY_UPDATE_PACMAN=1 \
+  pacman -U --noconfirm "${omarchy_pi_artifacts[@]}"
+omarchy_pi_verify_installed_artifacts || exit 1
 sudo env OMARCHY_PATH="$OMARCHY_PATH" omarchy-apply-pi-performance
 sudo systemctl daemon-reload
+sudo omarchy-hyprland-reload-guard resume
+reload_paused=0
 sudo install -d "$(dirname "$state_file")"
 printf '%s\n' "$source_commit" | sudo tee "$state_file" >/dev/null

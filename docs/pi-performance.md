@@ -1,5 +1,7 @@
 # Pi 4 efficiency: research, implementation, and measurement
 
+This is the historical 4.0 port audit. For the current 4.5 package policy, resource defaults and validation gates, use the [4.5 guide](omarchy-4.5-pi4.md) and [work ledger](../plans/omarchy-4.5-pi4.md). In particular, the older rolling-repository update procedure below does not describe the 4.5 transition.
+
 Research date: September 4, 2026. Target: **Raspberry Pi 4 Model B, 4GB+ RAM**, with 8GB recommended for larger development workloads. Objective: at least Raspberry Pi OS parity on a declared workload suite while retaining Omarchy's desktop and agent workflows. **Parity is not yet measured or achieved.** Changes described as implemented below are in source, not the original `v0.1.0-rc.1` image.
 
 Follow-up implementation: [the next alpha's CPU, memory, build, logging, and opt-in clock controls](pi-tuning.md). The initial memory finding below has been corrected after inspecting what the upstream ARM package actually installs, not just what exists in this source tree.

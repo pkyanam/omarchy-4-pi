@@ -12,6 +12,7 @@ RUN apt-get update \
     gnupg \
     libarchive-tools \
     parted \
+    python3 \
     rsync \
     udev \
     util-linux \

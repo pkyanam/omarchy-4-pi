@@ -1,15 +1,15 @@
-# Omarchy Quattro on Raspberry Pi 4 Model B
+# Omarchy 4.5 candidate on Raspberry Pi 4 Model B
 
-This port installs the Quattro desktop natively on a Raspberry Pi 4 Model B. It does not emulate x86_64 and it does not use the upstream Omarchy ISO, which is built around an x86 boot flow and package repository.
+This port prepares the released Omarchy 4.5 desktop for native ARM64 on Pi 4 Model B with 4GB or 8GB RAM. The [work ledger](../plans/omarchy-4.5-pi4.md) records the checks completed for this candidate; both physical-board variants still need qualification. Upstream's new ARM support supplies useful binaries, while this port retains the Raspberry Pi boot and provisioning flow. Pi 5 remains deferred.
 
 ## What the port changes
 
-- Uses the official Arch Linux ARM aarch64 Raspberry Pi 4 root filesystem and repositories.
-- Uses the Arch Linux ARM builds of Hyprland, Quickshell, Chromium, PipeWire, SDDM, and most of the standard Omarchy package set.
+- Starts from the signed official Arch Linux ARM Pi root filesystem, then aligns the complete fresh system with Omarchy's stable ARM64 packages and matching ALARM mirror.
+- Resolves the matching compositor, titlebar plugin, patched Quickshell, Qt, and required 4.5 applications before installing the local core.
 - Builds `omarchy`, `omarchy-settings`, the Omarchy keyring, and the required Nerd Font locally from the upstream Omarchy PKGBUILDs.
 - Removes Limine and its mkinitcpio integration from the locally built packages. The Pi continues to boot through its firmware and U-Boot setup.
 - Enables full VC4 KMS, loads the VC4/V3D kernel modules, installs the Broadcom Vulkan driver, and enables Aquamarine's limited-GPU modifier workaround.
-- Keeps future package refreshes on Arch Linux ARM. Selecting the upstream stable, RC, or edge package channel is intentionally disabled because those repositories do not publish aarch64 packages.
+- Keeps the reviewed `stable-4.5` Pi profile and local core/settings protection. Channel switching stays disabled; an existing rolling installation needs the separate [fresh-media transition](pi-upgrade.md).
 - Skips Snapper configuration on the default ext4 root filesystem. Omarchy updates still run, but without pre-update system snapshots.
 - Uses `wf-recorder` when `gpu-screen-recorder` is unavailable.
 
@@ -19,7 +19,13 @@ Designed for Raspberry Pi 4 Model B with **4GB+ RAM**, a 64-bit installation, a 
 
 Connect Ethernet for the first installation when possible. Wi-Fi is managed by NetworkManager after Omarchy setup.
 
-## 1. Install Arch Linux ARM aarch64
+## Fresh images first
+
+Use the image factory below for the first 4.5 candidate, and flash spare media so the old system remains recoverable. Factory checks cover the complete package transaction, target filesystem, provenance, and packaged Hyprland parser. They cannot replace a real boot or desktop test. A development branch retains its actual name and intentionally cannot use the production `origin/main` updater.
+
+The following direct-install route is for a disposable, fresh ALARM system. It has its own validation gate; it is not an upgrade procedure for an existing Omarchy card. The installer refuses an already-provisioned system before changing repositories or user defaults.
+
+## 1. Prepare a fresh Arch Linux ARM system
 
 Follow the official [Arch Linux ARM Raspberry Pi 4 installation instructions](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4) and select the `ArchLinuxARM-rpi-aarch64-latest.tar.gz` root filesystem. Those instructions partition and overwrite the selected SD card or drive, so verify the device name on the machine preparing the media before running their commands.
 
@@ -40,23 +46,21 @@ In `visudo`, uncomment the `%wheel ALL=(ALL:ALL) ALL` line. Log out of the defau
 
 ## 2. Install the port
 
-Clone this Raspberry Pi branch and run the installer:
+Use a reviewed checkout containing the 4.5 integration, then run its installer as the regular user:
 
 ```bash
-git clone https://github.com/pkyanam/omarchy-4-pi.git ~/omarchy-rpi4
-cd ~/omarchy-rpi4
 ./install-rpi4.sh
 ```
 
-The complete install resolves every package in `install/omarchy-base.packages` against the live Arch Linux ARM repositories, then builds ARM-compatible Omarchy applications from the official `omarchy-pkgs` recipes. This can take hours on a Pi 4 because packages such as Herdr, LocalSend, and the Neovim bundle compile or prepare substantial dependency trees.
+The installer aligns the whole fresh ALARM system with the stable package set, including downgrades when the fresh base is newer. It resolves the combined base/ARM/Pi contract using pacman and installs signed binaries. Only the adapted core, settings, keyring, and Nerd Font artifacts are built locally from the reviewed recipe commit. Required packages must resolve and match their selected versions; optional omissions are recorded.
 
-For the complete Quattro shell and system integration without the optional locally built applications, use:
+For the complete desktop and system integration with the explicitly optional applications omitted, use:
 
 ```bash
 ./install-rpi4.sh --minimal
 ```
 
-The minimal mode still installs the desktop, browser, file manager, terminal, development tools available from Arch Linux ARM, themes, menus, notifications, lock screen, and Omarchy command suite. Optional shortcuts whose applications were not built simply do nothing until those applications are installed.
+Minimal mode still includes the compositor/titlebar/shell combination, browser, file manager, terminal, themes, notifications, lock screen, and applications needed by the 4.5 migrations. Available optional applications can be installed later from the same reviewed repositories.
 
 Reboot after the installer finishes:
 
@@ -70,7 +74,7 @@ SDDM should start the Omarchy Hyprland session automatically.
 
 The repository's image factory runs on a native aarch64 Linux host. It verifies the official Arch Linux ARM detached signature against build key `68B3537F39A313B3E574D06777193F152BDBE6A6`, creates the Pi partition layout, installs the port in a chroot, removes factory credentials, and emits Raspberry Pi Imager-ready metadata.
 
-Image builds use the official rolling Arch Linux ARM mirrors in `default/pacman/mirrorlist-rpi4-image` and continue enforcing package signatures. The mounted-root audit checks that the shipped image uses the ordinary live ARM mirror configuration. The manifest records the package repository, resolved package versions, and source revisions; builds are traceable, not bit-for-bit reproducible.
+Image builds and installed systems use the same stable ARM package policy and retain signature enforcement. The mounted-root audit checks that policy, the matching runtime, Pi boot files, and absence of factory credentials and signing identity. Strict JSON records server URLs, package versions, source lineage and tree digest, recipe identity, and the verified offline Node archive. These records establish traceability; mutable upstream inputs still prevent a bit-for-bit reproducibility promise.
 
 On Debian or Ubuntu ARM64:
 
@@ -88,7 +92,7 @@ The output directory contains:
 - `*.audit.txt` — enforced Pi boot, provisioning, desktop-payload, in-image Hyprland parser, package-architecture, and factory-identity checks
 - `*.os-list.json` and `os-list.json` — Raspberry Pi Imager 2.x catalog metadata with hashes of both the compressed download and extracted image
 
-The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. Before compression, the factory removes build-only dependencies and PC-only firmware, retains the Pi's Broadcom firmware plus common Realtek USB-adapter support, and zeroes unused ext4 blocks. It also stores only a shallow, upstream-tracking source checkout so updates still work without shipping hundreds of megabytes of unrelated history. A checksum-verified official Linux ARM64 Node.js bundle is staged so owner finalization remains offline-capable, matching the official Omarchy ISO flow without carrying its x86_64 archive. Override the image-size floor with `OMARCHY_IMAGE_SIZE_GIB`; values below 12 GiB are rejected because the complete desktop's transient installation footprint does not fit safely even though the finished payload is smaller. The first boot has no reusable `alarm` or root password: it expands storage, then Omarchy's owner-provisioning UI asks for keyboard, username, password, identity, hostname, and timezone before starting SDDM. Pi-only systemd dependencies make owner creation wait for a successful root expansion and SDDM wait for successful owner creation; a failed grow keeps both one-shot markers armed so the operation can retry safely on the next boot instead of exposing a user-less login screen.
+The default sparse image is 12 GiB before compression and grows to fill the target device on first boot. The factory removes build-only dependencies and PC-only firmware, retains Broadcom and common Realtek USB-adapter firmware, and zeroes unused ext4 blocks. Its shallow source checkout retains the actual branch, commit, remote and dirty state. First boot expands storage, initializes a unique pacman identity using packaged public trust, completes deferred hardware setup, and provisions the owner before releasing SDDM. A verified official ARM64 Node bundle supports offline setup without replacing user mise pins. Required failures retain their pending state for retry. The image has no reusable default login. These mechanisms still need actual first-boot testing on both boards.
 
 ### Raspberry Pi Imager 2.x customization
 

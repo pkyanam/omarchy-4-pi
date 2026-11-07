@@ -75,9 +75,20 @@ if [[ $power_state == unknown* || $power_state == "vcgencmd unavailable" ]]; the
   done
 fi
 
-renderer="not available outside a graphical session"
-if command -v glxinfo >/dev/null 2>&1 && [[ -n ${WAYLAND_DISPLAY:-}${DISPLAY:-} ]]; then
-  renderer=$(glxinfo -B 2>/dev/null | awk -F: '/OpenGL renderer string/{sub(/^[[:space:]]+/, "", $2); print $2; exit}')
+renderer="unknown (GLX requires an X/XWayland display; compositor rendering unverified)"
+if command -v glxinfo >/dev/null 2>&1 && [[ -n ${DISPLAY:-} ]]; then
+  # Capture the full diagnostic first: a failed probe must not suppress native
+  # health data, and an early awk exit must not turn SIGPIPE into a false failure.
+  if glx_report=$(glxinfo -B 2>/dev/null); then
+    glx_renderer=$(awk '/OpenGL renderer string:/ { sub(/^.*OpenGL renderer string:[[:space:]]*/, ""); print; exit }' <<<"$glx_report")
+    if [[ -n $glx_renderer ]]; then
+      renderer="$glx_renderer (GLX/XWayland; compositor rendering unverified)"
+    else
+      renderer="unknown (GLX returned no renderer; compositor rendering unverified)"
+    fi
+  else
+    renderer="unknown (GLX query failed; compositor rendering unverified)"
+  fi
 fi
 
 model="unknown"

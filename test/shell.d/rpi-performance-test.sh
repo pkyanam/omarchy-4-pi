@@ -60,6 +60,7 @@ printf 'large image placeholder\n' >"$test_tmp/source/build/image"
   declare -f prepare_source_tree
 ) >"$test_tmp/stage-function"
 (
+  source "$ROOT/install/helpers/rpi4-packages.sh"
   source "$test_tmp/stage-function"
   checkout="$test_tmp/source"
   build_root="$test_tmp/staging"

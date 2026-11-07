@@ -5,8 +5,8 @@
 
 set -euo pipefail
 
-if (( $# != 1 )); then
-  echo "Usage: $0 CATALOG.json" >&2
+if (( $# < 1 || $# > 2 )); then
+  echo "Usage: $0 CATALOG.json [ASSET_DIR]" >&2
   exit 64
 fi
 
@@ -15,12 +15,13 @@ readonly catalog=$1
 [[ -f $catalog ]] || { echo "Catalog not found: $catalog" >&2; exit 1; }
 command -v python3 >/dev/null || { echo "python3 is required" >&2; exit 1; }
 
-python3 - "$catalog" <<'PY'
+python3 - "$catalog" "${2:-}" <<'PY'
+import hashlib
 import json
 import re
 import sys
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 
 def fail(message: str) -> None:
@@ -97,8 +98,28 @@ for index, image in enumerate(os_list):
         if not isinstance(value, str) or not sha256_pattern.fullmatch(value):
             fail(f"os_list[{index}].{field} must be a lowercase SHA-256 digest")
     url = image.get("url")
-    if not isinstance(url, str) or urlparse(url).scheme not in {"file", "http", "https"}:
+    if not isinstance(url, str) or urlparse(url).scheme not in {"file", "http", "https"} or any(c.isspace() or ord(c) < 32 for c in url):
         fail(f"os_list[{index}].url must be a file, HTTP, or HTTPS URL")
+    parsed = urlparse(url)
+    if parsed.scheme != "file" and (not parsed.netloc or parsed.username or parsed.password):
+        fail(f"os_list[{index}].url must have a host and no credentials")
+    if parsed.scheme == "file" and (parsed.netloc not in {"", "localhost"} or not parsed.path.startswith("/")):
+        fail(f"os_list[{index}].url must be a local absolute file URI")
+    if len(sys.argv) > 2 and sys.argv[2]:
+        filename = Path(unquote(parsed.path)).name
+        asset = Path(sys.argv[2]) / filename
+        if not filename.endswith(".img.xz") or not asset.is_file() or asset.is_symlink():
+            fail(f"os_list[{index}].url does not correspond to a complete image asset")
+        if parsed.scheme == "file" and Path(unquote(parsed.path)).resolve() != asset.resolve():
+            fail(f"os_list[{index}].url points outside the local asset directory")
+        if asset.stat().st_size != image["image_download_size"]:
+            fail(f"os_list[{index}] image asset size differs from catalog")
+        hasher = hashlib.sha256()
+        with asset.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                hasher.update(chunk)
+        if hasher.hexdigest() != image["image_download_sha256"]:
+            fail(f"os_list[{index}] image asset digest differs from catalog")
     if name == "Omarchy 4 Pi" and "pi4-64bit" in image_tags:
         omarchy_pi4_found = True
 

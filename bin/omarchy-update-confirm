@@ -2,22 +2,22 @@
 
 # omarchy:summary=Prompt for confirmation before starting an update
 
-release_url=https://github.com/basecamp/omarchy/releases/latest
+release_url=https://github.com/omacom/omarchy/releases/latest
 if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
   release_url=https://github.com/pkyanam/omarchy-4-pi/releases/latest
 fi
 
 gum style --border normal --padding "1 2" \
-  "Ready to update?" \
+  "$(omarchy-i18n update.ready)" \
   "" \
-  "• You cannot stop the update once you start!" \
-  "• Make sure you're connected to power or have a full battery" \
+  "• $(omarchy-i18n update.cannotStop)" \
+  "• $(omarchy-i18n update.connectPower)" \
   "" \
-  "What's new: $release_url"
+  "$(omarchy-i18n update.whatsNew "$release_url")"
 
 echo
 
-if ! gum confirm "Continue with update?"; then
+if ! gum confirm --affirmative "$(omarchy-i18n common.yes)" --negative "$(omarchy-i18n common.no)" "$(omarchy-i18n update.continue)"; then
   echo "Update cancelled"
   exit 1
 fi

@@ -1,20 +1,16 @@
-# Packages intentionally omitted on Raspberry Pi 4. Everything else in the
-# Quattro base list is installed when it exists in Arch Linux ARM.
+# Explicit Pi 4 scope exclusions, shared by fresh installs and updates.
+# Runtime entries absent from the signed stable repositories are errors unless
+# explicitly optional in omarchy-rpi4.packages. Never add names to hide failures.
 
-# Apple-only hardware control.
+# Apple-only hardware control cannot apply to a Pi.
 asdcontrol
 
-# No Arch Linux ARM package or ARM-compatible upstream build.
-dotnet-runtime
-hyprland-preview-share-picker
-obsidian
-pinta
-tensaku
-tzupdate
-
-# Not useful on the Pi and disproportionately expensive to build there.
+# Emulated foreign-architecture containers are outside this Pi 4 image budget.
 qemu-user-static-binfmt
 
-# The Pi's V3D stack has no supported gpu-screen-recorder hardware encoder.
-# wf-recorder is installed as the compatible capture backend instead.
+# The Pi encoder path is not verified; wf-recorder preserves recording.
 gpu-screen-recorder
+
+# Static backgrounds are the Pi default. The local core recipe deliberately
+# removes this hard dependency, while an explicit later install stays possible.
+omarchy-themes-intros

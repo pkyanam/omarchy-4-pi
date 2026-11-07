@@ -84,16 +84,20 @@ SH
 grep -F 'invisible = false' "$CALL_LOG" >/dev/null || fail "keyboard dismissal restores cursor"
 pass "keyboard input still dismisses a running renderer"
 
-# Run the real package-selection function, stubbing only package operations.
-eval "$(sed -n '/^install_arm_packages() {$/,/^}$/p' "$ROOT/install-rpi4.sh")"
-log() { :; }
-pacman() { return 1; }
-build_recipe() { printf '%s %s\n' "$1" "$2" >>"$test_tmp/recipes"; }
-install_mode=minimal
-install_arm_packages
-grep -Fx 'ttfx 1' "$test_tmp/recipes" >/dev/null || fail "minimal Pi installs require ttfx"
-[[ $(grep -c '^ttfx ' "$test_tmp/recipes") == 1 ]] || fail "ttfx is selected exactly once"
-pass "minimal Pi package selection builds ttfx as a required dependency"
+# The 4.5 resolver installs signed binaries. The renderer must remain required
+# when it composes the base, architecture and Pi package policies.
+require_command python3
+python3 - "$ROOT" <<'PY'
+import importlib.util
+from pathlib import Path
+import sys
+root = Path(sys.argv[1])
+spec = importlib.util.spec_from_file_location("packages", root / "install/helpers/rpi4-packages.py")
+packages = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(packages)
+assert packages.contract(root)["ttfx"] == ("required", "ttfx")
+PY
+pass "minimal Pi package policy requires the screensaver renderer"
 
 grep -F 'require_executable "$root/usr/bin/ttfx"' "$ROOT/image/audit-rpi4-rootfs.sh" >/dev/null ||
   fail "image audit rejects a missing screensaver renderer"

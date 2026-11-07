@@ -11,31 +11,111 @@ permissions:
 jobs:
   shell:
     runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v6
+      - name: Install fixture dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes coreutils curl gawk git jq libarchive-tools lua5.4 openssh-client python3 python3-yaml rsync util-linux xz-utils
+
       - name: Parse image and Pi entrypoints
         run: |
-          bash -n install-rpi4.sh
-          bash -n build-packages-rpi4.sh
-          bash -n image/audit-rpi4-rootfs.sh
-          bash -n image/build-rpi4-image.sh
-          bash -n image/generate-imager-catalog.sh
-          bash -n image/validate-imager-catalog.sh
-          bash -n image/prepare-release-assets.sh
-          bash -n image/verify-rpi4-hyprland.sh
-          bash -n bin/omarchy-rpi4-grow-root
-          bash -n bin/omarchy-pi-status
-      - name: Run focused Raspberry Pi tests
+          mkdir -p build/pi-checks
+          syntax_status=0
+          {
+            for script in install-rpi4.sh build-packages-rpi4.sh image/*.sh default/pi/build-*.sh bin/omarchy-rpi4-grow-root bin/omarchy-pi-* bin/omarchy-update-rpi4* test/shell.d/rpi45-*-test.sh test/shell.d/raspberry-pi-test.sh test/shell.d/rpi-update-safety-test.sh test/shell.d/rpi-upgrade-guide-test.sh; do
+              bash -n "$script" || syntax_status=1
+            done
+            python3 - <<'PY' || syntax_status=1
+          from pathlib import Path
+          import yaml
+          for directory in (Path("image"), Path("default/pi")):
+            for path in directory.glob("*.py"):
+              compile(path.read_bytes(), str(path), "exec")
+          for name in ("bin/omarchy-rpi4-imager-preseed", "test/shell.d/rpi-upgrade-guide-fixture.py"):
+            path = Path(name)
+            compile(path.read_bytes(), str(path), "exec")
+          yaml.safe_load(Path(".github/workflows/pi-checks.yml").read_text())
+          PY
+          } >build/pi-checks/syntax.log 2>&1
+          if (( syntax_status )); then
+            cat build/pi-checks/syntax.log
+            exit 1
+          fi
+
+      - name: Run focused Raspberry Pi tests as the unprivileged runner
         run: |
-          test/shell.d/raspberry-pi-test.sh
-          test/shell.d/rpi-imager-preseed-test.sh
-          test/shell.d/rpi-owner-hostname-test.sh
-          test/shell.d/rpi-display-test.sh
-          test/shell.d/screensaver-test.sh
-          test/shell.d/rpi-performance-test.sh
-          test/shell.d/rpi-tune-test.sh
-          test/shell.d/rpi-optimization-test.sh
-          test/shell.d/rpi-update-safety-test.sh
-          test/shell.d/rpi-firmware-test.sh
-          test/shell.d/rpi-grow-root-test.sh
-          test/shell.d/rpi-hyprland-verify-test.sh
+          mkdir -p build/pi-checks
+          tests=(
+            raspberry-pi rpi-imager-preseed rpi-owner-hostname rpi-display screensaver
+            rpi-performance rpi-tune rpi-optimization rpi-update-safety rpi-upgrade-guide
+            rpi-firmware rpi-grow-root rpi-hyprland-verify
+          )
+          for test in test/shell.d/rpi45-*-test.sh; do
+            name=${test##*/}
+            tests+=("${name%-test.sh}")
+          done
+          failed=0
+          printf '| Fixture suite | Result |\n| --- | --- |\n' >>"$GITHUB_STEP_SUMMARY"
+          for name in "${tests[@]}"; do
+            log="build/pi-checks/$name.log"
+            result=passed
+            if bash "test/shell.d/$name-test.sh" >"$log" 2>&1; then
+              printf '%s: passed\n' "$name"
+            else
+              result=failed
+              failed=1
+              cat "$log"
+            fi
+            if grep -F '# SKIP' "$log" >"build/pi-checks/$name.skips.log"; then
+              # Only the ownership-sensitive rootfs subsection is unavailable
+              # here; it is mandatory in the separate root fixture below.
+              if [[ $name == "raspberry-pi" ]] && ! grep -vF 'rootfs audit fixture requires root-owned image state' "build/pi-checks/$name.skips.log"; then
+                result="$result; rootfs subsection deferred to root step"
+              else
+                result="$result; unexpected skip"
+                failed=1
+              fi
+              cat "build/pi-checks/$name.skips.log"
+            fi
+            printf '| `%s` | %s |\n' "$name" "$result" >>"$GITHUB_STEP_SUMMARY"
+          done
+          exit "$failed"
+
+      - name: Run root-owned mounted-root audit fixtures
+        if: always()
+        run: |
+          mkdir -p build/pi-checks
+          log=build/pi-checks/rootfs-audit.log
+          # Keep the log owned by the runner for artifact collection.
+          # shellcheck disable=SC2024
+          if sudo env PYTHONDONTWRITEBYTECODE=1 bash test/shell.d/raspberry-pi-test.sh --rootfs-audit-only >"$log" 2>&1; then
+            if grep -F '# SKIP' "$log"; then
+              echo 'Rootfs audit coverage is required on this runner.' >&2
+              exit 1
+            fi
+            echo '| `rootfs-audit` | passed with real root-owned fixture state |' >>"$GITHUB_STEP_SUMMARY"
+          else
+            cat "$log"
+            echo '| `rootfs-audit` | failed |' >>"$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+      - name: Record platform validation boundaries
+        if: always()
+        run: |
+          cat >>"$GITHUB_STEP_SUMMARY" <<'EOF_SUMMARY'
+
+          These are source/fixture checks on x86_64 Ubuntu 24.04. The Linux first-boot and Lua fixtures must run without skips. Native ARM64 dependency solving, signed package installation, actual Hyprland/Qt/plugin loading, mounted candidate-image checks and real systemd boot transactions require the coordinated ARM64 builder. Physical Pi 4 4GB and 8GB boot, rendering/media, thermals and responsiveness remain separate gates. No Pi 5 qualification or image build runs in this job.
+          EOF_SUMMARY
+
+      - name: Keep complete fixture logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pi-checks-${{ github.run_id }}
+          path: build/pi-checks/
+          if-no-files-found: warn

@@ -9,10 +9,17 @@ if [[ -f /etc/omarchy-rpi4.conf ]] || omarchy-hw-raspberry-pi; then
   ignored+=,omarchy,omarchy-settings,omarchy-keyring,ttf-jetbrains-mono-nerd-basic
 fi
 
+# mise exports GOROOT and GOBIN for its own Go. omarchy-upgrade-to-quattro runs
+# this with the system PATH but the caller's environment, so /usr/bin/go would
+# compile with mise's toolchain and every Go PKGBUILD fails with
+# "compile: version ... does not match go tool version". With both unset,
+# whichever go is on PATH uses its own root.
+unset GOROOT GOBIN
+
 if pacman -Qem >/dev/null; then
   if omarchy-pkg-aur-accessible; then
     echo -e "\e[32m\nUpdate AUR packages\e[0m"
-    yay -Sua --noconfirm --cleanafter --ignore "$ignored"
+    yay -Sua --noconfirm --cleanafter --ignore "$ignored" || exit 1
     echo
   else
     echo -e "\e[31m\nAUR is unavailable (so skipping updates)\e[0m"

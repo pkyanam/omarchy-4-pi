@@ -97,11 +97,20 @@ require_aarch64_elf() {
 }
 
 require_package() {
-  local wanted=$1 arch=${installed_architectures[$1]:-} version=${installed_versions[$1]:-}
+  local wanted=$1 package=$1 arch version
+  if [[ -z ${installed_versions[$package]:-} && -n ${installed_providers[$wanted]:-} ]]; then
+    package=${installed_providers[$wanted]}
+  fi
+  arch=${installed_architectures[$package]:-}
+  version=${installed_versions[$package]:-}
   if [[ -z $version ]]; then
     fail "required package $wanted is installed"
   elif [[ $arch == aarch64 || $arch == any ]]; then
-    pass "package $wanted $version is $arch"
+    if [[ $package == "$wanted" ]]; then
+      pass "package $wanted $version is $arch"
+    else
+      pass "package $package $version provides $wanted and is $arch"
+    fi
   else
     fail "package $wanted has incompatible architecture ${arch:-unknown}"
   fi
@@ -135,21 +144,35 @@ printf 'Omarchy 4 Pi mounted-root audit\n'
 # makes the mounted-root gate unnecessarily expensive on a one-CPU builder.
 installed_metadata=$(python3 - "$root" <<'PY_INVENTORY'
 from pathlib import Path
+import re
 import sys
 for path in sorted((Path(sys.argv[1]) / "var/lib/pacman/local").glob("*/desc")):
   lines = path.read_text().splitlines()
   values = [lines[lines.index(f"%{field}%") + 1] for field in ("NAME", "VERSION", "ARCH")]
   if not all(value and not any(c.isspace() for c in value) for value in values):
     raise SystemExit("Malformed installed package metadata")
-  print("\t".join(values))
+  provides = []
+  if "%PROVIDES%" in lines:
+    for value in lines[lines.index("%PROVIDES%") + 1:]:
+      if not value:
+        break
+      match = re.fullmatch(r"([a-zA-Z0-9@._+:-]+)(?:=[^\s]+)?", value)
+      if not match:
+        raise SystemExit("Malformed installed package Provides")
+      provides.append(match[1])
+  print("\t".join([*values, " ".join(provides)]))
 PY_INVENTORY
 )
-declare -A installed_versions=() installed_architectures=()
-while IFS=$'\t' read -r name version arch; do
+declare -A installed_versions=() installed_architectures=() installed_providers=()
+while IFS=$'\t' read -r name version arch provides; do
   [[ -n $name ]] || continue
   [[ -z ${installed_versions[$name]:-} ]] || { fail "duplicate installed package $name"; continue; }
   installed_versions[$name]=$version
   installed_architectures[$name]=$arch
+  read -r -a provided_names <<<"$provides"
+  for provided in "${provided_names[@]}"; do
+    installed_providers[$provided]=$name
+  done
 done <<<"$installed_metadata"
 
 require_file "$boot/kernel8.img" "Pi firmware-loaded U-Boot is present"
@@ -293,6 +316,7 @@ require_unit_link "$root/etc/systemd/user/pipewire.service.wants/wireplumber.ser
 
 require_executable "$root/usr/bin/Hyprland" "Hyprland compositor is installed"
 require_executable "$root/usr/bin/quickshell" "Quickshell runtime is installed"
+require_executable "$root/usr/bin/chromium" "Chromium browser launcher is installed"
 require_executable "$root/usr/bin/omarchy-shell" "Omarchy shell launcher is installed"
 require_executable "$root/usr/bin/ttfx" "screensaver renderer is installed"
 require_executable "$root/usr/bin/vcgencmd" "Raspberry Pi power diagnostic is installed"

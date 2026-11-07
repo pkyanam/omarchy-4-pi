@@ -699,7 +699,7 @@ cp "$ROOT/install/provisioning/omarchy-avahi-rpi4.conf" "$audit_root/etc/systemd
 # Synthetic headers test the audit's ELF architecture check; no fixture binary
 # is executed. Actual ARM loading and Hyprland parsing remain image-build gates.
 printf '\177ELF\002\001\001\000\000\000\000\000\000\000\000\000\002\000\267\000' >"$audit_root/usr/bin/Hyprland"
-for executable in quickshell foot vcgencmd ttfx; do
+for executable in quickshell chromium foot vcgencmd ttfx; do
   cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/bin/$executable"
 done
 cp "$audit_root/usr/bin/Hyprland" "$audit_root/usr/lib/omarchy-hyprland-titlebars/titlebars.so"
@@ -728,7 +728,7 @@ audit_packages=(
   hyprland quickshell mesa vulkan-broadcom linux-aarch64 raspberrypi-utils firmware-raspberrypi
   sddm networkmanager wpa_supplicant iw wireless-regdb avahi nss-mdns openssh ufw bluez bluez-tools bluez-utils
   alsa-utils pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber
-  uwsm chromium foot ttfx omarchy omarchy-settings linux-firmware-broadcom omarchy-keyring archlinuxarm-keyring
+  uwsm omarchy-chromium-bin foot ttfx omarchy omarchy-settings linux-firmware-broadcom omarchy-keyring archlinuxarm-keyring
   omasnap owe omarchy-hyprland-titlebars omarchy-speedtest omarchy-power-profiles-daemon
   monologue hype disktree-bin gliff signed mise-bin rtkit zram-generator cloud-guest-utils python
   fcitx5 fcitx5-chewing fcitx5-chinese-addons fcitx5-gtk fcitx5-hangul fcitx5-mozc fcitx5-qt fcitx5-table-extra
@@ -745,6 +745,9 @@ for package in "${audit_packages[@]}"; do
   package_dir="$audit_root/var/lib/pacman/local/$package-$version"
   mkdir -p "$package_dir"
   printf '%%NAME%%\n%s\n\n%%VERSION%%\n%s\n\n%%ARCH%%\naarch64\n' "$package" "$version" >"$package_dir/desc"
+  if [[ $package == "omarchy-chromium-bin" ]]; then
+    printf '\n%%PROVIDES%%\nchromium=%s\n' "$version" >>"$package_dir/desc"
+  fi
 done
 
 # A tiny real shallow checkout gives the strict manifest actual Git evidence.
@@ -812,6 +815,16 @@ reject_audit() {
   grep -F "$diagnostic" "$test_tmp/audit-$label" >/dev/null ||
     fail "rootfs audit must diagnose $label" "$(cat "$test_tmp/audit-$label")"
 }
+
+browser_metadata="$audit_root/var/lib/pacman/local/omarchy-chromium-bin-1.0-1/desc"
+cp "$browser_metadata" "$test_tmp/browser-metadata"
+sed -i.bak '/^%PROVIDES%$/,$d' "$browser_metadata"
+reject_audit browser-provider 'required package chromium is installed'
+mv "$test_tmp/browser-metadata" "$browser_metadata"
+mv "$audit_root/usr/bin/chromium" "$test_tmp/browser-launcher"
+reject_audit browser-launcher 'Chromium browser launcher is installed'
+mv "$test_tmp/browser-launcher" "$audit_root/usr/bin/chromium"
+pass "image root audit accepts installed browser providers and rejects missing declarations or launchers"
 
 wifi_firmware="$audit_root/usr/lib/firmware/updates/brcm/brcmfmac43455-sdio.raspberrypi,4-model-b.bin"
 mv "$wifi_firmware" "$test_tmp/wifi-payload"

@@ -61,9 +61,10 @@ adapt_recipe() {
     sed -i "/^[[:space:]]*'omarchy-themes-intros'[[:space:]]*$/d" "$pkgbuild"
     cat >>"$pkgbuild" <<'RECIPE'
 
-# Pi runtime prerequisites must precede local core replacement and migrations.
-depends+=('mise-bin>=2026.10.11' 'hyprland=0.56.2-7'
-  'omarchy-hyprland-titlebars=0.2.2-2' 'quickshell=0.3.2.r7.g2b4501a-1')
+# Exact compositor/plugin versions are enforced by the reviewed runtime
+# contract before replacement and migrations. Pinning them in the installed
+# core would prevent the next runtime transaction from reaching that rebuild.
+depends+=('mise-bin>=2026.10.11' 'omarchy-hyprland-titlebars')
 RECIPE
   elif [[ $package == "omarchy-settings" ]]; then
     # Keep the released runtime-profile checks and sudo helper/hook ownership,

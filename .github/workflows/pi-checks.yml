@@ -19,7 +19,7 @@ jobs:
       - name: Install fixture dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --yes coreutils curl gawk git jq libarchive-tools lua5.4 openssh-client python3 python3-yaml rsync util-linux xz-utils
+          sudo apt-get install --yes coreutils curl gawk git jq libarchive-tools lua5.4 openssh-client pacman-package-manager python3 python3-yaml rsync util-linux xz-utils
 
       - name: Parse image and Pi entrypoints
         run: |

@@ -150,7 +150,12 @@ main() {
     --env "OMARCHY_SOURCE_DIRTY=$source_dirty" \
     --env "OMARCHY_SOURCE_ORIGIN=$source_origin" \
     --env "OMARCHY_XZ_PRESET=${OMARCHY_XZ_PRESET:--1}" \
-    "$builder_image" /workspace/image/build-rpi4-image.sh "$@" >/dev/null
+    "$builder_image" /bin/bash -euc '
+      # Archive transfer can preserve the Mac UID on the private Git store.
+      # Make this container-owned copy safe for root Git without trust bypasses.
+      chown -R root:root /source-git
+      exec "$@"
+    ' bash /workspace/image/build-rpi4-image.sh "$@" >/dev/null
 
   docker cp "$transfer_dir/source-git/." "$container:/source-git"
   git -C "$repo_root" ls-files --cached --others --exclude-standard -z |

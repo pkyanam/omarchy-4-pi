@@ -68,3 +68,7 @@ Final build: `build/validation/candidate-image-build-5.log` records successful n
 ## Validation access
 
 Preetham has one 4GB Pi 4 and one 8GB Pi 4, neither currently running Omarchy. Proceed with fresh-image preparation; no previous installed system is required. No Pi 5 is available. OrbStack has been started on the Apple-silicon development host and supplies native ARM64 Linux with an initial 1 CPU / 2GiB budget and no running containers. Build/test concurrency must remain bounded. Desktop and board behavior cannot be established by container checks alone.
+
+## User boot report — November 7, 2026
+
+Preetham reports that the candidate boots and runs and has deferred SSH validation for now. This confirms user-observed boot and basic operation; the exact board variant and workload measurements were not supplied. The earlier no-boot-result statements describe the build-time evidence. Detailed hardware and performance qualification remains deferred, with no SSH access requested again.

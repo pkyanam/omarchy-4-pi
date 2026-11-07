@@ -255,9 +255,8 @@ partition_path() {
 
 ensure_partition_device() {
   local number="$1"
-  local device block_name sysfs_dev major minor attempt
+  local device block_name sysfs_dev major minor expected attempt
   device=$(partition_path "$number")
-  [[ -b $device ]] && return
 
   block_name=${device##*/}
   sysfs_dev="/sys/class/block/$block_name/dev"
@@ -268,7 +267,21 @@ ensure_partition_device() {
   [[ -r $sysfs_dev ]] || fail "The kernel did not discover partition $device."
 
   IFS=: read -r major minor <"$sysfs_dev"
-  mknod "$device" b "$major" "$minor"
+  [[ $major =~ ^[0-9]+$ && $minor =~ ^[0-9]+$ ]] || fail "Invalid kernel device identity for $device."
+  expected=$(printf '%x:%x' "$major" "$minor")
+  if [[ ! -e $device ]]; then
+    mknod "$device" b "$major" "$minor"
+  fi
+  [[ -b $device && $(stat -c '%t:%T' "$device") == "$expected" ]] ||
+    fail "Device node $device disagrees with the kernel partition identity."
+
+  # Container device access can lag behind partition discovery. Check an
+  # actual read-only open before mkfs, without retrying a filesystem write.
+  for attempt in {1..30}; do
+    blockdev --getsize64 "$device" >/dev/null 2>&1 && return
+    sleep 0.1
+  done
+  fail "Partition $device is present but cannot be opened by this build host."
 }
 
 create_filesystems() {

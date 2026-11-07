@@ -142,6 +142,13 @@ omarchy_startup_cursor_pending, omarchy_startup_cursor = nil, nil
 env.XCURSOR_THEME, env.OMARCHY_STARTUP_CURSOR_SESSION, gsettings = "", "old-session", "'custom-cursor'\n"
 events["config.reloaded"]()
 assert(omarchy_startup_cursor.xcursor == "default", "an ordinary boot without a cursor theme keeps the default alias instead of adopting GSettings")
+omarchy_startup_cursor_pending, omarchy_startup_cursor = nil, nil
+env.HYPRLAND_INSTANCE_SIGNATURE = nil
+for _, name in ipairs({ "env", "config", "timer", "exec_cmd" }) do
+  hl[name] = function() error("config verification must not change cursor state") end
+end
+events["config.reloaded"]()
+assert(omarchy_startup_cursor_pending == nil and omarchy_startup_cursor == nil, "verification without a compositor session remains side-effect free")
 io.popen = popen
 LUA
 pass "the first compositor frame starts blank and the reveal restores user cursor settings"

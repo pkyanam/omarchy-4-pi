@@ -52,11 +52,14 @@ function omarchy_startup_cursor_restore(loaded)
 end
 
 hl.on("config.reloaded", function()
+  -- --verify-config emits this event without starting a compositor session.
+  -- It must not mutate cursor state or send a nil value to hl.env.
+  local session = os.getenv("HYPRLAND_INSTANCE_SIGNATURE")
+  if not session or session == "" then return end
   local recover = false
   if omarchy_startup_cursor_pending == nil then
     -- An ordinary reload must not hide the pointer, but an interrupted reveal survives.
     local cold = #hl.get_monitors() == 0
-    local session = os.getenv("HYPRLAND_INSTANCE_SIGNATURE")
     local interrupted = session and os.getenv("OMARCHY_STARTUP_CURSOR_SESSION") == session
     recover = not cold and not interrupted and os.getenv("XCURSOR_THEME") == "omarchy-startup"
     omarchy_startup_cursor_pending = cold or interrupted or recover

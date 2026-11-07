@@ -59,6 +59,10 @@ if [[ $mode != "source" ]]; then
     cache=$(pacman-conf --repo "$repository" CacheServer)
     [[ -z $cache || $cache == "$expected" ]] || fail "unreviewed [$repository] CacheServer"
     signatures=$(pacman-conf --repo "$repository" SigLevel)
+    # pacman-conf leaves this empty when the repository inherits [options].
+    if [[ -z $signatures ]]; then
+      signatures=$(pacman-conf SigLevel)
+    fi
     [[ $signatures =~ (^|[[:space:]])(Required|PackageRequired)($|[[:space:]]) &&
       ! $signatures =~ (Never|TrustAll|PackageOptional) ]] || fail "[$repository] must require trusted package signatures"
   done <<<"$repositories"

@@ -59,7 +59,7 @@ jobs:
       - name: Install image-building tools
         run: |
           sudo apt-get update
-          sudo apt-get install --yes libarchive-tools dosfstools e2fsprogs gnupg parted python3 rsync xz-utils zerofree
+          sudo apt-get install --yes libarchive-tools dosfstools e2fsprogs gawk gnupg jq lua5.4 openssh-client pacman-package-manager parted python3 rsync xz-utils zerofree
 
       - name: Run focused Pi release gates
         # Tagged builds must pass the same regression gates as main.

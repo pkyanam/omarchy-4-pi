@@ -3,6 +3,7 @@
 set -euo pipefail
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/base-test.sh"
 require_command git
+require_command pacman-conf
 unset OMARCHY_RPI4_PACKAGE_POLICY OMARCHY_PACMAN_PROFILE
 
 test_tmp=$(mktemp -d)
@@ -11,6 +12,8 @@ mkdir -p "$test_tmp/bin" "$test_tmp/source"
 export OMARCHY_RPI4_PROFILE="$test_tmp/profile" CALL_LOG="$test_tmp/calls"
 export REAL_GIT
 REAL_GIT=$(command -v git)
+export REAL_PACMAN_CONF
+REAL_PACMAN_CONF=$(command -v pacman-conf)
 "$REAL_GIT" -C "$test_tmp/source" init -q -b main
 "$REAL_GIT" -C "$test_tmp/source" -c user.name=Test -c user.email=test@example.invalid commit -qm initial --allow-empty
 "$REAL_GIT" -C "$test_tmp/source" remote add origin https://github.com/pkyanam/omarchy-4-pi.git
@@ -47,6 +50,9 @@ cat >"$test_tmp/bin/omarchy-hw-aarch64" <<'SH'
 SH
 cat >"$test_tmp/bin/pacman-conf" <<'SH'
 #!/bin/bash
+if [[ -n ${TEST_PACMAN_CONFIG:-} && ${!#} == "SigLevel" ]]; then
+  exec "$REAL_PACMAN_CONF" --config "$TEST_PACMAN_CONFIG" "$@"
+fi
 case "$*" in
   Architecture) printf '%s\n' "${TEST_PACMAN_ARCH:-aarch64}" ;;
   --repo-list) printf '%s\n' "${TEST_REPOS-omarchy
@@ -96,6 +102,32 @@ reject() {
   fi
   [[ ! -s $CALL_LOG ]] || fail "unsafe update reached source, repository or package mutation" "$(cat "$CALL_LOG")"
 }
+
+# A repository with no SigLevel override returns no values, even though
+# pacman inherits its global policy. Exercise the actual parser, not a mock
+# that accidentally supplies a fully resolved repository policy.
+write_signature_config() {
+  local global=$1 override=$2 repository
+  printf '[options]\nArchitecture = aarch64\nSigLevel = %s\n' "$global" >"$test_tmp/pacman.conf"
+  for repository in omarchy core extra alarm; do
+    printf '\n[%s]\nServer = https://repo.invalid/$arch\n' "$repository" >>"$test_tmp/pacman.conf"
+    if [[ $repository == "omarchy" && -n $override ]]; then
+      printf 'SigLevel = %s\n' "$override" >>"$test_tmp/pacman.conf"
+    fi
+  done
+}
+export TEST_PACMAN_CONFIG=$test_tmp/pacman.conf
+write_signature_config 'Required DatabaseOptional' ''
+omarchy-update-rpi4-guard
+for override in Optional 'Required TrustAll'; do
+  write_signature_config 'Required DatabaseOptional' "$override"
+  reject omarchy-update-rpi4-guard
+done
+write_signature_config Optional ''
+reject omarchy-update-rpi4-guard
+unset TEST_PACMAN_CONFIG
+pass "real pacman-conf inheritance accepts required trusted packages and rejects unsafe overrides or defaults"
+
 reject env TEST_ARCH=x86_64 omarchy-update-rpi4-guard
 reject env TEST_PACMAN_ARCH=x86_64 omarchy-update-rpi4-guard
 reject env TEST_REPOS=$'core\nomarchy\nextra\nalarm' omarchy-update-rpi4-guard

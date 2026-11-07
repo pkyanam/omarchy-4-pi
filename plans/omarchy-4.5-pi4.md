@@ -74,3 +74,7 @@ Preetham has one 4GB Pi 4 and one 8GB Pi 4, neither currently running Omarchy. P
 ## User boot report — November 7, 2026
 
 Preetham reports that the candidate boots and runs and has deferred SSH validation for now. This confirms user-observed boot and basic operation; the exact board variant and workload measurements were not supplied. The earlier no-boot-result statements describe the build-time evidence. Detailed hardware and performance qualification remains deferred, with no SSH access requested again.
+
+## Production publication follow-up
+
+The production image from `970c8950` passed the 192 mounted-root invariants, native Hyprland parser and filesystem checks, but a new installed-runtime probe caught a real updater issue: `pacman-conf --repo NAME SigLevel` returns no value when that repository inherits the global signature policy. The previous fixture supplied a resolved value and missed the refusal. The guard now reads global `SigLevel` only when the repository value is absent; explicit unsafe overrides still fail. The focused regression uses the real pacman parser, fails on the old guard, and passes with inherited required/trusted signatures while rejecting optional or untrusted policies. Logs: `build/validation/release-signature-inheritance-{red,green}.log`. The image is being rebuilt from the corrected main commit before publication; no failed or patched diagnostic image is published.

@@ -1,6 +1,6 @@
-# Pi 4 alpha: gentle defaults, optional clock trials
+# Pi 4.5: gentle defaults, optional clock trials
 
-Target: Raspberry Pi 4 Model B with 4GB+ RAM. [Alpha `v0.2.0-alpha.2`](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.2) is a testing release, not a new RC or a replacement for the stable image. Automated tests cannot establish overclock stability, storage integrity under load, or Raspberry Pi OS performance parity.
+Target: Omarchy 4 Pi 4.5 on Raspberry Pi 4 Model B with 4GB or 8GB RAM. These policies are included in the [4.5 release](releases/v4.5.0.md); clock trials remain optional. Automated tests cannot establish overclock stability, storage integrity under load, or Raspberry Pi OS performance parity.
 
 ## Improvements without overclocking
 
@@ -8,7 +8,7 @@ Target: Raspberry Pi 4 Model B with 4GB+ RAM. [Alpha `v0.2.0-alpha.2`](https://g
 - **Memory:** a Pi-specific zram configuration provides logical compressed swap sized at half of RAM (roughly 2GB on a 4GB board). It is not preallocated RAM. Compression uses the kernel's default: the inspected ALARM configuration enables LZO/LZO-RLE but not zstd, so demanding zstd would fail. Later-named local drop-ins retain precedence. App-scope oomd policy is installed explicitly because upstream's ARM package recipe omits it; the compositor's session slice is not made a kill candidate.
 - **SD-card pressure:** dirty-writeback thresholds are 32MiB/128MiB; persistent journals are limited to 128MiB with seven-day retention, runtime journals to 32MiB. There is no forced vacuum, volatile-only logging, swapoff, or filesystem durability shortcut.
 - **Builds:** makepkg defaults to at most two compiler jobs on a 4GB board, reduced to one when available RAM is below 2GiB. Local zstd package compression uses level 3 and bounded threads instead of archival settings. Explicit caller/user build budgets take precedence. No `-march=native`, global fast-math, or signature bypass is introduced.
-- **Recipe stability:** `image/omarchy-pkgs.commit` pins the reviewed recipe revision instead of silently following a moving branch. This does not freeze rolling Arch Linux ARM packages or all recipe source downloads.
+- **Recipe stability:** `image/omarchy-pkgs.commit` pins the reviewed recipe revision instead of silently following a moving branch. The 4.5 image uses the reviewed stable ARM repository set; the recipe pin does not freeze all repository contents or source downloads.
 
 The inspected kernel and recipe are linked in [the hardware audit](rpios-driver-audit.md). Linux's Raspberry Pi CPUFreq driver queries firmware clock limits at runtime, so a firmware clock setting can be useful without copying a foreign kernel module. [CPUFreq source](https://github.com/torvalds/linux/blob/master/drivers/cpufreq/raspberrypi-cpufreq.c). An unset zram compression option uses the kernel default. [Generator reference](https://github.com/systemd/zram-generator/blob/main/man/zram-generator.conf.md).
 
@@ -74,4 +74,4 @@ Later boot-config edits are never overwritten. If the file changed after staging
 
 Tests cover preview non-mutation, included conflicts, ambiguous paths, board/health refusal, backups, repeat-apply refusal, post-reboot confirmation, timeout/heat/voltage rollback, missing CPU controls, restoration idempotence, later-edit preservation, benchmark cleanup, budgets, and setup/audit integration. The image gate requires the implementations and policies and rejects an already-overclocked image.
 
-Before promotion, boot the real 4GB Pi at stock clocks. Verify `zramctl`, `swapon --show`, `systemctl --failed`, CPU policy, HDMI/lock/wake, networking/audio, and the Imager hostname after reboot. Test clocks only after that baseline and recovery preparation. Hardware performance parity remains unmeasured. This alpha keeps the established ALARM boot/driver path; the vendor-kernel/media experiment stays separate.
+Before tuning, establish a baseline on your own board at stock clocks. Verify `zramctl`, `swapon --show`, `systemctl --failed`, CPU policy, HDMI/lock/wake, networking/audio, and the Imager hostname after reboot. Test clocks only after that baseline and recovery preparation. Hardware performance parity remains unmeasured. The 4.5 port keeps the established ALARM boot/driver path; the vendor-kernel/media experiment stays separate.

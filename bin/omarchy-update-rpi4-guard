@@ -25,7 +25,7 @@ unset OMARCHY_RPI4_SOURCE OMARCHY_PACMAN_PROFILE OMARCHY_RPI4_PACKAGE_POLICY
 # shellcheck source=/dev/null
 source "$profile"
 [[ ${OMARCHY_RPI4_PACKAGE_POLICY:-} == "stable-4.5" && ${OMARCHY_PACMAN_PROFILE:-} == "rpi4" ]] ||
-  fail "legacy rolling ALARM profile: no automatic repository switch or partial downgrade is supported. Back up personal data and flash the complete 4.5 Pi candidate to spare media; keep the old card for recovery. A coherent in-place transition still requires validation. No repositories or packages were changed."
+  fail "legacy rolling ALARM profile: no automatic repository switch or partial downgrade is supported. Back up personal data and flash the complete 4.5 Pi image to spare media; keep the old card for recovery. A coherent in-place transition still requires validation. No repositories or packages were changed."
 
 if [[ $mode != "packages" ]]; then
   checkout=${OMARCHY_RPI4_SOURCE:-}

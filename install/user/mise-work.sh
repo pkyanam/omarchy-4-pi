@@ -2,7 +2,7 @@
 mkdir -p "$HOME/Work/tries"
 
 # Pi images promise an offline Node runtime as well as the lazy default shims.
-# Preload the factory-verified bundle into mise's install store, without
+# Preload the installer-verified bundle into mise's install store, without
 # selecting a version or writing the user's config. User pins and opt-out stay
 # in force; ordinary user finalization needs only the offline shims in mise.sh.
 if [[ ${OMARCHY_SETUP_CONTEXT:-runtime} == "provision-owner" ]] &&
@@ -43,6 +43,11 @@ try:
   match = re.fullmatch(r"node-v([0-9]+\.[0-9]+\.[0-9]+)-linux-arm64\.tar\.gz", bundle.name)
   if not match:
     raise ValueError("the ARM64 Node archive has an invalid version")
+  # A standalone OEM installation has the verified download receipt but no
+  # disk-image manifest. An existing image manifest is always authoritative;
+  # malformed or mismatching image provenance must not trigger a fallback.
+  if not manifest.exists():
+    manifest = packages / "node-bundle.json"
   receipt = json.loads(manifest.read_text())["node_bundle"]
   expected = receipt["sha256"]
   if receipt["filename"] != bundle.name or not re.fullmatch(r"[0-9a-f]{64}", expected):

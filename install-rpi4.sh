@@ -284,6 +284,15 @@ stage_node_tarball() {
     -name 'node-v*-linux-*.tar.gz' -delete
   sudo install -m 0644 "$temporary/$filename" \
     "/var/lib/omarchy/provisioning/packages/$filename"
+  # Standalone --image installs do not run the full disk-image manifest writer.
+  # Keep the verified download identity beside the bundle for offline setup.
+  python3 -I - "$filename" "$expected" >"$temporary/node-bundle.json" <<'PY'
+import json
+import sys
+print(json.dumps({"node_bundle": {"filename": sys.argv[1], "sha256": sys.argv[2]}}))
+PY
+  sudo install -m 0644 "$temporary/node-bundle.json" \
+    /var/lib/omarchy/provisioning/packages/node-bundle.json
   rm -rf "$temporary"
 }
 

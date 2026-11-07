@@ -97,6 +97,59 @@ run_setup || fail "an interrupted staging directory cannot block a fresh unpack"
 grep -Fxq 'offline mise reshim --system' "$TEST_CALLS" && grep -Fxq 'offline mise reshim' "$TEST_CALLS" || fail "offline setup requests both sets of native lazy shims"
 pass "offline owner setup preloads ARM64 Node and requests lazy shims without network or config writes"
 
+# Standalone --image installs retain the verified download receipt without
+# constructing a disk manifest. It must protect the same offline preload.
+mkdir "$test_tmp/upstream"
+cp "$test_tmp/packages/node-v24.2.0-linux-arm64.tar.gz" "$test_tmp/upstream/"
+python3 -I - "$test_tmp/upstream" <<'PY'
+import hashlib
+from pathlib import Path
+import sys
+root = Path(sys.argv[1])
+archive = root / "node-v24.2.0-linux-arm64.tar.gz"
+digest = hashlib.sha256(archive.read_bytes()).hexdigest()
+(root / "SHASUMS256.txt").write_text(f"{digest}  {archive.name}\n")
+PY
+sed -n '/^stage_node_tarball() {$/,/^}$/p' "$ROOT/install-rpi4.sh" |
+  sed "s|/var/lib/omarchy/provisioning/packages|$test_tmp/packages|g" >"$test_tmp/stage-node.sh"
+cat >>"$test_tmp/stage-node.sh" <<'SH'
+log() { :; }
+fail() { echo "$*" >&2; exit 1; }
+sudo() { "$@"; }
+curl() {
+  local output="" url=""
+  while (( $# )); do
+    case $1 in
+      --output) output=$2; shift 2 ;;
+      --retry) shift 2 ;;
+      --*) shift ;;
+      *) url=$1; shift ;;
+    esac
+  done
+  [[ $url == https://nodejs.org/dist/latest/* ]] || return 97
+  if [[ -n $output ]]; then
+    cp "$TEST_NODE_UPSTREAM/${url##*/}" "$output"
+  else
+    cat "$TEST_NODE_UPSTREAM/${url##*/}"
+  fi
+}
+stage_node_tarball
+SH
+rm -rf "$test_tmp/home/.local/share/mise/installs"
+rm -f "$test_tmp/packages/"*
+TEST_NODE_UPSTREAM="$test_tmp/upstream" bash -e "$test_tmp/stage-node.sh" || fail "standalone installer stages a verified Node bundle and receipt"
+rm "$test_tmp/manifest.json"
+run_setup || fail "standalone OEM setup uses its verified bundle receipt" "$(cat "$test_tmp/setup.log")"
+[[ -x $install/bin/node ]] || fail "standalone OEM setup installs the complete runtime"
+printf 'tampered' >>"$test_tmp/packages/node-v24.2.0-linux-arm64.tar.gz"
+if run_setup; then fail "standalone bundle receipt rejects changed archive bytes"; fi
+make_bundle valid
+cp "$test_tmp/manifest.json" "$test_tmp/packages/node-bundle.json"
+printf '{invalid' >"$test_tmp/manifest.json"
+if run_setup; then fail "an invalid image manifest cannot fall back to the standalone receipt"; fi
+make_bundle valid
+pass "standalone OEM receipts support offline setup while preserving manifest and checksum failures"
+
 # A missing or malformed archive is required-setup failure; it cannot create a
 # partial version or fall back to an online mise install. Retry after repair.
 for mode in missing corrupt checksum incomplete x86 escape; do

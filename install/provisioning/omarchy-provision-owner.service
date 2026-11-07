@@ -21,6 +21,7 @@ Conflicts=getty@tty1.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+Environment=OMARCHY_PATH=/usr/share/omarchy
 ExecStartPre=-/usr/bin/plymouth quit
 ExecStart=/usr/bin/omarchy-provision-owner
 StandardInput=tty

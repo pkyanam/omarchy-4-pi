@@ -2,7 +2,9 @@
 
 ## Status
 
-Source integration and focused fixture validation are complete on `codex/omarchy-4.5-pi4`. Baseline: `393f48c3` on this fork's `main`. Target: upstream's released `v4.5.0`, commit `ac2690cd7be4f47e4a255f5e2e78d904d436b068`. Both trees retain `4.0.0.alpha` in the legacy version file; actual installed version reporting uses package metadata. The adapted core/settings pair now declares `4.5.0.pi4.1-1` using reviewed recipes at `c7a1ef7f86cccab072fb11f22564862c03f50199`. Native ARM64 signed package installation and local core construction have completed; the final image is being rebuilt with issues found by native validation and independent review corrected. This work does not yet constitute a hardware-tested image or a supported in-place 4.5 upgrade.
+The Omarchy 4.5 Pi 4 candidate is built and verified locally. Its exact clean source is `3710ff523aece0229a1383597c00d6894bb30e13` on `codex/omarchy-4.5-pi4`; later documentation commits record this result. Baseline: `393f48c3` on this fork's `main`. Upstream: released `v4.5.0`, commit `ac2690cd7be4f47e4a255f5e2e78d904d436b068`. The adapted core/settings pair is `4.5.0.pi4.1-1`, using reviewed recipes at `c7a1ef7f86cccab072fb11f22564862c03f50199`. The legacy source `version` file remains upstream's `4.0.0.alpha`; installed version reporting uses package metadata. Physical Pi 4 boot and performance qualification remain outstanding, and no in-place rolling-to-stable upgrade or Pi 5 support is claimed.
+
+Artifacts are in `build/image/`: `omarchy-4-pi-20261107-3710ff52-minimal-candidate.img.xz`, its `.sha256`, `.manifest.json`, `.audit.txt`, matching `.os-list.json` and `os-list.json`. The image is 2,844,278,596 bytes (2.649 GiB), expands to 12 GiB, and records 858 installed packages. Compressed SHA-256: `7bd9f6efc8a4157b5e542ab257842705d52e9de43760cbf427155e773f291bcb`. See [the local flashing and verification guide](../build/image/README.md). No media was flashed and no public release was published.
 
 The immediate targets are Raspberry Pi 4 Model B with 4GB and 8GB RAM. Raspberry Pi 5 with at least 4GB RAM is a later target and must have its own boot, graphics, and hardware validation before support is advertised.
 
@@ -15,7 +17,7 @@ The immediate targets are Raspberry Pi 4 Model B with 4GB and 8GB RAM. Raspberry
 - [x] Audit image construction, first boot, package rebuilding, migrations, and existing-install updates.
 - [x] Establish the focused test baseline and resolve implementation priorities.
 - [x] Integrate the released source and validate Pi-specific fixes with focused fixtures.
-- [ ] Build and audit an ARM64 image if local build resources are available.
+- [x] Build and audit an ARM64 image using the bounded native Linux builder.
 - [ ] Validate the running desktop and representative workloads on physical Pi 4 hardware.
 - [x] Record release gates, rollback procedures, and remaining Pi 5 work.
 
@@ -60,6 +62,8 @@ The [independent final source review](omarchy-4.5-final-review.md) found OEM env
 The fourth native build passed its actual Hyprland parser and 190 of 191 mounted-image checks. The remaining check incorrectly demanded a package literally named `chromium`; the resolved, signed `omarchy-chromium-bin` package supplies Chromium. The audit now reads installed `Provides` metadata and separately requires the browser launcher. Its root-owned fixture passes and rejects a missing provider declaration or launcher (`build/validation/linux/rootfs-provider-audit.log`). A fresh build will include the correction.
 
 Native runtime checks on that otherwise complete fourth image passed in a disposable overlay over the read-only raw image, with networking disabled: Hyprland, Quickshell and titlebar-library dependencies resolve; Quickshell runs; the packaged systemd unit definitions verify; a new Pi user's fontconfig resolves Paper Mono; verified Node `v26.13.0` and npm `11.20.0` execute through the actual mise shims without a user mise config or a global offline-mode override; and two fresh pacman keyrings populate from packaged public trust with distinct private-master identities. The offline reshim step warns about uninstalled lazy agent tools, which are intentionally not downloaded in this check. Evidence: `build/validation/native-runtime-preflight.log`; procedure: `build/validation/audit-native-runtime.sh`. These checks do not boot systemd, load the titlebar plugin into a running compositor, render a desktop, or exercise physical Pi hardware.
+
+Final build: `build/validation/candidate-image-build-5.log` records successful native signed package installation, local core construction, the actual Hyprland parser, all 192 mounted-image invariants, clean ext4 and FAT checks, compression, catalog generation, host copy, and original-hash/host-URL validation. The final image also passed the disposable-overlay runtime checks above, adding actual Chromium `148.0.7778.96` startup (`build/validation/native-runtime-final.log`). The copied manifest is strict JSON with clean candidate provenance and the complete final package inventory; its source commit and hashes match the delivered artifacts. Raspberry Pi Imager 2.0.12 is installed on the Mac and meets the launcher's minimum version. The remaining gate requires Preetham's 4GB and 8GB boards: first boot and retry ordering, desktop rendering/input/audio/network, actual hardware acceleration, and controlled resource/thermal workloads. No physical validation result is inferred from these local checks.
 
 ## Validation access
 

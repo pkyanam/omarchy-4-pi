@@ -62,6 +62,8 @@ For the complete desktop and system integration with the explicitly optional app
 
 Minimal mode still includes the compositor/titlebar/shell combination, browser, file manager, terminal, themes, notifications, lock screen, and applications needed by the 4.5 migrations. Available optional applications can be installed later from the same reviewed repositories.
 
+Use committed tracked source. If a fresh installation fails, rerun the same checkout as the same user with the original options plus `--resume`, for example `./install-rpi4.sh --minimal --resume`. The root-owned checkpoint must match; completed default seeding is skipped. This option does not permit replaying setup on completed or legacy installations.
+
 Reboot after the installer finishes:
 
 ```bash

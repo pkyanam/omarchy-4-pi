@@ -1,6 +1,6 @@
-# Omarchy 4.5 candidate on Raspberry Pi 4 Model B
+# Omarchy 4.5 on Raspberry Pi 4 Model B
 
-This port prepares the released Omarchy 4.5 desktop for native ARM64 on Pi 4 Model B with 4GB or 8GB RAM. The [work ledger](../plans/omarchy-4.5-pi4.md) records the checks completed for this candidate; both physical-board variants still need qualification. Upstream's new ARM support supplies useful binaries, while this port retains the Raspberry Pi boot and provisioning flow. Pi 5 remains deferred.
+This port provides the released Omarchy 4.5 desktop for native ARM64 on Pi 4 Model B with 4GB or 8GB RAM. Start with the [published release and quick start](../README.md). The maintainer reported the preceding candidate booting and running; detailed qualification of both memory variants remains open. The [work ledger](../plans/omarchy-4.5-pi4.md) separates that report from automated checks and pending hardware work. Upstream's new ARM support supplies useful binaries, while this port retains the Raspberry Pi boot and provisioning flow. Pi 5 remains deferred.
 
 ## What the port changes
 
@@ -21,7 +21,7 @@ Connect Ethernet for the first installation when possible. Wi-Fi is managed by N
 
 ## Fresh images first
 
-Use the image factory below for the first 4.5 candidate, and flash spare media so the old system remains recoverable. Factory checks cover the complete package transaction, target filesystem, provenance, and packaged Hyprland parser. They cannot replace a real boot or desktop test. A development branch retains its actual name and intentionally cannot use the production `origin/main` updater.
+Use the [4.5 release image](https://github.com/pkyanam/omarchy-4-pi/releases/latest), or build from clean `main` with the image factory below. Flash spare media so the old system remains recoverable. Factory checks cover the complete package transaction, target filesystem, provenance, and packaged Hyprland parser. They cannot replace a real boot or desktop test. A development branch retains its actual name and intentionally cannot use the production `origin/main` updater.
 
 The following direct-install route is for a disposable, fresh ALARM system. It has its own validation gate; it is not an upgrade procedure for an existing Omarchy card. The installer refuses an already-provisioned system before changing repositories or user defaults.
 
@@ -46,7 +46,7 @@ In `visudo`, uncomment the `%wheel ALL=(ALL:ALL) ALL` line. Log out of the defau
 
 ## 2. Install the port
 
-Use a reviewed checkout containing the 4.5 integration, then run its installer as the regular user:
+Clone `https://github.com/pkyanam/omarchy-4-pi.git`, select its clean `main` branch, and run the installer from that checkout as the regular user:
 
 ```bash
 ./install-rpi4.sh

@@ -43,6 +43,19 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Verify tagged production source
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          # A published image must carry an observed main tracking ref. Tags
+          # on other commits remain source history, not production images.
+          git fetch origin main
+          if [[ $(git rev-parse HEAD) != "$(git rev-parse origin/main)" ]]; then
+            echo 'Release tags must identify the current origin/main commit.' >&2
+            exit 1
+          fi
+          git switch --force-create main "$GITHUB_SHA"
+          git branch --set-upstream-to=origin/main main
+
       - name: Install image-building tools
         run: |
           sudo apt-get update

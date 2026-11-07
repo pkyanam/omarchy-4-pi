@@ -7,3 +7,6 @@ __pycache__/
 /build/
 /build-output-rpi4/
 .claude/
+
+# macOS Finder metadata
+.DS_Store

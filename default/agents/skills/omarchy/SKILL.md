@@ -29,6 +29,7 @@ matching guide before starting:
 - [`hooks.md`](hooks.md) - automation hooks that run on system events
 - [`capture.md`](capture.md) - screenshots, screen recordings, OCR text capture, and file sharing
 - [`contributing.md`](contributing.md) - reporting Omarchy bugs and submitting fixes upstream
+- [`raspberry-pi.md`](raspberry-pi.md) - Omarchy 4 Pi diagnostics, resource limits, updates and boot-specific repairs
 
 ## Critical Safety Rules
 

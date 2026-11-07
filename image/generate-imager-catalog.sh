@@ -51,7 +51,7 @@ catalog = {
     "devices": [
       {
         "name": "Raspberry Pi 4",
-        "description": "Raspberry Pi 4 Model B, 4GB or 8GB (candidate validation required)",
+        "description": "Raspberry Pi 4 Model B with 4GB or 8GB RAM",
         "icon": "https://downloads.raspberrypi.com/imager/icons/RPi_4.png",
         "tags": ["pi4-64bit", "pi4-32bit"],
         "matching_type": "inclusive",
@@ -63,7 +63,7 @@ catalog = {
   "os_list": [
     {
       "name": "Omarchy 4 Pi",
-      "description": "Omarchy Quattro for Raspberry Pi 4 Model B with 4GB+ RAM — Hyprland, Quickshell, and tiny-board energy.",
+      "description": "Omarchy 4.5 for Raspberry Pi 4 Model B with 4GB or 8GB RAM — Hyprland, Quickshell and built-in agent skills.",
       "url": url,
       "icon": icon,
       "website": website,

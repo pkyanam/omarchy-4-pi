@@ -12,7 +12,7 @@ body:
     attributes:
       label: Release and build commit
       description: Read source_commit from /usr/share/omarchy-rpi4/build-manifest.json.
-      placeholder: v0.1.0-rc.1, source commit…
+      placeholder: v4.5.0, source commit…
     validations:
       required: true
 

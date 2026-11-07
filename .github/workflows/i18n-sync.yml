@@ -39,6 +39,9 @@ concurrency:
 
 jobs:
   prepare:
+    # The Pi fork imports upstream translations and keeps only main. This
+    # upstream automation writes a separate branch and must not run here.
+    if: github.repository == 'omacom/omarchy'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:

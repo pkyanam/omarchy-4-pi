@@ -1,217 +1,193 @@
-<div align="center">
-  <img src="docs/assets/hero.png" alt="Omarchy 4 Pi artwork: a lime-lit Raspberry Pi on dark tiled circuit surfaces" width="100%">
+<p align="center">
+  <img src="docs/assets/hero.png" alt="Omarchy mark × Raspberry Pi logo" width="100%">
+</p>
 
-  # Omarchy 4 Pi
+# Omarchy 4 Pi · 4.5
 
-  **Tiny board. Big desktop energy.**
+**Omarchy 4.5 for Raspberry Pi 4 Model B, with 4GB or 8GB RAM.** A complete Hyprland and Quickshell desktop, tuned for the Pi, with Codex and the built-in Omarchy skills ready to help you configure, understand, and repair your system.
 
-  The opinionated Omarchy Quattro desktop, remixed for Raspberry Pi 4 Model B with **4GB+ RAM**.
+[**Download 4.5**](https://github.com/pkyanam/omarchy-4-pi/releases/latest) · [Release notes](docs/releases/v4.5.0.md) · [Installation guide](docs/raspberry-pi-4.md) · [Report a problem](https://github.com/pkyanam/omarchy-4-pi/issues/new?template=bug.yml)
 
-  [![Pi port checks](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml/badge.svg)](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml)
-  [![Releases](https://img.shields.io/github/v/release/pkyanam/omarchy-4-pi?include_prereleases)](https://github.com/pkyanam/omarchy-4-pi/releases)
-  [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-</div>
-  [Manual](manual/)
+[![Pi port checks](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml/badge.svg)](https://github.com/pkyanam/omarchy-4-pi/actions/workflows/pi-checks.yml) [![Release](https://img.shields.io/github/v/release/pkyanam/omarchy-4-pi)](https://github.com/pkyanam/omarchy-4-pi/releases/latest) [![MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Hyprland tiling. Quickshell panels. Omarchy themes, launcher, terminal tools, Chromium, and a surprisingly grown-up desktop on a very small computer.
+## Start here
 
-## Omarchy 4.5 candidate
+1. Get a **Pi 4 Model B with 4GB or 8GB RAM**, reliable power, a display, keyboard and mouse, and a **32GB or larger microSD card or USB SSD**.
+2. Open the [4.5 release](https://github.com/pkyanam/omarchy-4-pi/releases/latest), follow its Imager instructions, and write the image to spare media. Flashing erases the selected drive.
+3. Set your username, password, hostname, network, and optional SSH access in **Raspberry Pi Imager 2.0.11 or newer**. Boot and let first-boot setup finish.
+4. Open a terminal and run `omarchy-pi-check`. Then set up Codex below.
 
-This branch integrates the released Omarchy 4.5 source for **Pi 4 Model B with 4GB and 8GB RAM**. It uses a matching signed stable ARM64 package set, keeps the Pi firmware/U-Boot boot path, and prepares fresh accounts with conservative graphics and build defaults. Paper Mono is bundled with its open font license. Pi 5 qualification is deferred.
+**Already using an older Pi image?** Move to 4.5 on spare media and keep your working card. The package repositories changed; an in-place 4.0-to-4.5 upgrade is not supported. [Migration and recovery](docs/pi-upgrade.md).
 
-Source checks, image assembly, and physical-board validation are separate gates. Follow the [4.5 work ledger](plans/omarchy-4.5-pi4.md) and [design and validation guide](docs/omarchy-4.5-pi4.md) for the current evidence. **This candidate has not been qualified on either Pi 4 memory variant.** The older downloads below contain the previous port.
+## Let Codex help
 
-Use spare media for the 4.5 transition. Existing rolling ALARM installations cannot safely switch to the release library set through a partial update; the new updater refuses that transition. See [updates and recovery](docs/pi-upgrade.md). An unpublished candidate branch also intentionally fails the production updater's `origin/main` check.
+Omarchy includes agent integration and a substantial [Omarchy OS skill](default/agents/skills/omarchy/SKILL.md). First-user setup makes it available to Codex automatically, including a [Pi-specific guide](default/agents/skills/omarchy/raspberry-pi.md). The model runs through your provider; the Pi does not need to run a local language model.
 
-## Previously published images
+Choose Codex from the Omarchy menu under **Setup → Default → Agent**, or run:
 
-> [!IMPORTANT]
-> Independent community port—not an official Omarchy or Raspberry Pi product. **Our first general release is available.** The tested RC1 image has been promoted unchanged, retaining its original `v0.1.0-rc.1` tag and download links. The tester reports it working on their Pi 4; the detailed hardware acceptance checklist remains open. See [release notes](docs/releases/v0.1.0-rc.1.md) and the [hardware checklist](https://github.com/pkyanam/omarchy-4-pi/issues/1).
+```bash
+omarchy default agent codex
+```
 
-> **First-release workaround:** disable the screensaver with `omarchy-toggle screensaver-off on`. The original stable image is missing its renderer and can get stuck on idle; screen locking is unaffected. See [recovery instructions](docs/releases/v0.1.0-rc.1.md#known-limits). The new alpha includes the renderer and failure-loop fix.
+This installs Codex when needed and launches it. Connect to the internet and sign in when prompted. On subsequent visits, open your default agent with:
 
-## Try the 4GB-first alpha
+```bash
+omarchy agent
+```
 
-[**v0.2.0-alpha.4**](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.4) refreshes the Pi port with Omarchy 4.0.4's latest desktop, shell, agent-tooling, and maintenance updates while retaining the Pi-specific installer, update safeguards, and conservative 4GB defaults. It is a prerelease—not a new stable release—and uses stock clocks by default. Flash it to a spare card and keep your working install as rollback. See the [release notes](docs/releases/v0.2.0-alpha.4.md).
+Give it a concrete problem. For example:
 
-Open the **alpha** catalog on macOS:
+```text
+Use the Omarchy skill and its Raspberry Pi guide. This is Omarchy 4 Pi 4.5
+on a Raspberry Pi 4. Run omarchy-pi-check and omarchy pi report --json,
+then investigate why [describe the problem]. Read the relevant logs,
+explain the cause, and make the smallest reversible fix. Keep my display,
+font, and theme choices. Verify the result and tell me what changed.
+```
+
+The skill covers desktop settings, Hyprland, themes, plugins, services, and troubleshooting. Ask for user configuration changes in `~/.config/`; package-owned files under `/usr/share/omarchy/` are replaced by updates. A source-code fix belongs in a checkout of this repository following [AGENTS.md](AGENTS.md). Keep the Pi boot chain and `stable-4.5` repositories intact, and never bypass the update guard to force an old card through the transition.
+
+For a build-heavy agent session, especially on 4GB:
+
+```bash
+omarchy pi run --plan -- codex   # Show the resource budget
+omarchy pi run -- codex          # Run Codex in a bounded workload scope
+```
+
+This leaves room for the desktop. It limits resources; it is not a security sandbox. Save your work before long builds. Review logs before sharing them and leave passwords, private keys, and provisioning secrets out of reports.
+
+## Flash with Raspberry Pi Imager
+
+The [release assets](https://github.com/pkyanam/omarchy-4-pi/releases/latest) include the image, checksum, package/source manifest, and filesystem audit. When a whole-image download fits GitHub's asset limit, the release also provides `os-list.json` for direct Imager customization. If the image is split, follow its `REASSEMBLE.txt`, verify every part and the joined image, then use the local helper below.
+
+For a release with `os-list.json`, open its catalog on macOS:
 
 ```bash
 open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.4/os-list.json"
+  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v4.5.0/os-list.json"
 ```
 
-Choose Pi 4, configure your account/network/hostname in Imager, and verify the target card before writing. First-boot hostname provisioning is retained. That image passed 139 assembled-filesystem checks; those historical checks do not qualify the 4.5 candidate. Keep an existing card intact while testing 4.5 on spare media.
+On Linux, pass the same URL to `rpi-imager --repo`. Choose the **Raspberry Pi 4** device and **Omarchy 4 Pi** entry, then configure the account and network before writing. Use a short hostname such as `omarchy-pi`, without `.local`. SSH is opt-in; there is no reusable factory login.
 
-## Flash, boot, make it yours
+### Already downloaded the image?
 
-Designed for **Raspberry Pi 4 Model B with 4GB or more RAM**; 8GB is recommended for larger browser sessions and development workloads. You also need a reliable power supply, HDMI display, and a **32 GB or larger** microSD card or USB SSD. Back up the target drive: flashing erases it. A USB 3 SSD helps with development I/O. Models below 4GB, Pi 5, Pi 400, and other boards are not supported targets for this release.
-
-Install Raspberry Pi Imager **2.0.11 or newer**. On macOS, open the latest Alpha 4 catalog:
+Verify its `.sha256` file from the download directory:
 
 ```bash
-open -n -a "/Applications/Raspberry Pi Imager.app" --args --repo \
-  "https://github.com/pkyanam/omarchy-4-pi/releases/download/v0.2.0-alpha.4/os-list.json"
+# macOS
+shasum -a 256 -c omarchy-4-pi-*.img.xz.sha256
+# Linux
+sha256sum -c omarchy-4-pi-*.img.xz.sha256
 ```
 
-The [Alpha 4 release](https://github.com/pkyanam/omarchy-4-pi/releases/tag/v0.2.0-alpha.4) contains the flashable image, checksum, manifest, audit report, and Imager catalog. It has passed Pi source checks; physical testing of this refreshed image is still needed.
+Clone this repository and give the macOS helper the exact image path:
 
-1. Select the **Raspberry Pi 4** device and **Omarchy 4 Pi** OS entry.
-2. Select your SD card or SSD. Double-check which drive will be erased.
-3. Set your **username, password, hostname, timezone, and keyboard**. Configure Wi-Fi if needed; explicitly enable SSH if you want remote access.
-4. Write and verify. Boot the Pi and let first-boot storage expansion and owner setup finish.
+```bash
+git clone https://github.com/pkyanam/omarchy-4-pi.git
+cd omarchy-4-pi
+image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-RELEASE-minimal.img.xz"
+```
 
-**Use a short hostname such as `omarchy-pi`, without `.local`.** RC1 applies and verifies that name before starting the configured SSH service, and delays Avahi/mDNS advertising until owner provisioning finishes. It does not replace your chosen name with `omarchy`.
+It verifies the image, serves a local catalog on `127.0.0.1`, and opens Imager with customization enabled. Keep the terminal open until flashing finishes. On Linux, use `image/generate-local-imager-manifest.sh IMAGE.img.xz` and open the generated catalog with `rpi-imager --repo`.
 
-From a Mac on the same network:
+Choosing **Use custom** directly in Imager omits the catalog's customization metadata. That path uses the on-screen **Press Return to Start Setup** flow and needs a keyboard. The catalog route supports account and network setup before the first boot.
+
+## After the first boot
+
+Let storage expansion and owner setup finish. Then check:
+
+```bash
+omarchy-pi-check
+omarchy pi report --json
+omarchy-pi-display
+hostnamectl --static
+```
+
+If SSH was enabled, connect from another computer on the same network:
 
 ```bash
 ssh YOUR_USERNAME@omarchy-pi.local
 ```
 
-Complete Imager account settings allow keyboard-free provisioning. The desktop itself is best used with a keyboard and mouse. The factory image has **no reusable default login**, and SSH is opt-in.
+If `.local` does not resolve, use the address shown by your router. Guest networks and client isolation can block discovery. Check actual audio playback and Bluetooth pairing as well as service status.
 
-> [!TIP]
-> Choose the OS through this catalog, **not “Use custom”**, if you want Imager customization. A bare downloaded image does not expose that metadata: “Use custom” leads to the on-screen **Press Return to Start Setup** flow and needs a keyboard.
+For display problems, start with [display recovery](docs/raspberry-pi-4.md#display-recovery). The reversible `omarchy-pi-display nec-ea243wm HDMI-A-1` profile exists for the historically tested NEC EA243WM setup with missing EDID; other displays use their detected preferred modes. Scaling does not fix missing display timings.
 
-### Already downloaded the image?
+## What 4.5 includes
 
-Clone this repository, then run its macOS helper with one exact image path:
-
-```bash
-image/open-in-rpi-imager-macos.sh "/path/to/omarchy-4-pi-RELEASE-minimal.img.xz"
-```
-
-It verifies the image, serves a catalog only to `127.0.0.1`, and opens Imager with customization enabled. Keep the terminal open until flashing finishes. Closing Imager stops the local server.
-
-If the device picker is blank, quit the old Imager window, check the installed version, and reopen with the RC1 catalog above. The catalog includes the device metadata required by Imager 2.x.
-
-## First lap around the desktop
-
-Run these in the Pi's terminal or over SSH:
-
-```bash
-omarchy-pi-check
-omarchy-pi-display
-hostnamectl --static
-```
-
-The health check covers provisioning, graphics, desktop services, networking, audio readiness, Bluetooth readiness, and power/temperature sensors. A running service is **not** proof that speakers play or a Bluetooth peripheral pairs—please test those too.
-
-### NEC EA243WM stuck at 1024×768?
-
-One tested HDMI adapter/cable/monitor setup returned **zero EDID bytes**, so Linux could not discover the NEC's native 1920×1200 mode. Scaling alone cannot fix missing display timings.
-
-RC1 includes an opt-in profile using the native timing that the tester reported working:
-
-```bash
-omarchy-pi-display nec-ea243wm HDMI-A-1
-```
-
-Run interactively as your desktop user (SSH works). It previews **1920×1200 at 60 Hz, scale 1**; type `yes` within 30 seconds only if the picture looks right. Otherwise it attempts to restore the previous mode. A confirmed profile survives login and reboot. To disable it, retaining a backup:
-
-```bash
-omarchy-pi-display reset HDMI-A-1
-```
-
-This profile is specific to that NEC model. Other monitors keep normal preferred-mode detection. A timing override does not repair EDID or guarantee HDMI audio. See [display troubleshooting](docs/raspberry-pi-4.md#display-recovery).
-
-## What's in the box?
-
-| Included | Deliberately different |
+| Area | Included |
 | --- | --- |
-| Native ARM64 Hyprland + Quickshell | Arch Linux ARM packages, not x86 emulation |
-| VC4 KMS, V3D Mesa, Broadcom Vulkan | Pi firmware + U-Boot; no Limine |
-| Chromium, terminal, file manager, themes, core tools | Optional heavyweight/unavailable apps omitted from the minimal image |
-| PipeWire, Bluetooth services, NetworkManager | Hardware playback/pairing still needs broader testing |
-| Automatic root expansion and Imager owner setup | Plain ext4; no disk encryption or Snapper rollback |
-| Pi-aware updates and diagnostics | Upstream x86 package-channel switching is blocked |
+| Desktop | Native ARM64 Hyprland, Quickshell panels, floating workspaces and dock, launcher, notifications, themes and locking |
+| Everyday tools | Chromium, terminal, file manager, editor and the applications required by 4.5 |
+| Agents | Default-agent selection, Codex support, Omarchy skills and Pi resource helpers; agent downloads and authentication need a connection |
+| Typography | Self-hosted Paper Mono with its SIL Open Font License and monospace fallbacks |
+| Graphics | VC4 KMS, V3D Mesa and Broadcom Vulkan packages, with the Pi configuration retained |
+| First boot | Root expansion, Imager customization, owner setup, hostname and opt-in SSH provisioning |
+| Resource policy | Stock clocks, reduced motion, static backgrounds, half-RAM compressed swap, bounded logging and package/build concurrency |
+| Maintenance | Pi-aware updates, signed ARM packages, source/package receipts and retryable failure handling |
 
-“Minimal” means fewer optional applications, **not half a desktop**.
+The image uses Arch Linux ARM, the Pi firmware/U-Boot boot path and plain ext4. “Minimal” omits optional heavyweight applications while keeping the complete desktop. Disk encryption, Limine and automatic Snapper rollback are not part of this image.
+
+The 4.5 candidate **boots and runs on the maintainer's Pi**, as reported on November 7, 2026. Automated validation includes 192 assembled-image checks, native ARM64 Hyprland configuration parsing, dependency and service-unit checks, filesystem checks, and offline Node/npm execution. Detailed performance, media decoding, peripherals and separate 4GB/8GB qualification remain open. **Pi 5 is deferred.** See the [validation ledger](plans/omarchy-4.5-pi4.md).
+
+## Updates and recovery
+
+On the published 4.5 image, back up important files and run:
+
+```bash
+omarchy update
+```
+
+Core updates follow **this repository's `main` branch**, with a clean checkout tracking `origin/main`. The updater verifies the Pi's `stable-4.5` repository policy, maintains the adapted core/settings packages, and stops visibly on failures. Personal display, font and theme choices are preserved. This is a moving `main` update path, not a release-tag selector.
+
+Earlier rolling images need a [fresh-media transition](docs/pi-upgrade.md). Development candidate images retain their actual branch and intentionally fail the production update guard. Do not rename branches or change repository markers to bypass it. Back up the whole card for recovery: a Git reset cannot undo installed packages or boot files, and this ext4 image has no automatic pre-update snapshot.
+
+For performance tuning and recovery, see [Pi tuning](docs/pi-tuning.md). Stock clocks and thermal protection remain the default; Raspberry Pi OS performance parity is a measurement target, not an achieved claim.
 
 ## Build your own image
 
-### Apple-silicon Mac
-
-From a reviewed 4.5 checkout on an Apple-silicon Mac, with Docker Desktop or OrbStack running:
+On an Apple-silicon Mac with Docker Desktop or OrbStack running, from a clean checkout of `main` matching `origin/main`:
 
 ```bash
 image/build-rpi4-image-macos.sh --minimal
 ```
 
-The builder uses native ARM64, at most two workers, and a memory limit that leaves 512MiB for the VM. It keeps staging on a dedicated disk-backed volume and uses bounded xz compression. Artifacts land in `build/image/`. Override `OMARCHY_LOCAL_CPUS` to set a smaller budget, or `OMARCHY_XZ_PRESET=-6` for a smaller, slower download. The source must contain the released 4.5 commit with all merge conflicts resolved. Unpublished or dirty sources retain explicit candidate provenance.
+The builder uses native ARM64, bounded workers and memory, and a private disk-backed workspace. It does not change global VM settings. Artifacts land in `build/image/`. For a smaller download at the cost of a longer build:
 
-### ARM64 Linux or GitHub Actions
+```bash
+OMARCHY_XZ_PRESET=-9e OMARCHY_XZ_MEMORY_MIB=768 \
+  image/build-rpi4-image-macos.sh --minimal
+```
 
-On an ARM64 Ubuntu/Debian host with loop-device support:
+On an ARM64 Debian/Ubuntu host with loop-device support:
 
 ```bash
 sudo apt-get update
-sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted rsync xz-utils zerofree
+sudo apt-get install libarchive-tools dosfstools e2fsprogs gnupg parted python3 rsync xz-utils zerofree
 sudo image/build-rpi4-image.sh --minimal
 ```
 
-Or choose **Actions → Build Raspberry Pi image → Run workflow** on a reviewed source ref. Version tags publish release assets; manual runs retain workflow artifacts. `--full` also requests the explicitly optional applications available from the same signed ARM repositories. Required desktop and migration applications are included in both modes.
+GitHub's **Build Raspberry Pi image** workflow provides the same native ARM64 factory. Use `--full` to request additional optional applications available from the signed repositories. Unpublished or modified source is identified as a candidate.
 
-Each build provides a compressed `.img.xz`, SHA-256 checksum, Imager catalog, package/source manifest, and mounted-root audit report. The image expands from its 12 GiB factory size on first boot. The factory verifies the signed Arch Linux ARM base, removes default accounts and machine identity, checks the actual ARM64 Hyprland configuration, and audits the assembled root filesystem before publishing.
+The factory verifies the signed base filesystem, assembles a coherent stable package set, removes factory accounts and machine identity, validates the packaged Hyprland configuration, and audits the finished filesystem. Every image records source and recipe commits, exact package versions, repository URLs and the verified offline Node bundle. These records provide traceability; mutable repositories prevent a bit-for-bit reproducibility promise.
 
-The 4.5 factory aligns a fresh root filesystem with Omarchy's stable ARM64 packages and matching ALARM mirror. The local core/settings pair retains the Pi adaptations. The manifest records source lineage, recipe identity, server URLs, exact package versions, and the offline Node bundle. Repository URLs and the base filesystem are mutable, so these records establish traceability rather than bit-for-bit reproducibility.
+See [installation and build details](docs/raspberry-pi-4.md) for direct fresh ALARM installation and [the 4.5 design guide](docs/omarchy-4.5-pi4.md) for architecture and validation boundaries.
 
-For existing Arch Linux ARM installs and deeper build details, see the [installation guide](docs/raspberry-pi-4.md).
+## Contribute or report a problem
 
-## Updates and recovery
+Use [Issues](https://github.com/pkyanam/omarchy-4-pi/issues/new?template=bug.yml) for reproducible problems and [Discussions](https://github.com/pkyanam/omarchy-4-pi/discussions) for questions. Include the release or commit, board revision and RAM, power supply, storage, display connection, reproduction steps and reviewed diagnostic output. Do not upload the raw Imager preseed file or network credentials. Report vulnerabilities through [private reporting](.github/SECURITY.md).
 
-Production core updates follow **[pkyanam/omarchy-4-pi](https://github.com/pkyanam/omarchy-4-pi), `origin/main`** and reject unexpected repositories, architectures, and dirty checkouts. The 4.5 path additionally requires the `stable-4.5` profile and matching signed ARM repositories, protects the local core/settings pair, and keeps failed installation work pending for retry.
-
-After a 4.5 installation is on the reviewed production branch, use `omarchy update`. Back up important files first: this ext4 image has no automatic pre-update snapshot. Candidate branches remain outside that production-update contract. Preserve the original card when testing a candidate; flashing erases the selected drive.
-
-**Coming from a 4.0 image or rolling installation?** Follow the [fresh-media transition guide](docs/pi-upgrade.md). Do not bootstrap the current updater onto an old library set or edit repository guards to force it through. An in-place transition needs separate validation on a cloned installation.
-
-If `HOSTNAME.local` does not resolve, try the Pi's IP address from your router. Multicast discovery can be blocked by guest networks or client isolation. Compare `hostnamectl --static` with the non-secret provisioning receipt:
+Agents contributing code should read [AGENTS.md](AGENTS.md), the matching guide in [agents/skills/](agents/skills/), and [docs/testing.md](docs/testing.md). Run focused tests for the changed area and preserve their full output, for example:
 
 ```bash
-sudo jq '{hostname}' /var/lib/omarchy/imager-preseed.json
+bash test/shell.d/rpi-update-safety-test.sh >/tmp/rpi-update-safety.log 2>&1
+cat /tmp/rpi-update-safety.log
 ```
 
-The generic ARM64 kernel may not expose `/dev/vcio_gencmd`; that does not by itself mean power is bad. Pi diagnostics use Linux's native voltage and thermal sensors when the legacy tool is unavailable.
+Graphical acceptance runs in a disposable VM. Physical HDMI, audio, input, Wi-Fi, Bluetooth, power and thermal checks require real boards. A container pass does not replace those checks.
 
-## Small board, considerate agents
+## Credits and license
 
-Included in the alpha (not in the original stable image):
+An independent community port of [Omarchy](https://omarchy.org/) by DHH and contributors, built with [Arch Linux ARM](https://archlinuxarm.org/), [Hyprland](https://hypr.land/), [Quickshell](https://quickshell.org/) and the Raspberry Pi firmware, kernel and Mesa ecosystem. It is not an official Omarchy or Raspberry Pi product.
 
-```bash
-omarchy pi report --json         # Native sensors and memory/I/O pressure, ready for an agent
-omarchy pi run --plan -- make    # Preview the budget without starting a build
-omarchy pi run -- make           # Run a build with room left for the desktop
-```
-
-Use `omarchy pi run -- YOUR_AGENT_COMMAND` for an interactive agent workload. The scope keeps the terminal and working directory, limits CPU use, sets memory pressure/ceiling thresholds, and budgets build jobs from available RAM. Hitting the memory ceiling can kill the workload; save your work. It is resource control, not a security sandbox, and separate runs have separate budgets. No new monitoring daemon or local language model runs in the background.
-
-Our target is **at least Raspberry Pi OS performance on comparable workloads**, not an achieved benchmark claim. Read the [hardware research and benchmark protocol](docs/pi-performance.md). The alpha adds [implemented clock trials, recovery, load-responsive CPU scaling, Pi-specific compressed swap, bounded logging, and gentler package builds](docs/pi-tuning.md). Images still ship at stock clocks with thermal protections intact.
-
-We also [extracted and compared official Raspberry Pi OS driver packages](docs/rpios-driver-audit.md). The Pi 4 wireless firmware is already shared; vendor-kernel media support is a separate candidate to test, not a set of foreign modules to copy into the current kernel.
-
-## Testing and contributing
-
-Reports from real boards are welcome. Start with [a Pi bug report](https://github.com/pkyanam/omarchy-4-pi/issues/new?template=bug.yml) or [Discussions](https://github.com/pkyanam/omarchy-4-pi/discussions). Include the release/commit, Pi revision and RAM, power supply, storage, display connection, reproduction steps, and `omarchy-pi-check` output. Review logs before posting; **never upload Wi-Fi passwords, keys, or the raw preseed file**.
-
-Focused tests:
-
-```bash
-test/shell.d/raspberry-pi-test.sh
-test/shell.d/rpi-imager-preseed-test.sh
-test/shell.d/rpi-owner-hostname-test.sh
-test/shell.d/rpi-display-test.sh
-test/shell.d/rpi-grow-root-test.sh
-test/shell.d/rpi-hyprland-verify-test.sh
-```
-
-Broader Omarchy changes also need the inherited `./test/all` suite on Linux. Graphical acceptance runs in a disposable VM; final HDMI, audio, input, Wi-Fi, Bluetooth, and thermal acceptance requires real hardware. Contributor procedures are in [AGENTS.md](AGENTS.md); suspected vulnerabilities go through [private reporting](.github/SECURITY.md).
-
-Known limits: missing-EDID displays need troubleshooting; high-resolution capture and heavy multitasking can outpace a Pi 4; DSI panels, HATs, boot enclosures, and every board revision have not been validated. RC1 is an invitation to test, not a promise that every peripheral works.
-
-## Credits
-
-Built on [Omarchy](https://github.com/omacom/omarchy) by DHH and contributors, [Arch Linux ARM](https://archlinuxarm.org/), [Hyprland](https://hypr.land/), [Quickshell](https://quickshell.org/), and Raspberry Pi's kernel, firmware, and Mesa ecosystem.
-
-MIT-licensed; upstream attribution is retained. The [header artwork](docs/assets/hero-art-direction.md) is an Omarchy-inspired illustration, not a desktop screenshot—real Pi desktop glamour shots are welcome.
+Code is [MIT licensed](LICENSE), with upstream attribution and separately licensed bundled assets retained. The generated header depicts the Omarchy and Raspberry Pi marks; those marks belong to their respective owners. [Artwork provenance](docs/assets/hero-art-direction.md).

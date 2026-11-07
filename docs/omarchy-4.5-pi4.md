@@ -1,6 +1,6 @@
 # Omarchy 4.5 on Raspberry Pi 4
 
-This document records the design and validation boundary for the 4.5 port. It is not a release announcement. Follow the [work ledger](../plans/omarchy-4.5-pi4.md) for implementation and test results. The immediate targets are Raspberry Pi 4 Model B with 4GB and 8GB RAM; Pi 5 remains a separate, unvalidated target.
+This document records the design and validation boundary for the 4.5 port. For installation, use the [4.5 release notes](releases/v4.5.0.md) and [quick start](../README.md). Follow the [work ledger](../plans/omarchy-4.5-pi4.md) for implementation and test results. The immediate targets are Raspberry Pi 4 Model B with 4GB and 8GB RAM; Pi 5 remains a separate, unvalidated target.
 
 ## What changes in 4.5
 
@@ -10,11 +10,11 @@ The existing Pi fork already contains much of the Quattro architecture, includin
 
 ## Package and boot decisions
 
-The first fresh-image candidate targets the stable 4.5 ARM64 compositor and application packages with their matching Arch Linux ARM library set. The November rolling ALARM graphics libraries differ from the release package dependencies. Selectively mixing those sets can produce an unresolvable package transaction or a plugin/runtime failure. Exact versions, repository observations, recipe identities, and source links are in the [upstream audit](../plans/omarchy-4.5-upstream-audit.md).
+The fresh 4.5 image targets the stable 4.5 ARM64 compositor and application packages with their matching Arch Linux ARM library set. The November rolling ALARM graphics libraries differ from the release package dependencies. Selectively mixing those sets can produce an unresolvable package transaction or a plugin/runtime failure. Exact versions, repository observations, recipe identities, and source links are in the [upstream audit](../plans/omarchy-4.5-upstream-audit.md).
 
 The fork must continue to build its own adapted `omarchy` and `omarchy-settings` packages. Official ARM64 application binaries can reduce source compilation, but official core packages must not overwrite the Pi adaptation. Package signatures remain required. Required runtime packages must be resolved explicitly; silently skipping them can leave a desktop feature missing or stop the migration queue later.
 
-Keep the Pi firmware, U-Boot, `linux-aarch64`, and ext4 layout for this candidate. Generic ARM/PC initramfs fragments, Limine settings, and other vendors' firmware are not interchangeable with that boot chain. The [ALARM Pi 4 instructions](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4) define the board-specific starting point. A vendor-kernel/media experiment must use a separate recoverable image and its own validation results.
+Keep the Pi firmware, U-Boot, `linux-aarch64`, and ext4 layout for this port. Generic ARM/PC initramfs fragments, Limine settings, and other vendors' firmware are not interchangeable with that boot chain. The [ALARM Pi 4 instructions](https://archlinuxarm.org/platforms/armv8/broadcom/raspberry-pi-4) define the board-specific starting point. A vendor-kernel/media experiment must use a separate recoverable image and its own validation results.
 
 Do not silently redirect an existing rolling installation to the new package set or downgrade selected libraries in isolation. Fresh images are the first validation target. An in-place transition is a separate release gate and needs a cloned installation, a complete reviewed transaction, and a working whole-card rollback.
 

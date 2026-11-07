@@ -13,6 +13,9 @@ source "$checkout/install/helpers/rpi4-packages.sh"
 
 install_mode=full
 image_mode=0
+resume_mode=0
+install_identity=""
+install_phase=missing
 
 log() {
   if command -v gum >/dev/null 2>&1; then
@@ -62,7 +65,7 @@ pacman_retry() {
 
 usage() {
   cat <<'USAGE'
-Usage: ./install-rpi4.sh [--minimal] [--image]
+Usage: ./install-rpi4.sh [--minimal] [--image] [--resume]
 
 Installs Omarchy Quattro on a Raspberry Pi 4 Model B already running the
 official Arch Linux ARM aarch64 root filesystem.
@@ -72,6 +75,8 @@ official Arch Linux ARM aarch64 root filesystem.
            are installed as signed ARM binaries in both modes.
 --image    Prepare an OEM image with first-boot owner provisioning instead of
            configuring the user running this command.
+--resume   Retry an interrupted fresh installation using the same user,
+           unchanged source checkout and original --minimal/--image options.
 USAGE
 }
 
@@ -84,6 +89,10 @@ parse_args() {
         ;;
       --image)
         image_mode=1
+        shift
+        ;;
+      --resume)
+        resume_mode=1
         shift
         ;;
       -h|--help)
@@ -102,19 +111,42 @@ device_model() {
   [[ -r $model_file ]] && tr -d '\0' <"$model_file"
 }
 
+install_checkpoint() {
+  sudo bash "$checkout/install/helpers/rpi4-install-state.sh" "$1" "$install_identity"
+}
+
+existing_install() {
+  [[ -e $rpi_profile || -e /var/lib/omarchy/provisioning ||
+    -e /usr/share/omarchy || -e $HOME/.config/omarchy ]]
+}
+
+prepare_install_request() {
+  local source_commit
+  source_commit=$(git -C "$checkout" rev-parse HEAD) || fail "Installation requires a Git checkout."
+  git -C "$checkout" diff --quiet HEAD -- || fail "Commit or preserve tracked source edits before installing."
+  install_identity=$(printf '%s\0' 1 "$UID" "$USER" "$HOME" "$checkout" "$source_commit" "$install_mode" "$image_mode" | sha256sum | cut -d' ' -f1)
+  install_phase=$(install_checkpoint inspect) || fail "Could not validate the fresh-install checkpoint."
+  if [[ $install_phase == "missing" ]]; then
+    (( resume_mode == 0 )) || fail "No interrupted fresh installation exists to resume."
+    # A receipt is created only after this check; a completed or legacy system
+    # cannot opt into a fresh-install replay by passing --resume.
+    if existing_install; then
+      fail "Omarchy is already provisioned. Use 'omarchy update' on a stable-4.5 Pi installation. For a legacy rolling Pi, back up personal data and flash the complete 4.5 candidate to spare media; an in-place repo switch or partial downgrade is not supported."
+    fi
+  elif [[ $install_phase == "complete" ]]; then
+    fail "This fresh installation is complete. Use 'omarchy update'; installation setup cannot be replayed."
+  else
+    (( resume_mode )) || fail "A fresh installation was interrupted. Rerun this unchanged checkout with --resume and the original --minimal/--image options."
+    install_phase=$(install_checkpoint resume) || fail "The interrupted installation does not match this request."
+  fi
+}
+
 check_preconditions() {
   (( EUID != 0 )) || fail "Run this as your regular user, not as root. It uses sudo where needed."
   "$checkout/bin/omarchy-hw-aarch64" || fail "This installer requires Arch Linux ARM aarch64."
   command -v pacman >/dev/null || fail "pacman is required; start from Arch Linux ARM, not Raspberry Pi OS."
   command -v sudo >/dev/null || fail "sudo is required. Install it as root before running this script."
-
-  # Replaying fresh install would reset defaults and provisioning state. An
-  # existing system must use the guarded updater; rolling-to-stable transition
-  # is intentionally unsupported until validated on a disposable clone.
-  if [[ -e $rpi_profile || -e /var/lib/omarchy/provisioning ||
-    -e /usr/share/omarchy || -e $HOME/.config/omarchy ]]; then
-    fail "Omarchy is already provisioned. Use 'omarchy update' on a stable-4.5 Pi installation. For a legacy rolling Pi, back up personal data and flash the complete 4.5 candidate to spare media; an in-place repo switch or partial downgrade is not supported."
-  fi
+  command -v git >/dev/null || fail "git is required to identify the installation source."
 
   local model
   model=$(device_model)
@@ -125,6 +157,7 @@ check_preconditions() {
       fail "Expected a Raspberry Pi 4 Model B, found '${model:-unknown hardware}'."
     fi
   fi
+  prepare_install_request
 }
 
 prepare_build_environment() {
@@ -346,16 +379,27 @@ run_system_setup() {
 
 main() {
   parse_args "$@"
+  local lock_dir="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy-rpi4" install_lock
+  mkdir -p "$lock_dir"
+  exec {install_lock}>"$lock_dir/installer.lock"
+  flock -n "$install_lock" || fail "Another Pi installation is running for this user."
   check_preconditions
   prepare_build_environment
+  if [[ $install_phase == "missing" ]]; then
+    install_checkpoint begin
+  fi
   configure_arm_repositories
   ensure_package_sources
   install_official_packages
   build_omarchy_packages
   install_omarchy_packages
   write_rpi_profile
-  (( image_mode )) || seed_user_defaults
+  if (( image_mode == 0 )) && [[ $install_phase != "seeded" ]]; then
+    seed_user_defaults
+    install_checkpoint seeded
+  fi
   run_system_setup
+  install_checkpoint complete
 
   log "Omarchy Quattro for Raspberry Pi 4 is installed. Reboot to start the desktop."
 }

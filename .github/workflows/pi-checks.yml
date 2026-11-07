@@ -104,6 +104,19 @@ jobs:
             exit 1
           fi
 
+      - name: Verify interrupted installation recovery with root-owned checkpoints
+        if: always()
+        run: |
+          mkdir -p build/pi-checks
+          log=build/pi-checks/rpi-install-resume.log
+          if sudo bash test/shell.d/rpi-install-resume-test.sh >"$log" 2>&1; then
+            cat "$log"
+            echo '| `rpi-install-resume` | passed with root-owned disposable state |' >>"$GITHUB_STEP_SUMMARY"
+          else
+            cat "$log"
+            exit 1
+          fi
+
       - name: Record platform validation boundaries
         if: always()
         run: |

@@ -18,6 +18,8 @@ Keep the Pi firmware, U-Boot, `linux-aarch64`, and ext4 layout for this candidat
 
 Do not silently redirect an existing rolling installation to the new package set or downgrade selected libraries in isolation. Fresh images are the first validation target. An in-place transition is a separate release gate and needs a cloned installation, a complete reviewed transaction, and a working whole-card rollback.
 
+If a direct fresh installation fails, rerun the same checkout as the same user with the original options plus `--resume` (for example, `./install-rpi4.sh --minimal --resume`). A root-owned checkpoint must match the source commit, checkout location, user, home and installation mode. Completed default seeding is skipped on retry; required package and system/user setup is retried. A changed checkout, completed installation, or legacy card cannot use this option to replay setup. Disposable image-factory failures can instead discard their private workspace and rebuild.
+
 ## Pi resource policy
 
 Use the 4GB board as the baseline. Extra memory on the 8GB board permits a larger working set; it does not make the same CPU or GPU faster. Both targets start at stock clocks with thermal protection intact. Neither CPU overclocking nor arbitrary firmware GPU-memory/CMA allocations is a substitute for fixing runtime dependencies or measuring resource use.

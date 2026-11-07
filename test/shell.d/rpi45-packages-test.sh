@@ -64,6 +64,8 @@ if [[ $1 == -Sp ]]; then
 elif [[ $1 == -Q ]]; then
   if [[ $2 == mise-bin ]]; then
     echo "mise-bin ${TEST_MISE_VERSION:-2026.11.2-1}"
+  elif [[ $2 == bluez-utils ]]; then
+    echo "bluez-utils ${TEST_BLUEZ_VERSION:-5.87-2}"
   else
     echo "$2 1.0-1"
   fi
@@ -118,6 +120,22 @@ try: m.verify(selected)
 except ValueError as e: assert 'mise-bin' in str(e)
 else: raise AssertionError('presence-only stale mise verification passed')
 os.environ['TEST_MISE_VERSION']='2026.11.2-1';m.verify(selected)
+# A successful repository install is insufficient for the affected client.
+bluez = [{'NAME': ['bluez-utils'], 'VERSION': ['5.87-2'], 'REPO': 'extra'}]
+assert list(m.install_targets(bluez)) == ['extra/bluez-utils=5.87-2']
+m.verify(bluez)  # Compatibility with the pre-backport system transaction.
+try: m.verify(bluez, require_backports=True)
+except ValueError: pass
+else: raise AssertionError('unpatched Bluetooth client passed final runtime verification')
+os.environ['TEST_BLUEZ_VERSION']='5.87-2.1';m.verify(bluez, require_backports=True)
+assert list(m.install_targets(bluez)) == [], 'reconciliation would downgrade the installed backport'
+bluez[0]['VERSION']=['5.88-1']
+assert list(m.install_targets(bluez)) == ['extra/bluez-utils=5.88-1'], 'backport hid the next signed release'
+try: m.verify(bluez)
+except ValueError: pass
+else: raise AssertionError('old backport hid a newer signed repository version')
+os.environ['TEST_BLUEZ_VERSION']='5.88-1';m.verify(bluez)
+os.environ.pop('TEST_BLUEZ_VERSION')
 # Some stable archives use the package's full spelling without a Provides.
 for record in p:
     if record['NAME']==['neovim']: record.pop('PROVIDES')

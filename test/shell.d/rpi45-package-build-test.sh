@@ -128,3 +128,73 @@ reject_boot TEST_BOOT_FREE=1024
 rm "$test_tmp/boot/Image"
 reject_boot
 pass "Pi boot verification rejects initramfs failure, wrong kernel, unmounted/full boot and missing Linux Image"
+
+# Exercise backport orchestration with package/compiler boundaries stubbed.
+# Production code must reject failed builds and incorrect archives before
+# installation, even when a previous successful build left an archive behind.
+mkdir -p "$test_tmp/bluez-checkout/default/pi"
+cp -a "$ROOT/default/pi/bluez-utils" "$test_tmp/bluez-checkout/default/pi/"
+cat >"$test_tmp/bluez-checkout/default/pi/build-environment.sh" <<'SH'
+omarchy_pi_prepare_build() {
+  export OMARCHY_PI_BUILD_WORK="$TEST_TMP/bluez-work"
+  mkdir -p "$OMARCHY_PI_BUILD_WORK"
+}
+omarchy_pi_cleanup_build() { rm -rf "$OMARCHY_PI_BUILD_WORK"; }
+SH
+cat >"$test_tmp/bin/makepkg" <<'SH'
+#!/bin/bash
+if [[ " $* " == *" --packagelist "* ]]; then
+  echo "$TEST_TMP/bluez.pkg.tar.gz"
+else
+  echo bluez-build >>"$TEST_CALLS"
+  [[ ${TEST_BLUEZ_BUILD_FAIL:-0} == 0 ]] || exit 9
+  printf 'pkgname = bluez-utils\npkgver = %s\narch = %s\n' \
+    "${TEST_BLUEZ_ARTIFACT_VERSION:-5.87-2.1}" "${TEST_BLUEZ_ARCH:-aarch64}" >"$TEST_TMP/.PKGINFO"
+  bsdtar -czf "$TEST_TMP/bluez.pkg.tar.gz" -C "$TEST_TMP" .PKGINFO
+fi
+SH
+cat >"$test_tmp/bin/pacman" <<'SH'
+#!/bin/bash
+if [[ $1 == -Q ]]; then
+  printf 'bluez-utils %s\n' "$(<"$TEST_TMP/bluez-version")"
+elif [[ $1 == -U ]]; then
+  echo bluez-install >>"$TEST_CALLS"
+  [[ ${TEST_BLUEZ_INSTALL_FAIL:-0} == 0 ]] || exit 8
+  echo 5.87-2.1 >"$TEST_TMP/bluez-version"
+else
+  exit 91
+fi
+SH
+cat >"$test_tmp/bin/sudo" <<'SH'
+#!/bin/bash
+[[ $1 == pacman && $2 == -U && $4 == "$TEST_TMP/bluez.pkg.tar.gz" ]] || exit 91
+exec "$@"
+SH
+chmod +x "$test_tmp/bin/makepkg" "$test_tmp/bin/pacman" "$test_tmp/bin/sudo"
+source "$ROOT/install/helpers/rpi4-bluez.sh"
+echo 5.87-2 >"$test_tmp/bluez-version"
+omarchy_pi_install_bluez_backport "$test_tmp/bluez-checkout" || fail "valid Bluetooth backport failed"
+[[ $(<"$test_tmp/bluez-version") == 5.87-2.1 ]] || fail "backport did not install"
+[[ ! -e $test_tmp/bluez-work ]] || fail "backport retained its build workspace"
+builds=$(grep -c '^bluez-build$' "$TEST_CALLS")
+omarchy_pi_install_bluez_backport "$test_tmp/bluez-checkout"
+[[ $(grep -c '^bluez-build$' "$TEST_CALLS") == "$builds" ]] || fail "backport rebuilt unnecessarily"
+echo 5.88-1 >"$test_tmp/bluez-version"
+omarchy_pi_install_bluez_backport "$test_tmp/bluez-checkout"
+[[ $(grep -c '^bluez-build$' "$TEST_CALLS") == "$builds" ]] || fail "backport rebuilt over a newer BlueZ version"
+pass "Bluetooth backport installs once, cleans up and leaves newer versions alone"
+
+for fault in TEST_BLUEZ_BUILD_FAIL=1 TEST_BLUEZ_ARTIFACT_VERSION=5.87-2 TEST_BLUEZ_ARCH=x86_64; do
+  echo 5.87-2 >"$test_tmp/bluez-version"
+  installs=$(grep -c '^bluez-install$' "$TEST_CALLS")
+  if env "$fault" bash -c 'source "$OMARCHY_PATH/install/helpers/rpi4-bluez.sh"; omarchy_pi_install_bluez_backport "$TEST_TMP/bluez-checkout"'; then
+    fail "unsafe Bluetooth backport succeeded" "$fault"
+  fi
+  [[ $(grep -c '^bluez-install$' "$TEST_CALLS") == "$installs" ]] || fail "invalid backport reached installation"
+  [[ ! -e $test_tmp/bluez-work ]] || fail "failed backport retained its build workspace"
+done
+if TEST_BLUEZ_INSTALL_FAIL=1 omarchy_pi_install_bluez_backport "$test_tmp/bluez-checkout"; then
+  fail "failed Bluetooth install was hidden"
+fi
+[[ $(<"$test_tmp/bluez-version") == 5.87-2 ]] || fail "failed install changed version receipt"
+pass "Bluetooth build, artifact and installation failures remain visible and retryable"

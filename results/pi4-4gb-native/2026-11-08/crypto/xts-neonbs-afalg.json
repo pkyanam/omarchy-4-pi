@@ -1,0 +1,315 @@
+{
+  "workload": "af-alg-xts-64k-encrypt-v1",
+  "kernel": "7.3.0-32.1-omarchy",
+  "ciphertext_equal_within_phase": true,
+  "ciphertext_sha256": "31f89a1395c2231af73f5ab8743a93a57ad5990c75d7f60f05323740b12e98ae",
+  "existing_root_changed": false,
+  "storage_io": false,
+  "firmware_throttle": null,
+  "energy": null,
+  "results": [
+    {
+      "pair": 1,
+      "algorithm": "xts(aes)",
+      "phase": "neonbs",
+      "wall_s": 3.0003296240001873,
+      "cpu_s": 2.999379433,
+      "bytes": 247660544,
+      "mib_s": 78.72051727606622,
+      "health": [
+        {
+          "temp_millic": 46738,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 47225,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 47712,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 47225,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48199,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48199,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48199,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 47712,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48199,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 49173,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 49173,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "pair": 2,
+      "algorithm": "xts(aes)",
+      "phase": "neonbs",
+      "wall_s": 3.000330600000325,
+      "cpu_s": 2.999435619,
+      "bytes": 244187136,
+      "mib_s": 77.61644666756882,
+      "health": [
+        {
+          "temp_millic": 49173,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 49660,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 49173,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50147,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 48686,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50147,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 49660,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50147,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ]
+    },
+    {
+      "pair": 3,
+      "algorithm": "xts(aes)",
+      "phase": "neonbs",
+      "wall_s": 3.0004169099997853,
+      "cpu_s": 2.999628379,
+      "bytes": 245039104,
+      "mib_s": 77.88500965354736,
+      "health": [
+        {
+          "temp_millic": 49660,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 49660,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 51608,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 51121,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50147,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50147,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 51121,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "temp_millic": 50634,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ]
+    }
+  ]
+}

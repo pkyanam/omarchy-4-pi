@@ -1,0 +1,5 @@
+# Scalar probe registration refusal
+
+The parent reviewed the scalar helper and verified both running /proc/config.gz and matching headers config against the saved 7.3-32.1 config hash. The first validate-probes registration returned EINVAL for the recorded exact symbol/register expression. It produced no event format and performed no rebind. The helper removed its owned instance/probe attempt; global before/after state matched exactly, taint stayed zero and original binding remained. The tracefs error log was empty. No scalar value or physical UART fact was collected.
+
+The refusal is retained rather than bypassed with guessed offsets, arguments or disabled guards. Source-level ABI review alone did not establish installed acceptance. A new independent source investigation owns the narrow registration failure; it has no Pi authority. Full private snapshots remain in ignored bt-scalar-trace-candidate/parent-formats-1/, including global dynamic-debug policy. attempt-1.json retains sanitized state and source hashes. The source helper is under review and has not yet been committed as a qualified physical tracer.

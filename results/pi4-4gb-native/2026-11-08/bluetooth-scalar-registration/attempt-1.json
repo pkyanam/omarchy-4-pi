@@ -1,0 +1,24 @@
+{
+  "mode": "validate-probes; no rebind",
+  "kernel": "7.3.0-32.1-omarchy",
+  "machine": "aarch64",
+  "running_and_headers_config_sha256": "3b12d3dd8d8b0b24ab95ef96bb1b3388d2440a5bda069ecd74f3c7984a2fd51d",
+  "helper_sha256": "bc43ba662ca9995d830e0ab39031bcc3ac5460684a9120aad415878a4f9b7f48",
+  "transport_helper_sha256": "1c1e9acc5ccd51b4ed8185f2239069ead398771478b77239edf42d9f20d694c1",
+  "first_probe": "p:OWNED_GROUP/write ttyport_write_buf requested=%x2:u64",
+  "result": {
+    "failure": "[Errno 22] Invalid argument",
+    "cleanup_errors": [],
+    "rebind_attempted": false,
+    "physical_evidence": false,
+    "unresolved_worker_pid": null
+  },
+  "before_after_state_equal": true,
+  "taint_before": "0",
+  "taint_after": "0",
+  "global_instances_after": [],
+  "global_dynamic_events_after": "",
+  "global_kprobe_events_after": "",
+  "installed_formats": [],
+  "scalar_observations": null
+}

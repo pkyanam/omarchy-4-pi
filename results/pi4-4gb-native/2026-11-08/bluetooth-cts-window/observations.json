@@ -1,0 +1,453 @@
+{
+  "cohort": "pi4-4gb-native",
+  "kernel": "7.3.0-32.1-omarchy",
+  "fdt_sha256": "d6a876ec0f13de62ef521b4f90677f528341e19512759f81bb16e211dffb0345",
+  "helper_sha256": "08c7112c8e4582838d099b86e202d21d0ece2bf6c0a646bcf8957d879e239766",
+  "observer_exit": 0,
+  "trace_exit": 0,
+  "observer_finished": true,
+  "shared_state_restored": true,
+  "taint_after": "0",
+  "uart_result": {
+    "failure": null,
+    "cleanup_errors": [],
+    "rebind_attempted": true,
+    "physical_evidence": false,
+    "unresolved_worker_pid": null
+  },
+  "capture": {
+    "truncated": false
+  },
+  "probe_profile": "  serial8250_start_tx                                        1               0\n  serial8250_tx_chars                                        0               0\n  serial8250_stop_tx                                         1               0\n  serial8250_rx_chars                                        0               0\n  serial8250_modem_status                                    2               0\n  uart_write_wakeup                                          0               0\n  uart_handle_cts_change                                     0               0\n",
+  "cpu_stats": {
+    "cpu1-stats.txt": "entries: 4\noverrun: 0\ncommit overrun: 0\nbytes: 240\noldest event ts:  6184.858632\nnow ts:  6196.484243\ndropped events: 0\nread events: 0\n",
+    "cpu0-stats.txt": "entries: 0\noverrun: 0\ncommit overrun: 0\nbytes: 0\noldest event ts:     0.000000\nnow ts:  6196.483682\ndropped events: 0\nread events: 0\n",
+    "cpu3-stats.txt": "entries: 0\noverrun: 0\ncommit overrun: 0\nbytes: 0\noldest event ts:     0.000000\nnow ts:  6196.485181\ndropped events: 0\nread events: 0\n",
+    "cpu2-stats.txt": "entries: 0\noverrun: 0\ncommit overrun: 0\nbytes: 0\noldest event ts:     0.000000\nnow ts:  6196.484714\ndropped events: 0\nread events: 0\n"
+  },
+  "samples": [
+    {
+      "nominal_offset_s": 0,
+      "pins_start_s": 0.0007506629999625147,
+      "pins_end_s": 0.0014328639999803272,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.0020823610002480564,
+      "power_end_s": 0.002742284000305517,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006822010000178125,
+        "mux": 0.0006353499993565492,
+        "gpio": 0.0006599230000574607
+      }
+    },
+    {
+      "nominal_offset_s": 0.05,
+      "pins_start_s": 0.05015111300053832,
+      "pins_end_s": 0.05078224000044429,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.0512618120001207,
+      "power_end_s": 0.051716513999963354,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006311269999059732,
+        "mux": 0.0004722200001197052,
+        "gpio": 0.0004547019998426549
+      }
+    },
+    {
+      "nominal_offset_s": 0.1,
+      "pins_start_s": 0.10018026400030067,
+      "pins_end_s": 0.1009835020004175,
+      "pin_levels": {
+        "30": "hi",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.10176733100070123,
+      "power_end_s": 0.10231871799987857,
+      "BT_ON_output_level": "lo",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0008032380001168349,
+        "mux": 0.0007710339996265247,
+        "gpio": 0.000551386999177339
+      }
+    },
+    {
+      "nominal_offset_s": 0.15,
+      "pins_start_s": 0.15014758200049982,
+      "pins_end_s": 0.1508093940001345,
+      "pin_levels": {
+        "30": "hi",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.1512864290007201,
+      "power_end_s": 0.15174516800016136,
+      "BT_ON_output_level": "lo",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.000661811999634665,
+        "mux": 0.0004708319993369514,
+        "gpio": 0.00045873899944126606
+      }
+    },
+    {
+      "nominal_offset_s": 0.2,
+      "pins_start_s": 0.20017895599994517,
+      "pins_end_s": 0.20085037900025782,
+      "pin_levels": {
+        "30": "hi",
+        "31": "hi",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.20134419100031664,
+      "power_end_s": 0.2021288910000294,
+      "BT_ON_output_level": null,
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006714230003126431,
+        "mux": 0.000487015999169671,
+        "gpio": 0.0007846999997127568
+      }
+    },
+    {
+      "nominal_offset_s": 0.25,
+      "pins_start_s": 0.2501692550004009,
+      "pins_end_s": 0.25084128900016367,
+      "pin_levels": {
+        "30": "hi",
+        "31": "hi",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.251372583000375,
+      "power_end_s": 0.251881155000774,
+      "BT_ON_output_level": null,
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006720339997627889,
+        "mux": 0.0005240529999355203,
+        "gpio": 0.0005085720003989991
+      }
+    },
+    {
+      "nominal_offset_s": 0.3,
+      "pins_start_s": 0.3001576650003699,
+      "pins_end_s": 0.3007943290003823,
+      "pin_levels": {
+        "30": "hi",
+        "31": "hi",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.30129851200035773,
+      "power_end_s": 0.3017370840007061,
+      "BT_ON_output_level": "lo",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.000636664000012388,
+        "mux": 0.000497775000440015,
+        "gpio": 0.0004385720003483584
+      }
+    },
+    {
+      "nominal_offset_s": 0.4,
+      "pins_start_s": 0.4001395600007527,
+      "pins_end_s": 0.40078764999998384,
+      "pin_levels": {
+        "30": "hi",
+        "31": "hi",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.40126703700025246,
+      "power_end_s": 0.4016896830007681,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006480899992311606,
+        "mux": 0.00047366499984491384,
+        "gpio": 0.0004226460005156696
+      }
+    },
+    {
+      "nominal_offset_s": 0.5,
+      "pins_start_s": 0.5001390110001012,
+      "pins_end_s": 0.5007758230003674,
+      "pin_levels": {
+        "30": "hi",
+        "31": "hi",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.5013861900006304,
+      "power_end_s": 0.5059160780001548,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006368120002662181,
+        "mux": 0.0005943679998381413,
+        "gpio": 0.004529887999524362
+      }
+    },
+    {
+      "nominal_offset_s": 0.65,
+      "pins_start_s": 0.6501507420007329,
+      "pins_end_s": 0.6508161280007698,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.6512937370007421,
+      "power_end_s": 0.6517332160001388,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006653860000369605,
+        "mux": 0.00047125800028879894,
+        "gpio": 0.0004394789993966697
+      }
+    },
+    {
+      "nominal_offset_s": 0.8,
+      "pins_start_s": 0.8001534360000733,
+      "pins_end_s": 0.8007938410000861,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 0.8012665420001213,
+      "power_end_s": 0.8016999290002786,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006404050000128336,
+        "mux": 0.00046666500020364765,
+        "gpio": 0.0004333870001573814
+      }
+    },
+    {
+      "nominal_offset_s": 1,
+      "pins_start_s": 1.0001448370003345,
+      "pins_end_s": 1.0007965190006871,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 1.00128090599992,
+      "power_end_s": 1.001711515000352,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006516820003525936,
+        "mux": 0.00047847899986663833,
+        "gpio": 0.000430609000432014
+      }
+    },
+    {
+      "nominal_offset_s": 1.5,
+      "pins_start_s": 1.5001425890004612,
+      "pins_end_s": 1.5007811790001142,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 1.5012570660001074,
+      "power_end_s": 1.501690193000286,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006385899996530497,
+        "mux": 0.00047014600022521336,
+        "gpio": 0.0004331270001785015
+      }
+    },
+    {
+      "nominal_offset_s": 2,
+      "pins_start_s": 2.000142175000292,
+      "pins_end_s": 2.0007937830005176,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 2.001285318000555,
+      "power_end_s": 2.0017081680007323,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006516080002256786,
+        "mux": 0.0004849800006923033,
+        "gpio": 0.00042285000017727725
+      }
+    },
+    {
+      "nominal_offset_s": 4,
+      "pins_start_s": 4.000145016000715,
+      "pins_end_s": 4.000787199000115,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 4.001267493000341,
+      "power_end_s": 4.001707379999971,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006421829993996653,
+        "mux": 0.000474535000648757,
+        "gpio": 0.0004398869996293797
+      }
+    },
+    {
+      "nominal_offset_s": 8,
+      "pins_start_s": 8.000142515000334,
+      "pins_end_s": 8.000786956999946,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 8.001270214000215,
+      "power_end_s": 8.001708619000055,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.0006444419996114448,
+        "mux": 0.0004773310001837672,
+        "gpio": 0.00043840499984071357
+      }
+    },
+    {
+      "nominal_offset_s": 11,
+      "pins_start_s": 11.000142398000207,
+      "pins_end_s": 11.00078532200041,
+      "pin_levels": {
+        "30": "lo",
+        "31": "lo",
+        "32": "hi",
+        "33": "hi"
+      },
+      "power_start_s": 11.001267708000341,
+      "power_end_s": 11.001706558000478,
+      "BT_ON_output_level": "hi",
+      "mux_uart_owned_all_four": true,
+      "read_durations_s": {
+        "pins": 0.000642924000203493,
+        "mux": 0.000476183000500896,
+        "gpio": 0.00043885000013688114
+      }
+    }
+  ],
+  "uart_events": [
+    {
+      "relative_s": 0.3801591300007203,
+      "event": "serial8250_modem_status",
+      "values": {
+        "line": 1,
+        "hw_stopped": 1,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      }
+    },
+    {
+      "relative_s": 0.3801741300003414,
+      "event": "serial8250_start_tx",
+      "values": {
+        "line": 1,
+        "hw_stopped": 0,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      }
+    },
+    {
+      "relative_s": 0.5008171300005415,
+      "event": "serial8250_modem_status",
+      "values": {
+        "line": 1,
+        "hw_stopped": 0,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      }
+    },
+    {
+      "relative_s": 0.5008241300001828,
+      "event": "serial8250_stop_tx",
+      "values": {
+        "line": 1,
+        "hw_stopped": 1,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      }
+    }
+  ],
+  "current_dt_proof": {
+    "uart_has_rtscts": false,
+    "uart_skip_init": true,
+    "bt_compatible": "brcm,bcm43438-bt",
+    "bt_max_speed": 230400,
+    "shutdown_offset": 0,
+    "shutdown_flags": 0,
+    "shutdown_controller_compatible": "raspberrypi,firmware-gpio",
+    "shutdown_controller": "soc/firmware/gpio",
+    "shutdown_line_names": "BT_ON\u0000WL_ON\u0000PWR_LED_OFF\u0000GLOBAL_RESET\u0000VDD_SD_IO_SEL\u0000CAM_GPIO\u0000SD_PWR_ON\u0000SD_OC_N"
+  },
+  "limits": [
+    "Sparse GPIO-controller logical level/readback, not continuous voltage or external logic-analyzer measurement.",
+    "Pin and power reads are sequential intervals, not atomic.",
+    "No HCI payload, decoded controller answer or physical TX was measured.",
+    "Observer reads may perturb timing."
+  ]
+}

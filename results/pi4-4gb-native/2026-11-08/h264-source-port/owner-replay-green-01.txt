@@ -1,0 +1,1 @@
+PASS: actual failed-connect/open unwind; production probe/remove/reprobe with old file; admitted ioctl blocks host stop (no buffers/DMA)

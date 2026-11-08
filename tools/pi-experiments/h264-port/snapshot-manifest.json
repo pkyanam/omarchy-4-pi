@@ -1,5 +1,5 @@
 {
-  "status": "NONDEPLOYABLE: 0001-0006 module-compiled; 0007-0008 source-tested only",
+  "status": "NONDEPLOYABLE: 0001-0006 module-compiled; 0007-0010 source-tested only; interrupted IMPORT/setup ownership unsafe",
   "kernel_archive_sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
   "headers_archive_sha256": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
   "files": {
@@ -8,8 +8,8 @@
       "bytes": 6683
     },
     "README.md": {
-      "sha256": "754ae8ec628b8f694f1dc9ce07d29412cd12839c92a24a5d710cb1af812028bc",
-      "bytes": 4895
+      "sha256": "49cde052d0c3387c1d76825de0b711111cf3764c89caec9ee006fd545520cbeb",
+      "bytes": 5674
     },
     ".gitignore": {
       "sha256": "efadd7af44d352f28640d016f474e101095177728361fb384553b7b9e8ea584d",
@@ -51,13 +51,21 @@
       "sha256": "7fa6f34291525191ea93b5e2069f3c3bf5182c6121708cf60daeb29777e35729",
       "bytes": 28504
     },
+    "progress-unit/test.sh": {
+      "sha256": "c104e913d3b6d9df4843110c33c6b018476a1bc2db4987c466554a7a58d8f67d",
+      "bytes": 468
+    },
     "patches/series": {
-      "sha256": "71ce757041b512c5b0d4feb5bb699c9b7fd0279600ded2a3823e82afdfdbfe56",
-      "bytes": 347
+      "sha256": "bd0812349d50a0aa746297bbfe82ee9a90fa99a27d4202a413d30f655eb83c4e",
+      "bytes": 457
     },
     "patches/0001-vcsm-mmal-buffer-services.patch": {
       "sha256": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
       "bytes": 115376
+    },
+    "patches/0009-vcsm-file-admission-and-balanced-connect.patch": {
+      "sha256": "b3fb3bcfce542a2d25899041372ad4eb3e49068c9ff399a0067d3257f4c65c2c",
+      "bytes": 10164
     },
     "patches/0008-mmal-invalid-vc-handle.patch": {
       "sha256": "f47e724292bebae0ab50140cb7c523f76dd260ed7a61d6c73565ec4ccb99d345",
@@ -87,6 +95,10 @@
       "sha256": "aa383f28d3dc47e39bd44b8e224aef85651290c6002af130ed85a8786794cd73",
       "bytes": 4719
     },
+    "patches/0010-vcsm-bind-buffer-release-to-service-generation.patch": {
+      "sha256": "c9ed23863b4aad640fefdeeec78be8ceb03a575178c1ae7103d5187aa8b82676",
+      "bytes": 16666
+    },
     "smio-unit/run.py": {
       "sha256": "b55a0e4458be91a0d4d67eaf28c5fa59cbab625eeebad1175b8c00e5e00a94bc",
       "bytes": 1029
@@ -106,6 +118,38 @@
     "smio-unit/manifest.json": {
       "sha256": "1143d307c302472c93d6d1c658fc6a6dd502e02cdbe7a54fef9d17b6ef685d32",
       "bytes": 18397
+    },
+    "buffer-unit/run.py": {
+      "sha256": "d52a6d0a1e1f433113e47d2345eb995bbd6a86dc1dfe134ad9068e1b978e9836",
+      "bytes": 1470
+    },
+    "buffer-unit/callback-consumers.txt": {
+      "sha256": "a3929bbbde8e3f0ac79515bad24b14820f3b6f03b5d93f4ee336997ae65f3a37",
+      "bytes": 1272
+    },
+    "buffer-unit/shim.c": {
+      "sha256": "e2a34436377aaec7bd9281d74c0b0d6de592d58be7b3b8c355399b6d8f7abfdd",
+      "bytes": 3575
+    },
+    "buffer-unit/cases.c": {
+      "sha256": "79d80db4cb6947a804eee92753deb158a8a0c9a3fa7d82ce73b1cd586fe76f5a",
+      "bytes": 4429
+    },
+    "buffer-unit/README.md": {
+      "sha256": "cd36d24b597be5b150e1090ad7e91daaef0f30e623d32ddfa042d88ab8cb63ee",
+      "bytes": 10495
+    },
+    "buffer-unit/manifest.json": {
+      "sha256": "619482e47282baf3bbb03b1581e35244356396b99a668c6a916d02a76cadcb60",
+      "bytes": 22695
+    },
+    "buffer-unit/boundaries.c": {
+      "sha256": "14ad6a85c95193c4c677d8384969cb8d8f439f2ce9b81eef0e84ac314de55f59",
+      "bytes": 1270
+    },
+    "buffer-unit/test.sh": {
+      "sha256": "04ea63f1dfe558bf96652fd31b8062d5d36de17d06f39c171d0cb12dde6c63ef",
+      "bytes": 464
     },
     "lifecycle-unit/README.md": {
       "sha256": "3ba3047a88bd8067f72cdff06f51b89dae695f5dac6c00471b75741b5bbf9261",
@@ -139,6 +183,34 @@
       "sha256": "527858ce117fe47f8c42f25cef210077972f7331aeee77a44f86ec6d9e8938e6",
       "bytes": 4327
     },
+    "owner-unit/run.py": {
+      "sha256": "7d8be2c2a58245f38762a58a5492a3847fa11350643c3c706ac0de7f2f986c7a",
+      "bytes": 1510
+    },
+    "owner-unit/dmabuf-owner-audit.txt": {
+      "sha256": "bea12b458ee89b60271d6ef717ae6e5f599be0635f2eb68b3208261f18dda55d",
+      "bytes": 889
+    },
+    "owner-unit/shim.c": {
+      "sha256": "1a99cff394940e35b9c7b4df64aa75c97f7a425a98d26871fba56b6b8fc4daae",
+      "bytes": 4705
+    },
+    "owner-unit/cases.c": {
+      "sha256": "0df7c191d42604cdc6bee5d95259008652cc34067ba698d8eb53ee7f64287d0c",
+      "bytes": 2974
+    },
+    "owner-unit/README.md": {
+      "sha256": "d96166b5a184b08671e4c9bd30a231c7093a6146aabb07d0c5dd7cc794fc3535",
+      "bytes": 9796
+    },
+    "owner-unit/manifest.json": {
+      "sha256": "304f6801fce4144f3f8d74b1ee17ea20963ece28b4ae7f7dcd84f86098101e5d",
+      "bytes": 21365
+    },
+    "owner-unit/test.sh": {
+      "sha256": "fd5ab7a2855ecd73c4d6cd3705f6e8af31029537fcb75f61427241626467960f",
+      "bytes": 462
+    },
     "mmal-invalid-handle/fix.patch": {
       "sha256": "f47e724292bebae0ab50140cb7c523f76dd260ed7a61d6c73565ec4ccb99d345",
       "bytes": 675
@@ -166,10 +238,6 @@
     "lifecycle-unit/tests/harness.c": {
       "sha256": "c994a7d24c22383176d8a69e93e1b89d1d43811d442fa467db791c9700b9333c",
       "bytes": 4426
-    },
-    "progress-unit/test.sh": {
-      "sha256": "c104e913d3b6d9df4843110c33c6b018476a1bc2db4987c466554a7a58d8f67d",
-      "bytes": 468
     }
   }
 }

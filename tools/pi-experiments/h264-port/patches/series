@@ -6,3 +6,5 @@
 0006-vchiq-owned-service-removal-completion.patch
 0007-vchiq-balance-unsent-owned-open.patch
 0008-mmal-invalid-vc-handle.patch
+0009-vcsm-file-admission-and-balanced-connect.patch
+0010-vcsm-bind-buffer-release-to-service-generation.patch

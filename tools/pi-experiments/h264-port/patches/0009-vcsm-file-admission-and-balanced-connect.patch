@@ -1,0 +1,363 @@
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+@@ -28,6 +28,7 @@
+ 
+ /* ---- Include Files ----------------------------------------------------- */
+ #include <linux/cdev.h>
++#include <linux/kref.h>
+ #include <linux/device.h>
+ #include <linux/debugfs.h>
+ #include <linux/dma-mapping.h>
+@@ -67,8 +68,19 @@
+ #define VC_SM_DIR_ROOT_NAME	"vcsm-cma"
+ #define VC_SM_STATE		"state"
+ 
++/* File admission identity only. This allocation contains no device/devm or
++ * transport pointers. Files may retain it after unbind; all device access
++ * requires admission under sm_admission_lock while ready is true.
++ * Buffer/firmware generation ownership remains a separate required unit.
++ */
++struct vc_sm_generation {
++	struct kref refs;
++	bool ready;
++};
++
+ /* Private file data associated with each opened device. */
+ struct vc_sm_privdata_t {
++	struct vc_sm_generation *generation;
+ 	pid_t pid;                      /* PID of creator. */
+ 
+ 	int restart_sys;		/* Tracks restart on interrupt. */
+@@ -85,6 +97,7 @@
+ 
+ /* Global state information. */
+ struct sm_state_t {
++	struct vc_sm_generation *generation;
+ 	struct vchiq_device *device;
+ 
+ 	struct miscdevice misc_dev;
+@@ -119,11 +132,59 @@
+ /* ---- Private Variables ----------------------------------------------- */
+ 
+ static struct sm_state_t *sm_state;
+-static int sm_inited;
++static DEFINE_MUTEX(sm_admission_lock);
+ 
+ /* ---- Private Function Prototypes -------------------------------------- */
+ 
+ /* ---- Private Functions ------------------------------------------------ */
++
++static void vc_sm_vpu_event(struct sm_instance *instance,
++			    struct vc_sm_result_t *reply, int reply_len);
++
++static void vc_sm_generation_release(struct kref *ref)
++{
++	struct vc_sm_generation *generation =
++		container_of(ref, struct vc_sm_generation, refs);
++
++	kfree(generation);
++}
++
++static void vc_sm_generation_put(struct vc_sm_generation *generation)
++{
++	kref_put(&generation->refs, vc_sm_generation_release);
++}
++
++/* Caller holds sm_admission_lock for the entire operation. */
++static bool vc_sm_file_ready(struct vc_sm_privdata_t *private)
++{
++	return private && private->generation->ready;
++}
++
++/* This private transport has no unrelated services. Owned SMIO init failure
++ * drains all opened services before returning NULL, per 0006/0007. Shutdown
++ * here therefore frees a service-free instance, not a DMA quiescence proof.
++ */
++static int vc_sm_connect(struct sm_state_t *state)
++{
++	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(state->device->dev.parent);
++	int ret;
++
++	ret = vchiq_initialise(&mgmt->state, &state->vchiq_instance);
++	if (ret)
++		return ret;
++	ret = vchiq_connect(state->vchiq_instance);
++	if (!ret) {
++		state->sm_handle = vc_sm_cma_vchi_init(state->vchiq_instance, 1,
++						    vc_sm_vpu_event);
++		if (!state->sm_handle)
++			ret = -ENODEV;
++	}
++	if (ret) {
++		vchiq_shutdown(state->vchiq_instance);
++		state->vchiq_instance = NULL;
++	}
++	return ret;
++}
+ 
+ static int get_kernel_id(struct vc_sm_buffer *buffer)
+ {
+@@ -1044,47 +1105,36 @@
+  */
+ static int vc_sm_cma_open(struct inode *inode, struct file *file)
+ {
+-	/* Make sure the device was started properly. */
+-	if (!sm_state) {
+-		pr_err("[%s]: invalid device\n", __func__);
+-		return -EPERM;
+-	}
+-
+-	file->private_data = vc_sm_cma_create_priv_data(current->tgid);
+-	if (!file->private_data) {
+-		pr_err("[%s]: failed to create data tracker\n", __func__);
+-
+-		return -ENOMEM;
+-	}
+-
++	struct miscdevice *misc = file->private_data;
++	struct sm_state_t *state = container_of(misc, struct sm_state_t, misc_dev);
++	struct vc_sm_privdata_t *private;
++	int ret = 0;
++
++	/* misc core serializes open with deregistration, retaining misc here. */
++	mutex_lock(&sm_admission_lock);
++	if (!state->generation->ready) {
++		ret = -ENODEV;
++	} else {
++		private = vc_sm_cma_create_priv_data(current->tgid);
++		if (!private) {
++			ret = -ENOMEM;
++		} else {
++			kref_get(&state->generation->refs);
++			private->generation = state->generation;
++			file->private_data = private;
++		}
++	}
++	mutex_unlock(&sm_admission_lock);
++	return ret;
++}
++
++static int vc_sm_cma_release(struct inode *inode, struct file *file)
++{
++	struct vc_sm_privdata_t *private = file->private_data;
++
++	vc_sm_generation_put(private->generation);
++	kfree(private);
+ 	return 0;
+-}
+-
+-/*
+- * Close the vcsm-cma device.
+- * All allocations are file descriptors to the dmabuf objects, so we will get
+- * the clean up request on those as those are cleaned up.
+- */
+-static int vc_sm_cma_release(struct inode *inode, struct file *file)
+-{
+-	struct vc_sm_privdata_t *file_data =
+-	    (struct vc_sm_privdata_t *)file->private_data;
+-	int ret = 0;
+-
+-	/* Make sure the device was started properly. */
+-	if (!sm_state || !file_data) {
+-		pr_err("[%s]: invalid device\n", __func__);
+-		ret = -EPERM;
+-		goto out;
+-	}
+-
+-	pr_debug("[%s]: using private data %p\n", __func__, file_data);
+-
+-	/* Terminate the private data. */
+-	kfree(file_data);
+-
+-out:
+-	return ret;
+ }
+ 
+ /*
+@@ -1232,7 +1282,7 @@
+ 	return ret;
+ }
+ 
+-static long vc_sm_cma_ioctl(struct file *file, unsigned int cmd,
++static long vc_sm_cma_ioctl_admitted(struct file *file, unsigned int cmd,
+ 			    unsigned long arg)
+ {
+ 	int ret = 0;
+@@ -1331,6 +1381,21 @@
+ 		break;
+ 	}
+ 
++	return ret;
++}
++
++static long vc_sm_cma_ioctl(struct file *file, unsigned int cmd,
++			    unsigned long arg)
++{
++	struct vc_sm_privdata_t *private = file->private_data;
++	long ret;
++
++	mutex_lock(&sm_admission_lock);
++	if (vc_sm_file_ready(private))
++		ret = vc_sm_cma_ioctl_admitted(file, cmd, arg);
++	else
++		ret = -ENODEV;
++	mutex_unlock(&sm_admission_lock);
+ 	return ret;
+ }
+ 
+@@ -1383,45 +1448,10 @@
+ 	struct vc_sm_version version;
+ 	struct vc_sm_result_t version_result;
+ 
+-	/*
+-	 * Digging the vchiq_drv_mgmt, so low here and through a global seems
+-	 * suspicious.
+-	 *
+-	 * The callbacks should be able to pass a parameter or context.
+-	 */
+-	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(sm_state->device->dev.parent);
+-
+-	pr_info("[%s]: start\n", __func__);
+-
+-	/*
+-	 * Initialize and create a VCHI connection for the shared memory service
+-	 * running on videocore.
+-	 */
+-	ret = vchiq_initialise(&mgmt->state, &sm_state->vchiq_instance);
+-	if (ret) {
+-		pr_err("[%s]: failed to initialise VCHI instance (ret=%d)\n",
+-		       __func__, ret);
+-
++	/* Connected registration/cancellation serializes this with remove. */
++	ret = vc_sm_connect(sm_state);
++	if (ret)
+ 		return;
+-	}
+-
+-	ret = vchiq_connect(sm_state->vchiq_instance);
+-	if (ret) {
+-		pr_err("[%s]: failed to connect VCHI instance (ret=%d)\n",
+-		       __func__, ret);
+-
+-		return;
+-	}
+-
+-	/* Initialize an instance of the shared memory service. */
+-	sm_state->sm_handle = vc_sm_cma_vchi_init(sm_state->vchiq_instance, 1,
+-						  vc_sm_vpu_event);
+-	if (!sm_state->sm_handle) {
+-		pr_err("[%s]: failed to initialize shared memory service\n",
+-		       __func__);
+-
+-		return;
+-	}
+ 
+ 	/* Create a debug fs directory entry (root). */
+ 	sm_state->dir_root = debugfs_create_dir(VC_SM_DIR_ROOT_NAME, NULL);
+@@ -1464,7 +1494,9 @@
+ 	}
+ 
+ 	/* Done! */
+-	sm_inited = 1;
++	mutex_lock(&sm_admission_lock);
++	sm_state->generation->ready = true;
++	mutex_unlock(&sm_admission_lock);
+ 	pr_info("[%s]: installed successfully\n", __func__);
+ 	return;
+ 
+@@ -1473,6 +1505,8 @@
+ err_remove_debugfs:
+ 	debugfs_remove_recursive(sm_state->dir_root);
+ 	vc_sm_cma_vchi_stop(sm_state->vchiq_instance, &sm_state->sm_handle);
++	vchiq_shutdown(sm_state->vchiq_instance);
++	sm_state->vchiq_instance = NULL;
+ }
+ 
+ /* Driver loading. */
+@@ -1492,7 +1526,12 @@
+ 	sm_state = devm_kzalloc(&device->dev, sizeof(*sm_state), GFP_KERNEL);
+ 	if (!sm_state)
+ 		return -ENOMEM;
++	sm_state->generation = kzalloc(sizeof(*sm_state->generation), GFP_KERNEL);
++	if (!sm_state->generation)
++		return -ENOMEM;
++	kref_init(&sm_state->generation->refs);
+ 	sm_state->device = device;
++	dev_set_drvdata(&device->dev, sm_state);
+ 	mutex_init(&sm_state->map_lock);
+ 
+ 	mutex_init(&sm_state->kernelid_map_lock);
+@@ -1504,18 +1543,31 @@
+ 	/* dma_set_max_seg_size checks if dma_parms is NULL. */
+ 	dma_set_max_seg_size(&device->dev, 0x3FFFFFFF);
+ 
+-	vchiq_add_connected_callback(device, vc_sm_connected_init);
+-	return 0;
++	err = vchiq_register_connected_callback(device, vc_sm_connected_init);
++	if (err) {
++		vc_sm_generation_put(sm_state->generation);
++		sm_state = NULL;
++	}
++	return err;
+ }
+ 
+ /* Driver unloading. */
+ static void bcm2835_vc_sm_cma_remove(struct vchiq_device *device)
+ {
++	struct sm_state_t *state = dev_get_drvdata(&device->dev);
++	bool was_ready;
+ 	/* Drain immediate/deferred initialization before touching its state. */
+ 	vchiq_remove_connected_callback(device, vc_sm_connected_init);
+ 
+ 	pr_debug("[%s]: start\n", __func__);
+-	if (sm_inited) {
++	mutex_lock(&sm_admission_lock);
++	was_ready = state->generation->ready;
++	state->generation->ready = false;
++	/* The lock also drains admitted file/kernel operations. Do not hold it
++	 * across misc_deregister: misc open takes misc_mtx before admission.
++	 */
++	mutex_unlock(&sm_admission_lock);
++	if (was_ready) {
+ 		misc_deregister(&sm_state->misc_dev);
+ 
+ 		/* Remove all proc entries. */
+@@ -1532,6 +1584,10 @@
+ 		mutex_destroy(&sm_state->map_lock);
+ 	}
+ 
++	mutex_lock(&sm_admission_lock);
++	sm_state = NULL;
++	mutex_unlock(&sm_admission_lock);
++	vc_sm_generation_put(state->generation);
+ 	pr_debug("[%s]: end\n", __func__);
+ }
+ 
+@@ -1573,7 +1629,7 @@
+ EXPORT_SYMBOL_GPL(vc_sm_cma_free);
+ 
+ /* Import a dmabuf to be shared with VC. */
+-int vc_sm_cma_import_dmabuf(struct dma_buf *src_dmabuf, void **handle)
++static int vc_sm_cma_import_dmabuf_admitted(struct dma_buf *src_dmabuf, void **handle)
+ {
+ 	struct dma_buf *new_dma_buf;
+ 	int ret;
+@@ -1604,6 +1660,18 @@
+ 
+ 	return ret;
+ }
++int vc_sm_cma_import_dmabuf(struct dma_buf *src_dmabuf, void **handle)
++{
++	int ret;
++
++	mutex_lock(&sm_admission_lock);
++	if (sm_state && sm_state->generation->ready)
++		ret = vc_sm_cma_import_dmabuf_admitted(src_dmabuf, handle);
++	else
++		ret = -ENODEV;
++	mutex_unlock(&sm_admission_lock);
++	return ret;
++}
+ EXPORT_SYMBOL_GPL(vc_sm_cma_import_dmabuf);
+ 
+ static struct vchiq_driver bcm2835_vcsm_cma_driver = {

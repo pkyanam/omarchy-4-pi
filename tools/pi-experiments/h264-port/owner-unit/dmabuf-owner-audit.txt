@@ -1,0 +1,19 @@
+linux-7.3/drivers/char/misc.c
+118: static int misc_open(struct inode *inode, struct file *file)
+187: 	.open		= misc_open,
+277:  *	misc_deregister - unregister a miscellaneous device
+284: void misc_deregister(struct miscdevice *misc)
+294: EXPORT_SYMBOL(misc_deregister);
+linux-7.3/drivers/dma-buf/dma-buf.c
+183: 	dmabuf->ops->release(dmabuf);
+189: 	module_put(dmabuf->owner);
+666:  *    DEFINE_DMA_BUF_EXPORT_INFO() and calls dma_buf_export() to wrap a private
+706:  * %DEFINE_DMA_BUF_EXPORT_INFO macro.
+719: 		    || !exp_info->ops->release))
+725: 	if (!try_module_get(exp_info->owner))
+749: 	dmabuf->owner = exp_info->owner;
+776: 	module_put(exp_info->owner);
+linux-7.3/include/linux/dma-buf.h
+519:  * DEFINE_DMA_BUF_EXPORT_INFO - helper macro for exporters
+522:  * DEFINE_DMA_BUF_EXPORT_INFO macro defines the &struct dma_buf_export_info,
+525: #define DEFINE_DMA_BUF_EXPORT_INFO(name)	\

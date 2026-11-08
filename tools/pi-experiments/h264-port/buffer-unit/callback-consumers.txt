@@ -1,0 +1,7 @@
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h:25:typedef void (*vpu_event_cb)(void *context, struct sm_instance *instance,
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h:31:struct sm_instance *vc_sm_cma_vchi_init(struct vchiq_instance *vchi_instance,
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h:33:					vpu_event_cb vpu_event, void *event_context);
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:49:	vpu_event_cb vpu_event;
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:220:struct sm_instance *vc_sm_cma_vchi_init(struct vchiq_instance *vchiq_instance,
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:222:					vpu_event_cb vpu_event, void *event_context)
+build/upstream-pi/stable-4.5/h264-port-candidate/buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:183:		state->sm_handle = vc_sm_cma_vchi_init(state->vchiq_instance, 1,

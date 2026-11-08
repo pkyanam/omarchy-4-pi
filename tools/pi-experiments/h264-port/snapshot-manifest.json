@@ -1,5 +1,5 @@
 {
-  "status": "NONDEPLOYABLE: exact twelve-patch modules compile/modpost/link/BTF and static ABI checks pass; firmware lifetime/quiescence unresolved",
+  "status": "NONDEPLOYABLE: twelve patches compile; 0013 debugfs owner source-reviewed, not module-compiled; firmware and lifecycle gates unresolved",
   "kernel_archive_sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
   "headers_archive_sha256": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
   "files": {
@@ -8,8 +8,8 @@
       "bytes": 6683
     },
     "README.md": {
-      "sha256": "6280f143363d8d370fae78112685d36f6fb2d5ec0966e006a0e225133a827f51",
-      "bytes": 7997
+      "sha256": "a8c02e228f16c2490f1133470448850ef703ae438752859de30525323e81d2c7",
+      "bytes": 8658
     },
     ".gitignore": {
       "sha256": "efadd7af44d352f28640d016f474e101095177728361fb384553b7b9e8ea584d",
@@ -56,8 +56,8 @@
       "bytes": 468
     },
     "patches/series": {
-      "sha256": "81051a2c9602df40257e3a74ff6c34219aceaac574df22153fe1bc68cccf8cc4",
-      "bytes": 559
+      "sha256": "db7115eaea65d0e1c2120f5cb204a2839643adfffa42ccfd736cd47dd3c02f89",
+      "bytes": 609
     },
     "patches/0001-vcsm-mmal-buffer-services.patch": {
       "sha256": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
@@ -290,6 +290,10 @@
     "patches/0012-vcsm-use-existing-sync-connected-api.patch": {
       "sha256": "58c22d055842a21707133a6546277435afb818c282a72e5f6c2e5f3dde8e598b",
       "bytes": 464
+    },
+    "patches/0013-vcsm-pin-debugfs-file-operations-owner.patch": {
+      "sha256": "afe50a0d6ae410e3a5af13d80ff089ea9e145d0cf0bcb47704ae1a00c644a0bb",
+      "bytes": 296
     }
   }
 }

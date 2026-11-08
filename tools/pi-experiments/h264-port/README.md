@@ -46,3 +46,7 @@ The exact eleven-patch series fails a real full module compile at VCSM probe: th
 ## Twelve-patch compilation accepted; deployment remains unqualified
 
 The exact twelve-patch series now compiles all four external modules with real modpost, linking and BTF generation against authenticated case-sensitive Linux headers. Imported CRCs, namespaces, DWARF5 and vermagic pass; headers and original source inputs are unchanged. This supersedes the historical uncompiled status above, while retaining the eleven-patch API failure as regression evidence. The diagnostic artifacts are unsigned and remain NONDEPLOYABLE: firmware readiness, mapping lifetime, peer-silence progress and full device/module teardown remain unqualified. See [build report](../../../plans/omarchy-pi-h264-combined-12-build.md) and durable results/pi4-4gb-native/2026-11-08/h264-combined-12/.
+
+## Debugfs operations lifetime
+
+0013 adds THIS_MODULE ownership to the VCSM debugfs operations table. Exact Linux7.3 full-proxy debugfs open uses fops_get(real_fops), and final release invokes the table before fops_put; this pins the module until final close. It changes no firmware waits or buffer ownership. The precise source schedule and separate fd-publication defect are documented in [lifecycle review](../../../plans/omarchy-pi-h264-postbuild-lifecycle-review.md). This initializer change has source review only; real kernel unload/open-fd behavior and thirteen-patch compilation remain unqualified. No stub or grep test is presented as runtime proof.

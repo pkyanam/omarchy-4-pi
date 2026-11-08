@@ -1,0 +1,10 @@
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+@@ -259,6 +259,7 @@
+ }
+ 
+ static const struct file_operations vc_sm_cma_debug_fs_fops = {
++	.owner = THIS_MODULE,
+ 	.open = vc_sm_cma_single_open,
+ 	.read = seq_read,
+ 	.llseek = seq_lseek,

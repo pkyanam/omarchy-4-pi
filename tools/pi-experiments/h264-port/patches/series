@@ -10,3 +10,4 @@
 0010-vcsm-bind-buffer-release-to-service-generation.patch
 0011-vcsm-complete-import-before-retiring-owner.patch
 0012-vcsm-use-existing-sync-connected-api.patch
+0013-vcsm-pin-debugfs-file-operations-owner.patch

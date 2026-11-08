@@ -1,0 +1,24 @@
+{
+  "status": "installed on designated4GB Pi; physical UI/Qt validation pending",
+  "source_commit": "0254fe47c17647ba84d16d3b571015451da794a4",
+  "source_archive_sha256": "915b298d09c7e2165438d21670addc0cdfb05edce30f2143da50183fa2a3759e",
+  "limits": "0.25CPU/384MiB disk-backed packaging; zstd level3 one thread; separate compiler lane has1CPU/768MiB",
+  "packages": [
+    {
+      "file": "omarchy-4.5.0-2.6-aarch64.pkg.tar.zst",
+      "sha256": "af89b4bcaa5fbd6bfd5fca3873b7264f91bce97c3bf053707e2001fce0117697",
+      "bytes": 81679437,
+      "recipe_sha256": "981901ff17cd2028da97725fa0699b8204401581e2b80befb1d122b9bcaa093a"
+    },
+    {
+      "file": "omarchy-settings-4.5.0-2.6-aarch64.pkg.tar.zst",
+      "sha256": "58f5d21cc05b39d36e73b0aee0e3bd6bc8f6e6f0251facbe055070f030d570bf",
+      "bytes": 1778614,
+      "recipe_sha256": "95ef042f20cc02900d0997ba8b36d3783f9ae5ebe50ec390915aa28d04232e7d"
+    }
+  ],
+  "recipe_basis": "reviewed a5f9629b local recipe overrides with pinned new source and pkgrel2.6; local source; dependency checks skipped in isolated builder, target preflight required",
+  "recovery_snapshot": 9,
+  "esp_before_sha256": "28b59581184dbdda16772477590d8bef77f104fe4d69375825a4a6b6f4ad5e5c",
+  "kernel_unchanged": "7.3-32.1"
+}

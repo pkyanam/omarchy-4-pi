@@ -1,0 +1,236 @@
+
+MUTATION: unbalanced 4AB 2BA
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... ok
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... FAIL
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_order (mutant.Tests.test_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 484, in test_order
+    self.assertEqual(orders.count(('O2', 'O3')), 3)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 3
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.036s
+
+FAILED (failures=1)
+
+MUTATION: old stock timing 108
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... FAIL
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 537, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 451, in bench
+    trial(name, corpus, level, 'measured', block)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 428, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 529, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+======================================================================
+FAIL: test_order (mutant.Tests.test_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 488, in test_order
+    self.assertEqual(len(schedule), 72)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: 108 != 72
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 509, in test_projection
+    self.assertAlmostEqual(projection([1, 2, 3, 4], schedule), 4 * 72 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 496.79999999999995 != 331.2 within 7 places (165.59999999999997 difference)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+FAILED (failures=3)
+
+MUTATION: project old 108 count
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 72 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.039107479993253945 != 0.026071653328835962 within 7 places (0.013035826664417983 difference)
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 509, in test_projection
+    self.assertAlmostEqual(projection([1, 2, 3, 4], schedule), 4 * 72 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 496.79999999999995 != 331.2 within 7 places (165.59999999999997 difference)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.028s
+
+FAILED (failures=2)
+
+MUTATION: reuse four calibration as measured
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 72 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.022867001174017784 != 0.02421211889013648 within 7 places (0.0013451177161186954 difference)
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 509, in test_projection
+    self.assertAlmostEqual(projection([1, 2, 3, 4], schedule), 4 * 72 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 312.79999999999995 != 331.2 within 7 places (18.400000000000034 difference)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.028s
+
+FAILED (failures=2)
+
+MUTATION: drop projection headroom
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 72 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.02106596902012825 != 0.024225864373147485 within 7 places (0.0031598953530192347 difference)
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 509, in test_projection
+    self.assertAlmostEqual(projection([1, 2, 3, 4], schedule), 4 * 72 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 288 != 331.2 within 7 places (43.19999999999999 difference)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.027s
+
+FAILED (failures=2)
+
+MUTATION: omit O3 calibration
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 539, in test_bench_protocol
+    self.assertEqual(len(trials), 76)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: 74 != 76
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 504, in test_projection
+    self.assertCountEqual(calibration_jobs(corpora), [
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+      (p, 9, n) for p in corpora for n in ('O2', 'O3')])
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Element counts were not equal:
+First has 0, Second has 1:  (PosixPath('source.tar'), 9, 'O3')
+First has 0, Second has 1:  (PosixPath('stock-libzstd.elf'), 9, 'O3')
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.027s
+
+FAILED (failures=2)
+
+MUTATION: timing includes stock in actual bench
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 537, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 451, in bench
+    trial(name, corpus, level, 'measured', block)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 428, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 529, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+FAILED (failures=1)
+
+All seven wrong-protocol mutations rejected.

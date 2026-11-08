@@ -1,0 +1,3 @@
+# Preserve original protocol source and complete test logs.
+*.log -whitespace
+*.diff -whitespace

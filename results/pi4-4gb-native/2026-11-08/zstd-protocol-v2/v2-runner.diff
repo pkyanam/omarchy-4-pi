@@ -1,0 +1,193 @@
+diff --git a/build/local-zstd-protocol-v2-preserved/zstd-package-benchmark.py b/tools/pi-experiments/zstd-package-benchmark.py
+index 8b447cce..afd0ee3f 100644
+--- a/build/local-zstd-protocol-v2-preserved/zstd-package-benchmark.py
++++ b/tools/pi-experiments/zstd-package-benchmark.py
+@@ -7,7 +7,6 @@ No network, privilege escalation, tuning, package installation or system writes.
+ import argparse
+ import ast
+ import hashlib
+-import itertools
+ import json
+ import math
+ import os
+@@ -22,7 +21,10 @@ import tarfile
+ import time
+ import unittest
+ 
+-NAMES = ('stock', 'O2', 'O3')
++NAMES = ('stock', 'O2', 'O3')  # All provenance and native correctness checks.
++PROTOCOL_VERSION = 2
++TIMED_NAMES = ('O2', 'O3')
++LEVELS = (1, 3, 9)
+ ARCHIVES = dict(zip(NAMES, (
+   'c3b907c36049b338bda0c6d85260251e48d17e2be6c0e11ddc0dfd4cf9d2e89a',
+   'e0a1198fbf1a63d389e064eb093c0d91d9b380d6aa726816ca7fd12a445549ab',
+@@ -117,8 +119,26 @@ def legacy_string(source, name):
+ 
+ 
+ def balanced_orders():
+-  # All six permutations: each variant occupies each position twice, pair order 3:3.
+-  return list(itertools.permutations(NAMES))
++  # Six paired blocks: three AB and three BA; each position is balanced.
++  a, b = TIMED_NAMES
++  return [(a, b), (b, a)] * 3
++
++
++def measurement_schedule(corpora):
++  jobs = [(p, level) for p in sorted(corpora) for level in LEVELS]
++  return [(block, p, level, name)
++          for block, order in enumerate(balanced_orders())
++          for p, level in (jobs if block % 2 == 0 else list(reversed(jobs)))
++          for name in order]
++
++
++def calibration_jobs(corpora):
++  return [(p, 9, name) for p in sorted(corpora) for name in TIMED_NAMES]
++
++
++def projection(costs, schedule):
++  # Only new measured trials remain; calibration is never reused as measurement.
++  return max(costs) * len(schedule) * 1.15
+ 
+ 
+ def parse_rates(raw, size):
+@@ -154,7 +174,8 @@ class Runner:
+     self.tmp.mkdir()
+     self.deadline = time.monotonic() + (300 if args.mode == 'bench' else 300)
+     self.base = None
+-    self.report = {'schema': 1, 'mode': args.mode, 'status': 'running',
++    self.report = {'schema': 1, 'measurement_protocol_version': PROTOCOL_VERSION,
++      'mode': args.mode, 'status': 'running',
+       'started_utc': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+       'runner_sha256': sha(__file__), 'manifest_sha256': sha(self.bundle / 'manifest.json'),
+       'commands': [], 'firmware_actual_clocks': None, 'firmware_throttle_history': None,
+@@ -381,7 +402,20 @@ class Runner:
+       require(gate[key] == self.report[key], f'gate changed: {key}')
+     require(gate['mode'] == 'gate' and gate['status'] == 'complete', 'native gate incomplete')
+     self.report['gate_sha256'] = sha(self.args.gate)
+-    jobs = [(p, level) for p in sorted((self.bundle/'corpus').iterdir()) for level in (1,3,9)]
++    corpora = sorted((self.bundle/'corpus').iterdir())
++    schedule = measurement_schedule(corpora)
++    calibrations = calibration_jobs(corpora)
++    self.report['measurement_protocol'] = {
++      'version': PROTOCOL_VERSION, 'timed_variants': TIMED_NAMES,
++      'provenance_and_correctness_variants': NAMES,
++      'stock_role': 'context-only provenance and native correctness; no timing',
++      'corpora': [p.name for p in corpora], 'levels': LEVELS,
++      'blocks': len(balanced_orders()), 'balanced_orders': balanced_orders(),
++      'measured_trial_count': len(schedule), 'calibration_trial_count': len(calibrations),
++      'cli': '--single-thread -bLEVEL -i1', 'deadline_s': 300,
++      'projection_headroom_fraction': 0.15,
++      'schedule': [dict(block=b, corpus=p.name, level=l, variant=n) for b,p,l,n in schedule]}
++    self.persist()
+     trials = []
+     self.report['trials'] = trials
+     def trial(name, corpus, level, phase, block):
+@@ -401,18 +435,20 @@ class Runner:
+       self.persist()
+       self.stable()
+       return time.monotonic() - start
+-    # Short bounded trial of both corpora at slowest level for all variants.
+-    costs = [trial(n, p, 9, 'calibration', -1) for p in sorted((self.bundle/'corpus').iterdir()) for n in NAMES]
+-    projected = max(costs) * 1.15 * len(jobs) * 3 * 6
++    # Fresh bounded calibration: both pair variants, both corpora, level9.
++    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
++    projected = projection(costs, schedule)
+     self.report['calibration'] = {'measured_trial_seconds': costs,
++      'records': [dict(corpus=p.name, level=l, variant=n, lifecycle_s=cost,
++                       trial_index=i, command=trials[i]['command'])
++                  for i, ((p,l,n), cost) in enumerate(zip(calibrations, costs))],
++      'projected_new_measured_trials': len(schedule), 'headroom_fraction': 0.15,
+       'conservative_remaining_seconds': projected, 'remaining_budget_s': self.deadline-time.monotonic(),
+       'caveat': 'level9 cost is a projection, cooling and scheduler delays can exhaust deadline'}
+     self.persist()
+     require(projected < self.deadline-time.monotonic(), 'calibration rejects five-minute budget; retain, redesign explicitly')
+-    for block, order in enumerate(balanced_orders()):
+-      for corpus, level in (jobs if block % 2 == 0 else list(reversed(jobs))):
+-        for name in order:
+-          trial(name, corpus, level, 'measured', block)
++    for block, corpus, level, name in schedule:
++      trial(name, corpus, level, 'measured', block)
+     self.stable()
+ 
+   def run(self):
+@@ -444,11 +480,74 @@ class Tests(unittest.TestCase):
+ 
+   def test_order(self):
+     orders = balanced_orders()
+-    self.assertEqual(len(set(orders)), 6)
+-    for name in NAMES:
+-      self.assertEqual([sum(o[i] == name for o in orders) for i in range(3)], [2,2,2])
+-    for a,b in itertools.combinations(NAMES, 2):
+-      self.assertEqual(sum(o.index(a) < o.index(b) for o in orders), 3)
++    self.assertEqual(len(orders), 6)
++    self.assertEqual(orders.count(('O2', 'O3')), 3)
++    self.assertEqual(orders.count(('O3', 'O2')), 3)
++    corpora = [Path('source.tar'), Path('stock-libzstd.elf')]
++    schedule = measurement_schedule(corpora)
++    self.assertEqual(len(schedule), 72)
++    for corpus in corpora:
++      for level in (1, 3, 9):
++        observed = []
++        for block in range(6):
++          pair = [n for b,p,l,n in schedule if (b,p,l) == (block,corpus,level)]
++          self.assertCountEqual(pair, ['O2', 'O3'])
++          observed.append(tuple(pair))
++        self.assertEqual(observed.count(('O2', 'O3')), 3)
++        self.assertEqual(observed.count(('O3', 'O2')), 3)
++    jobs = [(p,l) for b,p,l,n in schedule if b == 0 and n == 'O2']
++    reversed_jobs = [(p,l) for b,p,l,n in schedule if b == 1 and n == 'O2']
++    self.assertEqual(reversed_jobs, list(reversed(jobs)))
++
++  def test_projection(self):
++    corpora = [Path('source.tar'), Path('stock-libzstd.elf')]
++    self.assertCountEqual(calibration_jobs(corpora), [
++      (p, 9, n) for p in corpora for n in ('O2', 'O3')])
++    schedule = measurement_schedule(corpora)
++    # Distinct costs catch averaging instead of the conservative maximum;
++    # expected count excludes both the old stock trials and calibration reuse.
++    self.assertAlmostEqual(projection([1, 2, 3, 4], schedule), 4 * 72 * 1.15)
++
++  def test_bench_protocol(self):
++    # Exercise actual orchestration with only native execution/health substituted.
++    import tempfile
++    from types import SimpleNamespace
++    with tempfile.TemporaryDirectory() as d:
++      runner = Runner.__new__(Runner)
++      runner.bundle = runner.out = Path(d)
++      (runner.bundle / 'corpus').mkdir()
++      for name in ('source.tar', 'stock-libzstd.elf'):
++        (runner.bundle / 'corpus' / name).write_bytes(b'x')
++      runner.args = SimpleNamespace(gate=Path(d) / 'gate.json')
++      runner.report = {k: {} for k in ('runner_sha256', 'manifest_sha256', 'context', 'providers', 'loader')}
++      save(runner.args.gate, dict(runner.report, mode='gate', status='complete'))
++      runner.report['commands'] = []
++      runner.deadline = time.monotonic() + 300
++      runner.stable = lambda: None
++      runner.health = lambda: {'temperatures_mC': {'test': 50000}}
++      def fake_z(name, args):
++        self.assertIn(name, ('O2', 'O3'))
++        self.assertEqual(args[0], '--single-thread')
++        self.assertEqual(args[2], '-i1')
++        stderr = f"{len(runner.report['commands'])}.stderr"
++        (runner.out / stderr).write_bytes(b'')
++        runner.report['commands'].append({'stderr': stderr})
++        return b': 1 -> 1 (x1.0), 1.0 MB/s, 1.0 MB/s'
++      runner.z = fake_z
++      runner.bench()
++      trials = runner.report['trials']
++      self.assertEqual(len(trials), 76)
++      self.assertTrue(all(t['phase'] == 'calibration' for t in trials[:4]))
++      self.assertTrue(all(t['phase'] == 'measured' for t in trials[4:]))
++      expected = measurement_schedule((runner.bundle / 'corpus').iterdir())
++      self.assertEqual([(t['block'], t['corpus'], t['level'], t['variant']) for t in trials[4:]],
++                       [(b,p.name,l,n) for b,p,l,n in expected])
++      self.assertEqual(runner.report['measurement_protocol']['version'], 2)
++      calibration = runner.report['calibration']
++      self.assertEqual(calibration['projected_new_measured_trials'], 72)
++      self.assertEqual(len(calibration['records']), 4)
++      self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
++                             max(calibration['measured_trial_seconds']) * 72 * 1.15)
+ 
+   def test_hash_and_loader(self):
+     import tempfile

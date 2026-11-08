@@ -1,0 +1,9 @@
+{
+  "tools/pi-experiments/zstd-package-benchmark.py": "d35d0f249c0017ca3792c961c10224e297ab77d8fd6f6dcd848b880c78d0bb1a",
+  "plans/omarchy-pi-zstd-package-benchmark.md": "884578e3871576010bd05b8223b913c3f78539783a80bc817b54ddf8d8b4b521",
+  "/tmp/zstd-package-benchmark-final-check.log": "33d6932a53ae8d227e6083c7433f13308000f989ab07c00aa52fa82926021804",
+  "/tmp/zstd-package-benchmark-fixtures.log": "319788c5e041674037f6097fa551d123b32262b0020ef39e1e1fddca9b2dee3c",
+  "/tmp/zstd-package-benchmark-help.log": "e26671d9f2977008b6950f4c578f5aad27a60382f2f36e1f3b754620f4fdfa56",
+  "/tmp/zstd-package-benchmark-mutations.log": "8bdfb646de24c67830cad90862171060d0ad4e72cb2ee3800b72437d50c057cf",
+  "/tmp/zstd-package-benchmark-tests.log": "b6a161abed43b9a0dba9259cd451b39b20b10425ac13cc14786554c0e6fac7f1"
+}

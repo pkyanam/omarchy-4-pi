@@ -1,0 +1,18 @@
+usage: zstd-package-benchmark.py [-h] {self-test,prepare,gate,bench} ...
+
+Parent-only isolated full-package qualification and bounded Pi benchmark.
+Python >=3.12, standard library only. prepare/self-test never execute package
+code. No network, privilege escalation, tuning, package installation or system
+writes.
+
+positional arguments:
+  {self-test,prepare,gate,bench}
+    prepare             host-only copy/extract pinned archives; no package
+                        execution
+    gate                parent ONLY on exclusive native Pi; five-minute hard
+                        budget
+    bench               parent ONLY on exclusive native Pi; five-minute hard
+                        budget
+
+options:
+  -h, --help            show this help message and exit

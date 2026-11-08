@@ -220,3 +220,9 @@ Normal-user offscreen Vulkan compute passed all three exact-reference and guard 
 
 
 Bluetooth scalar format validation was attempted without rebinding after matching the running config. The kernel rejected the first exact probe with EINVAL; cleanup restored exact shared state and left binding/taint unchanged. No scalar transport result is claimed. Source investigation continues, and the refusal is durably retained under results/pi4-4gb-native/2026-11-08/bluetooth-scalar-registration/.
+
+## Scalar transport boundary established; codec still inactive
+
+The earlier EINVAL was a helper append/seek defect, not demonstrated rejection of the scalar ABI. After correction, parent validated all eleven formats and captured one bounded rebind with exact restoration and no missed/dropped events. tty writes accepted 10/10 and 4/4 bytes at the host setter's requested/reported 115200; selected receive callbacks had zero hits. This narrows PI-008 to UART/controller progress and receive boundaries; Bluetooth remains unusable and electrical state unknown. See [scalar results](../results/pi4-4gb-native/2026-11-08/bluetooth-scalar-trace/README.md).
+
+PI-015 has concrete inactive source progress, now durably tracked: coherent VCSM/MMAL/codec import plus callback and worker-ownership units compile against matching headers and pass bounded production-function tests. Firmware DMA quiescence, per-generation dma-buf ownership and complete service close/remove/reprobe remain blockers. A small MMAL stale-handle fix is source-tested separately, not integrated or module-compiled yet. Nothing from this port is installed or a demonstrated decode path. See tools/pi-experiments/h264-port/ and its explicit NONDEPLOYABLE status.

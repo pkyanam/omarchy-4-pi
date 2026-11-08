@@ -1,0 +1,26 @@
+{
+  "linux-omarchy-7.3-32.11-aarch64.pkg.tar.zst": {
+    "sha256": "4c457229efda934ce399e03fc94cf6bc4900448275fe5bbacd3d8bfa02e39f13",
+    "bytes": 181672880,
+    "linux_path": "/work/output/linux-omarchy-7.3-32.11-aarch64.pkg.tar.zst",
+    "host_relative": "archives/linux-omarchy-7.3-32.11-aarch64.pkg.tar.zst"
+  },
+  "linux-omarchy-headers-7.3-32.11-aarch64.pkg.tar.zst": {
+    "sha256": "6fc8159044c8cb81b0336bc3f3c5e05b1c30cede104b2334dc13c00667805a38",
+    "bytes": 45912102,
+    "linux_path": "/work/output/linux-omarchy-headers-7.3-32.11-aarch64.pkg.tar.zst",
+    "host_relative": "archives/linux-omarchy-headers-7.3-32.11-aarch64.pkg.tar.zst"
+  },
+  "linux-omarchy-nvidia-open-7.3-32.11-aarch64.pkg.tar.zst": {
+    "sha256": "a7ab8e873f861a6897c5496f00a370f650e66a9af13bbf512511fd55da41f91f",
+    "bytes": 9361422,
+    "linux_path": "/work/output/linux-omarchy-nvidia-open-7.3-32.11-aarch64.pkg.tar.zst",
+    "host_relative": "archives/linux-omarchy-nvidia-open-7.3-32.11-aarch64.pkg.tar.zst"
+  },
+  "raspberrypi-4-pftf-cts-1-1.1-aarch64.pkg.tar.zst": {
+    "sha256": "44297aa3c75db982b98d9663003e8fa997f75e0a47f9753e6a11f70d5026f9be",
+    "bytes": 8069,
+    "linux_path": "/work/output/raspberrypi-4-pftf-cts-1-1.1-aarch64.pkg.tar.zst",
+    "host_relative": "archives/raspberrypi-4-pftf-cts-1-1.1-aarch64.pkg.tar.zst"
+  }
+}

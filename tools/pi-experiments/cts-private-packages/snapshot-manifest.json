@@ -1,0 +1,46 @@
+{
+  "generate.py": {
+    "bytes": 3008,
+    "sha256": "035f2b9bd485a8cf37e1cd2e2f4777b46406b353fcc225e09521ff066f6f91ea"
+  },
+  "README.md": {
+    "bytes": 852,
+    "sha256": "3b65d297779fffd8d868f47271497eb70acb315f0275e30fa1ef98170a749377"
+  },
+  "build.sh": {
+    "bytes": 2501,
+    "sha256": "608cf1a5fa31b6709e242b66befa1af4a1bd35b475639e533c9d4f56077d5542"
+  },
+  "requalify.py": {
+    "bytes": 5161,
+    "sha256": "3f5d0f500842c60b5575407d7f3567250a648a46366ccd4634a66c77e685e684"
+  },
+  "compare.py": {
+    "bytes": 2073,
+    "sha256": "72e9a02b8689451fd96fc3b0d362229b9248542910bc07be50fb3e2f542df98d"
+  },
+  "supervise.py": {
+    "bytes": 1425,
+    "sha256": "0ae852936484bedc3f2de0d1c82122d779d860135f6dfd195dfafaa0a4258d08"
+  },
+  "guard-all.py": {
+    "bytes": 1470,
+    "sha256": "b708c499f476b3bc60331823fe1efda8c45b349493901525e203ec156ccb9719"
+  },
+  "recipes/linux-omarchy-nvidia-open.PKGBUILD": {
+    "bytes": 1164,
+    "sha256": "f0273df15838a9925bd8d31b2b6086b934ab671dabe0283a09c461f710a30ee5"
+  },
+  "recipes/linux-omarchy.PKGBUILD": {
+    "bytes": 1717,
+    "sha256": "b7adaac1b7b034d029692992d0cce5a32c552193e6b3343513da815db20e1e8e"
+  },
+  "recipes/linux-omarchy-headers.PKGBUILD": {
+    "bytes": 1244,
+    "sha256": "5015f97d32468ed9d80964e550b67b79fed7bad1b4f49236cd0419f295c2dd4b"
+  },
+  "recipes/firmware.PKGBUILD": {
+    "bytes": 1698,
+    "sha256": "fd787258a8121d5cf81bcf66c7fa667aea26023956fbfb7f00183d320a0dec15"
+  }
+}

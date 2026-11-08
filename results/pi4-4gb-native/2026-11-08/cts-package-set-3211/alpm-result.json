@@ -1,0 +1,11 @@
+{
+  "actual_four_archives": true,
+  "synthetic_dependency_providers_only": true,
+  "first_install_failed_posthook_pacman0": true,
+  "explicit_readback": true,
+  "removal_guard_restore": true,
+  "exact_dependency_up_downgrade": true,
+  "installed_regular_bytes_verified": true,
+  "mock_findmnt_only": true,
+  "FAT_boot_radio_qualified": false
+}

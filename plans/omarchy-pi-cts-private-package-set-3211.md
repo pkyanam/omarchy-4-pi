@@ -1,0 +1,86 @@
+# CTS incremental private package set 32.11 — 2026-11-08
+
+Status: **four normal-makepkg archives built; exhaustive payload comparison, metadata/MTREE checks, captured-FDT check and actual-production-archive ALPM fixture passed**. This is an incremental full-payload private candidate, with kernel/header/NVIDIA package version `7.3-32.11`, unchanged kernel release **`7.3.0-32.1-omarchy`**, and companion `1-1.1` depending on exactly `linux-omarchy=7.3-32.11`. It is not a full32.2 kernel rebuild or a public release. Physical installation, boot, recovery and functional radio acceptance remain unqualified.
+
+Owned outputs are only `build/upstream-pi/stable-4.5/cts-private-package-set-3211/` and this report. Parent's version choice and original copied-script hashes remain in `parent-version-decision.json`. Old failed root/logs and all previous evidence remain untouched. No Pi, SSH, physical installation, reboot, active sibling edits, staging, commits, network, pulls, dependency installation, VM/resource increase, signing, key copying, human messaging or delegation occurred. The narrow assignment overrides kickoff delegation and Kai reporting. All source verification, production packaging and fixture work occurred on the new case-sensitive Linux volume `omarchy-pi-cts-private-package-set-3211-work`; old source/in-tree/evidence volumes and all input archives were read-only.
+
+## Actual archive outputs
+
+Archives exist both in the new Linux volume at `/work/output/` and under the owned host root's `archives/`. Host copies were independently rehashed against their Linux originals. `logs/final-archives.json` records exact filenames, byte counts, hashes and paths.
+
+| Archive | Bytes | SHA256 |
+| --- | ---: | --- |
+| `linux-omarchy-7.3-32.11-aarch64.pkg.tar.zst` | 181672880 | `4c457229efda934ce399e03fc94cf6bc4900448275fe5bbacd3d8bfa02e39f13` |
+| `linux-omarchy-headers-7.3-32.11-aarch64.pkg.tar.zst` | 45912102 | `6fc8159044c8cb81b0336bc3f3c5e05b1c30cede104b2334dc13c00667805a38` |
+| `linux-omarchy-nvidia-open-7.3-32.11-aarch64.pkg.tar.zst` | 9361422 | `a7ab8e873f861a6897c5496f00a370f650e66a9af13bbf512511fd55da41f91f` |
+| `raspberrypi-4-pftf-cts-1-1.1-aarch64.pkg.tar.zst` | 8069 | `44297aa3c75db982b98d9663003e8fa997f75e0a47f9753e6a11f70d5026f9be` |
+
+The three authenticated original archive hashes remain kernel `2164fb79c02442b9047166b07f1667558f1674c2ccf345d38b9f7e10e97ef8d8`, headers `1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1`, NVIDIA `4d76415647b2a9c1cbf91293bdebf51da47193ed6ab49320ed8ead7baa69386f`. `logs/base-pins.json` records fresh hashes, normal recipe source checksum verification passed, and finalization asserted these exact pins again. Actual `vercmp` returned +1 against `7.3-32.1` and -1 against `7.3-34`.
+
+## Recipe, source and module provenance
+
+`generate.py` created three independent single-output recipes and the companion recipe inside Linux. Each package function declares its real runtime dependencies; normal makepkg dependency checking therefore does not demand installing the output kernel as a production build dependency. There is no fabricated production builder database, `--nodeps`, skipped source checking, makepkg modification or hand-manufactured production archive. Ordinary makepkg generated `.PKGINFO`, `.BUILDINFO` and `.MTREE` for all four outputs. The three incremental recipes preserve complete authenticated baseline payload rather than recompiling kernel or NVIDIA source. The companion compiles its real DT overlay normally with dtc.
+
+Exact recipes used are preserved as evidence in `recipes/`; `logs/recipe-hashes.json` records SHA256:
+
+- Kernel: `b7adaac1b7b034d029692992d0cce5a32c552193e6b3343513da815db20e1e8e`.
+- Headers: `5015f97d32468ed9d80964e550b67b79fed7bad1b4f49236cd0419f295c2dd4b`.
+- NVIDIA: `f0273df15838a9925bd8d31b2b6086b934ab671dabe0283a09c461f710a30ee5`.
+- Companion: `fd787258a8121d5cf81bcf66c7fa667aea26023956fbfb7f00183d320a0dec15`.
+
+`logs/cts-3211-build.log` retains fresh original full kernel recipe `makepkg --verifysource` output: source/config/patch checksums and available kernel/patch PGP signatures passed offline using reviewed public keys. This verifies sources, not a new prepare/build or complete kernel rebuild. It also records the new kernel recipe's normal source and dependency checks. `logs/cts-3211-resume.log` records the corresponding checks and normal builds for headers, NVIDIA and companion. `.BUILDINFO` retains the actual installed build-tool inventory and recipe provenance.
+
+Fresh `requalify.py`/`logs/requalification.json` proves actual OpenSSL CMS verification of the signed AUX module against the certificate authenticated to vmlinux's trusted list and the packaged baseline Image. Compressed AUX SHA256 remains `db5cd638b0e88a6b957e50474b7de97ac9bb6f595af8c7e058539cfa8c799993`; signed ELF is `72cfc483aacd7879b0e676e93f854d345a9235ffab56a9f3516d5fe96e1f7347`; trusted certificate is `eb0a0ff4acefb1182818c8a33de6e03fb96c6fb826cefa92cec3baf5d18a7d05`. Actual `intree=Y`, unchanged vermagic, full imported CRCs, patched BTF and configuration hash `3b12d3dd8d8b0b24ab95ef96bb1b3388d2440a5bda069ecd74f3c7984a2fd51d` pass. Baseline `.text`, `.init.text`, `.exit.text`, `.modinfo`, basic/extended version sections and `.BTF` are again byte-identical to the installed baseline. Six critical hardening flags are checked against enabled config and actual matching Kbuild rules. The original all-header audit is retained read-only; this lane additionally compares the entire new headers archive, including all eight case-colliding paths, against the authenticated original.
+
+The accepted provenance limit remains explicit: original expanded AUX compiler/linker commands are unknown, and the earlier documented explicit linker/debug-compression argument difference is not resolved into a claim of original command identity. Parent's baseline-equivalence policy is the basis for this controlled private candidate.
+
+## Exhaustive comparison and explicit allowlist
+
+`logs/*-comparison.json`, `*-old-manifest.json` and `*-new-manifest.json` retain streaming comparisons of every archive path, all regular file bytes, type, mode, uid/gid, symbolic/hard-link target and PAX attributes. No unexpected capabilities or path changes pass. All original payload ownership/groups and modes are preserved. Original path counts are 10106 kernel, 24745 headers and 17 NVIDIA; new counts are 10110, 24749 and 20 respectively.
+
+The only payload replacement is `usr/lib/modules/7.3.0-32.1-omarchy/kernel/drivers/tty/serial/8250/8250_bcm2835aux.ko.zst`, required to match the exact signed compressed hash above while preserving its type, mode, ownership, link and PAX attributes. Image, DTBs, the other8520 kernel module archives, every header byte and all five signed NVIDIA modules remain byte-identical. The headers comparison includes22575 original regular files (22576 new regular files including provenance). NVIDIA's complete ordinary payload, including its capability/ownership state, is unchanged.
+
+The documented allowlist is:
+
+- One provenance file per incremental package, mode0644, with only required missing `usr/share`, `usr/share/doc` and package-doc parent directories, each mode0755/root:root. Each provenance text describes incremental origin, unchanged release, historical command uncertainty and remaining gates.
+- `.PKGINFO`: exact version, exact kernel runtime dependency for headers/NVIDIA, private recipe pkgbase/description, build timestamp, installed size, and actual recipe makedepends. Ordinary makepkg reports `xdata = pkgtype=pkg` for these independent single-output recipes versus baseline's `pkgtype=split`; this is an asserted provenance change, not a payload/runtime change. All other original fields, including provides/conflicts/replaces, license, architecture, packager, ordinary dependencies and optional dependencies, compare equal.
+- `.BUILDINFO`: genuine new recipe/build provenance and installed tool inventory generated by makepkg.
+- `.MTREE`: genuine regenerated package inventory, including normal timestamp normalization, changed metadata, provenance entries and AUX digest. Every listed payload digest, uid/gid and mode was checked against the new streaming manifest; these files are not treated as unexamined arbitrary payload exemptions.
+
+`logs/metadata-mtree-firmware.json`, `logs/firmware-mtree-receipt.json` and the retained extracted metadata/decoded MTREE files record those checks. Companion's whole payload (bytes, mode, ownership, types, links and PAX) is equal to the prior normal companion archive. Its helper, config, hooks and DT source are unchanged; only version/exact dependency/build provenance metadata differ. Its newly compiled overlay was applied to the captured current FDT, and the real existing verifier proves exactly one added `uart-has-rtscts` property at `/soc/serial@7e215040`, preserving every other node/property including DMA. This is a captured-input check, not live FDT acceptance.
+
+## Actual production-archive ALPM fixture
+
+`logs/cts-3211-alpm-4.log` and `logs/alpm-result.json` record real pacman transactions using all four actual production archives and the three authenticated old archives in an isolated Linux root. Synthetic dependency providers exist only in that fixture's explicit `cts-test-dependencies` package. No fake kernel/companion archive, altered production manifest, synthetic overlay or updater implementation substitutes for the real artifacts. The actual Python interpreter/runtime is copied into the fixture root. Only findmnt's filesystem/UUID/mount facts are mocked; matching real baseline firmware bytes were located locally and rehashed against the unchanged production manifest, including `optimization/current-RPI_EFI.fd`.
+
+Passed behavior:
+
+- Install the actual old three-package set, reject the companion against its wrong kernel and reject a lone kernel update while old exact headers/NVIDIA dependencies remain installed.
+- Upgrade the three-package set together. First companion installation lacks its newly introduced pre-hook; its real post-hook fails on absent opt-in configuration while pacman returns0 and leaves the package installed. This is explicitly **STOP/NO REBOOT**, never installation success inferred from pacman status.
+- Reinstallation with the now-installed pre-hook aborts before transaction on invalid configuration. With matching baseline files and explicit test mount configuration, actual helper check, upgrade/post-hook apply and explicit readback pass. Config bytes equal the packaged candidate and overlay bytes equal the actual packaged dtbo.
+- Exact dependency rules reject paired old-kernel downgrade with companion retained and kernel removal. The removal hook rejects companion removal until actual explicit helper restore. Restore exactly recovers every original media byte; removal then succeeds and the three-package downgrade succeeds. Companion again rejects the old kernel.
+- Upgrade all four actual archives together, explicitly check/read back and restore again, then remove the companion. Every installed regular payload byte from the three new kernel/header/NVIDIA archives is hashed against its streaming manifest; `pacman -Qk` reports no missing package files.
+
+`logs/extracted-archive-preflight.json` and `logs/cts-3211-preflight.log` additionally pass the actual companion's alternate extracted-payload first-install read-only preflight, with unchanged hashes of every fixture media file. Mount identity remains mocked, so parent must repeat this preflight against the actual identified card before any physical install.
+
+## Failures, retirement and resource accounting
+
+All raw failure logs remain retained. Initial comparison stopped on a missing allowlist entry for the required `usr/share/` provenance parent; it was fixed with explicit directory type/mode/ownership checks, then resumed without rebuilding the successful kernel archive. The first metadata check identified normal makepkg's single-output `pkgtype=pkg` change; its exact old/new values were explicitly asserted and documented. Initial ALPM setup lacked eight headers' synthetic dependency providers; the next fixture exposed non-executable copied dynamic-loader permissions. Adding the missing test providers and preserving runtime copy modes fixed these reversible harness errors. No production package content was changed to resolve a fixture failure. The successful fixture uses a fresh root and fresh log.
+
+Only new reproducible extraction staging was retired after completed comparison receipts: each successful package src/pkg tree after its exhaustive archive comparison, the failed fixture's kernel/header/NVIDIA extraction after `logs/retired-fixture2-payload-receipt.json`, and successful fixture's module/header extraction after its full installed-byte receipt (`logs/retired-final-alpm-payload.json`). All production archives, scripts, normal metadata, manifests, failure logs, fixture databases, helper/runtime, matching test media and restore state remain. Old evidence was not deleted or overwritten.
+
+All ten new containers are stopped and `OOMKilled=false`; final inspect records are in `logs/all-final-inspects.json`. Every container uses the pinned image `sha256:69878cfd4a96e064871f852fc0299669b15825d50a1bebfa72969cf72cb2d5b2`, CPU1/jobs1, memory=memory-swap=805306368 bytes (768MiB RAM, zero extra swap), PIDs128, network none, read-only root and disabled Docker logging. Fixture/preflight alone add SYS_CHROOT to the narrow builder capabilities. Temporary/build storage is disk-backed in the new volume. Docker reports OrbStack CPU1 and2074386432 bytes, unchanged. Heavy work was serial; no container remains running and the heavy execution slot is returned (no separate lease file was acquired or altered).
+
+Largest retained measured memory peak is **698937344 bytes** for successful ALPM qualification, with max/oom/oom_kill counters0; packaging/resume peak346836992 and finalization516132864 are retained. Two initial trap filenames were reused across fresh-lane retries, so the final build/qualification resource files describe the latest corresponding invocation, not independent earlier cgroup histories. Raw distinct attempt logs and per-container OOM inspections remain; do not infer missing per-attempt peaks from those later files.
+
+`supervise.py` and strengthened `guard-all.py` measure actual allocated `du` for the new volume, host evidence including archive copies, and positive actual container-root view growth. Root allocated bytes remain2703949824 across all measured read-only containers. The final strengthened guard reserves160000000 bytes for all ten retained containers' injection/layer metadata (16MB each); logical Docker layer sizes are not accounting inputs. Early controls/build guards used smaller reserves appropriate to their then-smaller container set; final accounting conservatively recomputes every retained sample with the full160MB reserve.
+
+The real growth control observed a64MiB retained file, charged83166208 bytes above its75000000 threshold, and stopped the container; the accounting-unavailable control injected an exception and stopped its container. Both stopped without OOM, preserving logs/errors/inspections and the control file. Main lanes use a1200000000-byte sampled stop threshold under the1500000000-byte ceiling, reserving300MB for sampling/shutdown. Guard measurement errors fail closed, and guards retain30-minute execution bounds. All work completed within that overall bound; no short feasibility timeout or increased resource/OOM budget was used.
+
+**Maximum observed allocated charge including full container reserve is1142134784 bytes**, below the1.2GB stop threshold. This is a sampled bound, not a hard quota or unsampled peak guarantee. Final Linux volume usage is560316416 allocated bytes, plus host output around256MB and the container reserve; exact final host charge is in `logs/final-accounting.json`. Conservatively retain the entire new1500000000-byte lane ceiling. Prior global charge3944543872 + this1500000000 + parent512000000 reserve = **5956543872 bytes**, below15GB. No old storage was reclaimed to reduce that charge.
+
+## Remaining parent gates
+
+Parent retains physical installation/boot authority; this completed package task introduces no new approval gate. Before any same-release module overwrite, independently preserve the old module tree as well as the old UKI, with the parent's accepted native same-version root restore demonstration retained. A root snapshot alone cannot protect the overwritten firmware card or establish recovery.
+
+Parent must still qualify the actual target ALPM inventory/ownership, exact quartet selection and dependencies; extracted-archive preflight on the identified physical firmware card; actual FAT durability, firmware/media recovery and rollback; explicit post-transaction helper/media readback regardless of pacman status; final live FDT one-property delta after controlled boot; CTS/RTS electrical and Bluetooth/radio/peripheral behavior. A failing hook or uncertain readback remains STOP/NO REBOOT. Fixture metadata and synthetic mount facts do not qualify physical FAT, boot, recovery or radio behavior, and this four-archive set makes no public-release/full32.2 claim.

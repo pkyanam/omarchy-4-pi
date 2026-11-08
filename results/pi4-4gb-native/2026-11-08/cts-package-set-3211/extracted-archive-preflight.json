@@ -1,0 +1,7 @@
+{
+  "actual_companion_archive": true,
+  "alternate_extracted_payload_check": true,
+  "all_media_hashes_unchanged": true,
+  "mount_identity_mocked": true,
+  "physical_preflight_still_required": true
+}

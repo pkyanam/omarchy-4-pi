@@ -1,0 +1,7 @@
+# Physical target preparation, before installation
+
+The trusted Pi has kernel/headers7.3-32.1, runtime/settings2.6 and no NVIDIA or CTS companion package installed. Effective public-update holds remain. LocalFileSigLevel permits unsigned local files; no signature policy was changed. All four transferred private archives match their exact hashes. Pacman --print accepts the intended kernel/header/companion subset without installing anything. This plan uses the old companion1-1.1; it must be repeated for the corrected companion before real installation.
+
+Fresh snapshot10 and independent old-UKI/module/ESP/firmware backups are complete. Every archive was listed successfully; old AUX and UKI hashes remain unchanged. Three compressed recovery archives totaling384334458bytes were copied off-board and independently rehashed. Full archives and installed-file manifest remain protected onPi and in ignored controller recovery storage. The receipt is tracked here. This preparation does not establish a new rollback boot or cross-version physical recovery.
+
+P1 installation blocker: current RPI_EFI.fd differs from the package baseline in73bytes, entirely inside the source-declared NV variable store. ATF, UEFI code, event and FTW regions match exactly. Config hash is unchanged. No firmware/variable data was written or reset. A reviewed NVRAM-preserving companion is being qualified; the old whole-file-baseline package is not installed. The region comparison contains hashes/counts only; variable contents and device UUIDs remain private.

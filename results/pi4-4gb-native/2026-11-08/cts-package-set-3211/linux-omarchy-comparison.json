@@ -1,0 +1,17 @@
+{
+  "old_paths": 10106,
+  "new_paths": 10110,
+  "changed": [
+    ".BUILDINFO",
+    ".MTREE",
+    ".PKGINFO",
+    "usr/lib/modules/7.3.0-32.1-omarchy/kernel/drivers/tty/serial/8250/8250_bcm2835aux.ko.zst"
+  ],
+  "added": [
+    "usr/share",
+    "usr/share/doc",
+    "usr/share/doc/linux-omarchy",
+    "usr/share/doc/linux-omarchy/cts-private-provenance.txt"
+  ],
+  "all_payload_bytes_modes_links_uid_gid_pax_equal_except_aux": true
+}

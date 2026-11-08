@@ -1,0 +1,29 @@
+{
+  "containers": 10,
+  "all_stopped": true,
+  "all_OOMKilled_false": true,
+  "root_allocated_unchanged_bytes": 2703949824,
+  "sampled_peak_including_160MB_all_container_reserve": {
+    "time": 1794165405.096409,
+    "host": 19218432,
+    "root": 2703949824,
+    "volume": 962916352,
+    "charged": 1142134784,
+    "peak": 1142134784,
+    "source": "cts-3211-alpm-4-all-layers-storage.jsonl",
+    "conservative_all_container_reserve_charge": 1142134784
+  },
+  "final_host_allocated_bytes": 256421888,
+  "final_linux_volume_allocated_bytes": 560316416,
+  "prior_global_charge": 3944543872,
+  "new_lane_conservative_charge": 1500000000,
+  "parent_reserve": 512000000,
+  "total_conservative_with_parent": 5956543872,
+  "global_ceiling": 15000000000,
+  "all_container_metadata_reserve_bytes": 160000000,
+  "vm": {
+    "cpus": 1,
+    "memory_bytes": 2074386432
+  },
+  "final_retained_charge_with_all_reserves": 976738304
+}

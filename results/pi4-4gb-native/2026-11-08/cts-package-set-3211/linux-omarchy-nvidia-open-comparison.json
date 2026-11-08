@@ -1,0 +1,15 @@
+{
+  "old_paths": 17,
+  "new_paths": 20,
+  "changed": [
+    ".BUILDINFO",
+    ".MTREE",
+    ".PKGINFO"
+  ],
+  "added": [
+    "usr/share/doc",
+    "usr/share/doc/linux-omarchy-nvidia-open",
+    "usr/share/doc/linux-omarchy-nvidia-open/cts-private-provenance.txt"
+  ],
+  "all_payload_bytes_modes_links_uid_gid_pax_equal_except_aux": true
+}

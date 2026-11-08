@@ -1,0 +1,6 @@
+{
+  "linux-omarchy-nvidia-open.PKGBUILD": "f0273df15838a9925bd8d31b2b6086b934ab671dabe0283a09c461f710a30ee5",
+  "linux-omarchy.PKGBUILD": "b7adaac1b7b034d029692992d0cce5a32c552193e6b3343513da815db20e1e8e",
+  "linux-omarchy-headers.PKGBUILD": "5015f97d32468ed9d80964e550b67b79fed7bad1b4f49236cd0419f295c2dd4b",
+  "firmware.PKGBUILD": "fd787258a8121d5cf81bcf66c7fa667aea26023956fbfb7f00183d320a0dec15"
+}

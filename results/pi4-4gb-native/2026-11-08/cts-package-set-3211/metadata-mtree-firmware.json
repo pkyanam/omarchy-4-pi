@@ -1,0 +1,300 @@
+{
+  "linux-omarchy": {
+    "metadata_changes": {
+      "builddate": [
+        [
+          "1794113567"
+        ],
+        [
+          "1794168000"
+        ]
+      ],
+      "pkgver": [
+        [
+          "7.3-32.1"
+        ],
+        [
+          "7.3-32.11"
+        ]
+      ],
+      "xdata": [
+        [
+          "pkgtype=split"
+        ],
+        [
+          "pkgtype=pkg"
+        ]
+      ],
+      "size": [
+        [
+          "235354462"
+        ],
+        [
+          "235356231"
+        ]
+      ],
+      "pkgdesc": [
+        [
+          "The Omarchy Linux for aarch64 (BORE CPU scheduler, ADIOS I/O scheduler) kernel and modules"
+        ],
+        [
+          "The Omarchy Linux for aarch64 (BORE CPU scheduler, ADIOS I/O scheduler) kernel and modules (incremental full-payload private CTS candidate)"
+        ]
+      ],
+      "makedepend": [
+        [
+          "bc",
+          "binutils",
+          "cpio",
+          "gettext",
+          "glibc",
+          "libelf",
+          "libgcc",
+          "openssl",
+          "pahole",
+          "perl",
+          "python",
+          "rust",
+          "rust-bindgen",
+          "rust-src",
+          "tar",
+          "xxhash",
+          "xz",
+          "zlib",
+          "zstd"
+        ],
+        [
+          "libarchive",
+          "zstd",
+          "python",
+          "kmod",
+          "openssl",
+          "binutils"
+        ]
+      ],
+      "pkgbase": [
+        [
+          "linux-omarchy-aarch64"
+        ],
+        [
+          "linux-omarchy-cts-private"
+        ]
+      ]
+    },
+    "mtree_paths_checked": 10109
+  },
+  "linux-omarchy-headers": {
+    "metadata_changes": {
+      "builddate": [
+        [
+          "1794113567"
+        ],
+        [
+          "1794168000"
+        ]
+      ],
+      "pkgver": [
+        [
+          "7.3-32.1"
+        ],
+        [
+          "7.3-32.11"
+        ]
+      ],
+      "xdata": [
+        [
+          "pkgtype=split"
+        ],
+        [
+          "pkgtype=pkg"
+        ]
+      ],
+      "size": [
+        [
+          "162753229"
+        ],
+        [
+          "162753648"
+        ]
+      ],
+      "pkgdesc": [
+        [
+          "Headers and scripts for building modules for the Omarchy Linux for aarch64 (BORE CPU scheduler, ADIOS I/O scheduler) kernel"
+        ],
+        [
+          "Headers and scripts for building modules for the Omarchy Linux for aarch64 (BORE CPU scheduler, ADIOS I/O scheduler) kernel (incremental full-payload private CTS candidate)"
+        ]
+      ],
+      "makedepend": [
+        [
+          "bc",
+          "binutils",
+          "cpio",
+          "gettext",
+          "glibc",
+          "libelf",
+          "libgcc",
+          "openssl",
+          "pahole",
+          "perl",
+          "python",
+          "rust",
+          "rust-bindgen",
+          "rust-src",
+          "tar",
+          "xxhash",
+          "xz",
+          "zlib",
+          "zstd"
+        ],
+        [
+          "libarchive",
+          "zstd",
+          "python",
+          "kmod",
+          "openssl",
+          "binutils"
+        ]
+      ],
+      "pkgbase": [
+        [
+          "linux-omarchy-aarch64"
+        ],
+        [
+          "linux-omarchy-headers-cts-private"
+        ]
+      ],
+      "depend": [
+        [
+          "linux-omarchy=7.3-32.1",
+          "binutils",
+          "glibc",
+          "libelf",
+          "libgcc",
+          "openssl",
+          "pahole",
+          "xxhash",
+          "zlib",
+          "zstd"
+        ],
+        [
+          "linux-omarchy=7.3-32.11",
+          "binutils",
+          "glibc",
+          "libelf",
+          "libgcc",
+          "openssl",
+          "pahole",
+          "xxhash",
+          "zlib",
+          "zstd"
+        ]
+      ]
+    },
+    "mtree_paths_checked": 24748
+  },
+  "linux-omarchy-nvidia-open": {
+    "metadata_changes": {
+      "builddate": [
+        [
+          "1794113567"
+        ],
+        [
+          "1794168000"
+        ]
+      ],
+      "pkgver": [
+        [
+          "7.3-32.1"
+        ],
+        [
+          "7.3-32.11"
+        ]
+      ],
+      "xdata": [
+        [
+          "pkgtype=split"
+        ],
+        [
+          "pkgtype=pkg"
+        ]
+      ],
+      "size": [
+        [
+          "9366648"
+        ],
+        [
+          "9367067"
+        ]
+      ],
+      "pkgdesc": [
+        [
+          "NVIDIA open kernel modules for the Omarchy Linux for aarch64 (BORE CPU scheduler, ADIOS I/O scheduler) kernel"
+        ],
+        [
+          "NVIDIA open kernel modules for the Omarchy Linux for aarch64 (BORE CPU scheduler, ADIOS I/O scheduler) kernel (incremental full-payload private CTS candidate)"
+        ]
+      ],
+      "makedepend": [
+        [
+          "bc",
+          "binutils",
+          "cpio",
+          "gettext",
+          "glibc",
+          "libelf",
+          "libgcc",
+          "openssl",
+          "pahole",
+          "perl",
+          "python",
+          "rust",
+          "rust-bindgen",
+          "rust-src",
+          "tar",
+          "xxhash",
+          "xz",
+          "zlib",
+          "zstd"
+        ],
+        [
+          "libarchive",
+          "zstd",
+          "python",
+          "kmod",
+          "openssl",
+          "binutils"
+        ]
+      ],
+      "pkgbase": [
+        [
+          "linux-omarchy-aarch64"
+        ],
+        [
+          "linux-omarchy-nvidia-open-cts-private"
+        ]
+      ],
+      "depend": [
+        [
+          "linux-omarchy=7.3-32.1",
+          "nvidia-utils=615.78.08"
+        ],
+        [
+          "linux-omarchy=7.3-32.11",
+          "nvidia-utils=615.78.08"
+        ]
+      ]
+    },
+    "mtree_paths_checked": 19
+  },
+  "firmware": {
+    "all_payload_equal_to_prior_normal_archive": true,
+    "one_property_captured_FDT_delta": true,
+    "exact_dependencies": [
+      "linux-omarchy=7.3-32.11",
+      "raspberrypi-4-support",
+      "python",
+      "util-linux"
+    ]
+  }
+}

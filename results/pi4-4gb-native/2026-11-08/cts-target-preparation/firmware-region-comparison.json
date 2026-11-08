@@ -1,0 +1,55 @@
+{
+  "old_sha256": "9d7e2b14292e9275f1bc00ebcb07fc879a629c343cedea6381776d1696d77067",
+  "current_sha256": "4de071429a7eb715673d9b5d8bc6d076f3cdd8da488f3c49eafdce7007a033b1",
+  "regions": [
+    {
+      "name": "ATF",
+      "start": "0x0",
+      "end": "0x20000",
+      "changed_bytes": 0,
+      "old_sha256": "c35ec9d27dbf90dffbfda9167a6f957fc8394792c5061ca6d132cc53f405ceaf",
+      "current_sha256": "c35ec9d27dbf90dffbfda9167a6f957fc8394792c5061ca6d132cc53f405ceaf"
+    },
+    {
+      "name": "UEFI",
+      "start": "0x20000",
+      "end": "0x3b0000",
+      "changed_bytes": 0,
+      "old_sha256": "58f59562d1dad08a2d44d8357b024da8843c694972a306bf75b982a9be5b48cc",
+      "current_sha256": "58f59562d1dad08a2d44d8357b024da8843c694972a306bf75b982a9be5b48cc"
+    },
+    {
+      "name": "NV variable store",
+      "start": "0x3b0000",
+      "end": "0x3be000",
+      "changed_bytes": 73,
+      "old_sha256": "99811e3168e164cfc6e3d9b779a7e0d3e3ac29ae87c82a180a089b821cfa7df7",
+      "current_sha256": "641cbc4ad427bd905edf9b63b230010d9cd41b71a58f3758e870d1b209a6d1e8"
+    },
+    {
+      "name": "NV event log",
+      "start": "0x3be000",
+      "end": "0x3bf000",
+      "changed_bytes": 0,
+      "old_sha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6",
+      "current_sha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6"
+    },
+    {
+      "name": "FTW working",
+      "start": "0x3bf000",
+      "end": "0x3c0000",
+      "changed_bytes": 0,
+      "old_sha256": "118f92ea0ebaee277948aa097d401c4c06c6f7779121ffc52c450b69295c44be",
+      "current_sha256": "118f92ea0ebaee277948aa097d401c4c06c6f7779121ffc52c450b69295c44be"
+    },
+    {
+      "name": "FTW spare",
+      "start": "0x3c0000",
+      "end": "0x3d0000",
+      "changed_bytes": 0,
+      "old_sha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063",
+      "current_sha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063"
+    }
+  ],
+  "all_differences_within_declared_NV_variable_store": true
+}

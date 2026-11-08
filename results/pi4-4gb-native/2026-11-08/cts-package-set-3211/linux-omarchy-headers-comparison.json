@@ -1,0 +1,16 @@
+{
+  "old_paths": 24745,
+  "new_paths": 24749,
+  "changed": [
+    ".BUILDINFO",
+    ".MTREE",
+    ".PKGINFO"
+  ],
+  "added": [
+    "usr/share",
+    "usr/share/doc",
+    "usr/share/doc/linux-omarchy-headers",
+    "usr/share/doc/linux-omarchy-headers/cts-private-provenance.txt"
+  ],
+  "all_payload_bytes_modes_links_uid_gid_pax_equal_except_aux": true
+}

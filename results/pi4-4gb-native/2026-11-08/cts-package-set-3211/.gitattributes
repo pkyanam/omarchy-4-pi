@@ -1,0 +1,2 @@
+# Preserve actual ALPM and archive-preflight output.
+*.log -whitespace

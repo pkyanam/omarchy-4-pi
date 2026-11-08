@@ -1,0 +1,24 @@
+{
+  "state": "backups complete; no packages or firmware modified",
+  "release": "7.3.0-32.1-omarchy",
+  "old_aux_sha256": "8e23a61765194eb4908d4037c7b304662797b662c88058538e2d1fb0da71999a",
+  "old_uki_sha256": "3b2b9760c87d373f7e8d6b85d718a720da777bc254c6592162cd24e160bf1d0a",
+  "snapshot": 10,
+  "archives": {
+    "modules-before.tar.zst": {
+      "bytes": 228201181,
+      "sha256": "113ba1ba6594eca907eb369c8e7bd5fc4ac28ebb2cd79b22481c2cd5db9b0867"
+    },
+    "esp-before.tar.zst": {
+      "bytes": 152470753,
+      "sha256": "9a6609321cfad786fa71d1793278f2076621b8fba2f2d30d265696aeeb0bfa3e"
+    },
+    "firmware-before.tar.zst": {
+      "bytes": 3662524,
+      "sha256": "783caf0d2224eeb7be846fe4116c2323988bd2fd9b15fa0bb623553f5ad0b24c"
+    }
+  },
+  "old_aux_after": "8e23a61765194eb4908d4037c7b304662797b662c88058538e2d1fb0da71999a",
+  "old_uki_after": "3b2b9760c87d373f7e8d6b85d718a720da777bc254c6592162cd24e160bf1d0a",
+  "offboard_verified": true
+}

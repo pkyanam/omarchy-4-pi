@@ -1,0 +1,3 @@
+Firmware card identity/baseline checked; no write
+PASS extracted production archive read-only helper preflight; all matching real-media hashes unchanged
+EXIT=0

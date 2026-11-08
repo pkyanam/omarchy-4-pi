@@ -1,0 +1,13 @@
+Python syntax and paired Bash syntax passed. Default remains768; rejected767/3073. Actual VM MemAvailable must cover selected RAM+512MiB headroom.
+usage: zstd-package-candidates.py [-h] [--out OUT] [--build-pair BUILD_PAIR]
+                                  [--preflight-builder PREFLIGHT_BUILDER]
+                                  [--expected-packages EXPECTED_PACKAGES]
+                                  [--build-memory-mib BUILD_MEMORY_MIB]
+                                  [--build-swap-mib BUILD_SWAP_MIB]
+zstd-package-candidates.py: error: --build-memory-mib must be between 768 and 3072
+usage: zstd-package-candidates.py [-h] [--out OUT] [--build-pair BUILD_PAIR]
+                                  [--preflight-builder PREFLIGHT_BUILDER]
+                                  [--expected-packages EXPECTED_PACKAGES]
+                                  [--build-memory-mib BUILD_MEMORY_MIB]
+                                  [--build-swap-mib BUILD_SWAP_MIB]
+zstd-package-candidates.py: error: --build-memory-mib must be between 768 and 3072

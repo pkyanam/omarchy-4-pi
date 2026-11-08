@@ -1,0 +1,45 @@
+{
+  "status": "Both unsigned private package candidates built, checks and pair audit passed; not installed or target-qualified",
+  "image": "sha256:277a56bbb6f54c1cc4aa16c403904a34b0a2292b64465339f9321980f60ab514",
+  "historical_arm_flags": "unknown",
+  "installed_stock_correspondence": "Parent verified CLI and library hashes match authenticated stock archive",
+  "performance": "Build-host check throughput is not Pi performance",
+  "artifacts": [
+    {
+      "optimization": "O2",
+      "path": "O2/zstd-1.5.7-3.1-aarch64.pkg.tar.xz",
+      "bytes": 437520,
+      "sha256": "e0a1198fbf1a63d389e064eb093c0d91d9b380d6aa726816ca7fd12a445549ab"
+    },
+    {
+      "optimization": "O2",
+      "path": "O2/audit/extracted/usr/bin/zstd",
+      "bytes": 267632,
+      "sha256": "28a39030e681021b19aaacdcfd075fd0afec5f8bc9fc674998013fb48ef31017"
+    },
+    {
+      "optimization": "O2",
+      "path": "O2/audit/extracted/usr/lib/libzstd.so.1.5.7",
+      "bytes": 854120,
+      "sha256": "3e910d386077f19622dd2041f8753bacb6a9f479e93c83920de89c771e10f19a"
+    },
+    {
+      "optimization": "O3",
+      "path": "O3/zstd-1.5.7-3.1-aarch64.pkg.tar.xz",
+      "bytes": 561984,
+      "sha256": "2b93983e712c3c5d9dca40d3ac9b43da185e6d5879f6a70b9e509c4f2371d339"
+    },
+    {
+      "optimization": "O3",
+      "path": "O3/audit/extracted/usr/bin/zstd",
+      "bytes": 267632,
+      "sha256": "959aefe8d92f46a3832f3e0ac3aca22c9eedb077fe98de1bbd8aad9952d79714"
+    },
+    {
+      "optimization": "O3",
+      "path": "O3/audit/extracted/usr/lib/libzstd.so.1.5.7",
+      "bytes": 1181800,
+      "sha256": "4fae350fcff23f30d229cf200c37bc78efb6aca8e730019775723753b50e90ea"
+    }
+  ]
+}

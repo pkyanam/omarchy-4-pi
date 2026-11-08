@@ -1,0 +1,20 @@
+{
+  "O2": {
+    "samples": 79,
+    "sampled_memory_peak": 2060390400,
+    "minimum_vm_available_kib": 2213944,
+    "minimum_available_work_bytes": 12853485568,
+    "oom_kills": 0,
+    "swap_peak": 0,
+    "resources": "O2/resources.txt"
+  },
+  "O3": {
+    "samples": 81,
+    "sampled_memory_peak": 2056654848,
+    "minimum_vm_available_kib": 2823376,
+    "minimum_available_work_bytes": 12230909952,
+    "oom_kills": 0,
+    "swap_peak": 0,
+    "resources": "O3/resources.txt"
+  }
+}

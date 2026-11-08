@@ -1,0 +1,1 @@
+{"additional_requirement":"GLIBC_ABI_DT_RELR","stock_has_marker":false,"reason":"Frozen makepkg -Wl,-z,pack-relative-relocs","target_glibc":"2.43 (parent-reported)","minimum_glibc_for_DT_RELR":"2.36","evidence_scope":"Static target-version compatibility inference; runtime checked only with builder loader; no target execution"}

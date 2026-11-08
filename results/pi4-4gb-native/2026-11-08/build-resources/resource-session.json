@@ -7,8 +7,12 @@
   "approval": "temporary4GiB restart; restore2GiB aftervalidation",
   "running_containers_before": [],
   "linux_machines_before": [],
-  "restore_required": true,
+  "restore_required": false,
   "started_utc": "2026-11-08T13:34:40.725010+00:00",
   "memory_bytes_verified": 4180963328,
-  "status": "temporary4GiB active; restore required"
+  "status": "restored original 2 GiB; actual Docker memory verified",
+  "memory_mib_restored": 2048,
+  "memory_bytes_after_restore": 2074386432,
+  "cpu_after_restore": 1,
+  "restored_utc": "2026-11-08T14:08:36.583656+00:00"
 }

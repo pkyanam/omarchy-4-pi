@@ -1,0 +1,6 @@
+e0a1198fbf1a63d389e064eb093c0d91d9b380d6aa726816ca7fd12a445549ab  O2/zstd-1.5.7-3.1-aarch64.pkg.tar.xz
+28a39030e681021b19aaacdcfd075fd0afec5f8bc9fc674998013fb48ef31017  O2/audit/extracted/usr/bin/zstd
+3e910d386077f19622dd2041f8753bacb6a9f479e93c83920de89c771e10f19a  O2/audit/extracted/usr/lib/libzstd.so.1.5.7
+2b93983e712c3c5d9dca40d3ac9b43da185e6d5879f6a70b9e509c4f2371d339  O3/zstd-1.5.7-3.1-aarch64.pkg.tar.xz
+959aefe8d92f46a3832f3e0ac3aca22c9eedb077fe98de1bbd8aad9952d79714  O3/audit/extracted/usr/bin/zstd
+4fae350fcff23f30d229cf200c37bc78efb6aca8e730019775723753b50e90ea  O3/audit/extracted/usr/lib/libzstd.so.1.5.7

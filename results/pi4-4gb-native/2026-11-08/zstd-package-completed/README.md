@@ -1,0 +1,5 @@
+# Completed full-feature zstd compiler pair
+
+Both private O2/O3 packages pass unchanged complete upstream checks plus compiler/link/config/layout/export/hardening/loader and functional audits. Full records and exact hashes are in transfer-manifest.json and the qualification reports. These build-host tests are not Pi performance. Candidates additionally need GLIBC_ABI_DT_RELR, unlike inspected stock; the actual target loader/runtime still needs verification. Historical stock ARM optimization flags remain unknown. No package has been installed.
+
+The original smaller-cap failures and mixed-swap interruption remain preserved separately. The approved temporary OrbStack increase was restored to original2048MiB after both successful builds returned the heavy lease; actual Docker2074386432 bytes/CPU1 verified. See ../build-resources/resource-session.json. Candidate archives stay in ignored build storage with matching hashes and reproducible source/config/compiler evidence. Parent owns transfer, target smoke and balanced performance qualification.

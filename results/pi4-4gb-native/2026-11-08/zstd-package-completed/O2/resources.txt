@@ -1,0 +1,26 @@
+cpu.max
+100000 100000
+memory.max
+3221225472
+memory.swap.max
+0
+memory.current
+130617344
+memory.peak
+2060390400
+memory.swap.current
+0
+memory.swap.peak
+0
+memory.events
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+sock_throttled 0
+memory.swap.events
+high 0
+max 0
+fail 0

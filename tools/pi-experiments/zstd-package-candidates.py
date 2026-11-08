@@ -182,8 +182,8 @@ def build_pair(out, image, expected, memory_mib=768, swap_mib=0):
   """Build only against an explicitly selected, dependency-complete local image."""
   if not re.fullmatch(r"sha256:[0-9a-f]{64}", image) or not expected:
     raise RuntimeError("Exact image ID and expected package manifest required")
-  if not 768 <= memory_mib <= 1280:
-    raise RuntimeError("Build budget must be 768..1280 MiB; default 768")
+  if not 768 <= memory_mib <= 3072:
+    raise RuntimeError("Build budget must be 768..3072 MiB; default 768")
   if not 0 <= swap_mib <= 2304:
     raise RuntimeError("Swap budget must be 0..2304 MiB; default 0")
   if (out / "build-result.json").exists():
@@ -199,7 +199,8 @@ def build_pair(out, image, expected, memory_mib=768, swap_mib=0):
     raise RuntimeError("VM/swap accounting preflight unavailable; no build started")
   health = json.loads(probe.stdout)
   validate_swap_health(health, swap_mib)
-  if health["MemAvailable"] < memory_mib * 1024 or health["disk_available"] < 4 * 1024**3:
+  # Reserve 512 MiB of actual VM RAM outside the selected container envelope.
+  if min(health["MemTotal"], health["MemAvailable"]) < (memory_mib + 512) * 1024 or health["disk_available"] < 4 * 1024**3:
     raise RuntimeError("VM memory/storage preflight insufficient; no build started")
   inventory = subprocess.check_output([
     "docker", "run", "--rm", "--pull=never", "--read-only", "--network=none",
@@ -312,14 +313,14 @@ def main():
   parser.add_argument("--preflight-builder", help="Parent-selected exact local sha256 image ID; never builds")
   parser.add_argument("--expected-packages", type=Path, help="Parent-reviewed complete pacman -Q manifest")
   parser.add_argument("--build-memory-mib", type=int, default=768,
-                      help="Explicit build RAM limit in MiB (768..1280; default 768)")
+                      help="Explicit build RAM limit in MiB (768..3072; default 768)")
   parser.add_argument("--build-swap-mib", type=int, default=0,
                       help="Explicit disk-backed swap limit in MiB (0..2304; default 0)")
   args = parser.parse_args()
   if not 0 <= args.build_swap_mib <= 2304:
     parser.error("--build-swap-mib must be between 0 and 2304")
-  if not 768 <= args.build_memory_mib <= 1280:
-    parser.error("--build-memory-mib must be between 768 and 1280")
+  if not 768 <= args.build_memory_mib <= 3072:
+    parser.error("--build-memory-mib must be between 768 and 3072")
   out = args.out.resolve()
   out.mkdir(parents=True, exist_ok=True)
   if args.build_pair:

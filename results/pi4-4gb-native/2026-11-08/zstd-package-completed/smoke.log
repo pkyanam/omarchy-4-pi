@@ -1,0 +1,30 @@
+{
+  "O2": [
+    "roundtrip zstd",
+    "roundtrip gzip",
+    "roundtrip xz",
+    "roundtrip lzma",
+    "roundtrip lz4",
+    "thread T2 roundtrip",
+    "unzstd/zstdcat/zstdmt wrappers and pzstd roundtrip",
+    "trained dictionary roundtrip",
+    "malformed/truncated/golden-error rejection",
+    "upstream v0.5/v0.6/v0.7/current fixtures and concatenation decoded exactly; excluded v0.4 rejected",
+    "all formats cross-decoded with other candidate own shared library",
+    "all formats bidirectionally cross-decoded with authenticated stock own shared library"
+  ],
+  "O3": [
+    "roundtrip zstd",
+    "roundtrip gzip",
+    "roundtrip xz",
+    "roundtrip lzma",
+    "roundtrip lz4",
+    "thread T2 roundtrip",
+    "unzstd/zstdcat/zstdmt wrappers and pzstd roundtrip",
+    "trained dictionary roundtrip",
+    "malformed/truncated/golden-error rejection",
+    "upstream v0.5/v0.6/v0.7/current fixtures and concatenation decoded exactly; excluded v0.4 rejected",
+    "all formats cross-decoded with other candidate own shared library",
+    "all formats bidirectionally cross-decoded with authenticated stock own shared library"
+  ]
+}

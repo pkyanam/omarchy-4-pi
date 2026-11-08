@@ -1,0 +1,26 @@
+[
+  {
+    "total_kib": 4082972,
+    "available_kib": 3760976,
+    "disk_available": 13958643712,
+    "rejected": false
+  },
+  {
+    "total_kib": 4082972,
+    "available_kib": 3200000,
+    "disk_available": 13958643712,
+    "rejected": true
+  },
+  {
+    "total_kib": 3200000,
+    "available_kib": 3760976,
+    "disk_available": 13958643712,
+    "rejected": true
+  },
+  {
+    "total_kib": 4082972,
+    "available_kib": 3760976,
+    "disk_available": 3221225472,
+    "rejected": true
+  }
+]

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/work/audit-pair.py", line 65, in <module>
+    assert versions<=ref|allowed,(versions,ref)
+           ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ({'GLIBC_2.34', 'GLIBC_ABI_DT_RELR', 'GLIBC_2.17'}, {'GLIBC_2.34', 'GLIBC_2.17'})

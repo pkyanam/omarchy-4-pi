@@ -1,0 +1,4 @@
+# Retain original source delta and complete control logs.
+*.patch -whitespace
+*.diff -whitespace
+*.log -whitespace

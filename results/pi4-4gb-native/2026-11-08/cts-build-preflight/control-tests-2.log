@@ -1,0 +1,16 @@
+Reviewed config equivalence passed: 13754 symbols; comments/order only
+PASS reject security CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp7ountl5q/config: {'CONFIG_RANDOMIZE_BASE': ('y', 'n')}
+PASS reject architecture CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp7ountl5q/config: {'CONFIG_ARM64': ('y', 'n')}
+PASS reject capability CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp7ountl5q/config: {'CONFIG_SERIAL_8250_BCM2835AUX': ('m', 'n')}
+PASS reject unknown-symbol CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp7ountl5q/config: {'CONFIG_UNKNOWN_CTS_TEST': (None, 'y')}
+PASS reject duplicate duplicate symbol: CONFIG_ARM64
+PASS reject missing CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp7ountl5q/config: {'CONFIG_ARM64': ('y', None)}
+Reviewed config equivalence passed: 13754 symbols; comments/order only
+PASS reject source hash drift
+ /usr/bin/PKGBUILD: line 1: ����: command not found
+
+Traceback (most recent call last):
+  File "/tmp/cts-tests.py", line 24, in <module>
+    assert 'linux-7.3.tar.sign' in r.stderr and 'NVIDIA-kernel-module-source-615.78.08.tar.xz' in r.stderr
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

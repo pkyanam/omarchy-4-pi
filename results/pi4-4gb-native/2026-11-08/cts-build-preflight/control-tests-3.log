@@ -1,0 +1,77 @@
+Reviewed config equivalence passed: 13754 symbols; comments/order only
+PASS reject security CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphxp0rb_6/config: {'CONFIG_RANDOMIZE_BASE': ('y', 'n')}
+PASS reject architecture CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphxp0rb_6/config: {'CONFIG_ARM64': ('y', 'n')}
+PASS reject capability CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphxp0rb_6/config: {'CONFIG_SERIAL_8250_BCM2835AUX': ('m', 'n')}
+PASS reject unknown-symbol CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphxp0rb_6/config: {'CONFIG_UNKNOWN_CTS_TEST': (None, 'y')}
+PASS reject duplicate duplicate symbol: CONFIG_ARM64
+PASS reject missing CONFIG drift in /var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphxp0rb_6/config: {'CONFIG_ARM64': ('y', None)}
+Reviewed config equivalence passed: 13754 symbols; comments/order only
+PASS reject source hash drift
+ Missing offline source: /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-kernel-candidate/kernel/linux-7.3.tar.sign (or /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/linux-7.3.tar.sign)
+Missing offline source: /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-kernel-candidate/kernel/NVIDIA-kernel-module-source-615.78.08.tar.xz (or /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/NVIDIA-kernel-module-source-615.78.08.tar.xz)
+
+PASS missing real offline signature/NVIDIA inputs reject
+PASS runner rejects unauthorized invocation before Docker
+PASS syntax build-inside.sh
+PASS syntax build-offline.sh
+PASS syntax verify-packages.sh
+PASS syntax offline-inputs.sh
+PASS syntax PKGBUILD
+KEY FILE 12D27D5D8C8E9BF1AABC7C7C7C64768D3DE334E7.asc
+pub:-:4096:1:7C64768D3DE334E7:1507233866:::-:::scESC::::::23::0:
+fpr:::::::::12D27D5D8C8E9BF1AABC7C7C7C64768D3DE334E7:
+uid:-::::1733115974::05EFFA62866B7CE28BBC41C30E0743012B0E5BA0::Krzysztof Wilczynski <kw@linux.com>::::::::::0:
+uid:-::::1507233985::DCBFF3548829D73EE6AAF9E626BBFFD098203917::Krzysztof Wilczynski <krzysztof.wilczynski@fsck.io>::::::::::0:
+uid:-::::1507233998::B746C4225265BF7472DECFCF99064248C0E0797F::Krzysztof Wilczynski <kw@fsck.io>::::::::::0:
+uid:-::::1507234019::64A2EB422D400F143C019C57F3C7EA6D95B10656::keybase.io/kwilczynski <kwilczynski@keybase.io>::::::::::0:
+uid:-::::1551758530::B6A335F400ACBBF9E3AA872C1A620E87BB9DDE94::Krzysztof Wilczynski <krzysztof.wilczynski@linux.com>::::::::::0:
+uid:r::::::636A7377B0B66D6CA46FCF89A82688216200F1E3::Krzysztof Wilczynski <kwilczynski@tenable.com>::::::::::0:
+uid:r::::::2C9D68D833D461B67EE0686A0A382A6B33AA1559::Krzysztof Wilczynski <kwilczynski@olx.com>::::::::::0:
+uid:r::::::A6610529A7F418EB52BC6043AF962A6FC493132F::Krzysztof Wilczynski <kwilczynski@joyent.com>::::::::::0:
+uid:r::::::721E67ECE07823FD4A727B5ADB933F9734478E52::Krzysztof Wilczynski <krzysztof.wilczynski@olx.com>::::::::::0:
+uid:r::::::A0601C1E3696F7651CE1A3586C3F06AC93D10FA1::Krzysztof Wilczynski <krzysztof.wilczynski@joyent.com>::::::::::0:
+uid:r::::::AF8A8C47D4BBCED5E3243F5D64C6DD1A2B6A116A::Krzysztof Wilczynski <krzysztof.wilczynski@elastic.co>::::::::::0:
+uid:r::::::8D49603EB0A6CAC646166C880E3055FD7ACAB1E8::Krzysztof Wilczynski <krzysztof.wilczynski@nordcloud.com>::::::::::0:
+uid:r::::::286D030AB9DB55B9F53897DB70CA27418730C44C::Krzysztof Wilczynski <krzysztof.wilczynski@lightbend.com>::::::::::0:
+uid:r::::::8AB8132BBDB4CD6D87BB65AD4E317D9B4786158F::Krzysztof Wilczynski <kw@lightbend.com>::::::::::0:
+uid:r::::::D650CC6F882183EB7FADCF774D98781F049C3133::Krzysztof Wilczynski <krzysztof.wilczynski@nobl9.com>::::::::::0:
+uid:r::::::252F98850021EF680A2D0166BB2015D03974EA52::Krzysztof Wilczynski <kw@nobl9.com>::::::::::0:
+uid:r::::::C88FC6AC2BBAA0298D2BE2B4602367AABDD371F2::Krzysztof Wilczynski <kwilczynski@packet.com>::::::::::0:
+uid:r::::::AC6CF5BBC5E07E9DF4B2948C25B1068906FD14BC::Krzysztof Wilczynski <krzysztof.wilczynski@eu.equinix.com>::::::::::0:
+uid:-::::1619578578::DB52A14F289C11843223FCADF2CC36AF42A0B635::Krzysztof Wilczynski <kw@ariake.pl>::::::::::0:
+uid:-::::1619578595::46ECB91273679EB25884C515CF0C2A001125A535::Krzysztof Wilczynski <krzysztof.wilczynski@ariake.pl>::::::::::0:
+uid:r::::::714FE8ADBB5D611E18EFB8E39C560D4AE30E9000::Krzysztof Wilczynski <ext-krzysztof.wilczynski@goflink.com>::::::::::0:
+uat:-::::1645340145::7F57ED58C15C59020CE54DACF922E3BB95CA40F0::1 4989::::::::::0:
+uid:r::::::A48BCFB1C2594564CB2D5FEAE984FB7F29108776::Krzysztof Wilczyński <kwilczynski@gitlab.com>::::::::::0:
+uid:r::::::E1E36944D33E630A2BFA0831DCE50AD4C81FDB27::Krzysztof Wilczyński <kwilczyn@redhat.com>::::::::::0:
+uid:r::::::66A533A501EAD40DDF65A6CFB5A8FE6DAA648355::Krzysztof Wilczyński <kwilczynski@redhat.com>::::::::::0:
+uid:r::::::1B27847DB1E10025E8B964AA76D8E88F92E9B471::Krzysztof Wilczyński <krzysztof.wilczynski@redhat.com>::::::::::0:
+uid:-::::1671651171::655B31D3368B8939FCC8A50939BCDC402CADCDDE::Krzysztof Wilczyński <kwilczynski@kernel.org>::::::::::0:
+uid:r::::::558668DFCB23DCB41A2B2B3DC35A00FBF93C0200::Krzysztof Wilczyński <krzysztof.wilczynski@collabora.com>::::::::::0:
+uid:r::::::4B36E6A7BEAD72F8CB346160D78A2DD53D750A96::Krzysztof Wilczyński <kwilczynski@collabora.com>::::::::::0:
+uid:-::::1748838055::5B6506F191A91BCFECC59A7FF0B23929059BBBBF::Krzysztof Wilczyński <krzysztof.wilczynski@opensrcsec.com>::::::::::0:
+uid:-::::1748838064::E64E42C80AC722B416CDC6DB314603C2503BD7FD::Krzysztof Wilczyński <kwilczynski@opensrcsec.com>::::::::::0:
+uid:-::::1748838075::8CBA6E1FDC6190F8EE1AC41F70C5FFE91677506D::Krzysztof Wilczyński <kw@opensrcsec.com>::::::::::0:
+uid:-::::1748838128::7217AD2523CE5D3D8B7BF2147F46E769285E10AE::Krzysztof Wilczyński <kwilczynski@grsecurity.net>::::::::::0:
+uid:-::::1748838162::23964F3DDD1A44E0CE1BF0265E3E12BE0D6A8E16::Krzysztof Wilczyński <kw@grsecurity.net>::::::::::0:
+sub:-:4096:1:7B0BC5B4D3301CCF:1507233866::::::e::::::23:
+fpr:::::::::09EFAB4B8D3AAC68C62D951A7B0BC5B4D3301CCF:
+
+KEY FILE 647F28654894E3BD457199BE38DBBDC86092693E.asc
+pub:-:4096:1:38DBBDC86092693E:1316795861:::-:::scESC::::::23::0:
+fpr:::::::::647F28654894E3BD457199BE38DBBDC86092693E:
+uid:-::::1511978001::A099AB3F6C2990978ABB213825994EC308566479::Greg Kroah-Hartman <gregkh@linuxfoundation.org>::::::::::0:
+uid:-::::1511977792::D8C9FD90336DF1CE6D4FB1FF7D524A5711739A9A::Greg Kroah-Hartman <gregkh@kernel.org>::::::::::0:
+uid:-::::1316795861::3BAAD78EF87752C4340B2D958A2BABFB62BF9A89::Greg Kroah-Hartman (Linux kernel stable release signing key) <greg@kroah.com>::::::::::0:
+sub:-:4096:1:F38153E276D54749:1316795861::::::e::::::23:
+fpr:::::::::F41BDF16F35CD80D9E56735BF38153E276D54749:
+
+KEY FILE ABAF11C65A2970B130ABE3C479BE3E4300411886.asc
+pub:-:2048:1:79BE3E4300411886:1316554898:::-:::scESC::::::23::0:
+fpr:::::::::ABAF11C65A2970B130ABE3C479BE3E4300411886:
+uid:-::::1511987475::4F4D48B3CDD4F15E28D8380D223E7F35AD67BDB7::Linus Torvalds <torvalds@kernel.org>::::::::::0:
+uid:-::::1316554898::FB51A29A9DF021398A9C921F8BDBF3BE95801D2D::Linus Torvalds <torvalds@linux-foundation.org>::::::::::0:
+sub:-:2048:1:88BCE80F012F54CA:1316554898::::::e::::::23:
+fpr:::::::::AEE416F7DCCB753BB3D5609D88BCE80F012F54CA:
+
+PASS bundled primary key fingerprints (not signature verification)

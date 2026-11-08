@@ -1,0 +1,21 @@
+{
+  "status": "source-tested; 32.2 build pending",
+  "files": {
+    "reviewed-resolved.config": {
+      "sha256": "3b12d3dd8d8b0b24ab95ef96bb1b3388d2440a5bda069ecd74f3c7984a2fd51d",
+      "bytes": 380212
+    },
+    "check-config.py": {
+      "sha256": "635e20e9e13b8193fe0df74c17d99c3ac783815a49e47b30fc137c1feb112ef1",
+      "bytes": 1776
+    },
+    "README.md": {
+      "sha256": "c982b2772ac1f1abebacdc88152686089de6a2c44c6f77fee00b492345dfe825",
+      "bytes": 544
+    },
+    "config.aarch64": {
+      "sha256": "41f89661b0af2c747e122f36417be7da2e7fb69049817c00404acf35fbef47a4",
+      "bytes": 380146
+    }
+  }
+}

@@ -1,0 +1,108 @@
+--- reviewed-source
++++ reviewed-resolved
+@@ -6776,8 +6776,13 @@
+ # end of Mediatek thermal drivers
+ 
+ CONFIG_AMLOGIC_THERMAL=m
++
++#
++# Broadcom thermal drivers
++#
+ CONFIG_BCM2711_THERMAL=m
+ CONFIG_BCM2835_THERMAL=m
++# end of Broadcom thermal drivers
+ 
+ #
+ # STMicroelectronics thermal drivers
+@@ -7756,15 +7761,15 @@
+ # ARM media platform drivers
+ #
+ CONFIG_VIDEO_MALI_C55=m
++
++#
++# Aspeed media platform drivers
++#
++
++#
++# Atmel media platform drivers
++#
+ # CONFIG_VIDEO_BCM2835_UNICAM is not set
+-
+-#
+-# Aspeed media platform drivers
+-#
+-
+-#
+-# Atmel media platform drivers
+-#
+ 
+ #
+ # Cadence media platform drivers
+@@ -7833,11 +7838,11 @@
+ CONFIG_VIDEO_QCOM_CAMSS=m
+ CONFIG_VIDEO_QCOM_IRIS=m
+ CONFIG_VIDEO_QCOM_VENUS=m
++
++#
++# Raspberry Pi media platform drivers
++#
+ # CONFIG_VIDEO_RASPBERRYPI_PISP_BE is not set
+-
+-#
+-# Raspberry Pi media platform drivers
+-#
+ CONFIG_VIDEO_RP1_CFE=m
+ 
+ #
+@@ -9429,15 +9434,15 @@
+ CONFIG_SND_SOC_MIKROE_PROTO=m
+ # end of Atmel
+ 
++#
++# Au1x
++#
++# end of Au1x
++
++#
++# Broadcom
++#
+ # CONFIG_SND_BCM2835_SOC_I2S is not set
+-#
+-# Au1x
+-#
+-# end of Au1x
+-
+-#
+-# Broadcom
+-#
+ CONFIG_SND_BCM63XX_I2S_WHISTLER=m
+ # end of Broadcom
+ 
+@@ -11954,9 +11959,9 @@
+ CONFIG_EC_LENOVO_YOGA_C630=m
+ CONFIG_EC_LENOVO_THINKPAD_T14S=m
+ # CONFIG_EC_QCOM_HAMOA is not set
++CONFIG_NVIDIA_FFA_EC=y
+ CONFIG_BCM_VIDEOCORE=m
+ # CONFIG_BCM2835_VCHIQ is not set
+-CONFIG_NVIDIA_FFA_EC=y
+ CONFIG_HAVE_CLK=y
+ CONFIG_HAVE_CLK_PREPARE=y
+ CONFIG_COMMON_CLK=y
+@@ -12930,12 +12935,12 @@
+ CONFIG_ARM_SCMI_PERF_DOMAIN=y
+ CONFIG_ARM_SCMI_POWER_DOMAIN=m
+ CONFIG_ARM_SCPI_POWER_DOMAIN=m
++
++#
++# Broadcom PM Domains
++#
+ CONFIG_BCM2835_POWER=y
+ CONFIG_RASPBERRYPI_POWER=y
+-
+-#
+-# Broadcom PM Domains
+-#
+ # end of Broadcom PM Domains
+ 
+ #

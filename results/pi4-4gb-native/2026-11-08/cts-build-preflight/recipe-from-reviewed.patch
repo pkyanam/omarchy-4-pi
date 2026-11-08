@@ -1,0 +1,57 @@
+--- saved-reviewed-32.1/PKGBUILD
++++ cts-32.2/PKGBUILD
+@@ -9,7 +9,7 @@
+ pkgbase=linux-omarchy-aarch64
+ _kernel=linux-omarchy
+ pkgver=7.3
+-pkgrel=32.1
++pkgrel=32.2
+ # NVIDIA's open kernel modules ship prebuilt as $_kernel-nvidia-open, built in
+ # this recipe so every kernel lands with modules for it and nobody compiles
+ # them through DKMS on a kernel update. Keep this version and the patches in
+@@ -1721,6 +1721,11 @@
+         '6b7fe2022f125e1c59f9645730cac87a3258e9f2210c19ff1f82022ea644ec1242ba9444e59e64f2e4e30f0c579f4ae2e05e119b30cb4d2564e270690373c906')
+ b2sums_aarch64=('037c782a58172c954151c794a8edfaaaa2d3af2d5fc9ebdfc210c0dc58c79b2dda76f9215bc5e447935cd36c135bb4419a81a8d51ed4548e576c003d9efaf492')
+ 
++# Mainline ca576923c39863ac528427b563ea2f6631703d22; exact saved 7.3 source.
++source+=('9000-serial-8250-bcm2835aux-hardware-flow.patch')
++sha256sums+=('3d863fb62041f38ffd3f8428da69698053f6dae77a42bef03aac0633f0685c18')
++b2sums+=('b09016dbc1935da8f31ddef0cad5f3ae019ceae5835acf25d2e5dd97b5f9a58705524e018a50cba86d35b9b7faca9480984146eb70de5ceeb8fea2ca0de04a2f')
++
+ # https://www.kernel.org/pub/linux/kernel/v7.x/sha256sums.asc
+ 
+ export KBUILD_BUILD_HOST=omarchy
+@@ -1749,12 +1754,15 @@
+     patch -Np1 --fuzz=0 < "../$src"
+   done
+ 
++  echo '2ae07906f5415ceec9e4cac92a0d2f503e3e28150f0f3cdf8115087b34df6fb1  drivers/tty/serial/8250/8250_bcm2835aux.c' | sha256sum -c -
+   echo "Setting config..."
+   cp ../config.$CARCH .config
+   make olddefconfig
+   diff -u ../config.$CARCH .config || :
+ 
++  python "$startdir/check-config.py" "$startdir/config.aarch64" .config || { echo 'Unexpected target config drift' >&2; return 1; }
+   make -s kernelrelease > version
++  [[ $(<version) == "7.3.0-32.2-omarchy" ]] || return 1
+   echo "Prepared $_kernel version $(<version)"
+ 
+   cd "$srcdir/$_nvidia"
+@@ -1772,7 +1780,7 @@
+ 
+ build() {
+   cd $_srcname
+-  MAKEFLAGS="-j$(nproc) $MAKEFLAGS"
++  export MAKEFLAGS="-j1"
+   # N1x boots through ACPI. Build the Snapdragon and Pi 4 trees alongside
+   # the kernel; skip the other arm64 DTBs that "make all" would build.
+   local dts=(arch/arm64/boot/dts/qcom/{x1,hamoa,glymur,mahua,sc8280xp}*.dts
+@@ -2018,7 +2026,7 @@
+   for ko in "$dest"/*.ko; do
+     strip --strip-debug "$ko"
+     "$ksrc/scripts/sign-file" sha512 "$ksrc/certs/signing_key.pem" "$ksrc/certs/signing_key.x509" "$ko"
+-    zstd -19 --rm -q "$ko"
++    zstd -T1 -19 --rm -q "$ko"
+   done
+ 
+   install -Dm644 "$srcdir/$_nvidia/COPYING" "$pkgdir/usr/share/licenses/$_kernel-nvidia-open/LICENSE"

@@ -1,0 +1,14 @@
+{
+  "backend": "OrbStack",
+  "memory_mib_before": 2048,
+  "memory_mib_requested": 4096,
+  "cpu_before": 1,
+  "user_approved": true,
+  "approval": "temporary4GiB restart; restore2GiB aftervalidation",
+  "running_containers_before": [],
+  "linux_machines_before": [],
+  "restore_required": true,
+  "started_utc": "2026-11-08T13:34:40.725010+00:00",
+  "memory_bytes_verified": 4180963328,
+  "status": "temporary4GiB active; restore required"
+}

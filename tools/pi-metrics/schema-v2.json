@@ -73,7 +73,10 @@
           "pattern": "^[0-9a-f]{64}$"
         },
         "transport": {
-          "const": "ssh-key-strict-hostkey-sudo-n"
+          "enum": [
+            "ssh-key-strict-hostkey-sudo-n",
+            "ssh-key-strict-hostkey-sudo-S-framed"
+          ]
         }
       }
     },

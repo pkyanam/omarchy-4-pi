@@ -87,6 +87,20 @@ class MetricsTests(unittest.TestCase):
     proc = subprocess.run([sys.executable, '-I', '-', encoded], input='import sys,json,base64\nprint(json.loads(base64.b64decode(sys.argv[1])))', text=True, capture_output=True, check=True)
     self.assertEqual(proc.stdout.rstrip('\n'), value)
 
+  def test_password_frame_executes_complete_source(self):
+    # Replace only privilege elevation, then run the actual remote shell and
+    # Python bootstrap. This tests framing/argv/source, not sudo authorization.
+    secret = "dummy '$() password"
+    command = m.ssh_argv('pi.example', 'owner', '/key', '/hosts',
+                         ['--metadata-b64', 'YWJj'], True)[-1]
+    prefix = 'sudo() { shift 4; IFS= read -r received; test "$received" = ' + shlex.quote(secret) + ' || return 1; "$@"; }; '
+    source = 'import sys\nprint(__file__)\nprint(sys.argv[1:])\n'
+    proc = subprocess.run(['/bin/sh', '-c', prefix + command],
+                          input=secret + '\n' + source, text=True,
+                          capture_output=True, check=True)
+    self.assertEqual(proc.stdout.splitlines(), ['<stdin>', "['probe', '--metadata-b64', 'YWJj']"])
+    self.assertNotIn(secret, command)
+
   def sample(self):
     meta = dict(cohort='pi4-4gb-v2', label='baseline', experiment='idle', trial='1', conditions='cool desktop', candidate='unknown', probe_sha256='a'*64, transport='ssh-key-strict-hostkey-sudo-n')
     probes = {name:m.unknown('text','fixture','not measured') for name in ['kernel.release','board.revision','board.nominal_ram','security.kpti_runtime','build.installed_compiler_flags']}

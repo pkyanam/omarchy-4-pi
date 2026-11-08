@@ -257,15 +257,23 @@ def validate_sample(sample):
     raise ValueError('sample ends before start')
 
 
-def ssh_argv(host, user, identity, known_hosts, remote_args):
+def ssh_argv(host, user, identity, known_hosts, remote_args, password_stdin=False):
   if not re.fullmatch(r'[a-zA-Z0-9][a-zA-Z0-9.-]*', host) or not re.fullmatch(r'[a-z_][a-z0-9_-]*', user):
     raise ValueError('use a plain hostname and user; no SSH aliases/options')
+  command = shlex.join(['sudo', '-n', '--', '/usr/bin/python3', '-I', '-', 'probe'] + remote_args)
+  if password_stdin:
+    bootstrap = 'import sys; source=sys.argv.pop(1); exec(compile(source, "<stdin>", "exec"), {"__name__": "__main__", "__file__": "<stdin>"})'
+    # Read password and complete source before sudo; Python code uses -c, so
+    # sudo owns password stdin and the source never competes for that stream.
+    command = ('IFS= read -r password && code=$(cat) && '
+               "printf '%s\\n' \"$password\" | sudo -S -p '' -- /usr/bin/python3 -I -c "
+               + shlex.quote(bootstrap) + ' "$code" probe ' + shlex.join(remote_args))
   return ['/usr/bin/ssh', '-F', '/dev/null', '-T', '-o', 'BatchMode=yes', '-o', 'StrictHostKeyChecking=yes',
           '-o', 'UserKnownHostsFile=' + str(Path(known_hosts).resolve()), '-o', 'IdentitiesOnly=yes',
           '-o', 'ClearAllForwardings=yes', '-o', 'ForwardAgent=no', '-o', 'ForwardX11=no',
           '-o', 'ConnectTimeout=15', '-o', 'ServerAliveInterval=15', '-o', 'ServerAliveCountMax=2',
           '-i', str(Path(identity).resolve()), user + '@' + host,
-          shlex.join(['sudo', '-n', '--', '/usr/bin/python3', '-I', '-', 'probe'] + remote_args)]
+          command]
 
 
 def main():
@@ -278,6 +286,7 @@ def main():
   for name in ('host', 'user', 'identity', 'known-hosts', 'cohort', 'label', 'experiment', 'trial', 'conditions', 'candidate', 'out'):
     record.add_argument('--' + name, required=True)
   record.add_argument('--bench', action='store_true')
+  record.add_argument('--sudo-password-stdin', action='store_true', help='read one authorized sudo password line from stdin; never from argv or environment')
   check = sub.add_parser('validate')
   check.add_argument('sample', type=Path)
   args = ap.parse_args()
@@ -291,13 +300,19 @@ def main():
     payload = Path(__file__).read_bytes()
     metadata = {key: getattr(args, key) for key in ('cohort', 'label', 'experiment', 'trial', 'conditions', 'candidate')}
     metadata['probe_sha256'] = hashlib.sha256(payload).hexdigest()
-    metadata['transport'] = 'ssh-key-strict-hostkey-sudo-n'
+    metadata['transport'] = ('ssh-key-strict-hostkey-sudo-S-framed' if args.sudo_password_stdin
+                             else 'ssh-key-strict-hostkey-sudo-n')
     schema = json.loads((HERE / 'schema-v2.json').read_text())
     validate(metadata, schema['properties']['metadata'])
     remote_args = ['--metadata-b64', base64.b64encode(json.dumps(metadata).encode()).decode()]
     if args.bench:
       remote_args.append('--bench')
-    argv = ssh_argv(args.host, args.user, args.identity, args.known_hosts, remote_args)
+    argv = ssh_argv(args.host, args.user, args.identity, args.known_hosts, remote_args, args.sudo_password_stdin)
+    if args.sudo_password_stdin:
+      password = sys.stdin.buffer.readline(4096)
+      if not password.endswith(b'\n') or password in (b'\n', b'\r\n') or b'\x00' in password:
+        raise ValueError('one nonempty password line required')
+      payload = password + payload
     proc = subprocess.run(argv, input=payload, capture_output=True, timeout=120, check=True)
     sample = json.loads(proc.stdout)
     validate_sample(sample)

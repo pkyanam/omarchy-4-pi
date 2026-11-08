@@ -1,0 +1,106 @@
+{
+  "bcm2835-codec.ko": {
+    "sha256": "466c379155b1eb0c59c7039a9c431d1aab8fabed913bb2c05f941f9802a404bd",
+    "bytes": 1048968,
+    "machine": "AArch64",
+    "vermagic": "7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64",
+    "dwarf_version": 5,
+    "btf": {
+      ".BTF": {
+        "bytes": 86685,
+        "version": 1,
+        "type_bytes": 47056,
+        "string_bytes": 39597
+      },
+      ".BTF.base": {
+        "bytes": 934,
+        "version": 1,
+        "type_bytes": 480,
+        "string_bytes": 422
+      }
+    },
+    "imports": [
+      "DMA_BUF"
+    ],
+    "versioned_symbols_checked": 100,
+    "undefined_symbols_checked": 99,
+    "external": true
+  },
+  "bcm2835-mmal-vchiq.ko": {
+    "sha256": "1d8dc0b03f933ccfb722f453511c2ec0ec59b03b0fdbb19cf30d2a42c6f09ef3",
+    "bytes": 652360,
+    "machine": "AArch64",
+    "vermagic": "7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64",
+    "dwarf_version": 5,
+    "btf": {
+      ".BTF": {
+        "bytes": 29067,
+        "version": 1,
+        "type_bytes": 16840,
+        "string_bytes": 12195
+      },
+      ".BTF.base": {
+        "bytes": 910,
+        "version": 1,
+        "type_bytes": 476,
+        "string_bytes": 402
+      }
+    },
+    "imports": [],
+    "versioned_symbols_checked": 52,
+    "undefined_symbols_checked": 51,
+    "external": true
+  },
+  "vc-sm-cma.ko": {
+    "sha256": "b3dbd61d4346ec455614fe7e4b7c4b893693939403a85f64dff4bfa8e78ab3d1",
+    "bytes": 1084344,
+    "machine": "AArch64",
+    "vermagic": "7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64",
+    "dwarf_version": 5,
+    "btf": {
+      ".BTF": {
+        "bytes": 15287,
+        "version": 1,
+        "type_bytes": 8780,
+        "string_bytes": 6475
+      },
+      ".BTF.base": {
+        "bytes": 908,
+        "version": 1,
+        "type_bytes": 472,
+        "string_bytes": 404
+      }
+    },
+    "imports": [
+      "DMA_BUF"
+    ],
+    "versioned_symbols_checked": 96,
+    "undefined_symbols_checked": 95,
+    "external": true
+  },
+  "vchiq.ko": {
+    "sha256": "c2d79a9ce71feb2f65f20f6cc5cdce18ca668fc654d82f18fd7ee0392af3d878",
+    "bytes": 1843920,
+    "machine": "AArch64",
+    "vermagic": "7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64",
+    "dwarf_version": 5,
+    "btf": {
+      ".BTF": {
+        "bytes": 18823,
+        "version": 1,
+        "type_bytes": 10968,
+        "string_bytes": 7823
+      },
+      ".BTF.base": {
+        "bytes": 880,
+        "version": 1,
+        "type_bytes": 460,
+        "string_bytes": 388
+      }
+    },
+    "imports": [],
+    "versioned_symbols_checked": 114,
+    "undefined_symbols_checked": 113,
+    "external": true
+  }
+}

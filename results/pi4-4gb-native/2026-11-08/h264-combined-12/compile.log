@@ -1,0 +1,33 @@
+make: Entering directory '/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+make[1]: Entering directory '/work/source'
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_core.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.o
+  LD [M]  vchiq.o
+  CC [M]  drivers/platform/raspberrypi/vc-sm-cma/vc_sm.o
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:237:13: warning: ‘free_kernel_id’ defined but not used [-Wunused-function]
+  237 | static void free_kernel_id(struct sm_state_t *state, int handle)
+      |             ^~~~~~~~~~~~~~
+  CC [M]  drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.o
+  LD [M]  vc-sm-cma.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.o
+  LD [M]  bcm2835-mmal-vchiq.o
+  CC [M]  drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.o
+  LD [M]  bcm2835-codec.o
+  MODPOST Module.symvers
+  CC [M]  vchiq.mod.o
+  CC [M]  .module-common.o
+  LD [M]  vchiq.ko
+  BTF [M] vchiq.ko
+  CC [M]  vc-sm-cma.mod.o
+  LD [M]  vc-sm-cma.ko
+  BTF [M] vc-sm-cma.ko
+  CC [M]  bcm2835-mmal-vchiq.mod.o
+  LD [M]  bcm2835-mmal-vchiq.ko
+  BTF [M] bcm2835-mmal-vchiq.ko
+  CC [M]  bcm2835-codec.mod.o
+  LD [M]  bcm2835-codec.ko
+  BTF [M] bcm2835-codec.ko
+make[1]: Leaving directory '/work/source'
+make: Leaving directory '/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'

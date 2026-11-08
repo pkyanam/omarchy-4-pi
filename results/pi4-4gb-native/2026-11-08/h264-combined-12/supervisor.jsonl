@@ -1,0 +1,7 @@
+{"event": "baseline", "host_allocated": 24576, "df": "Filesystem   1024-blocks      Used Available Capacity iused     ifree %iused  Mounted on\n/dev/disk3s5   482766932 406868324  46077412    90% 5299620 460774120    1%   /System/Volumes/Data", "prior_conservative_charge_bytes": 6473000000, "new_ceiling_bytes": 1000000000, "stop_threshold_bytes": 800000000}
+{"elapsed_seconds": 5.119074666872621, "host_allocated": 8290304, "volume_allocated": 189001728, "root_rw": 196608, "total": 197488640, "running": true}
+{"elapsed_seconds": 10.232113791862503, "host_allocated": 8290304, "volume_allocated": 189358080, "root_rw": 196608, "total": 197844992, "running": true}
+{"elapsed_seconds": 15.385175541974604, "host_allocated": 8323072, "volume_allocated": 191397888, "root_rw": 196608, "total": 199917568, "running": true}
+{"elapsed_seconds": 20.496502791997045, "host_allocated": 12455936, "volume_allocated": 203952128, "root_rw": 196608, "total": 216604672, "running": true}
+{"elapsed_seconds": 25.586217583855614, "host_allocated": 31592448, "volume_allocated": 0, "root_rw": 196608, "total": 31789056, "running": false}
+{"event": "exit", "status": 0, "elapsed_seconds": 25.58626400004141}

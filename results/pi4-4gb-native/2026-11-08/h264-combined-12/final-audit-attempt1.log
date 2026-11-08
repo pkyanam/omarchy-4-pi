@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/evidence/final-audit.py", line 13, in <module>
+    before=read('source-before.json'); current={n:v for n,v in tree(src).items() if n.endswith(('.c','.h')) or n=='Makefile'}; assert before==current
+                                                                                                                                      ^^^^^^^^^^^^^^^
+AssertionError

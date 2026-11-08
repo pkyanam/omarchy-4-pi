@@ -1,5 +1,5 @@
 {
-  "status": "NONDEPLOYABLE: exact eleven-patch faithful-header build fails API registration call; 0012 corrects call, combined compile pending; firmware lifetime/quiescence unresolved",
+  "status": "NONDEPLOYABLE: exact twelve-patch modules compile/modpost/link/BTF and static ABI checks pass; firmware lifetime/quiescence unresolved",
   "kernel_archive_sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
   "headers_archive_sha256": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
   "files": {
@@ -8,8 +8,8 @@
       "bytes": 6683
     },
     "README.md": {
-      "sha256": "49cde052d0c3387c1d76825de0b711111cf3764c89caec9ee006fd545520cbeb",
-      "bytes": 5674
+      "sha256": "6280f143363d8d370fae78112685d36f6fb2d5ec0966e006a0e225133a827f51",
+      "bytes": 7997
     },
     ".gitignore": {
       "sha256": "efadd7af44d352f28640d016f474e101095177728361fb384553b7b9e8ea584d",

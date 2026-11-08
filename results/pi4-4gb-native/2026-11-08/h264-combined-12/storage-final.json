@@ -1,0 +1,43 @@
+{
+  "volume_allocated_bytes": 203952128,
+  "host_evidence_allocated_bytes": 31768576,
+  "report_allocated_bytes": 12288,
+  "new_container_writable_bytes": 393216,
+  "container_states": {
+    "/h264-combined-12-build": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-08T19:53:07.505115487Z",
+      "FinishedAt": "2026-11-08T19:53:28.483411537Z"
+    },
+    "/h264-combined-12-final-audit": {
+      "Status": "exited",
+      "Running": false,
+      "Paused": false,
+      "Restarting": false,
+      "OOMKilled": false,
+      "Dead": false,
+      "Pid": 0,
+      "ExitCode": 0,
+      "Error": "",
+      "StartedAt": "2026-11-08T19:54:36.833959599Z",
+      "FinishedAt": "2026-11-08T19:54:37.430109948Z"
+    }
+  },
+  "shared_image_root_bytes_not_recharged": 4483140434,
+  "measured_new_total_bytes": 236126208,
+  "finalization_allowance_bytes": 1048576,
+  "prior_global_charge_bytes": 6256000000,
+  "previous_h264_charge_bytes_conservative": 217000000,
+  "cumulative_with_allowance_bytes": 6710174784,
+  "new_ceiling_bytes": 1000000000,
+  "safe_stop_bytes": 800000000,
+  "df_final": "Filesystem   1024-blocks      Used Available Capacity iused     ifree %iused  Mounted on\n/dev/disk3s5   482766932 406953188  45992548    90% 5299785 459925480    1%   /System/Volumes/Data\n"
+}

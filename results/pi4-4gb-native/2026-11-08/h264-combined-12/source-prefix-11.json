@@ -1,0 +1,122 @@
+{
+  "drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c": {
+    "sha256": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "bytes": 113769
+  },
+  "drivers/platform/raspberrypi/bcm2835-codec/codec-formats.h": {
+    "sha256": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "bytes": 452
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c": {
+    "sha256": "d6b26a2efeddd4811ca2ca09f204820a4354786cd799c7d9278b66af0aae9ab4",
+    "bytes": 49673
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h": {
+    "sha256": "91d52ebd4f93a28eac9191945d894464e47b934a042c6a96efcbb6ca36daa3d3",
+    "bytes": 2021
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_ioctl.h": {
+    "sha256": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "bytes": 2701
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c": {
+    "sha256": "fb8316548313bf44f259591bfec31edaface7113035a441c8f43a8674af125cd",
+    "bytes": 14274
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h": {
+    "sha256": "5f91926f78c0c355247d87a6fa93977303156116cbef58b7cba62a19b867f651",
+    "bytes": 2080
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h": {
+    "sha256": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "bytes": 7635
+  },
+  "drivers/platform/raspberrypi/vc-sm-cma/vc_sm_knl.h": {
+    "sha256": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "bytes": 759
+  },
+  "drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c": {
+    "sha256": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "bytes": 40690
+  },
+  "drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.c": {
+    "sha256": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "bytes": 2658
+  },
+  "drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c": {
+    "sha256": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "bytes": 113015
+  },
+  "drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.c": {
+    "sha256": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "bytes": 3547
+  },
+  "drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c": {
+    "sha256": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "bytes": 34124
+  },
+  "drivers/platform/raspberrypi/vchiq-interface/vchiq_ioctl.h": {
+    "sha256": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "bytes": 3270
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h": {
+    "sha256": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "bytes": 1747
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h": {
+    "sha256": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "bytes": 9541
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h": {
+    "sha256": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "bytes": 1587
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h": {
+    "sha256": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "bytes": 3108
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h": {
+    "sha256": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "bytes": 3506
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h": {
+    "sha256": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "bytes": 14074
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h": {
+    "sha256": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "bytes": 29649
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c": {
+    "sha256": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "bytes": 60286
+  },
+  "drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h": {
+    "sha256": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "bytes": 5154
+  },
+  "include/linux/raspberrypi/vchiq.h": {
+    "sha256": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "bytes": 4611
+  },
+  "include/linux/raspberrypi/vchiq_arm.h": {
+    "sha256": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "bytes": 4248
+  },
+  "include/linux/raspberrypi/vchiq_bus.h": {
+    "sha256": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "bytes": 1690
+  },
+  "include/linux/raspberrypi/vchiq_cfg.h": {
+    "sha256": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "bytes": 1193
+  },
+  "include/linux/raspberrypi/vchiq_core.h": {
+    "sha256": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "bytes": 18543
+  },
+  "include/linux/raspberrypi/vchiq_debugfs.h": {
+    "sha256": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "bytes": 532
+  }
+}

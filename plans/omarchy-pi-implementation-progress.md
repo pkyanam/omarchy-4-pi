@@ -258,3 +258,9 @@ The exact eleven-patch series failed real compilation at VCSM probe on nonexiste
 Parent appended separable0012 changing only the call to existing exported int vchiq_add_connected_callback_sync(device, callback). The same return handling and paired synchronized removal remain. A fresh Sol/High/Normal lane compiles the exact12-patch series with faithful case-sensitive headers, CPU1/768MiB and1GB newstorage ceiling. No source-timeout/quiescence behavior is changed, and successful compilation would not qualify deployment.
 
 The installed CTS candidate remains at verified pre-reboot state with no reboot issued while encrypted-console unlock availability is pending. No Pi, package, media or desktop change was made during this source correction.
+
+## Twelve-patch H264 compile passes; controlled CTS reboot issued
+
+The exact twelve-patch H264 series compiles all four modules with modpost/link/BTF and matching CRC, namespace, DWARF5 and vermagic checks. Headers remain unchanged; the prior eleven-patch API failure is preserved. This closes the build integration gate only. Firmware and lifecycle qualification remain unresolved and the modules remain NONDEPLOYABLE. Durable selected evidence is under results/pi4-4gb-native/2026-11-08/h264-combined-12/; see [build report](omarchy-pi-h264-combined-12-build.md). New allocation is about236.1MB plus1MiB allowance, VM2GiB unchanged, overall conservative growth remains below15GB. All build containers stopped.
+
+The owner confirmed encrypted-console availability. Parent freshly rechecked installed CTS versions/module/UKI, firmware helper, native boot verifier and clean system health, then issued one controlled reboot. SSH disconnected as expected. Post-reboot driver/FDT/radio acceptance and rollback remain pending; no Bluetooth success is inferred. Desktop checks remain deferred under the headless instruction.

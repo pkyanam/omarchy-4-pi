@@ -1,0 +1,6 @@
+{
+  "changed": [
+    "drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c"
+  ],
+  "exact_single_call_replacement": true
+}

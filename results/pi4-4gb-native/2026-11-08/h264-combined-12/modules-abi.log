@@ -1,0 +1,702 @@
+filename:       /work/source/bcm2835-codec.ko
+alias:          vchiq:bcm2835-codec
+version:        0.0.1
+license:        GPL
+author:         Dave Stevenson, <dave.stevenson@raspberrypi.com>
+description:    BCM2835 codec V4L2 driver
+import_ns:      DMA_BUF
+srcversion:     10B251403F7978CE76C7894
+depends:        v4l2-mem2mem,videobuf2-v4l2,videodev,bcm2835-mmal-vchiq,mc,videobuf2-dma-contig,videobuf2-common,vchiq
+name:           bcm2835_codec
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+parm:           decode_video_nr:decoder video device number (int)
+parm:           encode_video_nr:encoder video device number (int)
+parm:           isp_video_nr:isp video device number (int)
+parm:           deinterlace_video_nr:deinterlace video device number (int)
+parm:           encode_image_nr:encoder image device number (int)
+parm:           disable_bayer:Disable support for Bayer formats (bool)
+parm:           debug:activates debug info (0-3) (uint)
+parm:           advanced_deinterlace:Use advanced deinterlace (bool)
+parm:           field_override:force TB(8)/BT(9) field (int)
+0x1a828d19	v4l2_m2m_init
+0x90e2715c	vb2_queue_init
+0x9fcf8adf	v4l2_fh_exit
+0x1656da79	vchiq_mmal_port_parameter_get
+0x2f09e8d2	v4l2_m2m_job_finish
+0x93ead0c6	video_ioctl2
+0x5369e7a8	media_device_unregister
+0x202d9082	param_ops_uint
+0xe1b0a92a	wait_for_completion_timeout
+0xe3246ffc	devm_kmalloc
+0xc0c2d1c7	mmal_vchi_buffer_cleanup
+0x5369e7a8	media_device_init
+0x40a621c5	snprintf
+0x62cbec20	complete
+0x8b818770	v4l2_fh_del
+0xa311184c	v4l2_m2m_ctx_release
+0xc2ccdd1e	__init_swait_queue_head
+0x8b818770	v4l2_fh_add
+0x103f4b2e	vchiq_mmal_init
+0x8d7eceba	v4l2_m2m_buf_remove
+0x1f04310b	v4l2_src_change_event_subscribe
+0x41a29709	v4l2_ctrl_handler_init_class
+0x41615d5a	vchiq_mmal_submit_buffer
+0xcb8b6ec6	kfree
+0x730955bb	vb2_dma_contig_memops
+0x0aab5791	__media_device_register
+0x03db3ac0	vchiq_mmal_port_enable
+0x11f4259a	_raw_spin_lock_irqsave
+0xfe5eb614	v4l2_m2m_ioctl_expbuf
+0x68a44b21	mmal_vchi_buffer_init
+0x7d1a5d35	v4l2_m2m_ioctl_querybuf
+0xe8213e80	_printk
+0xbbce49eb	vchiq_mmal_component_disable
+0x029db6cf	v4l2_ctrl_handler_setup
+0x46b1c05a	v4l2_m2m_buf_queue
+0xd272d446	__stack_chk_fail
+0x67ae98dd	video_devdata
+0x2cc1e444	v4l2_m2m_fop_poll
+0x30c65558	strnlen
+0x7d1a5d35	v4l2_m2m_ioctl_qbuf
+0xbbbfabb4	vchiq_mmal_component_init
+0x0296a5f6	v4l2_m2m_get_vq
+0x90a48d82	__ubsan_handle_out_of_bounds
+0xd70733be	sized_strscpy
+0x152a4adc	__v4l2_ctrl_s_ctrl
+0x5369e7a8	media_device_cleanup
+0x9f770a35	vchiq_mmal_finalise
+0x889d9f7a	_dev_err
+0xbbce49eb	vchiq_mmal_component_enable
+0xbd03ed67	random_kmalloc_seed
+0x90b04bb6	v4l2_m2m_unregister_media_controller
+0xb6efbc49	mutex_lock
+0xcc1917dc	dma_buf_get
+0x141340f1	dma_buf_put
+0x3ff878b3	vb2_buffer_done
+0xa116eca1	vb2_plane_vaddr
+0x1e4d932c	v4l2_ctrl_subscribe_event
+0x45a7b807	v4l2_fh_init
+0x40aec4d4	v4l2_m2m_ioctl_reqbufs
+0x982a1803	video_unregister_device
+0x6dbed7f0	vchiq_driver_register
+0x30c0c078	v4l2_m2m_ioctl_streamoff
+0x6c1afb27	v4l2_event_subscribe
+0xf9d2558a	mutex_lock_interruptible
+0xe54e0a6b	__fortify_panic
+0x444885a7	_raw_spin_unlock_irqrestore
+0x66605289	vchiq_driver_unregister
+0x0e9cab28	memset
+0xbbce49eb	vchiq_mmal_component_finalise
+0x03b12b5a	v4l2_m2m_ioctl_create_bufs
+0x16b22538	v4l2_ctrl_new_std_menu
+0x3981368d	v4l2_device_register
+0x30c0c078	v4l2_m2m_ioctl_streamon
+0x0df08bfa	dma_set_coherent_mask
+0xd9070195	v4l2_m2m_fop_mmap
+0xb6efbc49	mutex_unlock
+0x202d9082	param_ops_bool
+0x12aa66ff	__video_register_device
+0x90b04bb6	v4l2_m2m_release
+0x961aa1e8	__kmalloc_cache_noprof
+0xca0fd71a	v4l2_ctrl_new_std
+0x029db6cf	v4l2_ctrl_handler_free
+0x543900d8	v4l2_device_unregister
+0x9c4ed43a	alt_cb_patch_nops
+0xb4fa0d74	vchiq_mmal_port_parameter_set
+0x0df08bfa	dma_set_mask
+0xb10b6d89	v4l2_m2m_ctx_init
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0x202d9082	param_ops_int
+0x17a3cfab	v4l2_event_queue_fh
+0x982a1803	video_device_release_empty
+0x50ef5133	v4l2_m2m_register_media_controller
+0x7d1a5d35	v4l2_m2m_ioctl_dqbuf
+0x5e6f6a46	vchiq_mmal_port_disable
+0x1f04310b	v4l2_event_unsubscribe
+0x93ec01ca	kmalloc_caches
+0x5e6f6a46	vchiq_mmal_port_set_format
+0xb6efbc49	mutex_init_generic
+0x7d1a5d35	v4l2_m2m_ioctl_prepare_buf
+0x57971f80	module_layout
+There are 60 section headers, starting at offset 0xff288:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] .altinstructions  PROGBITS        0000000000000000 000040 000024 00   A  0   0  8
+  [ 2] .rela.altinstructions RELA            0000000000000000 0963d0 000090 18   I 57   1  8
+  [ 3] __bug_table       PROGBITS        0000000000000000 000068 000048 00  WA  0   0  8
+  [ 4] .rela__bug_table  RELA            0000000000000000 096460 000120 18   I 57   3  8
+  [ 5] __patchable_function_entries PROGBITS        0000000000000000 0000b0 000190 00 WAL  7   0  8
+  [ 6] .rela__patchable_function_entries RELA            0000000000000000 096580 0004b0 18   I 57   5  8
+  [ 7] .text             PROGBITS        0000000000000000 000240 0066d0 00  AX  0   0 32
+  [ 8] .rela.text        RELA            0000000000000000 096a30 005460 18   I 57   7  8
+  [ 9] .bss              NOBITS          0000000000000000 006910 000010 00  WA  0   0  8
+  [10] .data             PROGBITS        0000000000000000 006910 00070c 00  WA  0   0  8
+  [11] .rela.data        RELA            0000000000000000 09be90 000bb8 18   I 57  10  8
+  [12] .rodata           PROGBITS        0000000000000000 007020 0025d1 00   A  0   0  8
+  [13] .rela.rodata      RELA            0000000000000000 09ca48 0005a0 18   I 57  12  8
+  [14] .plt              PROGBITS        0000000000000000 0095f1 000001 00  AX  0   0  1
+  [15] .init.plt         PROGBITS        0000000000000000 0095f2 000001 00   A  0   0  1
+  [16] .text.ftrace_trampoline PROGBITS        0000000000000000 0095f3 000001 00  AX  0   0  1
+  [17] .init.text.ftrace_trampoline PROGBITS        0000000000000000 0095f4 000001 00   A  0   0  1
+  [18] .note.GNU-stack   PROGBITS        0000000000000000 0095f5 000000 00      0   0  1
+  [19] .comment          PROGBITS        0000000000000000 0095f5 000054 01  MS  0   0  1
+  [20] .debug_aranges    PROGBITS        0000000000000000 009649 0000a0 00      0   0  1
+  [21] .rela.debug_aranges RELA            0000000000000000 09cfe8 0000a8 18   I 57  20  8
+  [22] .debug_info       PROGBITS        0000000000000000 0096e9 03b6a6 00      0   0  1
+  [23] .rela.debug_info  RELA            0000000000000000 09d090 059400 18   I 57  22  8
+  [24] .debug_abbrev     PROGBITS        0000000000000000 044d8f 0017ea 00      0   0  1
+  [25] .debug_line       PROGBITS        0000000000000000 046579 005e8a 00      0   0  1
+  [26] .rela.debug_line  RELA            0000000000000000 0f6490 002f40 18   I 57  25  8
+  [27] .debug_frame      PROGBITS        0000000000000000 04c408 000c00 00      0   0  8
+  [28] .rela.debug_frame RELA            0000000000000000 0f93d0 0009c0 18   I 57  27  8
+  [29] .debug_str        PROGBITS        0000000000000000 04d008 024c8b 01  MS  0   0  1
+  [30] .debug_line_str   PROGBITS        0000000000000000 071c93 002174 01  MS  0   0  1
+  [31] .debug_loclists   PROGBITS        0000000000000000 073e07 0061c5 00      0   0  1
+  [32] .rela.debug_loclists RELA            0000000000000000 0f9d90 0042c0 18   I 57  31  8
+  [33] .debug_rnglists   PROGBITS        0000000000000000 079fcc 000969 00      0   0  1
+  [34] .rela.debug_rnglists RELA            0000000000000000 0fe050 000b88 18   I 57  33  8
+  [35] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 07a935 000024 00      0   0  1
+  [36] .init.text        PROGBITS        0000000000000000 07a960 000044 00  AX  0   0  8
+  [37] .rela.init.text   RELA            0000000000000000 0febd8 000048 18   I 57  36  8
+  [38] .exit.text        PROGBITS        0000000000000000 07a9a8 000038 00  AX  0   0  8
+  [39] .rela.exit.text   RELA            0000000000000000 0fec20 000048 18   I 57  38  8
+  [40] .exit.data        PROGBITS        0000000000000000 07a9e0 000008 00  WA  0   0  8
+  [41] .rela.exit.data   RELA            0000000000000000 0fec68 000018 18   I 57  40  8
+  [42] .init.data        PROGBITS        0000000000000000 07a9e8 000008 00  WA  0   0  8
+  [43] .rela.init.data   RELA            0000000000000000 0fec80 000018 18   I 57  42  8
+  [44] .modinfo          PROGBITS        0000000000000000 07a9f0 000443 00   A  0   0  1
+  [45] __param           PROGBITS        0000000000000000 07ae38 000168 00   A  0   0  8
+  [46] .rela__param      RELA            0000000000000000 0fec98 000360 18   I 57  45  8
+  [47] .note.gnu.property NOTE            0000000000000000 07afa0 000020 00   A  0   0  8
+  [48] .note.gnu.build-id NOTE            0000000000000000 07afc0 000024 00   A  0   0  4
+  [49] .gnu.linkonce.this_module PROGBITS        0000000000000000 07afe8 000500 00  WA  0   0 64
+  [50] .rela.gnu.linkonce.this_module RELA            0000000000000000 0feff8 000030 18   I 57  49  8
+  [51] __version_ext_crcs PROGBITS        0000000000000000 07b4e8 000190 00   A  0   0  8
+  [52] __version_ext_names PROGBITS        0000000000000000 07b678 0007e5 00   A  0   0  8
+  [53] __versions        PROGBITS        0000000000000000 07be60 001900 00   A  0   0  8
+  [54] .note.Linux       NOTE            0000000000000000 07d760 000030 00   A  0   0  4
+  [55] .BTF              PROGBITS        0000000000000000 07d790 01529d 00      0   0  1
+  [56] .BTF.base         PROGBITS        0000000000000000 092a2d 0003a6 00      0   0  1
+  [57] .symtab           SYMTAB          0000000000000000 092dd8 002250 18     58 264  8
+  [58] .strtab           STRTAB          0000000000000000 095028 0013a2 00      0   0  1
+  [59] .shstrtab         STRTAB          0000000000000000 0ff028 00025f 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+filename:       /work/source/bcm2835-mmal-vchiq.ko
+license:        GPL
+author:         Dave Stevenson, <dave.stevenson@raspberrypi.org>
+description:    BCM2835 MMAL VCHIQ interface
+srcversion:     546702B13E6FD5A1598806A
+depends:        vchiq,vc-sm-cma
+name:           bcm2835_mmal_vchiq
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+parm:           debug:activates debug info (0-3) (uint)
+0xb603a60f	vchiq_use_service
+0xdc352a3b	__list_add_valid_or_report
+0xf1f12833	vc_sm_cma_int_handle
+0x9a8a840e	idr_find
+0x202d9082	param_ops_uint
+0xe1b0a92a	wait_for_completion_timeout
+0x62cbec20	complete
+0x49733ad6	queue_work_on
+0xee88f696	vchiq_connect
+0xd4538e1a	vchiq_get_service_userdata
+0xc2ccdd1e	__init_swait_queue_head
+0xdae6ec27	vchiq_initialise
+0xfbe7861b	memcpy
+0xcb8b6ec6	kfree
+0xf1f12833	vc_sm_cma_free
+0x11f4259a	_raw_spin_lock_irqsave
+0xb8b6c86d	vchiq_open_service
+0x25c0f35a	vchiq_close_service
+0xe8213e80	_printk
+0xee88f696	vchiq_shutdown
+0xd272d446	__stack_chk_fail
+0xd710adbf	__kmalloc_large_noprof
+0x30c65558	strnlen
+0x90a48d82	__ubsan_handle_out_of_bounds
+0xd70733be	sized_strscpy
+0x6b412821	idr_remove
+0xb33f96dc	idr_alloc
+0xaef1f20d	system_percpu_wq
+0xbd03ed67	random_kmalloc_seed
+0xbeb1d261	destroy_workqueue
+0xb6efbc49	mutex_lock
+0xa465884b	vc_sm_cma_import_dmabuf
+0x4f1e5fd0	__list_del_entry_valid_or_report
+0xf9d2558a	mutex_lock_interruptible
+0xe54e0a6b	__fortify_panic
+0x444885a7	_raw_spin_unlock_irqrestore
+0xfc66744b	idr_destroy
+0x0e9cab28	memset
+0xb603a60f	vchiq_release_service
+0x929150b7	vchiq_queue_kernel_message
+0xf9d2558a	mutex_trylock
+0xb6efbc49	mutex_unlock
+0x961aa1e8	__kmalloc_cache_noprof
+0x75738bed	__warn_printk
+0x6c989f62	vchiq_bulk_receive
+0x9c4ed43a	alt_cb_patch_nops
+0xdf4bee3d	alloc_workqueue_noprof
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0xe1a14995	vchiq_release_message
+0x93ec01ca	kmalloc_caches
+0xb6efbc49	mutex_init_generic
+0x57971f80	module_layout
+There are 57 section headers, starting at offset 0x9e608:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] __ksymtab         PROGBITS        0000000000000000 000040 0000c0 00   A  0   0  8
+  [ 2] .rela__ksymtab    RELA            0000000000000000 059d98 000480 18   I 54   1  8
+  [ 3] __kcrctab         PROGBITS        0000000000000000 000100 000040 00   A  0   0  4
+  [ 4] __kflagstab       PROGBITS        0000000000000000 000140 000010 00   A  0   0  1
+  [ 5] .altinstructions  PROGBITS        0000000000000000 000150 000024 00   A  0   0  8
+  [ 6] .rela.altinstructions RELA            0000000000000000 05a218 000090 18   I 54   5  8
+  [ 7] __bug_table       PROGBITS        0000000000000000 000178 000018 00  WA  0   0  8
+  [ 8] .rela__bug_table  RELA            0000000000000000 05a2a8 000060 18   I 54   7  8
+  [ 9] __patchable_function_entries PROGBITS        0000000000000000 000190 000130 00 WAL 11   0  8
+  [10] .rela__patchable_function_entries RELA            0000000000000000 05a308 000390 18   I 54   9  8
+  [11] .text             PROGBITS        0000000000000000 0002c0 00420c 00  AX  0   0 32
+  [12] .rela.text        RELA            0000000000000000 05a698 003e70 18   I 54  11  8
+  [13] .bss              NOBITS          0000000000000000 0044d0 000008 00  WA  0   0  8
+  [14] .data             PROGBITS        0000000000000000 0044d0 0006d4 00  WA  0   0  8
+  [15] .rela.data        RELA            0000000000000000 05e508 000d50 18   I 54  14  8
+  [16] .rodata           PROGBITS        0000000000000000 004ba8 00114b 00   A  0   0  8
+  [17] .rela.rodata      RELA            0000000000000000 05f258 0000a8 18   I 54  16  8
+  [18] .plt              PROGBITS        0000000000000000 005cf3 000001 00  AX  0   0  1
+  [19] .init.plt         PROGBITS        0000000000000000 005cf4 000001 00   A  0   0  1
+  [20] .text.ftrace_trampoline PROGBITS        0000000000000000 005cf5 000001 00  AX  0   0  1
+  [21] .init.text.ftrace_trampoline PROGBITS        0000000000000000 005cf6 000001 00   A  0   0  1
+  [22] .note.GNU-stack   PROGBITS        0000000000000000 005cf7 000000 00      0   0  1
+  [23] .comment          PROGBITS        0000000000000000 005cf7 000054 01  MS  0   0  1
+  [24] .debug_aranges    PROGBITS        0000000000000000 005d4b 000080 00      0   0  1
+  [25] .rela.debug_aranges RELA            0000000000000000 05f300 000078 18   I 54  24  8
+  [26] .debug_info       PROGBITS        0000000000000000 005dcb 025f47 00      0   0  1
+  [27] .rela.debug_info  RELA            0000000000000000 05f378 038dc0 18   I 54  26  8
+  [28] .debug_abbrev     PROGBITS        0000000000000000 02bd12 001449 00      0   0  1
+  [29] .debug_line       PROGBITS        0000000000000000 02d15b 004347 00      0   0  1
+  [30] .rela.debug_line  RELA            0000000000000000 098138 002748 18   I 54  29  8
+  [31] .debug_frame      PROGBITS        0000000000000000 0314a8 000ac0 00      0   0  8
+  [32] .rela.debug_frame RELA            0000000000000000 09a880 000720 18   I 54  31  8
+  [33] .debug_str        PROGBITS        0000000000000000 031f68 0155b0 01  MS  0   0  1
+  [34] .debug_line_str   PROGBITS        0000000000000000 047518 001c72 01  MS  0   0  1
+  [35] .debug_loclists   PROGBITS        0000000000000000 04918a 00450a 00      0   0  1
+  [36] .rela.debug_loclists RELA            0000000000000000 09afa0 002c70 18   I 54  35  8
+  [37] .debug_rnglists   PROGBITS        0000000000000000 04d694 00061d 00      0   0  1
+  [38] .rela.debug_rnglists RELA            0000000000000000 09dc10 000738 18   I 54  37  8
+  [39] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 04dcb1 000024 00      0   0  1
+  [40] .data..once       PROGBITS        0000000000000000 04dcd5 000002 00  WA  0   0  1
+  [41] .modinfo          PROGBITS        0000000000000000 04dcd7 000141 00   A  0   0  1
+  [42] __param           PROGBITS        0000000000000000 04de18 000028 00   A  0   0  8
+  [43] .rela__param      RELA            0000000000000000 09e348 000060 18   I 54  42  8
+  [44] .note.gnu.property NOTE            0000000000000000 04de40 000020 00   A  0   0  8
+  [45] .note.gnu.build-id NOTE            0000000000000000 04de60 000024 00   A  0   0  4
+  [46] __ksymtab_strings PROGBITS        0000000000000000 04de84 0001a5 01 AMS  0   0  1
+  [47] .gnu.linkonce.this_module PROGBITS        0000000000000000 04e030 000500 00  WA  0   0 64
+  [48] __version_ext_crcs PROGBITS        0000000000000000 04e530 0000d0 00   A  0   0  8
+  [49] __version_ext_names PROGBITS        0000000000000000 04e600 0003a9 00   A  0   0  8
+  [50] __versions        PROGBITS        0000000000000000 04e9b0 000d00 00   A  0   0  8
+  [51] .note.Linux       NOTE            0000000000000000 04f6b0 000030 00   A  0   0  4
+  [52] .BTF              PROGBITS        0000000000000000 04f6e0 00718b 00      0   0  1
+  [53] .BTF.base         PROGBITS        0000000000000000 05686b 00038e 00      0   0  1
+  [54] .symtab           SYMTAB          0000000000000000 056c00 001f38 18     55 265  8
+  [55] .strtab           STRTAB          0000000000000000 058b38 00125c 00      0   0  1
+  [56] .shstrtab         STRTAB          0000000000000000 09e3a8 00025d 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+filename:       /work/source/vchiq.ko
+author:         Broadcom Corporation
+description:    Videocore VCHIQ driver
+license:        Dual BSD/GPL
+srcversion:     D966F3801306B490D390600
+alias:          of:N*T*Cbrcm,bcm2836-vchiqC*
+alias:          of:N*T*Cbrcm,bcm2836-vchiq
+alias:          of:N*T*Cbrcm,bcm2835-vchiqC*
+alias:          of:N*T*Cbrcm,bcm2835-vchiq
+depends:        
+name:           vchiq
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+0x0939ba25	pin_user_pages_fast
+0x21f931bb	add_uevent_var
+0xcc6fc54e	devm_platform_ioremap_resource
+0xab2f81e3	flush_dcache_page
+0xdc352a3b	__list_add_valid_or_report
+0xd8ed5a7c	devm_request_threaded_irq
+0xe3246ffc	devm_kmalloc
+0x963bef18	of_node_put
+0xd9583a45	devm_rpi_firmware_get
+0xd272d446	__rcu_read_lock
+0xa0cac76d	platform_driver_unregister
+0xef6cf7e0	vmalloc_to_page
+0xe3bde637	platform_get_irq
+0x40a621c5	snprintf
+0x62cbec20	complete
+0xa581d24c	dmam_alloc_attrs
+0x7d1e1064	device_unregister
+0xc2ccdd1e	__init_swait_queue_head
+0xb730487b	finish_wait
+0xe6111b34	_raw_write_lock_bh
+0x40a621c5	scnprintf
+0x7baf6e7f	set_user_nice
+0xd05e68d0	up
+0x98d46abd	unpin_user_pages
+0xfbe7861b	memcpy
+0xcb8b6ec6	kfree
+0xe6111b34	_raw_read_unlock_bh
+0xe6111b34	_raw_read_lock_bh
+0xb2ede3d3	seq_lseek
+0xe6111b34	_raw_write_unlock_bh
+0x0feb1e94	usleep_range_state
+0xc281f1fb	prepare_to_wait_event
+0x5e505530	kthread_should_stop
+0x68a1b6c6	__wake_up
+0xf2a40031	log_post_write_mmio
+0x6735210a	__dynamic_dev_dbg
+0x5af09d8b	_raw_spin_lock
+0xc321b703	wake_up_process
+0xc518cd28	of_find_compatible_node
+0xb06660af	log_post_read_mmio
+0xd272d446	dump_stack
+0xe8213e80	_printk
+0xd272d446	schedule
+0xd272d446	__stack_chk_fail
+0xff0106da	refcount_warn_saturate
+0x7d1e1064	put_device
+0xc429d7ce	__tracepoint_rwmmio_post_read
+0x90a48d82	__ubsan_handle_out_of_bounds
+0x5a0629f2	flush_signals
+0x7a5ffe84	init_wait_entry
+0xd0c7f8ef	bus_unregister
+0x889d9f7a	_dev_err
+0xf4296824	rpi_firmware_property
+0xc429d7ce	__tracepoint_rwmmio_write
+0xd272d446	__rcu_read_unlock
+0xd05e68d0	down
+0xbd03ed67	random_kmalloc_seed
+0xb6efbc49	mutex_lock
+0x60129bd7	dma_alloc_attrs
+0x439e8ccc	debugfs_remove
+0x2ff07009	seq_putc
+0xf81b98aa	driver_unregister
+0x3d395066	wait_for_completion_interruptible
+0x4f1e5fd0	__list_del_entry_valid_or_report
+0x647c3604	kthread_stop
+0xe54e0a6b	__fortify_panic
+0x3d395066	wait_for_completion_killable
+0x1fe335f6	device_register
+0x0e9cab28	memset
+0x889d9f7a	_dev_warn
+0x62cbec20	wait_for_completion
+0xe804603d	__init_waitqueue_head
+0xc429d7ce	__tracepoint_rwmmio_read
+0x62cbec20	complete_all
+0xf9d2558a	mutex_lock_killable
+0x3e565e15	strcmp
+0xc09e7a6a	__platform_driver_register
+0x0df08bfa	dma_set_coherent_mask
+0x6906adcb	kthread_create_on_node
+0x48e40778	set_page_dirty
+0xfced4593	seq_read
+0x82fd7238	__ubsan_handle_shift_out_of_bounds
+0xf7392847	kvfree_call_rcu
+0xd51aa647	dma_free_attrs
+0xb6efbc49	mutex_unlock
+0xc6087d65	seq_write
+0x961aa1e8	__kmalloc_cache_noprof
+0x75738bed	__warn_printk
+0x340d5a62	seq_printf
+0x7be11aa9	down_interruptible
+0xaa47b76e	__arch_copy_from_user
+0xafa64e87	debugfs_create_file_full
+0x1688fc48	log_read_mmio
+0xf51313f3	single_release
+0x9c4ed43a	alt_cb_patch_nops
+0x0df08bfa	dma_set_mask
+0x4160bf20	dma_unmap_sg_attrs
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0x82df538e	single_open
+0x02068c69	of_device_get_match_data
+0x7851be11	dynamic_might_resched
+0x479a18a3	debugfs_create_dir
+0xabb152f1	try_wait_for_completion
+0x5af09d8b	_raw_spin_unlock
+0xf75e560c	of_dma_configure_id
+0xc429d7ce	__tracepoint_rwmmio_post_write
+0xe982c8c7	driver_register
+0xf2a40031	log_write_mmio
+0x9cb91b7f	sg_init_table
+0x93ec01ca	kmalloc_caches
+0x5bde6d45	bus_register
+0xb6efbc49	mutex_init_generic
+0x4e624643	dma_map_sg_attrs
+0x57971f80	module_layout
+There are 67 section headers, starting at offset 0x1c1210:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] __ksymtab         PROGBITS        0000000000000000 000040 000108 00   A  0   0  8
+  [ 2] .rela__ksymtab    RELA            0000000000000000 0f5170 000630 18   I 64   1  8
+  [ 3] __kcrctab         PROGBITS        0000000000000000 000148 000058 00   A  0   0  4
+  [ 4] __kflagstab       PROGBITS        0000000000000000 0001a0 000016 00   A  0   0  1
+  [ 5] .altinstructions  PROGBITS        0000000000000000 0001b8 000168 00   A  0   0  8
+  [ 6] .rela.altinstructions RELA            0000000000000000 0f57a0 0005a0 18   I 64   5  8
+  [ 7] __bug_table       PROGBITS        0000000000000000 000320 0001b0 00  WA  0   0  8
+  [ 8] .rela__bug_table  RELA            0000000000000000 0f5d40 0006c0 18   I 64   7  8
+  [ 9] __jump_table      PROGBITS        0000000000000000 0004d0 000670 00  WA  0   0  8
+  [10] .rela__jump_table RELA            0000000000000000 0f6400 001cf8 18   I 64   9  8
+  [11] __patchable_function_entries PROGBITS        0000000000000000 000b40 0003a0 00 WAL 13   0  8
+  [12] .rela__patchable_function_entries RELA            0000000000000000 0f80f8 000ae0 18   I 64  11  8
+  [13] .text             PROGBITS        0000000000000000 000ee0 00d148 00  AX  0   0 32
+  [14] .rela.text        RELA            0000000000000000 0f8bd8 00c258 18   I 64  13  8
+  [15] .bss              NOBITS          0000000000000000 00e028 000030 00  WA  0   0  8
+  [16] .data             PROGBITS        0000000000000000 00e028 000ee3 00  WA  0   0  8
+  [17] .rela.data        RELA            0000000000000000 104e30 001ab8 18   I 64  16  8
+  [18] .rodata           PROGBITS        0000000000000000 00ef10 003483 00   A  0   0  8
+  [19] .rela.rodata      RELA            0000000000000000 1068e8 000708 18   I 64  18  8
+  [20] .plt              PROGBITS        0000000000000000 012393 000001 00  AX  0   0  1
+  [21] .init.plt         PROGBITS        0000000000000000 012394 000001 00   A  0   0  1
+  [22] .text.ftrace_trampoline PROGBITS        0000000000000000 012395 000001 00  AX  0   0  1
+  [23] .init.text.ftrace_trampoline PROGBITS        0000000000000000 012396 000001 00   A  0   0  1
+  [24] .note.GNU-stack   PROGBITS        0000000000000000 012397 000000 00      0   0  1
+  [25] .comment          PROGBITS        0000000000000000 012397 0000a8 01  MS  0   0  1
+  [26] .debug_aranges    PROGBITS        0000000000000000 01243f 000130 00      0   0  1
+  [27] .rela.debug_aranges RELA            0000000000000000 106ff0 000138 18   I 64  26  8
+  [28] .debug_info       PROGBITS        0000000000000000 01256f 06abdf 00      0   0  1
+  [29] .rela.debug_info  RELA            0000000000000000 107128 0a90e0 18   I 64  28  8
+  [30] .debug_abbrev     PROGBITS        0000000000000000 07d14e 0036e1 00      0   0  1
+  [31] .debug_line       PROGBITS        0000000000000000 08082f 00fb5c 00      0   0  1
+  [32] .rela.debug_line  RELA            0000000000000000 1b0208 006378 18   I 64  31  8
+  [33] .debug_frame      PROGBITS        0000000000000000 090390 002008 00      0   0  8
+  [34] .rela.debug_frame RELA            0000000000000000 1b6580 001680 18   I 64  33  8
+  [35] .debug_str        PROGBITS        0000000000000000 092398 037484 01  MS  0   0  1
+  [36] .debug_line_str   PROGBITS        0000000000000000 0c981c 004597 01  MS  0   0  1
+  [37] .debug_loclists   PROGBITS        0000000000000000 0cddb3 014342 00      0   0  1
+  [38] .rela.debug_loclists RELA            0000000000000000 1b7c00 0067e0 18   I 64  37  8
+  [39] .debug_rnglists   PROGBITS        0000000000000000 0e20f5 002d6b 00      0   0  1
+  [40] .rela.debug_rnglists RELA            0000000000000000 1be3e0 000d68 18   I 64  39  8
+  [41] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 0e4e60 000024 00      0   0  1
+  [42] __dyndbg          PROGBITS        0000000000000000 0e4e88 000ff8 00  WA  0   0  8
+  [43] .rela__dyndbg     RELA            0000000000000000 1bf148 001b60 18   I 64  42  8
+  [44] .note.gnu.property NOTE            0000000000000000 0e5e80 000020 00   A  0   0  8
+  [45] .init.text        PROGBITS        0000000000000000 0e5ea0 0000b8 00  AX  0   0  8
+  [46] .rela.init.text   RELA            0000000000000000 1c0ca8 0001c8 18   I 64  45  8
+  [47] .exit.text        PROGBITS        0000000000000000 0e5f58 000048 00  AX  0   0  8
+  [48] .rela.exit.text   RELA            0000000000000000 1c0e70 000090 18   I 64  47  8
+  [49] .exit.data        PROGBITS        0000000000000000 0e5fa0 000008 00  WA  0   0  8
+  [50] .rela.exit.data   RELA            0000000000000000 1c0f00 000018 18   I 64  49  8
+  [51] .init.data        PROGBITS        0000000000000000 0e5fa8 000008 00  WA  0   0  8
+  [52] .rela.init.data   RELA            0000000000000000 1c0f18 000018 18   I 64  51  8
+  [53] .modinfo          PROGBITS        0000000000000000 0e5fb0 00015a 00   A  0   0  1
+  [54] .note.gnu.build-id NOTE            0000000000000000 0e610c 000024 00   A  0   0  4
+  [55] __ksymtab_strings PROGBITS        0000000000000000 0e6130 000201 01 AMS  0   0  1
+  [56] .gnu.linkonce.this_module PROGBITS        0000000000000000 0e6338 000500 00  WA  0   0 64
+  [57] .rela.gnu.linkonce.this_module RELA            0000000000000000 1c0f30 000030 18   I 64  56  8
+  [58] __version_ext_crcs PROGBITS        0000000000000000 0e6838 0001c8 00   A  0   0  8
+  [59] __version_ext_names PROGBITS        0000000000000000 0e6a00 0007d0 00   A  0   0  8
+  [60] __versions        PROGBITS        0000000000000000 0e71d0 001c80 00   A  0   0  8
+  [61] .note.Linux       NOTE            0000000000000000 0e8e50 000030 00   A  0   0  4
+  [62] .BTF              PROGBITS        0000000000000000 0e8e80 004987 00      0   0  1
+  [63] .BTF.base         PROGBITS        0000000000000000 0ed807 000370 00      0   0  1
+  [64] .symtab           SYMTAB          0000000000000000 0edb78 004a10 18     65 590  8
+  [65] .strtab           STRTAB          0000000000000000 0f2588 002be3 00      0   0  1
+  [66] .shstrtab         STRTAB          0000000000000000 1c0f60 0002a9 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+filename:       /work/source/vc-sm-cma.ko
+alias:          vchiq:vcsm-cma
+alias:          vcsm-cma
+license:        GPL v2
+description:    VideoCore CMA Shared Memory Driver
+author:         Dave Stevenson
+import_ns:      DMA_BUF
+srcversion:     C612876166C7B62423AC248
+depends:        vchiq
+name:           vc_sm_cma
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+0xb603a60f	vchiq_use_service
+0x1b47d76b	misc_deregister
+0xdc352a3b	__list_add_valid_or_report
+0x969ecd19	vchiq_open_service_owned
+0x9a8a840e	idr_find
+0xe3246ffc	devm_kmalloc
+0x40a621c5	snprintf
+0x62cbec20	complete
+0xee88f696	vchiq_connect
+0xd648ae19	sg_free_table
+0xd4538e1a	vchiq_get_service_userdata
+0xc2ccdd1e	__init_swait_queue_head
+0xb730487b	finish_wait
+0x7baf6e7f	set_user_nice
+0xdae6ec27	vchiq_initialise
+0xfbe7861b	memcpy
+0xcb8b6ec6	kfree
+0xb2ede3d3	seq_lseek
+0xc281f1fb	prepare_to_wait_event
+0x6548d8dc	dma_buf_unmap_attachment_unlocked
+0x5e505530	kthread_should_stop
+0x68a1b6c6	__wake_up
+0x28662e05	dma_buf_attach
+0xc321b703	wake_up_process
+0x643d0825	dma_buf_map_attachment_unlocked
+0xd272d446	dump_stack
+0xe8213e80	_printk
+0xee88f696	vchiq_shutdown
+0xd272d446	schedule
+0xd272d446	__stack_chk_fail
+0xff0106da	refcount_warn_saturate
+0xaa47b76e	__arch_copy_to_user
+0x406d3439	dma_buf_export
+0x30c65558	strnlen
+0x90a48d82	__ubsan_handle_out_of_bounds
+0xb09bc67d	sg_alloc_table
+0x6b412821	idr_remove
+0x7a5ffe84	init_wait_entry
+0x889d9f7a	_dev_err
+0xb33f96dc	idr_alloc
+0xfffe5697	__dma_sync_sg_for_device
+0xbd03ed67	random_kmalloc_seed
+0xb6efbc49	mutex_lock
+0x60129bd7	dma_alloc_attrs
+0xcc1917dc	dma_buf_get
+0x439e8ccc	debugfs_remove
+0xfffe5697	__dma_sync_sg_for_cpu
+0x141340f1	dma_buf_put
+0x3d395066	wait_for_completion_interruptible
+0x0a3f28d5	dma_buf_fd
+0x4f1e5fd0	__list_del_entry_valid_or_report
+0x6dbed7f0	vchiq_driver_register
+0x647c3604	kthread_stop
+0xe54e0a6b	__fortify_panic
+0xfc66744b	idr_destroy
+0x66605289	vchiq_driver_unregister
+0x0e9cab28	memset
+0xdcd7cb68	misc_register
+0x62cbec20	wait_for_completion
+0xe804603d	__init_waitqueue_head
+0xe68a14be	vchiq_remove_connected_callback
+0x62cbec20	complete_all
+0xb603a60f	vchiq_release_service
+0x929150b7	vchiq_queue_kernel_message
+0x6aad2cee	vchiq_msg_hold
+0x6906adcb	kthread_create_on_node
+0x0df08bfa	dma_set_coherent_mask
+0xfced4593	seq_read
+0xd51aa647	dma_free_attrs
+0xb6efbc49	mutex_unlock
+0xc6087d65	seq_write
+0x30eb81ed	__dynamic_pr_debug
+0x961aa1e8	__kmalloc_cache_noprof
+0x75738bed	__warn_printk
+0x340d5a62	seq_printf
+0xaa47b76e	__arch_copy_from_user
+0xafa64e87	debugfs_create_file_full
+0xda49884e	dma_buf_detach
+0xfbd26918	dma_mmap_attrs
+0xf51313f3	single_release
+0x9c4ed43a	alt_cb_patch_nops
+0x0df08bfa	dma_set_mask
+0x9d878862	vchiq_add_connected_callback_sync
+0x72a5d832	dma_get_sgtable_attrs
+0x4160bf20	dma_unmap_sg_attrs
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0xe1a14995	vchiq_msg_queue_push
+0xe1a14995	vchiq_release_message
+0x82df538e	single_open
+0x7851be11	dynamic_might_resched
+0x479a18a3	debugfs_create_dir
+0x00f1bd2a	vchiq_remove_service_sync
+0x93ec01ca	kmalloc_caches
+0xb6efbc49	mutex_init_generic
+0x4e624643	dma_map_sg_attrs
+0x57971f80	module_layout
+There are 68 section headers, starting at offset 0x107ab8:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] __ksymtab         PROGBITS        0000000000000000 000040 000024 00   A  0   0  8
+  [ 2] .rela__ksymtab    RELA            0000000000000000 08cc20 0000d8 18   I 65   1  8
+  [ 3] __kcrctab         PROGBITS        0000000000000000 000064 00000c 00   A  0   0  4
+  [ 4] __kflagstab       PROGBITS        0000000000000000 000070 000003 00   A  0   0  1
+  [ 5] .altinstructions  PROGBITS        0000000000000000 000078 000180 00   A  0   0  8
+  [ 6] .rela.altinstructions RELA            0000000000000000 08ccf8 000600 18   I 65   5  8
+  [ 7] __bug_table       PROGBITS        0000000000000000 0001f8 000024 00  WA  0   0  8
+  [ 8] .rela__bug_table  RELA            0000000000000000 08d2f8 000090 18   I 65   7  8
+  [ 9] __jump_table      PROGBITS        0000000000000000 000220 000210 00  WA  0   0  8
+  [10] .rela__jump_table RELA            0000000000000000 08d388 000948 18   I 65   9  8
+  [11] __patchable_function_entries PROGBITS        0000000000000000 000430 000190 00 WAL 13   0  8
+  [12] .rela__patchable_function_entries RELA            0000000000000000 08dcd0 0004b0 18   I 65  11  8
+  [13] .text             PROGBITS        0000000000000000 0005c0 0056d8 00  AX  0   0 32
+  [14] .rela.text        RELA            0000000000000000 08e180 005c28 18   I 65  13  8
+  [15] .bss              NOBITS          0000000000000000 005c98 000020 00  WA  0   0  8
+  [16] .data             PROGBITS        0000000000000000 005c98 0004ac 00  WA  0   0  8
+  [17] .rela.data        RELA            0000000000000000 093da8 000720 18   I 65  16  8
+  [18] .rodata           PROGBITS        0000000000000000 006148 00143d 00   A  0   0  8
+  [19] .rela.rodata      RELA            0000000000000000 0944c8 000258 18   I 65  18  8
+  [20] .plt              PROGBITS        0000000000000000 007585 000001 00  AX  0   0  1
+  [21] .init.plt         PROGBITS        0000000000000000 007586 000001 00   A  0   0  1
+  [22] .text.ftrace_trampoline PROGBITS        0000000000000000 007587 000001 00  AX  0   0  1
+  [23] .init.text.ftrace_trampoline PROGBITS        0000000000000000 007588 000001 00   A  0   0  1
+  [24] .note.GNU-stack   PROGBITS        0000000000000000 007589 000000 00      0   0  1
+  [25] .comment          PROGBITS        0000000000000000 007589 000070 01  MS  0   0  1
+  [26] .debug_aranges    PROGBITS        0000000000000000 0075f9 0000d0 00      0   0  1
+  [27] .rela.debug_aranges RELA            0000000000000000 094720 0000d8 18   I 65  26  8
+  [28] .debug_info       PROGBITS        0000000000000000 0076c9 03fae8 00      0   0  1
+  [29] .rela.debug_info  RELA            0000000000000000 0947f8 0660c0 18   I 65  28  8
+  [30] .debug_abbrev     PROGBITS        0000000000000000 0471b1 00228c 00      0   0  1
+  [31] .debug_line       PROGBITS        0000000000000000 04943d 0081f1 00      0   0  1
+  [32] .rela.debug_line  RELA            0000000000000000 0fa8b8 003870 18   I 65  31  8
+  [33] .debug_frame      PROGBITS        0000000000000000 051630 000e90 00      0   0  8
+  [34] .rela.debug_frame RELA            0000000000000000 0fe128 000a20 18   I 65  33  8
+  [35] .debug_str        PROGBITS        0000000000000000 0524c0 021b22 01  MS  0   0  1
+  [36] .debug_line_str   PROGBITS        0000000000000000 073fe2 002802 01  MS  0   0  1
+  [37] .debug_loclists   PROGBITS        0000000000000000 0767e4 00a89d 00      0   0  1
+  [38] .rela.debug_loclists RELA            0000000000000000 0feb48 006c90 18   I 65  37  8
+  [39] .debug_rnglists   PROGBITS        0000000000000000 081081 00153a 00      0   0  1
+  [40] .rela.debug_rnglists RELA            0000000000000000 1057d8 0012d8 18   I 65  39  8
+  [41] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 0825bb 000024 00      0   0  1
+  [42] .init.text        PROGBITS        0000000000000000 0825e0 000044 00  AX  0   0  8
+  [43] .rela.init.text   RELA            0000000000000000 106ab0 000048 18   I 65  42  8
+  [44] .exit.text        PROGBITS        0000000000000000 082628 000038 00  AX  0   0  8
+  [45] .rela.exit.text   RELA            0000000000000000 106af8 000048 18   I 65  44  8
+  [46] .data..once       PROGBITS        0000000000000000 082660 000003 00  WA  0   0  1
+  [47] .exit.data        PROGBITS        0000000000000000 082668 000008 00  WA  0   0  8
+  [48] .rela.exit.data   RELA            0000000000000000 106b40 000018 18   I 65  47  8
+  [49] .init.data        PROGBITS        0000000000000000 082670 000008 00  WA  0   0  8
+  [50] .rela.init.data   RELA            0000000000000000 106b58 000018 18   I 65  49  8
+  [51] .modinfo          PROGBITS        0000000000000000 082678 000111 00   A  0   0  1
+  [52] __dyndbg          PROGBITS        0000000000000000 082790 000738 00  WA  0   0  8
+  [53] .rela__dyndbg     RELA            0000000000000000 106b70 000c60 18   I 65  52  8
+  [54] .note.gnu.property NOTE            0000000000000000 082ec8 000020 00   A  0   0  8
+  [55] .note.gnu.build-id NOTE            0000000000000000 082ee8 000024 00   A  0   0  4
+  [56] __ksymtab_strings PROGBITS        0000000000000000 082f0c 00003f 01 AMS  0   0  1
+  [57] .gnu.linkonce.this_module PROGBITS        0000000000000000 082f50 000500 00  WA  0   0 64
+  [58] .rela.gnu.linkonce.this_module RELA            0000000000000000 1077d0 000030 18   I 65  57  8
+  [59] __version_ext_crcs PROGBITS        0000000000000000 083450 000180 00   A  0   0  8
+  [60] __version_ext_names PROGBITS        0000000000000000 0835d0 000695 00   A  0   0  8
+  [61] __versions        PROGBITS        0000000000000000 083c68 001800 00   A  0   0  8
+  [62] .note.Linux       NOTE            0000000000000000 085468 000030 00   A  0   0  4
+  [63] .BTF              PROGBITS        0000000000000000 085498 003bb7 00      0   0  1
+  [64] .BTF.base         PROGBITS        0000000000000000 08904f 00038c 00      0   0  1
+  [65] .symtab           SYMTAB          0000000000000000 0893e0 002430 18     66 279  8
+  [66] .strtab           STRTAB          0000000000000000 08b810 00140e 00      0   0  1
+  [67] .shstrtab         STRTAB          0000000000000000 107800 0002b5 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)

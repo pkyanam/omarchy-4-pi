@@ -1,0 +1,11 @@
+# Scoped UART software progress trace
+
+Parent obtained current-boot registration evidence mapping the exact AUX controller to ttyS1, then attested line1. The absence of a tty class node under serdev was not treated as line evidence. Exact running BTF independently verified signatures/scalar offsets. All seven event formats and line filters were installed disabled and reviewed before one 12-second capture guarded by the format/contract hash.
+
+Four entry samples were retained: modem-status with hw_stopped1, start-TX with0, approximately120ms later modem-status with0 and stop-TX with1. Every sample's recorded counters were0. No selected TX-loop, RX-loop, CTS-change or UART-wakeup entry occurred. All profile misses and per-CPU drop/overrun counters were0; no truncation. Exact global state/binding were restored and taint remained0. No UART registers, payloads or raw pointer values were read/exported by the helper; only exact-BTF scalar RAM fields.
+
+This points to software CTS gating when flow control is re-enabled, consistent with prior complete tty acceptance but no receive callbacks. It is not a final counter after command submission and does not establish electrical CTS, FIFO draining, physical TX/RX or controller readiness. Do not infer whole-window zero TX solely from these four zero counter samples.
+
+A later ordinary kernel pinctrl snapshot found four UART pins correctly muxed alt5 and owned by the AUX controller; levels were low/low/high/high. It was collected after failed initialization and cannot establish the controller's active-time signals. The first read-only snapshot command failed locally-expanded shell syntax before running; it was retained, then replaced by a transported literal script. No pin configuration was changed. Full raw logs and private identity/boot context remain in ignored bt-uart-progress-candidate/.
+
+Reproducer and five offline tests: tools/pi-experiments/bluetooth-uart-progress*.py. Exact contract, all four samples and stats are retained here with private boot/task details omitted. Kernel-format text includes type-layout metadata, not actual addresses. A separate owning-driver/source investigation is determining whether mini-UART CTS handling or active controller signals explain the stop; no working-radio fix is yet justified or claimed.

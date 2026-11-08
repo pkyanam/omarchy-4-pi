@@ -1,0 +1,594 @@
+{
+  "layout": {
+    "btf_sha256": "f8711335d174e735928d53a899d57e082b2b68f077333036c505ef887bd22959",
+    "fields": {
+      "line": {
+        "offset": 340,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "hw_stopped": {
+        "offset": 308,
+        "bytes": 1,
+        "type": "_Bool"
+      },
+      "icount.tx": {
+        "offset": 260,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.rx": {
+        "offset": 256,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.cts": {
+        "offset": 240,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.frame": {
+        "offset": 264,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.parity": {
+        "offset": 272,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.overrun": {
+        "offset": 268,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.brk": {
+        "offset": 276,
+        "bytes": 4,
+        "type": "unsigned int"
+      },
+      "icount.buf_overrun": {
+        "offset": 280,
+        "bytes": 4,
+        "type": "unsigned int"
+      }
+    },
+    "signatures": {
+      "serial8250_start_tx": {
+        "return": "void",
+        "args": [
+          "uart_port*"
+        ]
+      },
+      "serial8250_tx_chars": {
+        "return": "void",
+        "args": [
+          "uart_8250_port*"
+        ]
+      },
+      "serial8250_stop_tx": {
+        "return": "void",
+        "args": [
+          "uart_port*"
+        ]
+      },
+      "serial8250_rx_chars": {
+        "return": "short unsigned int",
+        "args": [
+          "uart_8250_port*",
+          "short unsigned int"
+        ]
+      },
+      "serial8250_modem_status": {
+        "return": "unsigned int",
+        "args": [
+          "uart_8250_port*"
+        ]
+      },
+      "uart_write_wakeup": {
+        "return": "void",
+        "args": [
+          "uart_port*"
+        ]
+      },
+      "uart_handle_cts_change": {
+        "return": "void",
+        "args": [
+          "uart_port*",
+          "_Bool"
+        ]
+      }
+    }
+  },
+  "identity": {
+    "device_path": "[controller path omitted; exact privately attested and runtime-verified]",
+    "line": 1,
+    "proof": "current-boot UART registration maps fe215040.serial to ttyS1",
+    "source_evidence_sha256": "e1b49b7a6070811419a40bc6f0fff105465b86637b45685cacb72a610a66155b"
+  },
+  "filter": "line == 1",
+  "probes": [
+    [
+      "serial8250_start_tx",
+      "p",
+      "serial8250_start_tx",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ]
+      ]
+    ],
+    [
+      "serial8250_tx_chars",
+      "p",
+      "serial8250_tx_chars",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ]
+      ]
+    ],
+    [
+      "serial8250_stop_tx",
+      "p",
+      "serial8250_stop_tx",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ]
+      ]
+    ],
+    [
+      "serial8250_rx_chars",
+      "p",
+      "serial8250_rx_chars",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ]
+      ]
+    ],
+    [
+      "serial8250_modem_status",
+      "p",
+      "serial8250_modem_status",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ]
+      ]
+    ],
+    [
+      "uart_write_wakeup",
+      "p",
+      "uart_write_wakeup",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ]
+      ]
+    ],
+    [
+      "uart_handle_cts_change",
+      "p",
+      "uart_handle_cts_change",
+      null,
+      [
+        [
+          "line",
+          "+340(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "hw_stopped",
+          "+308(%x0):u8",
+          1,
+          0
+        ],
+        [
+          "icount_tx",
+          "+260(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_rx",
+          "+256(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_cts",
+          "+240(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_frame",
+          "+264(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_parity",
+          "+272(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_overrun",
+          "+268(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_brk",
+          "+276(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "icount_buf_overrun",
+          "+280(%x0):u32",
+          4,
+          0
+        ],
+        [
+          "active",
+          "%x1:u8",
+          1,
+          0
+        ]
+      ]
+    ]
+  ]
+}

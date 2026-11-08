@@ -1,0 +1,146 @@
+{
+  "cohort": "pi4-4gb-native",
+  "kernel": "7.3.0-32.1-omarchy",
+  "line": 1,
+  "btf_sha256": "f8711335d174e735928d53a899d57e082b2b68f077333036c505ef887bd22959",
+  "helper_sha256": "0f61934ff4c670a19beed85b0586008c7d7fe1fd67dfa26ecf0e4264f8f9a684",
+  "result": {
+    "failure": null,
+    "cleanup_errors": [],
+    "rebind_attempted": true,
+    "physical_evidence": false,
+    "unresolved_worker_pid": null
+  },
+  "shared_state_restored": true,
+  "taint_after": "0",
+  "capture": {
+    "truncated": false
+  },
+  "events": [
+    {
+      "cpu": 2,
+      "event": "serial8250_modem_status",
+      "values": {
+        "line": 1,
+        "hw_stopped": 1,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      },
+      "relative_s": 0.0
+    },
+    {
+      "cpu": 2,
+      "event": "serial8250_start_tx",
+      "values": {
+        "line": 1,
+        "hw_stopped": 0,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      },
+      "relative_s": 2.4e-05
+    },
+    {
+      "cpu": 1,
+      "event": "serial8250_modem_status",
+      "values": {
+        "line": 1,
+        "hw_stopped": 0,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      },
+      "relative_s": 0.120569
+    },
+    {
+      "cpu": 1,
+      "event": "serial8250_stop_tx",
+      "values": {
+        "line": 1,
+        "hw_stopped": 1,
+        "icount_tx": 0,
+        "icount_rx": 0,
+        "icount_cts": 0,
+        "icount_frame": 0,
+        "icount_parity": 0,
+        "icount_overrun": 0,
+        "icount_brk": 0,
+        "icount_buf_overrun": 0
+      },
+      "relative_s": 0.120575
+    }
+  ],
+  "probe_profile": [
+    {
+      "event": "serial8250_start_tx",
+      "hits": 1,
+      "missed": 0
+    },
+    {
+      "event": "serial8250_tx_chars",
+      "hits": 0,
+      "missed": 0
+    },
+    {
+      "event": "serial8250_stop_tx",
+      "hits": 1,
+      "missed": 0
+    },
+    {
+      "event": "serial8250_rx_chars",
+      "hits": 0,
+      "missed": 0
+    },
+    {
+      "event": "serial8250_modem_status",
+      "hits": 2,
+      "missed": 0
+    },
+    {
+      "event": "uart_write_wakeup",
+      "hits": 0,
+      "missed": 0
+    },
+    {
+      "event": "uart_handle_cts_change",
+      "hits": 0,
+      "missed": 0
+    }
+  ],
+  "cpu_stats": {
+    "cpu1-stats.txt": "entries: 2\noverrun: 0\ncommit overrun: 0\nbytes: 120\noldest event ts:  4965.272662\nnow ts:  4976.772453\ndropped events: 0\nread events: 0\n",
+    "cpu0-stats.txt": "entries: 0\noverrun: 0\ncommit overrun: 0\nbytes: 0\noldest event ts:     0.000000\nnow ts:  4976.771844\ndropped events: 0\nread events: 0\n",
+    "cpu3-stats.txt": "entries: 0\noverrun: 0\ncommit overrun: 0\nbytes: 0\noldest event ts:     0.000000\nnow ts:  4976.773623\ndropped events: 0\nread events: 0\n",
+    "cpu2-stats.txt": "entries: 2\noverrun: 0\ncommit overrun: 0\nbytes: 120\noldest event ts:  4965.152093\nnow ts:  4976.773065\ndropped events: 0\nread events: 0\n"
+  },
+  "post_trace_gpio_snapshot": {
+    "phase": "after failed initialization; not in-window power-on evidence",
+    "mux": "alt5, all four pins owned by UART controller",
+    "gpio30": "low",
+    "gpio31": "low",
+    "gpio32": "high",
+    "gpio33": "high"
+  },
+  "limits": [
+    "All four samples were during open/termios activity; no final sample after command writes.",
+    "Zero sample counters are not a complete-window zero-counter proof.",
+    "No TX-loop entry is consistent with software CTS gating, not a pin-level measurement.",
+    "After-trace GPIO levels cannot establish CTS during active controller initialization."
+  ]
+}

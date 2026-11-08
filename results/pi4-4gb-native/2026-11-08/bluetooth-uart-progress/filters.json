@@ -1,0 +1,9 @@
+{
+  "serial8250_start_tx": "line == 1",
+  "serial8250_tx_chars": "line == 1",
+  "serial8250_stop_tx": "line == 1",
+  "serial8250_rx_chars": "line == 1",
+  "serial8250_modem_status": "line == 1",
+  "uart_write_wakeup": "line == 1",
+  "uart_handle_cts_change": "line == 1"
+}

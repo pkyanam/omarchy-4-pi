@@ -1,0 +1,5 @@
+# Inactive PFTF CTS companion snapshot
+
+This source-only snapshot preserves the reviewed firmware package/helper/hooks and test generators from the ignored CTS candidate. It is not an installed or public update mechanism. Test entrypoints retain original candidate-relative paths: reconstruct this snapshot under the candidate layout or consult plans/omarchy-pi-cts-firmware-validation.md for original reproduction commands. The complete candidate kernel inputs are owned separately.
+
+The parent read final full logs: 25 helper checks pass; original failures and real private ALPM fixtures are preserved under results/pi4-4gb-native/2026-11-08/cts-firmware/. First-install post-hook failure returns pacman success with the package installed: explicit readback and no-reboot handling are mandatory. Physical FAT/firmware/FDT/radio and cross-version rollback are unverified. Exact full RPI_EFI.fd hash includes mutable NVRAM and is a private fail-closed baseline, not a public update design. No firmware variable reset is authorized or proposed.

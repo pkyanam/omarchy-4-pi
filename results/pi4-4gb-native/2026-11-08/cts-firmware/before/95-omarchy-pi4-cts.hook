@@ -1,0 +1,10 @@
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Type = Package
+Target = raspberrypi-4-pftf-cts
+
+[Action]
+Description = Synchronizing the identified PFTF firmware card
+When = PostTransaction
+Exec = /usr/bin/python -I /usr/lib/omarchy/pi4-cts/media-sync.py apply

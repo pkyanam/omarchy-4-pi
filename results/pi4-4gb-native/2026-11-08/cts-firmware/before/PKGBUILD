@@ -1,0 +1,21 @@
+# Inactive PFTF AUX-route firmware payload; early boot DT application, not a new boot chain.
+pkgname=raspberrypi-4-pftf-cts
+pkgver=1
+pkgrel=1
+pkgdesc='Paired AUX RTS/CTS overlay for the reviewed Pi 4 PFTF 1.53 route'
+arch=('aarch64')
+url='https://github.com/pftf/RPi4'
+license=('GPL-2.0-only')
+depends=('linux-omarchy=7.3-32.2' 'raspberrypi-4-support' 'python' 'util-linux')
+makedepends=('dtc')
+options=('!debug')
+source=('omarchy-pi4-aux-rtscts.dtso' 'media-sync.py' 'baseline-media.json' 'config.txt.baseline' 'config.txt.candidate' '10-omarchy-pi4-cts.hook' '95-omarchy-pi4-cts.hook')
+sha256sums=('267d4eb68ab2c5338f4fd042a28d12820e7909203830e8229a2ae1cfa12afbe5' 'b238ff1e770571314f9effc50b6317dfc814ff661b2293583969c17cbb1a83f7' 'b986c79ff2a446075eb9022977847a5fac4d5523f203cab61c385557a380a8b4' '3f2af8477c6a20a299fd7523a9d35e2f4f5d68fee48326f43f7d50a40ad9d794' 'd023a498b42bea25f59c6c6b146d2d230295766c0d9ac20ea39f628f13a0a3ee' '321230ac8c8499fb0d6dea27f65b3f71db950ff86508d96a81e7f419d4101fc9' '91cdfded0100bd5b426eb4bd3d9958212b695949a55d17d8ffc3cecddd713504')
+build() {
+  dtc -@ -I dts -O dtb -o omarchy-pi4-aux-rtscts.dtbo omarchy-pi4-aux-rtscts.dtso
+}
+package() {
+  install -Dm644 -t "$pkgdir/usr/share/omarchy/pi4-cts" omarchy-pi4-aux-rtscts.dtbo baseline-media.json config.txt.baseline config.txt.candidate
+  install -Dm644 media-sync.py "$pkgdir/usr/lib/omarchy/pi4-cts/media-sync.py"
+  install -Dm644 -t "$pkgdir/usr/share/libalpm/hooks" 10-omarchy-pi4-cts.hook 95-omarchy-pi4-cts.hook
+}

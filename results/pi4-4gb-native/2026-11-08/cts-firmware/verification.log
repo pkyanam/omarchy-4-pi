@@ -1,0 +1,9 @@
+PASS complete candidate INPUTS.sha256 matches; only firmware entries updated and removal hook appended
+PASS firmware PKGBUILD syntax, all source checksums and Python ASTs
+green: exit=0, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices
+alpm-2: exit=0, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices
+alpm-1: exit=1, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices
+red: exit=1, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices
+red-corrected: exit=1, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices
+green-expanded: exit=0, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices
+alpm-recipe: exit=0, OOMKilled=False, .25 CPU, RAM+swap 128 MiB, no network/privileged/devices

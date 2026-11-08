@@ -1,0 +1,4 @@
+# Preserve verbatim fixture logs.
+*.log -whitespace
+# Preserve exact original firmware CRLF bytes.
+before/config.txt.* -text -whitespace

@@ -1,0 +1,66 @@
+test_backup_symlink (__main__.Transactions.test_backup_symlink) ... ok
+test_baseline_check_no_write (__main__.Transactions.test_baseline_check_no_write) ... ok
+test_baseline_drift (__main__.Transactions.test_baseline_drift) ... ok
+test_config_drift (__main__.Transactions.test_config_drift) ... ok
+test_config_owner (__main__.Transactions.test_config_owner) ... ok
+test_config_parent_symlink (__main__.Transactions.test_config_parent_symlink) ... ok
+test_config_permissions (__main__.Transactions.test_config_permissions) ... ok
+test_config_symlink (__main__.Transactions.test_config_symlink) ... ok
+test_directory_sync_failure_after_config_is_not_rollback (__main__.Transactions.test_directory_sync_failure_after_config_is_not_rollback) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+test_directory_sync_failure_before_config (__main__.Transactions.test_directory_sync_failure_before_config) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+test_foreign_overlay_restore_rejected (__main__.Transactions.test_foreign_overlay_restore_rejected) ... ok
+test_mount_symlink (__main__.Transactions.test_mount_symlink) ... ok
+test_opt_in_without_overlay (__main__.Transactions.test_opt_in_without_overlay) ... ok
+test_overlay_parent_symlink_inside_mount (__main__.Transactions.test_overlay_parent_symlink_inside_mount) ... ok
+test_overlay_readback_before_config (__main__.Transactions.test_overlay_readback_before_config) ... ok
+test_overlay_symlink (__main__.Transactions.test_overlay_symlink) ... ok
+test_publish_order (__main__.Transactions.test_publish_order) ... ok
+test_remove_guard (__main__.Transactions.test_remove_guard) ... ok
+test_repeat_restore_owned_only (__main__.Transactions.test_repeat_restore_owned_only) ... ok
+test_restore_failures_keep_active_pair (__main__.Transactions.test_restore_failures_keep_active_pair) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+test_stale_temporary_not_deleted (__main__.Transactions.test_stale_temporary_not_deleted) ... ok
+test_unmounted (__main__.Transactions.test_unmounted) ... ok
+test_wrong_filesystem (__main__.Transactions.test_wrong_filesystem) ... ok
+test_wrong_uuid (__main__.Transactions.test_wrong_uuid) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.937s
+
+OK
+Firmware card identity/baseline checked; no write
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification

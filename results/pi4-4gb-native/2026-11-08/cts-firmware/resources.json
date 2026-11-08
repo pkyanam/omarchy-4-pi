@@ -1,0 +1,72 @@
+{
+  "green": {
+    "exit_code": 0,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  },
+  "alpm-2": {
+    "exit_code": 0,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  },
+  "alpm-1": {
+    "exit_code": 1,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  },
+  "red": {
+    "exit_code": 1,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  },
+  "red-corrected": {
+    "exit_code": 1,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  },
+  "green-expanded": {
+    "exit_code": 0,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  },
+  "alpm-recipe": {
+    "exit_code": 0,
+    "oom_killed": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none",
+    "privileged": false,
+    "devices": []
+  }
+}

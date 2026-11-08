@@ -1,0 +1,266 @@
+test_backup_symlink (__main__.Transactions.test_backup_symlink) ... FAIL
+test_baseline_check_no_write (__main__.Transactions.test_baseline_check_no_write) ... ok
+test_baseline_drift (__main__.Transactions.test_baseline_drift) ... ok
+test_config_drift (__main__.Transactions.test_config_drift) ... ok
+test_config_owner (__main__.Transactions.test_config_owner) ... ok
+test_config_parent_symlink (__main__.Transactions.test_config_parent_symlink) ... FAIL
+test_config_permissions (__main__.Transactions.test_config_permissions) ... ok
+test_config_symlink (__main__.Transactions.test_config_symlink) ... ok
+test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) ... 
+  test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='write', target='omarchy-pi4-aux-rtscts.dtbo') ... ERROR
+  test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='write', target='config.txt') ... ERROR
+  test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='fsync', target='omarchy-pi4-aux-rtscts.dtbo') ... ERROR
+  test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='fsync', target='config.txt') ... ERROR
+  test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='rename', target='omarchy-pi4-aux-rtscts.dtbo') ... ERROR
+  test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='rename', target='config.txt') ... ERROR
+test_foreign_overlay_restore_rejected (__main__.Transactions.test_foreign_overlay_restore_rejected) ... ok
+test_overlay_parent_symlink_inside_mount (__main__.Transactions.test_overlay_parent_symlink_inside_mount) ... FAIL
+test_overlay_symlink (__main__.Transactions.test_overlay_symlink) ... ok
+test_publish_order (__main__.Transactions.test_publish_order) ... FAIL
+test_remove_guard (__main__.Transactions.test_remove_guard) ... ERROR
+test_repeat_restore_owned_only (__main__.Transactions.test_repeat_restore_owned_only) ... ok
+test_unmounted (__main__.Transactions.test_unmounted) ... ok
+test_wrong_filesystem (__main__.Transactions.test_wrong_filesystem) ... ok
+test_wrong_uuid (__main__.Transactions.test_wrong_uuid) ... ok
+
+======================================================================
+ERROR: test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='write', target='omarchy-pi4-aux-rtscts.dtbo')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 159, in test_failures_preserve_config_and_retry
+    self.run_helper('apply')
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 41, in atomic
+    require(not tmp.exists() and not tmp.is_symlink(),'Stale temporary file: '+str(tmp))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Stale temporary file: /tmp/cts-media/overlays/omarchy-pi4-aux-rtscts.dtbo.omarchy-new
+
+======================================================================
+ERROR: test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='write', target='config.txt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 159, in test_failures_preserve_config_and_retry
+    self.run_helper('apply')
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+                                                         ~~~~~~^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 41, in atomic
+    require(not tmp.exists() and not tmp.is_symlink(),'Stale temporary file: '+str(tmp))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Stale temporary file: /tmp/cts-media/config.txt.omarchy-new
+
+======================================================================
+ERROR: test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='fsync', target='omarchy-pi4-aux-rtscts.dtbo')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 159, in test_failures_preserve_config_and_retry
+    self.run_helper('apply')
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 41, in atomic
+    require(not tmp.exists() and not tmp.is_symlink(),'Stale temporary file: '+str(tmp))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Stale temporary file: /tmp/cts-media/overlays/omarchy-pi4-aux-rtscts.dtbo.omarchy-new
+
+======================================================================
+ERROR: test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='fsync', target='config.txt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 159, in test_failures_preserve_config_and_retry
+    self.run_helper('apply')
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+                                                         ~~~~~~^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 41, in atomic
+    require(not tmp.exists() and not tmp.is_symlink(),'Stale temporary file: '+str(tmp))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Stale temporary file: /tmp/cts-media/config.txt.omarchy-new
+
+======================================================================
+ERROR: test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='rename', target='omarchy-pi4-aux-rtscts.dtbo')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 159, in test_failures_preserve_config_and_retry
+    self.run_helper('apply')
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 41, in atomic
+    require(not tmp.exists() and not tmp.is_symlink(),'Stale temporary file: '+str(tmp))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Stale temporary file: /tmp/cts-media/overlays/omarchy-pi4-aux-rtscts.dtbo.omarchy-new
+
+======================================================================
+ERROR: test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) (kind='rename', target='config.txt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 159, in test_failures_preserve_config_and_retry
+    self.run_helper('apply')
+    ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+                                                         ~~~~~~^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 41, in atomic
+    require(not tmp.exists() and not tmp.is_symlink(),'Stale temporary file: '+str(tmp))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Stale temporary file: /tmp/cts-media/config.txt.omarchy-new
+
+======================================================================
+ERROR: test_remove_guard (__main__.Transactions.test_remove_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 169, in test_remove_guard
+    self.run_helper('remove-check')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 10, in <module>
+    require(len(sys.argv) in (2,3) and sys.argv[1] in ('check','apply','restore'), 'Mode required')
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 8, in require
+    if not ok: raise SystemExit(message)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+SystemExit: Mode required
+
+======================================================================
+FAIL: test_backup_symlink (__main__.Transactions.test_backup_symlink)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 139, in test_backup_symlink
+    self.rejected()
+    ~~~~~~~~~~~~~^^
+  File "/work/firmware-tests/transactions.py", line 80, in rejected
+    with self.assertRaises((SystemExit, OSError, ValueError)): self.run_helper('apply')
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'SystemExit'>, <class 'OSError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_config_parent_symlink (__main__.Transactions.test_config_parent_symlink)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 116, in test_config_parent_symlink
+    try: self.rejected()
+         ~~~~~~~~~~~~~^^
+  File "/work/firmware-tests/transactions.py", line 80, in rejected
+    with self.assertRaises((SystemExit, OSError, ValueError)): self.run_helper('apply')
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'SystemExit'>, <class 'OSError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_overlay_parent_symlink_inside_mount (__main__.Transactions.test_overlay_parent_symlink_inside_mount)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 122, in test_overlay_parent_symlink_inside_mount
+    self.rejected()
+    ~~~~~~~~~~~~~^^
+  File "/work/firmware-tests/transactions.py", line 80, in rejected
+    with self.assertRaises((SystemExit, OSError, ValueError)): self.run_helper('apply')
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (<class 'SystemExit'>, <class 'OSError'>, <class 'ValueError'>) not raised
+
+======================================================================
+FAIL: test_publish_order (__main__.Transactions.test_publish_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/work/firmware-tests/transactions.py", line 148, in test_publish_order
+    self.run_helper('apply', observe=observe)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 76, in run_helper
+    runpy.run_path(str(SOURCE / 'media-sync.py'), run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 294, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "/work/firmware-tests/results/before/media-sync.py", line 46, in <module>
+    atomic(overlay,(payload/overlay.name).read_bytes()); atomic(config,new)
+                                                         ~~~~~~^^^^^^^^^^^^
+  File "/work/firmware-tests/results/before/media-sync.py", line 43, in atomic
+    os.replace(tmp,p)
+    ~~~~~~~~~~^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 51, in replace
+    if observe: observe('rename', Path(dst))
+                ~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/work/firmware-tests/transactions.py", line 147, in observe
+    self.assertIn(('fsync', str(MEDIA / 'overlays')), events)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('fsync', '/tmp/cts-media/overlays') not found in [('fsync', '/tmp/cts-media/overlays/omarchy-pi4-aux-rtscts.dtbo.omarchy-new'), ('rename', '/tmp/cts-media/overlays/omarchy-pi4-aux-rtscts.dtbo'), ('fsync', '/tmp/cts-media/config.txt.omarchy-new'), ('rename', '/tmp/cts-media/config.txt')]
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.463s
+
+FAILED (failures=4, errors=7)
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware card identity/baseline checked; no write
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification

@@ -1,0 +1,2 @@
+# Firmware config inputs retain exact CRLF bytes and matching hashes.
+firmware/config.txt.* -text -whitespace

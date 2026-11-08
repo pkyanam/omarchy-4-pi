@@ -1,0 +1,10 @@
+/dts-v1/;
+/plugin/;
+/ {
+  fragment@0 {
+    target-path = "/soc/serial@7e215040";
+    __overlay__ {
+      uart-has-rtscts;
+    };
+  };
+};

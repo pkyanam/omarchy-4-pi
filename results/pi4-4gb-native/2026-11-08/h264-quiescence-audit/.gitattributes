@@ -1,0 +1,4 @@
+# Preserve pinned upstream source/excerpts verbatim.
+primary/** -whitespace
+*.txt -whitespace
+*.log -whitespace

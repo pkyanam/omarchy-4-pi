@@ -1,0 +1,1057 @@
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h
+24: #define VC_SM_RESOURCE_NAME 32
+25: 
+26: /*
+27:  * Version to be reported to the VPU
+28:  * VPU assumes 0 (aka 1) which does not require the released callback, nor
+29:  * expect the client to handle VC_MEM_REQUESTS.
+30:  * Version 2 requires the released callback, and must support VC_MEM_REQUESTS.
+31:  */
+32: #define VC_SM_PROTOCOL_VERSION	2
+33: 
+34: enum vc_sm_msg_type {
+35: 	/* Message types supported for HOST->VC direction */
+36: 
+37: 	/* Allocate shared memory block */
+38: 	VC_SM_MSG_TYPE_ALLOC,
+39: 	/* Lock allocated shared memory block */
+40: 	VC_SM_MSG_TYPE_LOCK,
+41: 	/* Unlock allocated shared memory block */
+42: 	VC_SM_MSG_TYPE_UNLOCK,
+43: 	/* Unlock allocated shared memory block, do not answer command */
+44: 	VC_SM_MSG_TYPE_UNLOCK_NOANS,
+45: 	/* Free shared memory block */
+46: 	VC_SM_MSG_TYPE_FREE,
+47: 	/* Resize a shared memory block */
+48: 	VC_SM_MSG_TYPE_RESIZE,
+49: 	/* Walk the allocated shared memory block(s) */
+50: 	VC_SM_MSG_TYPE_WALK_ALLOC,
+51: 
+52: 	/* A previously applied action will need to be reverted */
+53: 	VC_SM_MSG_TYPE_ACTION_CLEAN,
+54: 
+55: 	/*
+56: 	 * Import a physical address and wrap into a MEM_HANDLE_T.
+57: 	 * Release with VC_SM_MSG_TYPE_FREE.
+58: 	 */
+59: 	VC_SM_MSG_TYPE_IMPORT,
+60: 	/*
+61: 	 *Tells VC the protocol version supported by this client.
+62: 	 * 2 supports the async/cmd messages from the VPU for final release
+63: 	 * of memory, and for VC allocations.
+64: 	 */
+65: 	VC_SM_MSG_TYPE_CLIENT_VERSION,
+66: 	/* Response to VC request for memory */
+67: 	VC_SM_MSG_TYPE_VC_MEM_REQUEST_REPLY,
+68: 
+69: 	/*
+70: 	 * Asynchronous/cmd messages supported for VC->HOST direction.
+71: 	 * Signalled by setting the top bit in vc_sm_result_t trans_id.
+72: 	 */
+73: 
+74: 	/*
+75: 	 * VC has finished with an imported memory allocation.
+76: 	 * Release any Linux reference counts on the underlying block.
+77: 	 */
+78: 	VC_SM_MSG_TYPE_RELEASED,
+79: 	/* VC request for memory */
+80: 	VC_SM_MSG_TYPE_VC_MEM_REQUEST,
+81: 
+82: 	VC_SM_MSG_TYPE_MAX
+180: 	u32 trans_id;
+181: 
+182: 	s32 success;
+183: 
+184: };
+185: 
+186: /* Request to revert a previously applied action (HOST->VC) */
+187: struct vc_sm_action_clean_t {
+188: 	/* Action of interest */
+189: 	enum vc_sm_msg_type res_action;
+190: 	/* Transaction identifier for the action of interest */
+191: 	u32 action_trans_id;
+192: 
+193: };
+194: 
+195: /* Request to remove all data associated with a given allocator (HOST->VC) */
+196: struct vc_sm_free_all_t {
+197: 	/* Allocator identifier */
+198: 	u32 allocator;
+199: };
+239: 
+240: /*
+241:  * Client informing VC as to the protocol version it supports.
+242:  * >=2 requires the released callback, and supports VC asking for memory.
+243:  * Failure means that the firmware doesn't support this call, and therefore the
+244:  * client should either fail, or NOT rely on getting the released callback.
+245:  */
+246: struct vc_sm_version {
+247: 	u32 version;
+248: };
+249: 
+250: /* Request FROM VideoCore for some memory */
+251: struct vc_sm_vc_mem_request {
+252: 	/* cmd type */
+253: 	u32 cmd;
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
+95: }
+96: 
+97: static void vc_sm_cma_vchi_rx_ack(struct sm_instance *instance,
+98: 				  struct vc_sm_result_t *reply, u32 reply_len)
+99: {
+100: 	struct sm_cmd_rsp_blk *cmd;
+101: 
+102: 	mutex_lock(&instance->lock);
+103: 	list_for_each_entry(cmd, &instance->rsp_list, head) {
+104: 		if (cmd->id != reply->trans_id)
+105: 			continue;
+106: 		/* A malformed packet is not a definitive IMPORT rejection. Keep
+107: 		 * the transaction and its DMA owner for a valid response.
+108: 		 */
+109: 		if (reply_len != cmd->expected)
+110: 			break;
+111: 		memcpy(cmd->msg, reply, reply_len);
+112: 		if (cmd->import_done) {
+113: 			/* Keep queued ownership, but never nest buffer/IDR locks
+114: 			 * inside the transport admission lock. Stop waits for this
+115: 			 * IMPORT's completion before retiring the service.
+116: 			 */
+117: 			mutex_unlock(&instance->lock);
+118: 			cmd->import_done(cmd->import_context,
+119: 				((struct vc_sm_import_result *)reply)->res_handle);
+120: 			mutex_lock(&instance->lock);
+121: 		}
+122: 		sm_cmd_complete(cmd, 0);
+123: 		break;
+124: 	}
+125: 	mutex_unlock(&instance->lock);
+126: }
+127: 
+128: static int vc_sm_cma_vchi_videocore_io(void *arg)
+129: {
+130: 	struct sm_instance *instance = arg;
+310: /*
+311:  * The owner must exclude NEW handle acquisitions before stop, and serialize
+312:  * stop calls. Already admitted senders own instance references. This function
+313:  * does not own/free vchiq_instance: shutdown is legal only after successful stop.
+314:  * Removal waits uninterruptibly for real host callback/reference quiescence.
+315:  */
+316: int vc_sm_cma_vchi_stop(struct vchiq_instance *vchiq_instance, struct sm_instance **handle)
+317: {
+318: 	struct sm_instance *instance;
+319: 	struct sm_cmd_rsp_blk *cmd, *tmp;
+320: 	u32 i;
+321: 
+322: 	if (!handle || !*handle)
+323: 		return -EINVAL;
+324: 	instance = *handle;
+325: 	/* External owner excludes new senders. Do not turn a published IMPORT
+326: 	 * into ESHUTDOWN: service closure supplies no firmware DMA proof.
+327: 	 */
+328: 	for (;;) {
+329: 		struct sm_cmd_rsp_blk *pending = NULL;
+330: 
+331: 		mutex_lock(&instance->lock);
+332: 		list_for_each_entry(cmd, &instance->cmd_list, head)
+333: 			if (cmd->import_done) { pending = cmd; break; }
+334: 		if (!pending)
+335: 			list_for_each_entry(cmd, &instance->rsp_list, head)
+336: 				if (cmd->import_done) { pending = cmd; break; }
+337: 		if (pending)
+338: 			refcount_inc(&pending->refs);
+339: 		mutex_unlock(&instance->lock);
+340: 		if (!pending)
+341: 			break;
+342: 		wait_for_completion(&pending->cmplt);
+343: 		sm_cmd_put(pending);
+344: 	}
+345: 	mutex_lock(&instance->lock);
+346: 	WRITE_ONCE(instance->stopping, true);
+347: 	mutex_unlock(&instance->lock);
+348: 	complete(&instance->io_cmplt);
+349: 
+350: 	/* Removal wakes transport queue waits. Owner pins remain valid even if a
+351: 	 * previous interrupted close already retired the public handle.
+352: 	 */
+353: 	for (i = 0; i < instance->num_connections; i++)
+354: 		vchiq_remove_service_sync(&instance->service_owner[i]);
+355: 	complete(&instance->io_cmplt);
+356: 	kthread_stop(instance->io_thread);
+357: 
+358: 	mutex_lock(&instance->lock);
+359: 	list_for_each_entry_safe(cmd, tmp, &instance->cmd_list, head)
+360: 		sm_cmd_complete(cmd, -ESHUTDOWN);
+361: 	list_for_each_entry_safe(cmd, tmp, &instance->rsp_list, head)
+362: 		sm_cmd_complete(cmd, -ESHUTDOWN);
+363: 	mutex_unlock(&instance->lock);
+364: 	*handle = NULL;
+365: 	sm_instance_put(instance);
+366: 	return 0;
+367: }
+368: 
+369: static int vc_sm_cma_vchi_send_msg(struct sm_instance *instance,
+370: 				   enum vc_sm_msg_type msg_id, void *msg,
+371: 				   u32 msg_size, void *result, u32 result_size,
+372: 				   u32 *cur_trans_id, u8 wait_reply,
+373: 				   void (*import_done)(void *, u32), void *context)
+374: {
+375: 	struct sm_cmd_rsp_blk *cmd;
+376: 	struct vc_sm_msg_hdr_t *hdr;
+377: 	int status;
+378: 
+379: 	if (!instance || !msg || msg_size > VC_SM_MAX_MSG_LEN - sizeof(*hdr) ||
+380: 	    result_size > VC_SM_MAX_MSG_LEN)
+381: 		return -EINVAL;
+382: 	/* The external owner keeps instance alive until this admission finishes. */
+383: 	mutex_lock(&instance->lock);
+384: 	if (instance->stopping) {
+385: 		mutex_unlock(&instance->lock);
+386: 		return -ESHUTDOWN;
+387: 	}
+388: 	refcount_inc(&instance->refs);
+389: 	mutex_unlock(&instance->lock);
+390: 	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
+391: 	if (!cmd) {
+392: 		status = -ENOMEM;
+393: 		goto put_instance;
+394: 	}
+395: 	refcount_set(&cmd->refs, 1); /* caller */
+396: 	init_completion(&cmd->cmplt);
+397: 	cmd->wait = wait_reply;
+398: 	cmd->expected = result_size ? result_size : sizeof(struct vc_sm_result_t);
+399: 	cmd->import_done = import_done;
+400: 	cmd->import_context = context;
+401: 	cmd->length = sizeof(*hdr) + msg_size;
+402: 	hdr = (struct vc_sm_msg_hdr_t *)cmd->msg;
+403: 	hdr->type = msg_id;
+404: 	memcpy(hdr->body, msg, msg_size);
+405: 	mutex_lock(&instance->lock);
+406: 	if (instance->stopping) {
+407: 		mutex_unlock(&instance->lock);
+408: 		status = -ESHUTDOWN;
+409: 		goto put_cmd;
+410: 	}
+411: 	/* Never alias a late/duplicate response to a new transaction. */
+412: 	if (instance->trans_id == 0x7fffffff) {
+413: 		mutex_unlock(&instance->lock);
+414: 		status = -ENOSPC;
+415: 		goto put_cmd;
+416: 	}
+417: 	instance->trans_id++;
+418: 	hdr->trans_id = cmd->id = instance->trans_id;
+419: 	if (cur_trans_id)
+420: 		*cur_trans_id = cmd->id;
+421: 	refcount_inc(&cmd->refs); /* queued list, released by worker/stop */
+422: 	list_add_tail(&cmd->head, &instance->cmd_list);
+423: 	mutex_unlock(&instance->lock);
+424: 	complete(&instance->io_cmplt);
+425: 	status = 0;
+426: 	if (!wait_reply)
+427: 		goto put_cmd;
+428: 
+429: 	/* IMPORT admission transfers cancellation to completion: signals cannot
+430: 	 * discard a possibly published mapping. Peer silence can block this
+431: 	 * caller and unbind indefinitely; no timeout/close proves DMA quiescence.
+432: 	 */
+433: 	if (import_done) {
+434: 		wait_for_completion(&cmd->cmplt);
+435: 	} else if (wait_for_completion_interruptible(&cmd->cmplt)) {
+436: 		status = -EINTR;
+437: 		goto put_cmd;
+438: 	}
+439: 	status = cmd->status;
+440: 	if (!status) {
+441: 		if (result && result_size)
+442: 			memcpy(result, cmd->msg, result_size);
+443: 		else
+444: 			status = ((struct vc_sm_result_t *)cmd->msg)->success ? -ENXIO : 0;
+445: 	}
+446: put_cmd:
+447: 	sm_cmd_put(cmd);
+448: put_instance:
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+355: 
+356: /*
+357:  * Instructs VPU to decrement the refcount on a buffer.
+358:  */
+359: static void vc_sm_vpu_free(struct vc_sm_buffer *buffer)
+360: {
+361: 	if (buffer->vc_handle && buffer->vpu_state == VPU_MAPPED) {
+362: 		struct vc_sm_free_t free = { buffer->vc_handle, 0 };
+363: 		int status = vc_sm_cma_vchi_free(buffer->owner->sm_handle, &free,
+364: 					     &buffer->owner->int_trans_id);
+365: 		if (status != 0 && status != -EINTR) {
+366: 			pr_err("[%s]: failed to free memory on videocore (status: %u, trans_id: %u)\n",
+367: 			       __func__, status, buffer->owner->int_trans_id);
+368: 		}
+369: 
+370: 		/* FREE enqueue, service close and host join are not DMA proof.
+371: 		 * Even old firmware without RELEASED must retain this mapping.
+372: 		 */
+373: 		if (!status || status == -EINTR)
+374: 			buffer->vpu_state = VPU_UNMAPPING;
+375: 	}
+376: }
+377: 
+378: /*
+379:  * Release an allocation.
+380:  * All refcounting is done via the dma buf object.
+381:  *
+382:  * Must be called with the mutex held. The function will either release the
+383:  * mutex (if defering the release) or destroy it. The caller must therefore not
+384:  * reuse the buffer on return.
+385:  */
+386: static void vc_sm_release_resource(struct vc_sm_buffer *buffer)
+387: {
+388: 	pr_debug("[%s]: buffer %p (name %s, size %zu), imported %u\n",
+389: 		 __func__, buffer, buffer->name, buffer->size,
+390: 		 buffer->imported);
+391: 
+392: 	if (buffer->vc_handle) {
+393: 		/* We've sent the unmap request but not had the response. */
+394: 		pr_debug("[%s]: Waiting for VPU unmap response on %p\n",
+395: 			 __func__, buffer);
+396: 		goto defer;
+397: 	}
+398: 	if (buffer->in_use || buffer->setup_pending) {
+399: 		/* dmabuf still in use - we await the release */
+400: 		pr_debug("[%s]: buffer %p is still in use\n", __func__, buffer);
+401: 		goto defer;
+402: 	}
+403: 
+404: 	vc_sm_clean_up_dmabuf(buffer);
+405: 
+406: 	/* Release the allocation (whether imported dmabuf or CMA allocation) */
+407: 	if (buffer->imported) {
+408: 		if (buffer->import.dma_buf)
+409: 			dma_buf_put(buffer->import.dma_buf);
+410: 		else
+411: 			pr_err("%s: Imported dmabuf already been put for buf %p\n",
+412: 			       __func__, buffer);
+413: 		buffer->import.dma_buf = NULL;
+414: 	} else {
+790: };
+791: 
+792: /* Import a dma_buf to be shared with VC. */
+793: /* Runs on SMIO before completion and before the next firmware event. The
+794:  * producer owns in_use until export or error retirement, so early RELEASED
+795:  * cannot destroy a buffer still being set up by its caller.
+796:  */
+797: static void vc_sm_import_done(void *context, u32 handle)
+798: {
+799: 	struct vc_sm_buffer *buffer = context;
+800: 
+801: 	mutex_lock(&buffer->owner->kernelid_map_lock);
+802: 	mutex_lock(&buffer->lock);
+803: 	buffer->import_pending = false;
+804: 	if (handle && handle == buffer->early_release) {
+805: 		/* RELEASED can precede the response; only its confirmed handle
+806: 		 * authorizes retirement. The producer still owns in_use.
+807: 		 */
+808: 		idr_remove(&buffer->owner->kernelid_map, buffer->kernel_id);
+809: 		handle = 0;
+810: 	}
+811: 	buffer->vc_handle = handle;
+812: 	buffer->vpu_state = handle ? VPU_MAPPED : VPU_NOT_MAPPED;
+813: 	mutex_unlock(&buffer->lock);
+814: 	mutex_unlock(&buffer->owner->kernelid_map_lock);
+815: }
+816: 
+817: /* No publication or definitive rejection: remove the local ID. Successful
+818:  * publication: FREE and retain the ID/mapping until real RELEASED.
+819:  */
+820: static void vc_sm_import_unpublish(struct vc_sm_buffer *buffer)
+821: {
+822: 	struct sm_state_t *state = buffer->owner;
+823: 
+824: 	mutex_lock(&state->kernelid_map_lock);
+825: 	mutex_lock(&buffer->lock);
+826: 	if (!buffer->vc_handle && buffer->kernel_id > 0)
+827: 		idr_remove(&state->kernelid_map, buffer->kernel_id);
+828: 	mutex_unlock(&buffer->lock);
+829: 	mutex_unlock(&state->kernelid_map_lock);
+830: }
+831: 
+832: static void vc_sm_import_abort(struct vc_sm_buffer *buffer)
+833: {
+834: 	vc_sm_import_unpublish(buffer);
+835: 	mutex_lock(&buffer->lock);
+836: 	buffer->in_use = false;
+837: 	buffer->setup_pending = false;
+838: 	vc_sm_vpu_free(buffer);
+839: 	vc_sm_release_resource(buffer);
+840: }
+841: 
+842: static void vc_sm_import_finish(struct vc_sm_buffer *buffer)
+843: {
+844: 	mutex_lock(&buffer->lock);
+845: 	buffer->setup_pending = false;
+846: 	vc_sm_release_resource(buffer);
+1120: vc_sm_vpu_event(void *context, struct sm_instance *instance, struct vc_sm_result_t *reply,
+1121: 		int reply_len)
+1122: {
+1123: 	struct sm_state_t *state = context;
+1124: 
+1125: 	if (reply_len < (int)sizeof(*reply))
+1126: 		return;
+1127: 	switch (reply->trans_id & ~0x80000000) {
+1128: 	case VC_SM_MSG_TYPE_CLIENT_VERSION:
+1129: 	{
+1130: 		/* Acknowledge that the firmware supports the version command */
+1131: 		pr_debug("%s: firmware acked version msg. Require release cb\n",
+1132: 			 __func__);
+1133: 		state->require_released_callback = true;
+1134: 	}
+1135: 	break;
+1136: 	case VC_SM_MSG_TYPE_RELEASED:
+1137: 	{
+1138: 		struct vc_sm_released *release = (struct vc_sm_released *)reply;
+1139: 		struct vc_sm_buffer *buffer;
+1140: 
+1141: 		if (reply_len != sizeof(*release) || !release->kernel_id)
+1142: 			break;
+1143: 		mutex_lock(&state->kernelid_map_lock);
+1144: 		buffer = idr_find(&state->kernelid_map, release->kernel_id);
+1145: 		if (!buffer) {
+1146: 			mutex_unlock(&state->kernelid_map_lock);
+1147: 			break;
+1148: 		}
+1149: 		mutex_lock(&buffer->lock);
+1150: 		if (buffer->import_pending && release->vc_handle) {
+1151: 			buffer->early_release = release->vc_handle;
+1152: 			mutex_unlock(&buffer->lock);
+1153: 			mutex_unlock(&state->kernelid_map_lock);
+1154: 			break;
+1155: 		}
+1156: 		if (!buffer->vc_handle || buffer->vc_handle != release->vc_handle) {
+1157: 			mutex_unlock(&buffer->lock);
+1158: 			mutex_unlock(&state->kernelid_map_lock);
+1159: 			break;
+1160: 		}
+1161: 		idr_remove(&state->kernelid_map, release->kernel_id);
+1162: 		mutex_unlock(&state->kernelid_map_lock);
+1163: 
+1164: 		pr_debug("%s: Released addr %08x, size %u, id %08x, mem_handle %08x\n",
+1165: 			 __func__, release->addr, release->size,
+1166: 			 release->kernel_id, release->vc_handle);
+1167: 
+1168: 		buffer->vc_handle = 0;
+1169: 		buffer->vpu_state = VPU_NOT_MAPPED;
+1170: 
+1171: 
+1172: 		if (buffer->vpu_allocated) {
+1173: 			/* VPU allocation, so release the dmabuf which will
+1174: 			 * trigger the clean up.
+1175: 			 */
+1176: 			mutex_unlock(&buffer->lock);
+1177: 			dma_buf_put(buffer->dma_buf);
+1178: 		} else {
+1179: 			vc_sm_release_resource(buffer);
+1180: 		}
+1181: 	}
+1182: 	break;
+1183: 	case VC_SM_MSG_TYPE_VC_MEM_REQUEST:
+1690: /* Driver unloading. */
+1691: static void bcm2835_vc_sm_cma_remove(struct vchiq_device *device)
+1692: {
+1693: 	struct sm_state_t *state = dev_get_drvdata(&device->dev);
+1694: 	bool was_ready;
+1695: 	/* Drain immediate/deferred initialization before touching its state. */
+1696: 	vchiq_remove_connected_callback(device, vc_sm_connected_init);
+1697: 
+1698: 	pr_debug("[%s]: start\n", __func__);
+1699: 	mutex_lock(&sm_admission_lock);
+1700: 	was_ready = state->generation->ready;
+1701: 	state->generation->ready = false;
+1702: 	/* The lock also drains admitted file/kernel operations. Do not hold it
+1703: 	 * across misc_deregister: misc open takes misc_mtx before admission.
+1704: 	 */
+1705: 	mutex_unlock(&sm_admission_lock);
+1706: 	mutex_lock(&state->firmware_lock);
+1707: 	state->closing = true;
+1708: 	mutex_unlock(&state->firmware_lock);
+1709: 	/* Keep the bound device, devm DMA context, IDR and worker alive. This
+1710: 	 * wait is deliberately unbounded: firmware silence is not quiescence.
+1711: 	 * module_exit cannot return until this drain AND worker join finish.
+1712: 	 */
+1713: 	wait_event(state->buffer_drain, !atomic_read(&state->live_buffers));
+1714: 	/* Pair with the last destroy wake before releasing state storage. */
+1715: 	mutex_lock(&state->map_lock);
+1716: 	mutex_unlock(&state->map_lock);
+1717: 	if (was_ready) {
+1718: 		misc_deregister(&sm_state->misc_dev);
+1719: 
+1720: 		/* Remove all proc entries. */
+1721: 		debugfs_remove_recursive(sm_state->dir_root);
+1722: 
+1723: 		/* Stop the videocore shared memory service. */
+1724: 		vc_sm_cma_vchi_stop(sm_state->vchiq_instance, &sm_state->sm_handle);
+1725: 	}
+1726: 
+1727: 	if (sm_state) {
+1728: 		idr_destroy(&sm_state->kernelid_map);
+1729: 
+1730: 		/* Free the memory for the state structure. */
+1731: 		mutex_destroy(&sm_state->map_lock);
+1732: 	}
+1733: 
+1734: 	mutex_lock(&sm_admission_lock);
+1735: 	sm_state = NULL;
+1736: 	mutex_unlock(&sm_admission_lock);
+1737: 	vc_sm_generation_put(state->generation);
+1738: 	pr_debug("[%s]: end\n", __func__);
+1739: }
+1740: 
+1741: /* Kernel API calls */
+1742: /* Get an internal resource handle mapped from the external one. */
+1743: int vc_sm_cma_int_handle(void *handle)
+1744: {
+1745: 	struct dma_buf *dma_buf = (struct dma_buf *)handle;
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
+358: static void
+359: vchiq_platform_uninit(struct vchiq_drv_mgmt *mgmt)
+360: {
+361: 	struct vchiq_arm_state *arm_state;
+362: 
+363: 	kthread_stop(mgmt->state.sync_thread);
+364: 	kthread_stop(mgmt->state.recycle_thread);
+365: 	kthread_stop(mgmt->state.slot_handler_thread);
+366: 
+367: 	arm_state = vchiq_platform_get_arm_state(&mgmt->state);
+368: 	if (!IS_ERR_OR_NULL(arm_state->ka_thread))
+369: 		kthread_stop(arm_state->ka_thread);
+370: }
+371: 
+1513: static void vchiq_remove(struct platform_device *pdev)
+1514: {
+1515: 	struct vchiq_drv_mgmt *mgmt = dev_get_drvdata(&pdev->dev);
+1516: 
+1517: 	vchiq_device_unregister(bcm2835_codec);
+1518: 	vchiq_device_unregister(vcsm_cma);
+1519: 	if (bcm2835_audio)
+1520: 		vchiq_device_unregister(bcm2835_audio);
+1521: 	vchiq_debugfs_deinit();
+1522: 	vchiq_deregister_chrdev();
+1523: 	vchiq_platform_uninit(mgmt);
+1524: }
+1525: 
+1526: static struct platform_driver vchiq_driver = {
+1527: 	.driver = {
+1528: 		.name = "bcm2835_vchiq",
+1529: 		.of_match_table = vchiq_of_match,
+1530: 	},
+1531: 	.probe = vchiq_probe,
+1532: 	.remove = vchiq_remove,
+1533: };
+1534: 
+1535: static int __init vchiq_driver_init(void)
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
+1788: /* Called with the bulk_mutex held */
+1789: static void
+1790: abort_outstanding_bulks(struct vchiq_service *service,
+1791: 			struct vchiq_bulk_queue *queue)
+1792: {
+1793: 	int is_tx = (queue == &service->bulk_tx);
+1794: 
+1795: 	dev_dbg(service->state->dev,
+1796: 		"core: %d: aob:%d %cx - li=%x ri=%x p=%x\n",
+1797: 		service->state->id, service->localport,
+1798: 		is_tx ? 't' : 'r', queue->local_insert,
+1799: 		queue->remote_insert, queue->process);
+1800: 
+1801: 	WARN_ON((int)(queue->local_insert - queue->process) < 0);
+1802: 	WARN_ON((int)(queue->remote_insert - queue->process) < 0);
+1803: 
+1804: 	while ((queue->process != queue->local_insert) ||
+1805: 	       (queue->process != queue->remote_insert)) {
+1806: 		struct vchiq_bulk *bulk = &queue->bulks[BULK_INDEX(queue->process)];
+1807: 
+1808: 		if (queue->process == queue->remote_insert) {
+1809: 			/* fabricate a matching dummy bulk */
+1810: 			bulk->remote_data = NULL;
+1811: 			bulk->remote_size = 0;
+1812: 			queue->remote_insert++;
+1813: 		}
+1814: 
+1815: 		if (queue->process != queue->local_insert) {
+1816: 			vchiq_complete_bulk(service->instance, bulk);
+1817: 
+1818: 			dev_dbg(service->state->dev,
+1819: 				"core_msg: %s %p4cc d:%d ABORTED - tx len:%d, rx len:%d\n",
+1820: 				is_tx ? "Send Bulk to" : "Recv Bulk from",
+1821: 				&service->base.fourcc,
+1822: 				service->remoteport, bulk->size, bulk->remote_size);
+1823: 		} else {
+1824: 			/* fabricate a matching dummy bulk */
+1825: 			bulk->dma_addr = 0;
+1826: 			bulk->size = 0;
+1827: 			bulk->actual = VCHIQ_BULK_ACTUAL_ABORTED;
+1828: 			bulk->dir = is_tx ? VCHIQ_BULK_TRANSMIT :
+1829: 				VCHIQ_BULK_RECEIVE;
+1830: 			queue->local_insert++;
+1831: 		}
+1832: 
+1833: 		queue->process++;
+1834: 	}
+1835: }
+1836: 
+1837: static int
+1838: parse_open(struct vchiq_state *state, struct vchiq_header *header)
+1839: {
+1840: 	const struct vchiq_open_payload *payload;
+3189: vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
+3190: {
+3191: 	struct vchiq_state *state = service->state;
+3192: 	int status = 0;
+3193: 	int is_server = (service->public_fourcc != VCHIQ_FOURCC_INVALID);
+3194: 	int close_id = MAKE_CLOSE(service->localport,
+3195: 				  VCHIQ_MSG_DSTPORT(service->remoteport));
+3196: 
+3197: 	dev_dbg(state->dev, "core: %d: csi:%d,%d (%s)\n",
+3198: 		service->state->id, service->localport, close_recvd,
+3199: 		srvstate_names[service->srvstate]);
+3200: 
+3201: 	switch (service->srvstate) {
+3202: 	case VCHIQ_SRVSTATE_CLOSED:
+3203: 	case VCHIQ_SRVSTATE_HIDDEN:
+3204: 	case VCHIQ_SRVSTATE_LISTENING:
+3205: 	case VCHIQ_SRVSTATE_CLOSEWAIT:
+3206: 		if (close_recvd) {
+3207: 			dev_err(state->dev, "core: (1) called in state %s\n",
+3208: 				srvstate_names[service->srvstate]);
+3209: 			break;
+3210: 		} else if (!is_server) {
+3211: 			vchiq_free_service_internal(service);
+3212: 			break;
+3213: 		}
+3214: 
+3215: 		if (service->srvstate == VCHIQ_SRVSTATE_LISTENING) {
+3216: 			status = -EINVAL;
+3217: 		} else {
+3218: 			service->client_id = 0;
+3219: 			service->remoteport = VCHIQ_PORT_FREE;
+3220: 			if (service->srvstate == VCHIQ_SRVSTATE_CLOSEWAIT)
+3221: 				set_service_state(service, VCHIQ_SRVSTATE_LISTENING);
+3222: 		}
+3223: 		complete(&service->remove_event);
+3224: 		break;
+3225: 	case VCHIQ_SRVSTATE_OPENING:
+3226: 		if (close_recvd) {
+3227: 			/* The open was rejected - tell the user */
+3228: 			set_service_state(service, VCHIQ_SRVSTATE_CLOSEWAIT);
+3229: 			complete(&service->remove_event);
+3230: 		} else {
+3231: 			/* Shutdown mid-open - let the other side know */
+3232: 			status = queue_message(state, service, close_id, NULL, NULL, 0, 0);
+3233: 		}
+3234: 		break;
+3235: 
+3236: 	case VCHIQ_SRVSTATE_OPENSYNC:
+3237: 		mutex_lock(&state->sync_mutex);
+3238: 		fallthrough;
+3239: 	case VCHIQ_SRVSTATE_OPEN:
+3240: 		if (close_recvd) {
+3241: 			if (!do_abort_bulks(service))
+3242: 				status = -EAGAIN;
+3243: 		}
+3244: 
+3245: 		release_service_messages(service);
+3246: 
+3247: 		if (!status)
+3248: 			status = queue_message(state, service, close_id, NULL,
+3249: 					       NULL, 0, QMFLAGS_NO_MUTEX_UNLOCK);
+3250: 
+3251: 		if (status) {
+3252: 			if (service->srvstate == VCHIQ_SRVSTATE_OPENSYNC)
+3253: 				mutex_unlock(&state->sync_mutex);
+3254: 			break;
+3255: 		}
+3256: 
+3257: 		if (!close_recvd) {
+3258: 			/* Change the state while the mutex is still held */
+3259: 			set_service_state(service, VCHIQ_SRVSTATE_CLOSESENT);
+3260: 			mutex_unlock(&state->slot_mutex);
+3261: 			if (service->sync)
+3262: 				mutex_unlock(&state->sync_mutex);
+3263: 			break;
+3264: 		}
+3265: 
+3266: 		/* Change the state while the mutex is still held */
+3267: 		set_service_state(service, VCHIQ_SRVSTATE_CLOSERECVD);
+3268: 		mutex_unlock(&state->slot_mutex);
+3269: 		if (service->sync)
+3270: 			mutex_unlock(&state->sync_mutex);
+3271: 
+3272: 		status = close_service_complete(service, VCHIQ_SRVSTATE_CLOSERECVD);
+3273: 		break;
+3274: 
+3275: 	case VCHIQ_SRVSTATE_CLOSESENT:
+3276: 		if (!close_recvd)
+3277: 			/* This happens when a process is killed mid-close */
+3278: 			break;
+3279: 
+3280: 		if (!do_abort_bulks(service)) {
+3281: 			status = -EAGAIN;
+3282: 			break;
+3283: 		}
+3284: 
+3285: 		if (!status)
+3286: 			status = close_service_complete(service, VCHIQ_SRVSTATE_CLOSERECVD);
+3287: 		break;
+3288: 
+3289: 	case VCHIQ_SRVSTATE_CLOSERECVD:
+3290: 		if (!close_recvd && is_server)
+3291: 			/* Force into LISTENING mode */
+3292: 			set_service_state(service, VCHIQ_SRVSTATE_LISTENING);
+3293: 		status = close_service_complete(service, VCHIQ_SRVSTATE_CLOSERECVD);
+3294: 		break;
+3295: 
+3296: 	default:
+3297: 		dev_err(state->dev, "core: (%d) called in state %s\n",
+3298: 			close_recvd, srvstate_names[service->srvstate]);
+3299: 		break;
+3387: vchiq_shutdown_internal(struct vchiq_state *state, struct vchiq_instance *instance)
+3388: {
+3389: 	struct vchiq_service *service;
+3390: 	int i;
+3391: 
+3392: 	/* Find all services registered to this client and remove them. */
+3393: 	i = 0;
+3394: 	while ((service = next_service_by_instance(state, instance, &i)) != NULL) {
+3395: 		(void)vchiq_remove_service(instance, service->handle);
+3396: 		vchiq_service_put(service);
+3397: 	}
+3398: }
+3399: 
+3400: int
+3401: vchiq_close_service(struct vchiq_instance *instance, unsigned int handle)
+3402: {
+3403: 	/* Unregister the service */
+3404: 	struct vchiq_service *service = find_service_by_handle(instance, handle);
+3405: 	int status = 0;
+3406: 
+3407: 	if (!service)
+3408: 		return -EINVAL;
+3409: 
+3410: 	dev_dbg(service->state->dev, "core: %d: close_service:%d\n",
+3411: 		service->state->id, service->localport);
+3412: 
+3413: 	if ((service->srvstate == VCHIQ_SRVSTATE_FREE) ||
+3414: 	    (service->srvstate == VCHIQ_SRVSTATE_LISTENING) ||
+3415: 	    (service->srvstate == VCHIQ_SRVSTATE_HIDDEN)) {
+3416: 		vchiq_service_put(service);
+3417: 		return -EINVAL;
+3418: 	}
+3419: 
+3420: 	mark_service_closing(service);
+3421: 
+3422: 	if (current == service->state->slot_handler_thread) {
+3423: 		status = vchiq_close_service_internal(service, NO_CLOSE_RECVD);
+3424: 		WARN_ON(status == -EAGAIN);
+3425: 	} else {
+3426: 		/* Mark the service for termination by the slot handler */
+3427: 		request_poll(service->state, service, VCHIQ_POLL_TERMINATE);
+3428: 	}
+3429: 
+3430: 	while (1) {
+3431: 		if (wait_for_completion_interruptible(&service->remove_event)) {
+3432: 			status = -EAGAIN;
+3433: 			break;
+3434: 		}
+3435: 
+3436: 		if ((service->srvstate == VCHIQ_SRVSTATE_FREE) ||
+3437: 		    (service->srvstate == VCHIQ_SRVSTATE_LISTENING) ||
+3438: 		    (service->srvstate == VCHIQ_SRVSTATE_OPEN))
+3439: 			break;
+3440: 
+3441: 		dev_warn(service->state->dev,
+3442: 			 "core: %d: close_service:%d - waiting in state %s\n",
+3443: 			 service->state->id, service->localport,
+3444: 			 srvstate_names[service->srvstate]);
+3445: 	}
+3446: 
+3447: 	if (!status &&
+3448: 	    (service->srvstate != VCHIQ_SRVSTATE_FREE) &&
+3449: 	    (service->srvstate != VCHIQ_SRVSTATE_LISTENING))
+3450: 		status = -EINVAL;
+3451: 
+3452: 	vchiq_service_put(service);
+3453: 
+3454: 	return status;
+3455: }
+3456: EXPORT_SYMBOL(vchiq_close_service);
+3457: 
+3458: int
+3516: /* Unlike handle-based close, the owner pin survives FREE/handle retirement.
+3517:  * Removal is driven by the slot handler, which owns close state transitions.
+3518:  * There is no interruptible wait or EINVAL-as-success shortcut. A wedged peer
+3519:  * can block forever: caller must retain its transport/userdata until it drains.
+3520:  */
+3521: void vchiq_remove_service_sync(struct vchiq_service_owner *owner)
+3522: {
+3523: 	struct vchiq_service *service = owner->service;
+3524: 
+3525: 	if (!service)
+3526: 		return;
+3527: 	WARN_ON(current == service->state->slot_handler_thread);
+3528: 	if (READ_ONCE(service->srvstate) != VCHIQ_SRVSTATE_FREE) {
+3529: 		mark_service_closing(service);
+3530: 		request_poll(service->state, service, VCHIQ_POLL_REMOVE);
+3531: 	}
+3532: 	wait_for_completion(&owner->retired);
+3533: 	owner->service = NULL;
+3534: 	vchiq_service_put(service);
+3535: 	wait_for_completion(&owner->released);
+3536: }
+3537: EXPORT_SYMBOL_GPL(vchiq_remove_service_sync);
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c
+265:  */
+266: static void vc_sm_vpu_free(struct vc_sm_buffer *buffer)
+267: {
+268: 	if (buffer->vc_handle && buffer->vpu_state == VPU_MAPPED) {
+269: 		struct vc_sm_free_t free = { buffer->vc_handle, 0 };
+270: 		int status = vc_sm_cma_vchi_free(sm_state->sm_handle, &free,
+271: 					     &sm_state->int_trans_id);
+272: 		if (status != 0 && status != -EINTR) {
+273: 			pr_err("[%s]: failed to free memory on videocore (status: %u, trans_id: %u)\n",
+274: 			       __func__, status, sm_state->int_trans_id);
+275: 		}
+276: 
+277: 		if (sm_state->require_released_callback) {
+278: 			/* Need to wait for the VPU to confirm the free. */
+279: 
+280: 			/* Retain a reference on this until the VPU has
+281: 			 * released it
+282: 			 */
+283: 			buffer->vpu_state = VPU_UNMAPPING;
+284: 		} else {
+285: 			buffer->vpu_state = VPU_NOT_MAPPED;
+286: 			buffer->vc_handle = 0;
+287: 		}
+288: 	}
+289: }
+290: 
+291: /*
+292:  * Release an allocation.
+293:  * All refcounting is done via the dma buf object.
+294:  *
+515: static void vc_sm_dma_buf_release(struct dma_buf *dmabuf)
+516: {
+517: 	struct vc_sm_buffer *buffer;
+518: 
+519: 	if (!dmabuf)
+520: 		return;
+521: 
+522: 	buffer = (struct vc_sm_buffer *)dmabuf->priv;
+523: 
+524: 	mutex_lock(&buffer->lock);
+525: 
+526: 	pr_debug("%s dmabuf %p, buffer %p\n", __func__, dmabuf, buffer);
+527: 
+528: 	buffer->in_use = false;
+529: 
+530: 	/* Unmap on the VPU */
+531: 	vc_sm_vpu_free(buffer);
+532: 	pr_debug("%s vpu_free done\n", __func__);
+533: 
+534: 	/* Unmap our dma_buf object (the vc_sm_buffer remains until released
+535: 	 * on the VPU).
+536: 	 */
+537: 	vc_sm_clean_up_dmabuf(buffer);
+538: 	pr_debug("%s clean_up dmabuf done\n", __func__);
+539: 
+540: 	/* buffer->lock will be destroyed by vc_sm_release_resource if finished
+541: 	 * with, otherwise unlocked. Do NOT unlock here.
+542: 	 */
+543: 	vc_sm_release_resource(buffer);
+544: 	pr_debug("%s done\n", __func__);
+545: }
+1511: /* Driver unloading. */
+1512: static void bcm2835_vc_sm_cma_remove(struct vchiq_device *device)
+1513: {
+1514: 	pr_debug("[%s]: start\n", __func__);
+1515: 	if (sm_inited) {
+1516: 		misc_deregister(&sm_state->misc_dev);
+1517: 
+1518: 		/* Remove all proc entries. */
+1519: 		debugfs_remove_recursive(sm_state->dir_root);
+1520: 
+1521: 		/* Stop the videocore shared memory service. */
+1522: 		vc_sm_cma_vchi_stop(sm_state->vchiq_instance, &sm_state->sm_handle);
+1523: 	}
+1524: 
+1525: 	if (sm_state) {
+1526: 		idr_destroy(&sm_state->kernelid_map);
+1527: 
+1528: 		/* Free the memory for the state structure. */
+1529: 		mutex_destroy(&sm_state->map_lock);
+1530: 	}
+1531: 
+1532: 	pr_debug("[%s]: end\n", __func__);
+1533: }
+1534: 
+1535: /* Kernel API calls */
+1536: /* Get an internal resource handle mapped from the external one. */
+1537: int vc_sm_cma_int_handle(void *handle)
+
+FILE build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_cma_vchi.c
+381: 		pr_err("%s: invalid pointer to handle %p", __func__, handle);
+382: 		goto lock;
+383: 	}
+384: 
+385: 	if (!*handle) {
+386: 		pr_err("%s: invalid handle %p", __func__, *handle);
+387: 		goto lock;
+388: 	}
+389: 
+390: 	instance = *handle;
+391: 
+392: 	/* Close all VCHI service connections */
+393: 	for (i = 0; i < instance->num_connections; i++) {
+394: 		vchiq_use_service(vchiq_instance, instance->service_handle[i]);
+395: 		vchiq_close_service(vchiq_instance, instance->service_handle[i]);
+396: 	}
+397: 
+398: 	kfree(instance);
+399: 
+400: 	*handle = NULL;
+401: 	return 0;
+402: 
+403: lock:
+404: 	return -EINVAL;
+405: }
+406: 
+407: static int vc_sm_cma_vchi_send_msg(struct sm_instance *handle,
+408: 				   enum vc_sm_msg_type msg_id, void *msg,
+409: 				   u32 msg_size, void *result, u32 result_size,
+410: 				   u32 *cur_trans_id, u8 wait_reply)
+411: {
+412: 	int status = 0;
+413: 	struct sm_instance *instance = handle;
+414: 	struct sm_cmd_rsp_blk *cmd_blk;
+415: 
+416: 	if (!handle) {
+417: 		pr_err("%s: invalid handle", __func__);
+450: 			mutex_unlock(&instance->lock);
+451: 			vc_vchi_cmd_delete(instance, cmd_blk);
+452: 			return -ENXIO;
+453: 		}
+454: 
+455: 		list_move(&cmd_blk->head, &instance->dead_list);
+456: 		mutex_unlock(&instance->lock);
+457: 		complete(&instance->io_cmplt);
+458: 		return -EINTR;	/* We're done */
+459: 	}
+460: 
+461: 	if (result && result_size) {
+462: 		memcpy(result, cmd_blk->msg, result_size);
+463: 	} else {
+464: 		struct vc_sm_result_t *res =
+465: 			(struct vc_sm_result_t *)cmd_blk->msg;
+466: 		status = (res->success == 0) ? 0 : -ENXIO;
+467: 	}
+468: 
+469: 	mutex_lock(&instance->lock);
+470: 	list_del(&cmd_blk->head);
+471: 	mutex_unlock(&instance->lock);
+472: 	vc_vchi_cmd_delete(instance, cmd_blk);
+473: 	return status;
+474: }
+475: 
+476: int vc_sm_cma_vchi_free(struct sm_instance *handle, struct vc_sm_free_t *msg,
+477: 			u32 *cur_trans_id)
+478: {
+
+FILE build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/dd.c
+578: }
+579: 
+580: static ssize_t state_synced_show(struct device *dev,
+581: 				 struct device_attribute *attr, char *buf)
+582: {
+583: 	bool val;
+584: 
+585: 	device_lock(dev);
+586: 	val = dev_state_synced(dev);
+587: 	device_unlock(dev);
+588: 
+589: 	return sysfs_emit(buf, "%u\n", val);
+590: }
+591: static DEVICE_ATTR_RW(state_synced);
+592: 
+593: static void device_unbind_cleanup(struct device *dev)
+594: {
+595: 	if (dev->driver->p_cb.post_unbind_rust)
+596: 		dev->driver->p_cb.post_unbind_rust(dev);
+597: 	devres_release_all(dev);
+598: 	arch_teardown_dma_ops(dev);
+599: 	kfree(dev->dma_range_map);
+600: 	dev->dma_range_map = NULL;
+601: 	device_set_driver(dev, NULL);
+602: 	dev_set_drvdata(dev, NULL);
+603: 	dev_pm_domain_detach(dev, dev->power.detach_power_off);
+604: 	if (dev->pm_domain && dev->pm_domain->dismiss)
+605: 		dev->pm_domain->dismiss(dev);
+606: 	pm_runtime_reinit(dev);
+607: 	dev_pm_set_driver_flags(dev, 0);
+608: }
+609: 
+610: static void device_remove(struct device *dev)
+611: {
+1339: 				return;
+1340: 			}
+1341: 		}
+1342: 
+1343: 		driver_sysfs_remove(dev);
+1344: 
+1345: 		bus_notify(dev, BUS_NOTIFY_UNBIND_DRIVER);
+1346: 
+1347: 		pm_runtime_put_sync(dev);
+1348: 
+1349: 		device_remove(dev);
+1350: 
+1351: 		if (dev->bus && dev->bus->dma_cleanup)
+1352: 			dev->bus->dma_cleanup(dev);
+1353: 
+1354: 		device_unbind_cleanup(dev);
+1355: 		device_links_driver_cleanup(dev);
+1356: 
+1357: 		klist_remove(&dev->p->knode_driver);
+1358: 		device_pm_check_callbacks(dev);
+1359: 
+1360: 		bus_notify(dev, BUS_NOTIFY_UNBOUND_DRIVER);
+
+FILE build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/bus.c
+234: /* Manually detach a device from its associated driver. */
+235: static ssize_t unbind_store(struct device_driver *drv, const char *buf,
+236: 			    size_t count)
+237: {
+238: 	const struct bus_type *bus = bus_get(drv->bus);
+239: 	struct device *dev;
+240: 	int err = -ENODEV;
+241: 
+242: 	dev = bus_find_device_by_name(bus, NULL, buf);
+243: 	if (dev && dev->driver == drv) {
+244: 		device_driver_detach(dev);
+245: 		err = count;
+246: 	}
+247: 	put_device(dev);
+248: 	bus_put(bus);
+249: 	return err;
+250: }
+251: static DRIVER_ATTR_IGNORE_LOCKDEP(unbind, 0200, NULL, unbind_store);
+781: 		/* How the hell do we get out of this pickle? Give up */
+782: 		printk(KERN_ERR "%s: driver_add_groups(%s) failed\n",
+783: 			__func__, drv->name);
+784: 	}
+785: 
+786: 	if (!drv->suppress_bind_attrs) {
+787: 		error = add_bind_files(drv);
+788: 		if (error) {
+789: 			/* Ditto */
+790: 			printk(KERN_ERR "%s: add_bind_files(%s) failed\n",

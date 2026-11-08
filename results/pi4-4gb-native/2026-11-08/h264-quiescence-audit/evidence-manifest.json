@@ -1,0 +1,118 @@
+[
+  {
+    "path": "README.md",
+    "sha256": "8e7a74ac8c24985109be31c323b7ea9ad154ec6cac5318ddcbae2c2c740bcc0c"
+  },
+  {
+    "path": "downloads.json",
+    "sha256": "a52ea65784f41f8699f16b324c5c43785de47fe6849b2dae2874c1f38fc6cc3e"
+  },
+  {
+    "path": "local-inputs.json",
+    "sha256": "d093af2ac72f4a243d0894b6fc9a6e15c6567c3827d6e94657c5b9b8b0cd502a"
+  },
+  {
+    "path": "negative-search.log",
+    "sha256": "be3214f3eed03a4b6256883a3e7d8e1e21d0b6c81adf816973b503367c7621d4"
+  },
+  {
+    "path": "primary/arch/arm/configs/bcm2711_defconfig",
+    "sha256": "617d0ecf85ed951575d6c6c33837eb062a1c7c7ae0b2b28f1b2e8a8b93f15747"
+  },
+  {
+    "path": "primary/arch/arm/configs/bcmrpi_defconfig",
+    "sha256": "1bbc3ec9f40dd9a93af86bab21a8f05028d239c89f42d6351369143fc22d9594"
+  },
+  {
+    "path": "primary/arch/arm64/configs/bcm2711_defconfig",
+    "sha256": "290f2f1658be08a37d7da083fffd19a2d3ef2f180958724743d501f7ac7a547f"
+  },
+  {
+    "path": "primary/drivers/staging/vc04_services/Kconfig",
+    "sha256": "73d1edfa9805977ca184c76de609abebb5e2a7b789f174699bf3740b1dcf5bbf"
+  },
+  {
+    "path": "primary/drivers/staging/vc04_services/bcm2835-camera/Kconfig",
+    "sha256": "1bb51301fdd106a4d70fc924aa4242038649a02afffc9d3b481237788107caf0"
+  },
+  {
+    "path": "primary/drivers/staging/vc04_services/bcm2835-isp/Kconfig",
+    "sha256": "05c1316508cbca34285c3dc12db2eaeea178346910f5441c536ea97d81834c80"
+  },
+  {
+    "path": "primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c",
+    "sha256": "b7810e50ea534ed46d476b8ebd8ac207a9f8b849c1c9362b21b5e407e2343e91"
+  },
+  {
+    "path": "primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c",
+    "sha256": "199ee54159f5e7e65328761d50cd5f4fef48a5f70f99749fe7f8759487a52b4f"
+  },
+  {
+    "path": "primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c",
+    "sha256": "ea174bae05bf09a29860a2316f734f6a0c49ad93b82092fa1a2da3e7e5e1e8d6"
+  },
+  {
+    "path": "primary/firmware/README.md",
+    "sha256": "3a26b725dda9591997a51c0497a63001c669d3654c0fcc923fe8159684499871"
+  },
+  {
+    "path": "primary/firmware/commit.json",
+    "sha256": "650a7755211866dd23184c6be0eb09323f17635e3af5780ed0c1b1f8f05c5fcf"
+  },
+  {
+    "path": "primary/linux-7.3/drivers/base/bus.c",
+    "sha256": "ca5c7869054b603b64c21df45279decf32f540c2f29c801e851e94fe2f788a4a"
+  },
+  {
+    "path": "primary/linux-7.3/drivers/base/core.c",
+    "sha256": "52247f436f5328d0b174f3350cda7e6d3e9d929de3611b5acb546b502852de2c"
+  },
+  {
+    "path": "primary/linux-7.3/drivers/base/dd.c",
+    "sha256": "03dbcf0f223b28da2006cc9fe851c8782c4c17f50e35027c94e2b4ef208b0e52"
+  },
+  {
+    "path": "primary/linux-7.3/drivers/firmware/raspberrypi.c",
+    "sha256": "ab13052281fb8ae7ec87304e66bb4b86e288c3b234f06893a5ba7d92b9fcbea6"
+  },
+  {
+    "path": "primary/linux-7.3/include/linux/device/driver.h",
+    "sha256": "cc49bafcca73cbddd8c6d3fd4066186ac6ad8519752cca412df171a35bd1f76e"
+  },
+  {
+    "path": "primary/linux-7.3/include/soc/bcm2835/raspberrypi-firmware.h",
+    "sha256": "501186ee9e694dc45125a9206a0cf978a4e8fb443e46a7e752bbdec84201679c"
+  },
+  {
+    "path": "primary/userland/commit.json",
+    "sha256": "d9583924c5fe993b19a1d4de748d83e292c709e24326c297cc0affe1d950790f"
+  },
+  {
+    "path": "primary/userland/host_applications/linux/apps/raspicam/gl_scenes/vcsm_square.c",
+    "sha256": "0e5c22cf2e13470f826c54aafcd73d0199c4a103596b0e3d5b90d37f8b34ccca"
+  },
+  {
+    "path": "primary/userland/host_applications/linux/apps/raspicam/gl_scenes/vcsm_square.h",
+    "sha256": "5442bd256667b809f99820c4e0a2d8a510a206af3a8a906dbb828e6dd5234a8c"
+  },
+  {
+    "path": "primary/userland/host_applications/linux/libs/sm/user-vcsm.c",
+    "sha256": "91a9c4e969b89a9a011202bc9369cb98b0dd290ccf830fd048097172f26d093e"
+  },
+  {
+    "path": "primary/userland/host_applications/linux/libs/sm/user-vcsm.h",
+    "sha256": "294dea21f2f5ebf07c7b5a1660f09e79476f4a47f1ccbe46d59e32f94e838ac1"
+  },
+  {
+    "path": "primary/userland/host_applications/linux/libs/sm/vc_sm_cma_ioctl.h",
+    "sha256": "13cae9f8905d39b9bd99c49953375384d7d771fb39d37b8f510c47fea5038a91"
+  },
+  {
+    "path": "primary/userland/tree.json",
+    "sha256": "ad64a15d5f36dd5cdd03dca5bc80013f6586e9905e441999599660297ed6582b"
+  },
+  {
+    "path": "source-excerpts.txt",
+    "sha256": "17d8adcf325c7c710492fc3596719bb6844166831e164923c8fce881564e8ad1"
+  }
+]

@@ -1,0 +1,143 @@
+Scope: ["build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11", "build/upstream-pi/stable-4.5/h264-port-candidate/reference", "build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3", "build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/userland/host_applications/linux/libs/sm", "build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/drivers"]
+Pattern: ACTION_CLEAN|action_clean|cancel|reset|quies|drain|RELEASED|suppress_bind_attrs
+rg exit: 0
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/userland/host_applications/linux/libs/sm/user-vcsm.c:2387:** even if the vcsm handle is released.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq.h:91: * retired excludes new lookups; released drains ALL service references, including
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq.h:97:	struct completion released;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_arm.h:137:/* See vchiq_arm.c: cancellation waits for an active callback to return.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_arm.h:138: * Callbacks may sleep but must not reenter registration/cancellation.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_core.h:293:	 * released.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_core.h:364:	 * Slots which have been fully processed and released by the (peer)
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_core.h:294:	 * released.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_core.h:365:	 * Slots which have been fully processed and released by the (peer)
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/include/linux/device/driver.h:59: * @suppress_bind_attrs: Disables bind/unbind via sysfs.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/include/linux/device/driver.h:75: * @shutdown:	Called at shut-down time to quiesce the device.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/include/linux/device/driver.h:107:	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/include/linux/device/driver.h:128:		 * Called after remove() but before devres entries are released.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-vchiq.c:1436:/* disables a port and drains buffers from it */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-vchiq.c:1453:		 * Drain all queued buffers on port. This should only
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c:1299:/* disables a port and drains buffers from it */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c:1316:		 * Drain all queued buffers on port. This should only
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-msg.h:234: * Can be used for instance by a decoder to reset its state
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/include/soc/bcm2835/raspberrypi-firmware.h:93:	RPI_FIRMWARE_NOTIFY_XHCI_RESET =                      0x00030058,
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h:234: * Can be used for instance by a decoder to reset its state
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c:1436:/* disables a port and drains buffers from it */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c:1453:		 * Drain all queued buffers on port. This should only
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-parameters.h:293:	MMAL_PARAM_TIMESTAMP_MODE_RESET_STC, /* Use the STC timestamp
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-parameters.h:531:	 * Setting the value to zero resets to the default (one slice per
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/bus.c:786:	if (!drv->suppress_bind_attrs) {
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/bus.c:827:	if (!drv->suppress_bind_attrs)
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/bus.c:1194: * The returned device is referenced and won't be released till
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h:233:	MMAL_PARAM_TIMESTAMP_MODE_RESET_STC, /* Use the STC timestamp
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h:467:	 * Setting the value to zero resets to the default (one slice per
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h:234: * Can be used for instance by a decoder to reset its state
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:2733:		goto cancel_bulk_error_exit;
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:2776:cancel_bulk_error_exit:
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:356:			/* Cancel the signal when the transfer completes. */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:542:			/* Now it has been copied, the message can be released. */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:25: * and therefore the released message decrements the dma_buf refcount (with the
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:26: * VPU mapping having already been marked as released).
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:105:	bool require_released_callback;	/* VPU will send a released msg when it
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:277:		if (sm_state->require_released_callback) {
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:281:			 * released it
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:506:	vm_flags_reset(vma, vma->vm_flags | VM_DONTEXPAND | VM_DONTDUMP);
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:534:	/* Unmap our dma_buf object (the vc_sm_buffer remains until released
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:943:	 * resource is being released.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:969:		sm_state->require_released_callback = true;
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:972:	case VC_SM_MSG_TYPE_RELEASED:
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:974:		struct vc_sm_released *release = (struct vc_sm_released *)reply;
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:978:			pr_err("%s: VC released a buffer that is already released, kernel_id %d\n",
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c:984:		pr_debug("%s: Released addr %08x, size %u, id %08x, mem_handle %08x\n",
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:28: * VPU assumes 0 (aka 1) which does not require the released callback, nor
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:30: * Version 2 requires the released callback, and must support VC_MEM_REQUESTS.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:53:	VC_SM_MSG_TYPE_ACTION_CLEAN,
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:78:	VC_SM_MSG_TYPE_RELEASED,
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:187:struct vc_sm_action_clean_t {
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:209:	/* opaque handle returned in RELEASED messages */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:227:struct vc_sm_released {
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:235:	/* opaque handle returned in RELEASED messages */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:242: * >=2 requires the released callback, and supports VC asking for memory.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:244: * client should either fail, or NOT rely on getting the released callback.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:273:	/* opaque handle returned in RELEASED messages */
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:283:	struct vc_sm_action_clean_t action_clean;
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h:291:	struct vc_sm_released released;
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/core.c:794: * DL_FLAG_STATELESS was passed in @flags, the link needs to be released
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/core.c:2624:	 * all resources are released.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/core.c:3481:	 * kernfs_node for glue_dir is released in CPU1 only when refcount
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h:293:	MMAL_PARAM_TIMESTAMP_MODE_RESET_STC, /* Use the STC timestamp
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h:531:	 * Setting the value to zero resets to the default (one slice per
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3104:		goto cancel_bulk_error_exit;
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3147:cancel_bulk_error_exit:
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1052:				 * Cancel the signal when the transfer completes.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:1071:			/* Cancel the signal when the transfer completes. */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:28: * VPU assumes 0 (aka 1) which does not require the released callback, nor
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:30: * Version 2 requires the released callback, and must support VC_MEM_REQUESTS.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:53:	VC_SM_MSG_TYPE_ACTION_CLEAN,
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:78:	VC_SM_MSG_TYPE_RELEASED,
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:187:struct vc_sm_action_clean_t {
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:209:	/* opaque handle returned in RELEASED messages */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:227:struct vc_sm_released {
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:235:	/* opaque handle returned in RELEASED messages */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:242: * >=2 requires the released callback, and supports VC asking for memory.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:244: * client should either fail, or NOT rely on getting the released callback.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:273:	/* opaque handle returned in RELEASED messages */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:283:	struct vc_sm_action_clean_t action_clean;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h:291:	struct vc_sm_released released;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:314: * Removal waits uninterruptibly for real host callback/reference quiescence.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:421:	refcount_inc(&cmd->refs); /* queued list, released by worker/stop */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:429:	/* IMPORT admission transfers cancellation to completion: signals cannot
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c:431:	 * caller and unbind indefinitely; no timeout/close proves DMA quiescence.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h:50: * admitted, IMPORT is not signal-cancellable; a silent peer blocks the caller
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h:51: * and teardown indefinitely. No service close/reset DMA guarantee is implied.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/firmware/raspberrypi.c:283:	 * released their firmware handles. Don't use devm_kzalloc() here.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/firmware/raspberrypi.c:350: * The reference to rpi_firmware has to be released with rpi_firmware_put().
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/firmware/raspberrypi.c:395:	if (devm_add_action_or_reset(dev, devm_rpi_firmware_put, fw))
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:613:				 * Cancel the signal when the transfer completes.
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:633:			/* Cancel the signal when the transfer completes. */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:26: * and therefore the released message decrements the dma_buf refcount (with the
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:27: * VPU mapping having already been marked as released).
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:113:	wait_queue_head_t buffer_drain;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:124:	bool require_released_callback;	/* VPU will send a released msg when it
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:170: * drains all opened services before returning NULL, per 0006/0007. Shutdown
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:171: * here therefore frees a service-free instance, not a DMA quiescence proof.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:195:/* The bound driver owns state/devm storage until remove's buffer drain and
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:215:	wake_up_all(&state->buffer_drain);
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:371:		 * Even old firmware without RELEASED must retain this mapping.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:600:	vm_flags_reset(vma, vma->vm_flags | VM_DONTEXPAND | VM_DONTDUMP);
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:794: * producer owns in_use until export or error retirement, so early RELEASED
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:805:		/* RELEASED can precede the response; only its confirmed handle
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:818: * publication: FREE and retain the ID/mapping until real RELEASED.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1092:	 * resource is being released.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1133:		state->require_released_callback = true;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1136:	case VC_SM_MSG_TYPE_RELEASED:
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1138:		struct vc_sm_released *release = (struct vc_sm_released *)reply;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1164:		pr_debug("%s: Released addr %08x, size %u, id %08x, mem_handle %08x\n",
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1582:	/* Connected registration/cancellation serializes this with remove. */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1673:	init_waitqueue_head(&sm_state->buffer_drain);
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1695:	/* Drain immediate/deferred initialization before touching its state. */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1702:	/* The lock also drains admitted file/kernel operations. Do not hold it
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1710:	 * wait is deliberately unbounded: firmware silence is not quiescence.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1711:	 * module_exit cannot return until this drain AND worker join finish.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1713:	wait_event(state->buffer_drain, !atomic_read(&state->live_buffers));
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:162: * Synchronous connected-callback registration/cancellation contract:
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:164: * register/cancel connected callbacks (including indirectly), nor wait for a
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:165: * caller that is cancelling one. The caller keeps device, callback text and
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:551: * OPEN also drains callbacks before returning its userdata to the caller.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:682:				 * Cancel the signal when the transfer completes.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:702:			/* Cancel the signal when the transfer completes. */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:356:			/* Cancel the signal when the transfer completes. */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c:542:			/* Now it has been copied, the message can be released. */
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/dd.c:93:	 * released, it is possible for the device get freed by another thread
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/dd.c:655:			   !drv->suppress_bind_attrs;
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/dd.c:1181: * USB interface, @parent lock will be released as well.
+build/upstream-pi/stable-4.5/h264-quiescence-audit/primary/linux-7.3/drivers/base/dd.c:1334:			 * have released the driver successfully while this one
+build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/bcm2835-codec/bcm2835-v4l2-codec.c:868:	/* Will cancel the transaction in the next interrupt handler */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c:869:	/* Will cancel the transaction in the next interrupt handler */
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c:2984:			 * get_dmabuf returns one reference, released by mmal cleanup.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:384:	 * before publishing host quiescence. Do not touch owner after complete.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:387:		complete_all(&service->owner->released);
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:2818:			init_completion(&owner->released);
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3136:		goto cancel_bulk_error_exit;
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3179:cancel_bulk_error_exit:
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3519: * can block forever: caller must retain its transport/userdata until it drains.
+build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c:3535:	wait_for_completion(&owner->released);

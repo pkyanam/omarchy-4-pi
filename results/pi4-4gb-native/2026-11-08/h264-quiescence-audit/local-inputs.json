@@ -1,0 +1,370 @@
+[
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/Makefile",
+    "sha256": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/Makefile",
+    "sha256": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/bcm2835-codec/Makefile",
+    "sha256": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c",
+    "sha256": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/bcm2835-codec/codec-formats.h",
+    "sha256": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/Makefile",
+    "sha256": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c",
+    "sha256": "d6b26a2efeddd4811ca2ca09f204820a4354786cd799c7d9278b66af0aae9ab4"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h",
+    "sha256": "91d52ebd4f93a28eac9191945d894464e47b934a042c6a96efcbb6ca36daa3d3"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_ioctl.h",
+    "sha256": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c",
+    "sha256": "fb8316548313bf44f259591bfec31edaface7113035a441c8f43a8674af125cd"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h",
+    "sha256": "5f91926f78c0c355247d87a6fa93977303156116cbef58b7cba62a19b867f651"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h",
+    "sha256": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_knl.h",
+    "sha256": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c",
+    "sha256": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.c",
+    "sha256": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c",
+    "sha256": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.c",
+    "sha256": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c",
+    "sha256": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-interface/vchiq_ioctl.h",
+    "sha256": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/Makefile",
+    "sha256": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h",
+    "sha256": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h",
+    "sha256": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h",
+    "sha256": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h",
+    "sha256": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h",
+    "sha256": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h",
+    "sha256": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h",
+    "sha256": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c",
+    "sha256": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h",
+    "sha256": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq.h",
+    "sha256": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_arm.h",
+    "sha256": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_bus.h",
+    "sha256": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_cfg.h",
+    "sha256": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_core.h",
+    "sha256": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-import-11/include/linux/raspberrypi/vchiq_debugfs.h",
+    "sha256": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/bcm2835-codec/Kconfig",
+    "sha256": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/bcm2835-codec/Makefile",
+    "sha256": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/bcm2835-codec/bcm2835-v4l2-codec.c",
+    "sha256": "d0d4349dabc7d46656215f06ee1a0a8674404148cf7d7ee6e570999f82ea8944"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/Kconfig",
+    "sha256": "e9b9d59316f32faf8e5401f68c2b3c9e972a9313b01a8c1d9fc25ed525a1100d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/Makefile",
+    "sha256": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.c",
+    "sha256": "18179ea2cd7be7d2d7d4638765cfb275bd21f371d1d85f2c3062effefe921312"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm.h",
+    "sha256": "0ba105f388fe2c31a1d45ed46b80cd6ed2063af133db436c534d5bb3683583ec"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_cma_ioctl.h",
+    "sha256": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_cma_vchi.c",
+    "sha256": "6e2d8f9bfd4cf97238c930a45683725bb06ca52fa5fda58f653d8f9a9864e1d9"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_cma_vchi.h",
+    "sha256": "62eec1d152b86cac96f388f0ed42abd99ac582d6e97d58e1d72b28479e436f51"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_defs.h",
+    "sha256": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vc-sm-cma/vc_sm_knl.h",
+    "sha256": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/Kconfig",
+    "sha256": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/Makefile",
+    "sha256": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-common.h",
+    "sha256": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-encodings.h",
+    "sha256": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-msg-common.h",
+    "sha256": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-msg-format.h",
+    "sha256": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-msg-port.h",
+    "sha256": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-msg.h",
+    "sha256": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-parameters.h",
+    "sha256": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-vchiq.c",
+    "sha256": "fb205ec02d09e9c9f5affb081d0ed99d34a9292f98ea38c9783295422db969d5"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/vchiq-mmal/mmal-vchiq.h",
+    "sha256": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/downstream/videodev2.h",
+    "sha256": "801a5b0714a23abc4c39a5d00eb24415297c4e2cedd06c908f595f95acd2c0bb"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/Kconfig",
+    "sha256": "cc835cd275bb3b978efa1b0fe6429469c2486aff307b31dd87e0df8a526afc4e"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/Makefile",
+    "sha256": "a7b15cbaac1eae7100f1014fd63b167676c8cb2b0c270372f83ea9952c9988b0"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/TESTING",
+    "sha256": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/TODO",
+    "sha256": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c",
+    "sha256": "403e1b8a24897ced5e885b6e2723393244b36265362cfd9f21da29abff5ec12c"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.c",
+    "sha256": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c",
+    "sha256": "170770e2838ac95dd8976952972276a03569495d4daa3180582154cdc5dae7ef"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.c",
+    "sha256": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c",
+    "sha256": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-interface/vchiq_ioctl.h",
+    "sha256": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/Kconfig",
+    "sha256": "33507552dbf2c8b50636dacfdbe1ca460aa689fd178907def01c19e8ee715fba"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/Makefile",
+    "sha256": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h",
+    "sha256": "71fa8a91d0364b6f7c340dcaa19216663acb9a70653728eed9900f096811ad8f"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h",
+    "sha256": "7b0f50e0e8fb40f30f525947543f30601dcf629b0320a3e6d997085deca8c18d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h",
+    "sha256": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h",
+    "sha256": "442a3f8f9ef0f991610d9e7a82e4be7a54ef02825f7dbe87a4d179f069857948"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h",
+    "sha256": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h",
+    "sha256": "77042a1f62146b07444b1af4d6cc13791de552a35f2e4934014f4473baf1dd36"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h",
+    "sha256": "09b83bf0b3f623d000bbadcfe816f4778d4e1b48f3c396ed49c7997e3c17d721"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c",
+    "sha256": "c5d833de89ad4b23b70369338f5d5c6ba4b74d67953d6981d65a24e08ccf8915"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h",
+    "sha256": "6ebe8833b32e0092e53d5dbb216cabde91c23ce4655b4a86cd49703e51326df8"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq.h",
+    "sha256": "f6bbc7e4a955fb388e279a30a4f05a5b1468a5198d64b7468b11944486b363e3"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_arm.h",
+    "sha256": "b0c1a727fda2b7a461bd6b7fcce8caf044a4528bc1921f243f11dfed34bfffbb"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_bus.h",
+    "sha256": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_cfg.h",
+    "sha256": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_core.h",
+    "sha256": "05f572337cee49fa4fd314958d64047fa5684b0df8fc0d26a7c8e4f9c963cd5f"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference/upstream/include/linux/raspberrypi/vchiq_debugfs.h",
+    "sha256": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487"
+  },
+  {
+    "path": "AGENTS.md",
+    "sha256": "46c018def3e6e03fbbfe9a95cdb3ed40fa78373adf36acba77b74bcf70bb2fb6"
+  },
+  {
+    "path": "plans/omarchy-pi-optimization-kickoff.md",
+    "sha256": "8687030690310bb120932c2a6792999e528cfd829ad1fcfc51b0d328db6242f3"
+  },
+  {
+    "path": "tools/pi-experiments/h264-port/README.md",
+    "sha256": "cc58a2402403fda4e4e1576bbddf5b032728cd796245aa0e184a4fa3a16cf807"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/import-unit/README.md",
+    "sha256": "2946237d5221d4f5312818227912910f24c3cef4c760b52d461b7b54e3481e46"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/reference-provenance.json",
+    "sha256": "32fe99f94f39b968041b92e61178186347b281deae06e293e170b815a3843233"
+  },
+  {
+    "path": "build/upstream-pi/stable-4.5/h264-port-candidate/import-unit/manifest.json",
+    "sha256": "9ff3b4db12e64047e6a53cb3d8ca5056620efee1834ae384587eb35270c2d6cc"
+  }
+]

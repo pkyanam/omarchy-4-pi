@@ -1,0 +1,1 @@
+savedcmd_drivers/tty/serial/8250/8250_bcm2835aux.ko := ld -r -EL  -maarch64elf -z noexecstack --no-warn-rwx-segments --build-id=sha1 --force-group-allocation --compress-debug-sections=zstd -T ./scripts/module.lds -o drivers/tty/serial/8250/8250_bcm2835aux.ko drivers/tty/serial/8250/8250_bcm2835aux.o drivers/tty/serial/8250/8250_bcm2835aux.mod.o .module-common.o

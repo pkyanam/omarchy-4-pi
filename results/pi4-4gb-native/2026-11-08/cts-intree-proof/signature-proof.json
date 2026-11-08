@@ -1,0 +1,24 @@
+{
+  "cert_sha256": "eb0a0ff4acefb1182818c8a33de6e03fb96c6fb826cefa92cec3baf5d18a7d05",
+  "trusted_list_sha256": "eb0a0ff4acefb1182818c8a33de6e03fb96c6fb826cefa92cec3baf5d18a7d05",
+  "trusted_list_size": 1324,
+  "image_certificate_offset": 55363840,
+  "image_trust_match": true,
+  "installed": {
+    "signed_sha256": "6a6c7f9820c3357fd36e3da16f1c76ca556ad13a47741c44a5346546eb5e1b80",
+    "pkcs7_sha256": "cc011eed252d256a47f230c880005f741c321e9c1f1c05a298d41de12f7256be",
+    "content_sha256": "3e0585be8f4a7b023aa09a17551e043fd0c8daa05c5b1b03e5d4ab388cfcc3b6"
+  },
+  "baseline": {
+    "signed_sha256": "4a370a1c77a78aa7b260c238ecf76a716489f4d26696f483d83539142da00819",
+    "pkcs7_sha256": "956c1c585d28f9eafe9e3ecda3729b71cd9a9593d86bfd628df357f5cbdc57ba",
+    "content_sha256": "c7da2973eee92094296eb270ef376476a4defca0e202290dd0d2be23d944ddf7",
+    "zstd_sha256": "6912f4c0844b994716964dacbec183806a95f2d1e49352125d3892537b8e3465"
+  },
+  "patched": {
+    "signed_sha256": "72cfc483aacd7879b0e676e93f854d345a9235ffab56a9f3516d5fe96e1f7347",
+    "pkcs7_sha256": "bf20ac796dd087c86bbaf365ff84c65564c4623aabfc2f1c528b609438ca785c",
+    "content_sha256": "b798c7cafebbcc02ddc14e3dec62a8f3e4d6cb9adaf76cbc0507943d32a5a933",
+    "zstd_sha256": "db5cd638b0e88a6b957e50474b7de97ac9bb6f595af8c7e058539cfa8c799993"
+  }
+}

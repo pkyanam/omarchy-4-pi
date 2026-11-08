@@ -1,0 +1,5 @@
+# Preserve original compiler and signing proof output.
+*.log -whitespace
+*.cmd -whitespace
+*.mod.c -whitespace
+*.txt -whitespace

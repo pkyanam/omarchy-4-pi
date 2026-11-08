@@ -1,0 +1,5 @@
+CMS Verification successful
+CMS Verification successful
+/work/evidence/baseline-signed.ko : 25.45%   (  17.5 KiB =>   4.45 KiB, /work/evidence/baseline.ko.zst) 
+CMS Verification successful
+/work/evidence/patched-signed.ko : 25.66%   (  22.4 KiB =>   5.76 KiB, /work/evidence/patched.ko.zst) 

@@ -1,0 +1,47 @@
+{
+  "containers": {
+    "cts-private-probe": {
+      "exit": 0,
+      "OOMKilled": false,
+      "writable_layer_proxy": 196608
+    },
+    "cts-private-build": {
+      "exit": 1,
+      "OOMKilled": false,
+      "writable_layer_proxy": 196608
+    },
+    "cts-private-build-2": {
+      "exit": 12,
+      "OOMKilled": false,
+      "writable_layer_proxy": 212992
+    },
+    "cts-private-control-growth": {
+      "exit": 137,
+      "OOMKilled": false,
+      "writable_layer_proxy": 196608
+    },
+    "cts-private-control-failure": {
+      "exit": 137,
+      "OOMKilled": false,
+      "writable_layer_proxy": 196608
+    },
+    "cts-private-control-growth-2": {
+      "exit": 137,
+      "OOMKilled": false,
+      "writable_layer_proxy": 196608
+    },
+    "cts-private-final-inspect": {
+      "exit": 0,
+      "OOMKilled": false,
+      "writable_layer_proxy": 196608
+    }
+  },
+  "sampled_peak": 158360576,
+  "new_lane_conservative_charge": 300000000,
+  "prior_charge": 3644543872,
+  "parent_reserve": 512000000,
+  "new_lane_ceiling": 1500000000,
+  "stop_threshold": 1200000000,
+  "all_stopped": true,
+  "VM": "1 2074386432"
+}

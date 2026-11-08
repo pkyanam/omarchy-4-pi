@@ -1,0 +1,15 @@
+{
+  "host_allocated_bytes": 5373952,
+  "volume_allocated_bytes": 2194804736,
+  "container_layer_reserve": 16000000,
+  "root_positive_growth": 0,
+  "final_charge": 2216178688,
+  "sampled_peak": 2215347200,
+  "ceiling": 4000000000,
+  "stop_threshold": 3500000000,
+  "conservative_lane_charge": 2300000000,
+  "old_global_charge": 1344543872,
+  "parent_allowance": 512000000,
+  "full_authorized_total": 5856543872,
+  "packages_generated": []
+}

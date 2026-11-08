@@ -1,0 +1,50 @@
+{
+  "kernel_package_version": "7.3-32.11",
+  "kernel_release_unchanged": "7.3.0-32.1-omarchy",
+  "companion_package_version": "1-1.1",
+  "reason": "normal makepkg permits pkgrel integer[.integer]; 32.1.1 rejected; old failure untouched",
+  "changes": [
+    {
+      "file": "generate.py",
+      "original_sha256": "80765a9b1ee9ee792a82b0b3ea59dd3995ceee4263bc3aa276846732cbb70342",
+      "new_sha256": "b4f7c29fd0330c473ebf35f8100cddeb5a81844cc7faa3cba2ae5c19cf1c4eb8",
+      "version_references_changed": 4
+    },
+    {
+      "file": "build.sh",
+      "original_sha256": "1e004eb2ece035b8c1db0fd4b1f7b2696c31cebba4ef33746a8557fecaec2b41",
+      "new_sha256": "fa3d85ea66ff9142ff57453176e46475619c77a0d628897e33edd9bd10e3f54b",
+      "version_references_changed": 1
+    },
+    {
+      "file": "compare.py",
+      "original_sha256": "0cd844d1ae0d6651217819c821bd42fd47f323617474c2c250b9203a6b1db7d4",
+      "new_sha256": "0cd844d1ae0d6651217819c821bd42fd47f323617474c2c250b9203a6b1db7d4",
+      "version_references_changed": 0
+    },
+    {
+      "file": "requalify.py",
+      "original_sha256": "3f5d0f500842c60b5575407d7f3567250a648a46366ccd4634a66c77e685e684",
+      "new_sha256": "3f5d0f500842c60b5575407d7f3567250a648a46366ccd4634a66c77e685e684",
+      "version_references_changed": 0
+    },
+    {
+      "file": "supervise.py",
+      "original_sha256": "0ae852936484bedc3f2de0d1c82122d779d860135f6dfd195dfafaa0a4258d08",
+      "new_sha256": "0ae852936484bedc3f2de0d1c82122d779d860135f6dfd195dfafaa0a4258d08",
+      "version_references_changed": 0
+    },
+    {
+      "file": "probe.sh",
+      "original_sha256": "d51ec61131edb6736a41235d0cbabd2fee8c3aab7bfb974574f0092f09224f63",
+      "new_sha256": "d51ec61131edb6736a41235d0cbabd2fee8c3aab7bfb974574f0092f09224f63",
+      "version_references_changed": 0
+    },
+    {
+      "file": "final-inspect.sh",
+      "original_sha256": "76c07ee1b79f1ba00d12f66e0036053e591c6ebc9faf0322df511527fa6299f0",
+      "new_sha256": "76c07ee1b79f1ba00d12f66e0036053e591c6ebc9faf0322df511527fa6299f0",
+      "version_references_changed": 0
+    }
+  ]
+}

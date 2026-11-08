@@ -1,0 +1,129 @@
+{
+  "crypto": {
+    "signed_sha256": "72cfc483aacd7879b0e676e93f854d345a9235ffab56a9f3516d5fe96e1f7347",
+    "pkcs7_sha256": "bf20ac796dd087c86bbaf365ff84c65564c4623aabfc2f1c528b609438ca785c",
+    "content_sha256": "b798c7cafebbcc02ddc14e3dec62a8f3e4d6cb9adaf76cbc0507943d32a5a933"
+  },
+  "trusted_certificate_sha256": "eb0a0ff4acefb1182818c8a33de6e03fb96c6fb826cefa92cec3baf5d18a7d05",
+  "kernel_image_trust": true,
+  "CRCs": {
+    "__platform_driver_register": "0xc09e7a6a",
+    "serial8250_unregister_port": "0xb5be2d6f",
+    "clk_disable": "0x33d0c686",
+    "clk_unprepare": "0x33d0c686",
+    "device_remove_software_node": "0x2106df1a",
+    "serial8250_do_set_mctrl": "0xcffd9e08",
+    "platform_driver_unregister": "0xa0cac76d",
+    "memset": "0x0e9cab28",
+    "devm_kmalloc": "0xe3246ffc",
+    "serial8250_em485_supported": "0xe83830c3",
+    "devm_clk_get_optional": "0xe87b4808",
+    "platform_get_resource": "0xe9bf8a6a",
+    "device_get_match_data": "0x3a0124ef",
+    "device_add_software_node": "0xa2e94357",
+    "uart_read_port_properties": "0xe5dbadaf",
+    "device_property_read_bool": "0xcedd357b",
+    "clk_prepare": "0xd8b288f3",
+    "dev_err_probe": "0x2efcfb71",
+    "clk_enable": "0xd8b288f3",
+    "clk_get_rate": "0xa0928e7c",
+    "serial8250_register_8250_port": "0x3e762215",
+    "__stack_chk_fail": "0xd272d446",
+    "_dev_err": "0x889d9f7a",
+    "serial8250_get_port": "0x8059ac6d",
+    "console_suspend_enabled": "0x3239fbdb",
+    "__ubsan_handle_load_invalid_value": "0xe4de56b4",
+    "serial8250_suspend_port": "0xb5be2d6f",
+    "tty_port_tty_get": "0x18de975f",
+    "tty_kref_put": "0xe7a073ce",
+    "serial8250_em485_config": "0x81e61484",
+    "serial8250_resume_port": "0xb5be2d6f",
+    "serial8250_do_set_termios": "0x3f0dca4b",
+    "_raw_spin_lock_irqsave": "0x11f4259a",
+    "_raw_spin_unlock_irqrestore": "0x444885a7",
+    "mctrl_gpio_to_gpiod": "0xeec869d9",
+    "nbcon_device_try_acquire": "0x17e80d2b",
+    "nbcon_device_release": "0xf4d63727",
+    "mctrl_gpio_set": "0x4483a0b8",
+    "module_layout": "0x57971f80"
+  },
+  "hardening": [
+    {
+      "config": "STACKPROTECTOR_STRONG",
+      "flag": "-fstack-protector-strong",
+      "source": "Makefile",
+      "sha256": "ff91ef34afc495d4edd4e633767b2f15a92a30cda688939cb31287cabb8ca4b6",
+      "rules": [
+        [
+          966,
+          "stackp-flags-$(CONFIG_STACKPROTECTOR_STRONG)      := -fstack-protector-strong"
+        ]
+      ]
+    },
+    {
+      "config": "INIT_STACK_ALL_ZERO",
+      "flag": "-ftrivial-auto-var-init=zero",
+      "source": "Makefile",
+      "sha256": "ff91ef34afc495d4edd4e633767b2f15a92a30cda688939cb31287cabb8ca4b6",
+      "rules": [
+        [
+          996,
+          "KBUILD_CFLAGS\t+= -ftrivial-auto-var-init=zero"
+        ]
+      ]
+    },
+    {
+      "config": "SHADOW_CALL_STACK",
+      "flag": "-fsanitize=shadow-call-stack",
+      "source": "Makefile",
+      "sha256": "ff91ef34afc495d4edd4e633767b2f15a92a30cda688939cb31287cabb8ca4b6",
+      "rules": [
+        [
+          1082,
+          "CC_FLAGS_SCS\t:= -fsanitize=shadow-call-stack"
+        ]
+      ]
+    },
+    {
+      "config": "ZERO_CALL_USED_REGS",
+      "flag": "-fzero-call-used-regs=used-gpr",
+      "source": "Makefile",
+      "sha256": "ff91ef34afc495d4edd4e633767b2f15a92a30cda688939cb31287cabb8ca4b6",
+      "rules": [
+        [
+          1032,
+          "KBUILD_CFLAGS\t+= -fzero-call-used-regs=used-gpr"
+        ]
+      ]
+    },
+    {
+      "config": "ARM64_PTR_AUTH_KERNEL",
+      "flag": "-mbranch-protection=pac-ret",
+      "source": "arch/arm64/Makefile",
+      "sha256": "5a9d21434edc1e6220dbd8054610eb25aef675d1a25fbe54d7299eec375ae293",
+      "rules": [
+        [
+          82,
+          "  KBUILD_CFLAGS += -mbranch-protection=pac-ret+bti"
+        ],
+        [
+          87,
+          "    KBUILD_CFLAGS += -mbranch-protection=pac-ret"
+        ]
+      ]
+    },
+    {
+      "config": "UBSAN_BOUNDS",
+      "flag": "-fsanitize=bounds-strict",
+      "source": "scripts/Makefile.ubsan",
+      "sha256": "e55a083ed98c071bd4199f8ed0f660dfed0ad07e624a7893c9037eb7dc69e437",
+      "rules": [
+        [
+          8,
+          "ubsan-cflags-$(CONFIG_UBSAN_BOUNDS_STRICT)\t+= -fsanitize=bounds-strict"
+        ]
+      ]
+    }
+  ],
+  "baseline_sections_equal": true
+}

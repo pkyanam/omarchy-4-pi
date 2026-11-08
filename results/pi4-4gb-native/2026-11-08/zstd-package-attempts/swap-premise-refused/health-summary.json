@@ -1,0 +1,11 @@
+{
+  "samples": 49,
+  "ram_peak_bytes": 1342177280,
+  "swap_peak_bytes": 190967808,
+  "oom_kill": 0,
+  "vm_min_MemAvailable_kib": 1316552,
+  "vm_min_SwapFree_kib": 3006764,
+  "min_storage_bytes": 13030694912,
+  "PSI": "unavailable; memory/swap/events accounting available",
+  "stop": "explicit disk-backed envelope cannot be met"
+}

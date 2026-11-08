@@ -1,0 +1,23 @@
+{
+  "files": [
+    {
+      "file": "tests/fuzzer.c",
+      "sha256": "dedcfca725c18810ccb8fce1d2b9995f14f8fb879c8b277158a8316ac2cf690c",
+      "identical_to_reviewed_failed_attempt": true
+    },
+    {
+      "file": "tests/zstreamtest.c",
+      "sha256": "ad409d3017fab12a889320d2de5354f23e0b8a998f44ad37f3b50f14d0e6682a",
+      "identical_to_reviewed_failed_attempt": true
+    },
+    {
+      "file": "lib/compress/zstd_compress.c",
+      "sha256": "10c315ae609d49b2fc431521aa95908086e69fd917991c5ed9a875af3d1208e8",
+      "identical_to_reviewed_failed_attempt": true
+    }
+  ],
+  "hashLog": 29,
+  "entry_bytes": 2147483648,
+  "row_tag_bytes": 536870912,
+  "minimum_table_bytes": 2684354560
+}

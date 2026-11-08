@@ -1,0 +1,21 @@
+{
+  "image": "sha256:277a56bbb6f54c1cc4aa16c403904a34b0a2292b64465339f9321980f60ab514",
+  "packages_sha256": "c42ee00fb626cd373b34403150869dfac2273a1471d2d28f420e7f1a0954f1a9",
+  "memory_mib": 1280,
+  "swap_mib": 2304,
+  "cpus": 1,
+  "makepkg_config_sha256": "be02f4ba439b2e399063ee776dc83ffb8a8f4c88a593d549373243bd517eff97",
+  "status": "blocked; partial evidence retained",
+  "attempts": [
+    {
+      "optimization": 2,
+      "exit": 143
+    }
+  ],
+  "blocker": "VM swap premise false: /dev/zram0 2025764 KiB (backing_dev=none), /dev/vdc only1048572 KiB. Cannot provide authorized2304 MiB disk-backed swap without forbidden VM changes. Stopped O2 with SIGTERM exit143; no OOM.",
+  "packages_produced": [],
+  "installed": false,
+  "O3": "not started",
+  "lease": "returned; all task containers removed",
+  "acceptance": "incomplete; compiled only; fullbench passed; fuzzer interrupted; zstreamtest/playTests not reached"
+}

@@ -1,0 +1,2 @@
+BLOCKED before compilation: Disk-backed envelope unavailable: active zram swap; VM changes unauthorized
+No build or test retry executed.

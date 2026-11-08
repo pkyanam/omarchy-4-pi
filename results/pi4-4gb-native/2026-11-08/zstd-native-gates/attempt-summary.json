@@ -1,0 +1,50 @@
+[
+  {
+    "attempt": "zstd-package-gate-1",
+    "mode": "gate",
+    "status": "rejected",
+    "reason": "RuntimeError: bundle inventory mismatch",
+    "trial_count": 0,
+    "raw_results_sha256": "03e2d6e598b79d47e68c4119fbf7688bb5d2955aa73025eb19e957363e9ecaf0"
+  },
+  {
+    "attempt": "zstd-package-gate-2",
+    "mode": "gate",
+    "status": "complete",
+    "reason": null,
+    "trial_count": 0,
+    "raw_results_sha256": "2134f89f03319e8f75bca713e2e8c59d49379fc0161726e58ebe9584882a8fb9"
+  },
+  {
+    "attempt": "zstd-package-benchmark-1",
+    "mode": "bench",
+    "status": "rejected",
+    "reason": "RuntimeError: calibration rejects five-minute budget; retain, redesign explicitly",
+    "trial_count": 6,
+    "raw_results_sha256": "6436ff3b57f5d4ce57913bf3ce1b4ccae0a21894b172c640f911248c03e90771"
+  },
+  {
+    "attempt": "zstd-package-gate-v2-1",
+    "mode": "gate",
+    "status": "rejected",
+    "reason": "RuntimeError: locked desktop, outputs and policy required",
+    "trial_count": 0,
+    "raw_results_sha256": "8d9b50a5c06f18ad632994bfd9b4e9bd1e29cd5cd7aaca66b0a44b2ff8e4b743"
+  },
+  {
+    "attempt": "zstd-package-gate-v2-2",
+    "mode": "gate",
+    "status": "complete",
+    "reason": null,
+    "trial_count": 0,
+    "raw_results_sha256": "360558d9b170a256a3b1dde6e87a25e0c4afb8d8003dd428958fdfd25d7e55d3"
+  },
+  {
+    "attempt": "zstd-package-benchmark-v2-1",
+    "mode": "bench",
+    "status": "rejected",
+    "reason": "RuntimeError: calibration rejects five-minute budget; retain, redesign explicitly",
+    "trial_count": 4,
+    "raw_results_sha256": "5d245097f0bb8cb14fae1ab81a8776f519a7249f19b69129f8295057c2eb3f30"
+  }
+]

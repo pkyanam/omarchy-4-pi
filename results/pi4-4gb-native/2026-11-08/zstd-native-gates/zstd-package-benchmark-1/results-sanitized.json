@@ -1,0 +1,3188 @@
+{
+  "schema": 1,
+  "mode": "bench",
+  "status": "rejected",
+  "started_utc": "2026-11-08T14:20:15Z",
+  "runner_sha256": "d35d0f249c0017ca3792c961c10224e297ab77d8fd6f6dcd848b880c78d0bb1a",
+  "manifest_sha256": "005287346f79e751ffc179a178211fd515a5e5a8969eea027c7b83dc870809a2",
+  "commands": [
+    {
+      "started_utc": "2026-11-08T14:20:15Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-h",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0000.stdout",
+      "stderr": "0000.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06217564400139963,
+      "user_cpu_s": 0.009984,
+      "system_cpu_s": 0.008986,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 1
+    },
+    {
+      "started_utc": "2026-11-08T14:20:15Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0001.stdout",
+      "stderr": "0001.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06098972700056038,
+      "user_cpu_s": 0.007991,
+      "system_cpu_s": 0.011987,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:15Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib/libzstd.so.1.5.7"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0002.stdout",
+      "stderr": "0002.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060718820999682066,
+      "user_cpu_s": 0.007974,
+      "system_cpu_s": 0.011961,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 11
+    },
+    {
+      "started_utc": "2026-11-08T14:20:15Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--verify",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0003.stdout",
+      "stderr": "0003.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060405674999856274,
+      "user_cpu_s": 0.0,
+      "system_cpu_s": 0.004123,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 8
+    },
+    {
+      "started_utc": "2026-11-08T14:20:15Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib",
+        "--list",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0004.stdout",
+      "stderr": "0004.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060048215000279015,
+      "user_cpu_s": 0.001119,
+      "system_cpu_s": 0.0044789999999999995,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 7
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-h",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0005.stdout",
+      "stderr": "0005.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060871319999932894,
+      "user_cpu_s": 0.007316,
+      "system_cpu_s": 0.011497,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 13
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0006.stdout",
+      "stderr": "0006.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060724301998561714,
+      "user_cpu_s": 0.008126,
+      "system_cpu_s": 0.012189,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 16
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib/libzstd.so.1.5.7"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0007.stdout",
+      "stderr": "0007.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0611080779999611,
+      "user_cpu_s": 0.004736,
+      "system_cpu_s": 0.015156,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 16
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--verify",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0008.stdout",
+      "stderr": "0008.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06019423200086749,
+      "user_cpu_s": 0.001064,
+      "system_cpu_s": 0.0031929999999999997,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 5
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib",
+        "--list",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0009.stdout",
+      "stderr": "0009.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060509842000101344,
+      "user_cpu_s": 0.0,
+      "system_cpu_s": 0.005693,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 9
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd",
+        "--version"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0010.stdout",
+      "stderr": "0010.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06052774800082261,
+      "user_cpu_s": 0.000944,
+      "system_cpu_s": 0.005664,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 7
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-h",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0011.stdout",
+      "stderr": "0011.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060968392999711796,
+      "user_cpu_s": 0.005998,
+      "system_cpu_s": 0.012995999999999999,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 13
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0012.stdout",
+      "stderr": "0012.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06099607799842488,
+      "user_cpu_s": 0.006895,
+      "system_cpu_s": 0.013791,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib/libzstd.so.1.5.7"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0013.stdout",
+      "stderr": "0013.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06123492799997621,
+      "user_cpu_s": 0.007247,
+      "system_cpu_s": 0.012423,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 14
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--verify",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0014.stdout",
+      "stderr": "0014.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06003375200089067,
+      "user_cpu_s": 0.001039,
+      "system_cpu_s": 0.003117,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 5
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib",
+        "--list",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0015.stdout",
+      "stderr": "0015.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06034984300094948,
+      "user_cpu_s": 0.0,
+      "system_cpu_s": 0.005515,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 10
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-h",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0016.stdout",
+      "stderr": "0016.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06100565300039307,
+      "user_cpu_s": 0.007889,
+      "system_cpu_s": 0.010846999999999999,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 14
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0017.stdout",
+      "stderr": "0017.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06309309999960533,
+      "user_cpu_s": 0.008995,
+      "system_cpu_s": 0.012993,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 15
+    },
+    {
+      "started_utc": "2026-11-08T14:20:16Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib/libzstd.so.1.5.7"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0018.stdout",
+      "stderr": "0018.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06088756000099238,
+      "user_cpu_s": 0.008321,
+      "system_cpu_s": 0.011441,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 14
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--verify",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0019.stdout",
+      "stderr": "0019.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060136288000649074,
+      "user_cpu_s": 0.001041,
+      "system_cpu_s": 0.003123,
+      "max_rss_KiB": 17492,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 6
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib",
+        "--list",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0020.stdout",
+      "stderr": "0020.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06028204600079334,
+      "user_cpu_s": 0.0,
+      "system_cpu_s": 0.005651,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 7
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd",
+        "--version"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0021.stdout",
+      "stderr": "0021.stderr",
+      "exit_code": 0,
+      "wall_s": 0.060860208999656606,
+      "user_cpu_s": 0.001906,
+      "system_cpu_s": 0.004765999999999999,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 4
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-h",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0022.stdout",
+      "stderr": "0022.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06132331699882343,
+      "user_cpu_s": 0.007696,
+      "system_cpu_s": 0.011543999999999999,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 15
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0023.stdout",
+      "stderr": "0023.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06108478100031789,
+      "user_cpu_s": 0.007566,
+      "system_cpu_s": 0.01324,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 16
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib/libzstd.so.1.5.7"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0024.stdout",
+      "stderr": "0024.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06110509599966463,
+      "user_cpu_s": 0.007858,
+      "system_cpu_s": 0.011786999999999999,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--verify",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0025.stdout",
+      "stderr": "0025.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06051595200005977,
+      "user_cpu_s": 0.0008579999999999999,
+      "system_cpu_s": 0.0034319999999999997,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 8
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib",
+        "--list",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0026.stdout",
+      "stderr": "0026.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0606901730006939,
+      "user_cpu_s": 0.00224,
+      "system_cpu_s": 0.003361,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 9
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-h",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0027.stdout",
+      "stderr": "0027.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06095261600057711,
+      "user_cpu_s": 0.010118,
+      "system_cpu_s": 0.009106,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 15
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0028.stdout",
+      "stderr": "0028.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06115918799878273,
+      "user_cpu_s": 0.009855,
+      "system_cpu_s": 0.010839999999999999,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 15
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/usr/bin/readelf",
+        "-V",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib/libzstd.so.1.5.7"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0029.stdout",
+      "stderr": "0029.stderr",
+      "exit_code": 0,
+      "wall_s": 0.061544888998469105,
+      "user_cpu_s": 0.006764,
+      "system_cpu_s": 0.013528,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--verify",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0030.stdout",
+      "stderr": "0030.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06043376699926739,
+      "user_cpu_s": 0.001046,
+      "system_cpu_s": 0.0031379999999999997,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 7
+    },
+    {
+      "started_utc": "2026-11-08T14:20:17Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib",
+        "--list",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/pzstd"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0031.stdout",
+      "stderr": "0031.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06041428599928622,
+      "user_cpu_s": 0.00094,
+      "system_cpu_s": 0.0047,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 9
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd",
+        "--version"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0032.stdout",
+      "stderr": "0032.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06062289600049553,
+      "user_cpu_s": 0.000945,
+      "system_cpu_s": 0.00567,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 4
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0033.stdout",
+      "stderr": "0033.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03698265900129627,
+      "user_cpu_s": 0.005839,
+      "system_cpu_s": 0.026966,
+      "max_rss_KiB": 17496,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 38
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0034.stdout",
+      "stderr": "0034.stderr",
+      "exit_code": 0,
+      "wall_s": 0.02665369700116571,
+      "user_cpu_s": 0.005036,
+      "system_cpu_s": 0.015108,
+      "max_rss_KiB": 17500,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 18
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0035.stdout",
+      "stderr": "0035.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04704812300042249,
+      "user_cpu_s": 0.021851,
+      "system_cpu_s": 0.019865,
+      "max_rss_KiB": 17500,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 21
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0036.stdout",
+      "stderr": "0036.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03700078899964865,
+      "user_cpu_s": 0.005614999999999999,
+      "system_cpu_s": 0.027371,
+      "max_rss_KiB": 17792,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 35
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0037.stdout",
+      "stderr": "0037.stderr",
+      "exit_code": 0,
+      "wall_s": 0.02673475200026587,
+      "user_cpu_s": 0.004011,
+      "system_cpu_s": 0.016045999999999998,
+      "max_rss_KiB": 17796,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0038.stdout",
+      "stderr": "0038.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04714715999944019,
+      "user_cpu_s": 0.025448,
+      "system_cpu_s": 0.016638999999999998,
+      "max_rss_KiB": 17796,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 18
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0039.stdout",
+      "stderr": "0039.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0367739020002773,
+      "user_cpu_s": 0.0071589999999999996,
+      "system_cpu_s": 0.025903,
+      "max_rss_KiB": 17804,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 31
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0040.stdout",
+      "stderr": "0040.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026593327000227873,
+      "user_cpu_s": 0.007089,
+      "system_cpu_s": 0.013165999999999999,
+      "max_rss_KiB": 17804,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 12
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0041.stdout",
+      "stderr": "0041.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04698923499927332,
+      "user_cpu_s": 0.021921,
+      "system_cpu_s": 0.019929,
+      "max_rss_KiB": 17808,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 14
+    },
+    {
+      "started_utc": "2026-11-08T14:20:18Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd",
+        "--single-thread",
+        "-b9",
+        "-i1",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/corpus/source.tar"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0042.stdout",
+      "stderr": "0042.stderr",
+      "exit_code": 0,
+      "wall_s": 2.821734197999831,
+      "user_cpu_s": 2.741244,
+      "system_cpu_s": 0.030979999999999997,
+      "max_rss_KiB": 39348,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 45
+    },
+    {
+      "started_utc": "2026-11-08T14:20:21Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0043.stdout",
+      "stderr": "0043.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06177301800016721,
+      "user_cpu_s": 0.01235,
+      "system_cpu_s": 0.033067,
+      "max_rss_KiB": 17820,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 42
+    },
+    {
+      "started_utc": "2026-11-08T14:20:21Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0044.stdout",
+      "stderr": "0044.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04285454299861158,
+      "user_cpu_s": 0.012015,
+      "system_cpu_s": 0.016384,
+      "max_rss_KiB": 17820,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 9
+    },
+    {
+      "started_utc": "2026-11-08T14:20:21Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0045.stdout",
+      "stderr": "0045.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06129583599977195,
+      "user_cpu_s": 0.024038999999999998,
+      "system_cpu_s": 0.031049999999999998,
+      "max_rss_KiB": 17824,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 18
+    },
+    {
+      "started_utc": "2026-11-08T14:20:21Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0046.stdout",
+      "stderr": "0046.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06045761899986246,
+      "user_cpu_s": 0.012494,
+      "system_cpu_s": 0.032853,
+      "max_rss_KiB": 17824,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 30
+    },
+    {
+      "started_utc": "2026-11-08T14:20:21Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0047.stdout",
+      "stderr": "0047.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03946764100146538,
+      "user_cpu_s": 0.011545999999999999,
+      "system_cpu_s": 0.01732,
+      "max_rss_KiB": 17828,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 6
+    },
+    {
+      "started_utc": "2026-11-08T14:20:22Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0048.stdout",
+      "stderr": "0048.stderr",
+      "exit_code": 0,
+      "wall_s": 0.06026258299971232,
+      "user_cpu_s": 0.028724999999999997,
+      "system_cpu_s": 0.026673,
+      "max_rss_KiB": 17828,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 5
+    },
+    {
+      "started_utc": "2026-11-08T14:20:22Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0049.stdout",
+      "stderr": "0049.stderr",
+      "exit_code": 0,
+      "wall_s": 0.049556179001228884,
+      "user_cpu_s": 0.007826,
+      "system_cpu_s": 0.030763,
+      "max_rss_KiB": 17828,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 30
+    },
+    {
+      "started_utc": "2026-11-08T14:20:22Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0050.stdout",
+      "stderr": "0050.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026515586001551128,
+      "user_cpu_s": 0.008316,
+      "system_cpu_s": 0.011434,
+      "max_rss_KiB": 17828,
+      "voluntary_context_switches": 4,
+      "involuntary_context_switches": 4
+    },
+    {
+      "started_utc": "2026-11-08T14:20:22Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0051.stdout",
+      "stderr": "0051.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04689288299960026,
+      "user_cpu_s": 0.020734,
+      "system_cpu_s": 0.021721999999999998,
+      "max_rss_KiB": 17828,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 13
+    },
+    {
+      "started_utc": "2026-11-08T14:20:22Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd",
+        "--single-thread",
+        "-b9",
+        "-i1",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/corpus/source.tar"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0052.stdout",
+      "stderr": "0052.stderr",
+      "exit_code": 0,
+      "wall_s": 2.8133434990013484,
+      "user_cpu_s": 2.736809,
+      "system_cpu_s": 0.038997,
+      "max_rss_KiB": 39220,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 43
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0053.stdout",
+      "stderr": "0053.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03686995699899853,
+      "user_cpu_s": 0.004737,
+      "system_cpu_s": 0.028245,
+      "max_rss_KiB": 17836,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 38
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0054.stdout",
+      "stderr": "0054.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026908936000836547,
+      "user_cpu_s": 0.007401,
+      "system_cpu_s": 0.012688,
+      "max_rss_KiB": 17840,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 18
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0055.stdout",
+      "stderr": "0055.stderr",
+      "exit_code": 0,
+      "wall_s": 0.047089845000300556,
+      "user_cpu_s": 0.020669999999999997,
+      "system_cpu_s": 0.022639,
+      "max_rss_KiB": 17844,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 19
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0056.stdout",
+      "stderr": "0056.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03683690099933301,
+      "user_cpu_s": 0.00831,
+      "system_cpu_s": 0.024397,
+      "max_rss_KiB": 17844,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 33
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0057.stdout",
+      "stderr": "0057.stderr",
+      "exit_code": 0,
+      "wall_s": 0.02684930600116786,
+      "user_cpu_s": 0.008617,
+      "system_cpu_s": 0.011848,
+      "max_rss_KiB": 17844,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 7
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0058.stdout",
+      "stderr": "0058.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04682573600075557,
+      "user_cpu_s": 0.020699,
+      "system_cpu_s": 0.021685,
+      "max_rss_KiB": 17844,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 16
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0059.stdout",
+      "stderr": "0059.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04703477200018824,
+      "user_cpu_s": 0.006091999999999999,
+      "system_cpu_s": 0.027632999999999998,
+      "max_rss_KiB": 17844,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 31
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0060.stdout",
+      "stderr": "0060.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026521087000219268,
+      "user_cpu_s": 0.005696,
+      "system_cpu_s": 0.014241,
+      "max_rss_KiB": 17844,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 18
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0061.stdout",
+      "stderr": "0061.stderr",
+      "exit_code": 0,
+      "wall_s": 0.05706429200108687,
+      "user_cpu_s": 0.022192,
+      "system_cpu_s": 0.022192,
+      "max_rss_KiB": 17848,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 15
+    },
+    {
+      "started_utc": "2026-11-08T14:20:25Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd",
+        "--single-thread",
+        "-b9",
+        "-i1",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/corpus/source.tar"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0062.stdout",
+      "stderr": "0062.stderr",
+      "exit_code": 0,
+      "wall_s": 2.8261652029996185,
+      "user_cpu_s": 2.751178,
+      "system_cpu_s": 0.032978,
+      "max_rss_KiB": 39432,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 46
+    },
+    {
+      "started_utc": "2026-11-08T14:20:28Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0063.stdout",
+      "stderr": "0063.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03692402999877231,
+      "user_cpu_s": 0.010074,
+      "system_cpu_s": 0.022636,
+      "max_rss_KiB": 17848,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 40
+    },
+    {
+      "started_utc": "2026-11-08T14:20:28Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0064.stdout",
+      "stderr": "0064.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026854380999793648,
+      "user_cpu_s": 0.007490999999999999,
+      "system_cpu_s": 0.012842,
+      "max_rss_KiB": 17848,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 7
+    },
+    {
+      "started_utc": "2026-11-08T14:20:28Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0065.stdout",
+      "stderr": "0065.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04704412300088734,
+      "user_cpu_s": 0.018276999999999998,
+      "system_cpu_s": 0.024369,
+      "max_rss_KiB": 17856,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 14
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0066.stdout",
+      "stderr": "0066.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04700317999959225,
+      "user_cpu_s": 0.007130999999999999,
+      "system_cpu_s": 0.026403,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 38
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0067.stdout",
+      "stderr": "0067.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026729066999905626,
+      "user_cpu_s": 0.007638,
+      "system_cpu_s": 0.012412999999999999,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 19
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0068.stdout",
+      "stderr": "0068.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04704692000086652,
+      "user_cpu_s": 0.020984,
+      "system_cpu_s": 0.021983,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 22
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0069.stdout",
+      "stderr": "0069.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0470682899995154,
+      "user_cpu_s": 0.006699999999999999,
+      "system_cpu_s": 0.026927999999999997,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 40
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0070.stdout",
+      "stderr": "0070.stderr",
+      "exit_code": 0,
+      "wall_s": 0.02679212099974393,
+      "user_cpu_s": 0.005789,
+      "system_cpu_s": 0.014473,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0071.stdout",
+      "stderr": "0071.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04693688400038809,
+      "user_cpu_s": 0.016781,
+      "system_cpu_s": 0.025665999999999998,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 25
+    },
+    {
+      "started_utc": "2026-11-08T14:20:29Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/bin/zstd",
+        "--single-thread",
+        "-b9",
+        "-i1",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/corpus/stock-libzstd.elf"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0072.stdout",
+      "stderr": "0072.stderr",
+      "exit_code": 0,
+      "wall_s": 3.0611025630005315,
+      "user_cpu_s": 3.035553,
+      "system_cpu_s": 0.016985999999999998,
+      "max_rss_KiB": 17860,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 48
+    },
+    {
+      "started_utc": "2026-11-08T14:20:32Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0073.stdout",
+      "stderr": "0073.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03783865300101752,
+      "user_cpu_s": 0.008312,
+      "system_cpu_s": 0.024777999999999998,
+      "max_rss_KiB": 17868,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 31
+    },
+    {
+      "started_utc": "2026-11-08T14:20:32Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0074.stdout",
+      "stderr": "0074.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026679512000555405,
+      "user_cpu_s": 0.007712999999999999,
+      "system_cpu_s": 0.012534,
+      "max_rss_KiB": 17868,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 22
+    },
+    {
+      "started_utc": "2026-11-08T14:20:32Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0075.stdout",
+      "stderr": "0075.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04707084600158851,
+      "user_cpu_s": 0.017993,
+      "system_cpu_s": 0.023991,
+      "max_rss_KiB": 17868,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 20
+    },
+    {
+      "started_utc": "2026-11-08T14:20:32Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0076.stdout",
+      "stderr": "0076.stderr",
+      "exit_code": 0,
+      "wall_s": 0.03703986699838424,
+      "user_cpu_s": 0.008558999999999999,
+      "system_cpu_s": 0.024655,
+      "max_rss_KiB": 17872,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 29
+    },
+    {
+      "started_utc": "2026-11-08T14:20:32Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0077.stdout",
+      "stderr": "0077.stderr",
+      "exit_code": 0,
+      "wall_s": 0.02678329499940446,
+      "user_cpu_s": 0.006038,
+      "system_cpu_s": 0.01409,
+      "max_rss_KiB": 17872,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 12
+    },
+    {
+      "started_utc": "2026-11-08T14:20:32Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0078.stdout",
+      "stderr": "0078.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04687198499959777,
+      "user_cpu_s": 0.021769999999999998,
+      "system_cpu_s": 0.020780999999999997,
+      "max_rss_KiB": 17876,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:33Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0079.stdout",
+      "stderr": "0079.stderr",
+      "exit_code": 0,
+      "wall_s": 0.036765184999239864,
+      "user_cpu_s": 0.007756,
+      "system_cpu_s": 0.025109,
+      "max_rss_KiB": 17876,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 33
+    },
+    {
+      "started_utc": "2026-11-08T14:20:33Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0080.stdout",
+      "stderr": "0080.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0266211319994909,
+      "user_cpu_s": 0.005783,
+      "system_cpu_s": 0.014459,
+      "max_rss_KiB": 17876,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 13
+    },
+    {
+      "started_utc": "2026-11-08T14:20:33Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0081.stdout",
+      "stderr": "0081.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0468771440009732,
+      "user_cpu_s": 0.020662,
+      "system_cpu_s": 0.020662,
+      "max_rss_KiB": 17876,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:33Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/bin/zstd",
+        "--single-thread",
+        "-b9",
+        "-i1",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/corpus/stock-libzstd.elf"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0082.stdout",
+      "stderr": "0082.stderr",
+      "exit_code": 0,
+      "wall_s": 3.1077421879999747,
+      "user_cpu_s": 3.039274,
+      "system_cpu_s": 0.016989999999999998,
+      "max_rss_KiB": 17876,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 45
+    },
+    {
+      "started_utc": "2026-11-08T14:20:36Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0083.stdout",
+      "stderr": "0083.stderr",
+      "exit_code": 0,
+      "wall_s": 0.037049459999252576,
+      "user_cpu_s": 0.010149,
+      "system_cpu_s": 0.022572,
+      "max_rss_KiB": 17880,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 45
+    },
+    {
+      "started_utc": "2026-11-08T14:20:36Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0084.stdout",
+      "stderr": "0084.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026687315999879502,
+      "user_cpu_s": 0.004853,
+      "system_cpu_s": 0.015529999999999999,
+      "max_rss_KiB": 17880,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 17
+    },
+    {
+      "started_utc": "2026-11-08T14:20:36Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0085.stdout",
+      "stderr": "0085.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04706588199951511,
+      "user_cpu_s": 0.019818,
+      "system_cpu_s": 0.022791,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 21
+    },
+    {
+      "started_utc": "2026-11-08T14:20:37Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0086.stdout",
+      "stderr": "0086.stderr",
+      "exit_code": 0,
+      "wall_s": 0.039062612000634545,
+      "user_cpu_s": 0.008321,
+      "system_cpu_s": 0.025238,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 33
+    },
+    {
+      "started_utc": "2026-11-08T14:20:37Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0087.stdout",
+      "stderr": "0087.stderr",
+      "exit_code": 0,
+      "wall_s": 0.02668346399877919,
+      "user_cpu_s": 0.003903,
+      "system_cpu_s": 0.016588,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 18
+    },
+    {
+      "started_utc": "2026-11-08T14:20:37Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0088.stdout",
+      "stderr": "0088.stderr",
+      "exit_code": 0,
+      "wall_s": 0.0469737890016404,
+      "user_cpu_s": 0.018581,
+      "system_cpu_s": 0.024447999999999998,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 20
+    },
+    {
+      "started_utc": "2026-11-08T14:20:37Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0089.stdout",
+      "stderr": "0089.stderr",
+      "exit_code": 0,
+      "wall_s": 0.036956257001293125,
+      "user_cpu_s": 0.006016,
+      "system_cpu_s": 0.026802,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 15,
+      "involuntary_context_switches": 38
+    },
+    {
+      "started_utc": "2026-11-08T14:20:37Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0090.stdout",
+      "stderr": "0090.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026700037999034976,
+      "user_cpu_s": 0.008379,
+      "system_cpu_s": 0.011521,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 20
+    },
+    {
+      "started_utc": "2026-11-08T14:20:37Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0091.stdout",
+      "stderr": "0091.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04707080799926189,
+      "user_cpu_s": 0.017728,
+      "system_cpu_s": 0.024621999999999998,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 16
+    },
+    {
+      "started_utc": "2026-11-08T14:20:38Z",
+      "argv": [
+        "/lib/ld-linux-aarch64.so.1",
+        "--library-path",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/bin/zstd",
+        "--single-thread",
+        "-b9",
+        "-i1",
+        "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/corpus/stock-libzstd.elf"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0092.stdout",
+      "stderr": "0092.stderr",
+      "exit_code": 0,
+      "wall_s": 3.064880923999226,
+      "user_cpu_s": 3.039514,
+      "system_cpu_s": 0.014992,
+      "max_rss_KiB": 17884,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 45
+    },
+    {
+      "started_utc": "2026-11-08T14:20:41Z",
+      "argv": [
+        "/usr/bin/omarchy-shell",
+        "lock",
+        "isLocked"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0093.stdout",
+      "stderr": "0093.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04707941599917831,
+      "user_cpu_s": 0.004974999999999999,
+      "system_cpu_s": 0.029422,
+      "max_rss_KiB": 17888,
+      "voluntary_context_switches": 16,
+      "involuntary_context_switches": 40
+    },
+    {
+      "started_utc": "2026-11-08T14:20:41Z",
+      "argv": [
+        "/usr/bin/hyprctl",
+        "monitors",
+        "-j"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0094.stdout",
+      "stderr": "0094.stderr",
+      "exit_code": 0,
+      "wall_s": 0.026541054001427256,
+      "user_cpu_s": 0.012185999999999999,
+      "system_cpu_s": 0.007755,
+      "max_rss_KiB": 17892,
+      "voluntary_context_switches": 3,
+      "involuntary_context_switches": 12
+    },
+    {
+      "started_utc": "2026-11-08T14:20:41Z",
+      "argv": [
+        "/usr/bin/pacman",
+        "-Q",
+        "zstd",
+        "glibc",
+        "zlib",
+        "xz",
+        "lz4"
+      ],
+      "environment": {
+        "PATH": "/usr/bin:/bin",
+        "LC_ALL": "C",
+        "HOME": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "TMPDIR": "$EXPERIMENT/zstd-transfer-2/zstd-package-benchmark-1/tmp",
+        "XDG_RUNTIME_DIR": "/run/user/1000",
+        "HYPRLAND_INSTANCE_SIGNATURE": "[redacted machine identifier]",
+        "WAYLAND_DISPLAY": "wayland-1",
+        "DBUS_SESSION_BUS_ADDRESS": "[redacted machine identifier]",
+        "OMARCHY_PATH": "/usr/share/omarchy"
+      },
+      "expected_exit": 0,
+      "stdout": "0095.stdout",
+      "stderr": "0095.stderr",
+      "exit_code": 0,
+      "wall_s": 0.04697839799882786,
+      "user_cpu_s": 0.024194,
+      "system_cpu_s": 0.018146,
+      "max_rss_KiB": 17892,
+      "voluntary_context_switches": 1,
+      "involuntary_context_switches": 18
+    }
+  ],
+  "firmware_actual_clocks": null,
+  "firmware_throttle_history": null,
+  "energy": null,
+  "unknown_detail": "firmware clocks/throttle/energy not measured",
+  "stock_comparison": "context only; differing unknown build history",
+  "pair_comparison": "matched full-package O2/O3",
+  "affinity_cpu": 2,
+  "wall_scope": "child lifecycle, includes loader/startup/I/O; sampled wait overhead <=0.1s",
+  "conditions": "native 4GB Pi; locked desktop; fixed display geometry/cooling/supply; no competing measurement; schedutil; warm page cache; encrypted USB SSD",
+  "board_model": "Raspberry Pi 4 Model B Rev 1.5",
+  "revision": "00c03115",
+  "providers": {
+    "stock/zstd": {
+      "libzstd.so.1": {
+        "path": "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib/libzstd.so.1.5.7",
+        "sha256": "14d907be630eb1670d14fc104a0982cca01feac5bc75f1846e54f6278c5ee2e2"
+      },
+      "libz.so.1": {
+        "path": "/usr/lib/libz.so.1.3.2",
+        "sha256": "44ec6811169255a0f2fec6295617ce3d22333470189403acbd55f0933c1cfdee"
+      },
+      "liblzma.so.5": {
+        "path": "/usr/lib/liblzma.so.5.8.4",
+        "sha256": "ee0801ca9ca614d92f21cd04bc14c31e0624d34c2409362b68971f3e9514b860"
+      },
+      "liblz4.so.1": {
+        "path": "/usr/lib/liblz4.so.1.11.0",
+        "sha256": "297b8c132a9cae814175451013bbd63470e66ac679b688090d40b5d945549909"
+      },
+      "libc.so.6": {
+        "path": "/usr/lib/libc.so.6",
+        "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+      }
+    },
+    "stock/pzstd": {
+      "libzstd.so.1": {
+        "path": "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/stock/root/usr/lib/libzstd.so.1.5.7",
+        "sha256": "14d907be630eb1670d14fc104a0982cca01feac5bc75f1846e54f6278c5ee2e2"
+      },
+      "libstdc++.so.6": {
+        "path": "/usr/lib/libstdc++.so.6.0.35",
+        "sha256": "abdf011833740a6f0ca1654876f18d9a5911a9ad08806a38d015e60e3e516ab8"
+      },
+      "libgcc_s.so.1": {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "ac598673a4bf67c0295b6609e46b1fafd0d4adf3f80a513d61ac49ecff772e48"
+      },
+      "libc.so.6": {
+        "path": "/usr/lib/libc.so.6",
+        "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+      },
+      "libm.so.6": {
+        "path": "/usr/lib/libm.so.6",
+        "sha256": "71ed8de709c40acd4fd0177258fc71251a5acdb1d075122409ad42529d6c7a4e"
+      }
+    },
+    "O2/zstd": {
+      "libzstd.so.1": {
+        "path": "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib/libzstd.so.1.5.7",
+        "sha256": "3e910d386077f19622dd2041f8753bacb6a9f479e93c83920de89c771e10f19a"
+      },
+      "libz.so.1": {
+        "path": "/usr/lib/libz.so.1.3.2",
+        "sha256": "44ec6811169255a0f2fec6295617ce3d22333470189403acbd55f0933c1cfdee"
+      },
+      "liblzma.so.5": {
+        "path": "/usr/lib/liblzma.so.5.8.4",
+        "sha256": "ee0801ca9ca614d92f21cd04bc14c31e0624d34c2409362b68971f3e9514b860"
+      },
+      "liblz4.so.1": {
+        "path": "/usr/lib/liblz4.so.1.11.0",
+        "sha256": "297b8c132a9cae814175451013bbd63470e66ac679b688090d40b5d945549909"
+      },
+      "libc.so.6": {
+        "path": "/usr/lib/libc.so.6",
+        "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+      }
+    },
+    "O2/pzstd": {
+      "libzstd.so.1": {
+        "path": "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O2/root/usr/lib/libzstd.so.1.5.7",
+        "sha256": "3e910d386077f19622dd2041f8753bacb6a9f479e93c83920de89c771e10f19a"
+      },
+      "libstdc++.so.6": {
+        "path": "/usr/lib/libstdc++.so.6.0.35",
+        "sha256": "abdf011833740a6f0ca1654876f18d9a5911a9ad08806a38d015e60e3e516ab8"
+      },
+      "libgcc_s.so.1": {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "ac598673a4bf67c0295b6609e46b1fafd0d4adf3f80a513d61ac49ecff772e48"
+      },
+      "libc.so.6": {
+        "path": "/usr/lib/libc.so.6",
+        "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+      },
+      "libm.so.6": {
+        "path": "/usr/lib/libm.so.6",
+        "sha256": "71ed8de709c40acd4fd0177258fc71251a5acdb1d075122409ad42529d6c7a4e"
+      }
+    },
+    "O3/zstd": {
+      "libzstd.so.1": {
+        "path": "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib/libzstd.so.1.5.7",
+        "sha256": "4fae350fcff23f30d229cf200c37bc78efb6aca8e730019775723753b50e90ea"
+      },
+      "libz.so.1": {
+        "path": "/usr/lib/libz.so.1.3.2",
+        "sha256": "44ec6811169255a0f2fec6295617ce3d22333470189403acbd55f0933c1cfdee"
+      },
+      "liblzma.so.5": {
+        "path": "/usr/lib/liblzma.so.5.8.4",
+        "sha256": "ee0801ca9ca614d92f21cd04bc14c31e0624d34c2409362b68971f3e9514b860"
+      },
+      "liblz4.so.1": {
+        "path": "/usr/lib/liblz4.so.1.11.0",
+        "sha256": "297b8c132a9cae814175451013bbd63470e66ac679b688090d40b5d945549909"
+      },
+      "libc.so.6": {
+        "path": "/usr/lib/libc.so.6",
+        "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+      }
+    },
+    "O3/pzstd": {
+      "libzstd.so.1": {
+        "path": "$EXPERIMENT/zstd-transfer-2/zstd-package-bundle/O3/root/usr/lib/libzstd.so.1.5.7",
+        "sha256": "4fae350fcff23f30d229cf200c37bc78efb6aca8e730019775723753b50e90ea"
+      },
+      "libstdc++.so.6": {
+        "path": "/usr/lib/libstdc++.so.6.0.35",
+        "sha256": "abdf011833740a6f0ca1654876f18d9a5911a9ad08806a38d015e60e3e516ab8"
+      },
+      "libgcc_s.so.1": {
+        "path": "/usr/lib/libgcc_s.so.1",
+        "sha256": "ac598673a4bf67c0295b6609e46b1fafd0d4adf3f80a513d61ac49ecff772e48"
+      },
+      "libc.so.6": {
+        "path": "/usr/lib/libc.so.6",
+        "sha256": "6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab"
+      },
+      "libm.so.6": {
+        "path": "/usr/lib/libm.so.6",
+        "sha256": "71ed8de709c40acd4fd0177258fc71251a5acdb1d075122409ad42529d6c7a4e"
+      }
+    }
+  },
+  "loader": {
+    "path": "/usr/lib/ld-linux-aarch64.so.1",
+    "sha256": "b1f2738bdb51e6419d7062f96c8a44bd68853698dc5ac624fa6ca9f9b03d456d"
+  },
+  "context": {
+    "policies": {
+      "/sys/devices/system/cpu/cpufreq/policy0": {
+        "scaling_governor": "schedutil",
+        "scaling_min_freq": "600000",
+        "scaling_max_freq": "1800000",
+        "scaling_driver": "cpufreq-dt"
+      }
+    },
+    "kernel": "7.3.0-32.1-omarchy",
+    "boot_id": "[redacted machine identifier]",
+    "online_cpus": "0-3",
+    "locked": "true",
+    "outputs": [
+      {
+        "name": "HDMI-A-1",
+        "width": 1024,
+        "height": 768,
+        "refreshRate": 60.004,
+        "scale": 2,
+        "dpmsStatus": false
+      }
+    ],
+    "packages": "zstd 1.5.7-3\nglibc 2.43+r22+g8362e8ce10b2-2\nzlib 1:1.3.2-4\nxz 5.8.4-1\nlz4 1:1.11.0-1\n"
+  },
+  "gate_sha256": "2134f89f03319e8f75bca713e2e8c59d49379fc0161726e58ebe9584882a8fb9",
+  "trials": [
+    {
+      "variant": "stock",
+      "corpus": "source.tar",
+      "level": 9,
+      "phase": "calibration",
+      "block": -1,
+      "command": 42,
+      "compression_MB_s": 16.2,
+      "decode_MB_s": 404.3,
+      "input_bytes": 8919040,
+      "compressed_bytes": 2020265,
+      "scope": "zstd internal in-memory operation timing; MB=1000000 bytes"
+    },
+    {
+      "variant": "O2",
+      "corpus": "source.tar",
+      "level": 9,
+      "phase": "calibration",
+      "block": -1,
+      "command": 52,
+      "compression_MB_s": 16.4,
+      "decode_MB_s": 398.0,
+      "input_bytes": 8919040,
+      "compressed_bytes": 2020265,
+      "scope": "zstd internal in-memory operation timing; MB=1000000 bytes"
+    },
+    {
+      "variant": "O3",
+      "corpus": "source.tar",
+      "level": 9,
+      "phase": "calibration",
+      "block": -1,
+      "command": 62,
+      "compression_MB_s": 16.1,
+      "decode_MB_s": 426.1,
+      "input_bytes": 8919040,
+      "compressed_bytes": 2020265,
+      "scope": "zstd internal in-memory operation timing; MB=1000000 bytes"
+    },
+    {
+      "variant": "stock",
+      "corpus": "stock-libzstd.elf",
+      "level": 9,
+      "phase": "calibration",
+      "block": -1,
+      "command": 72,
+      "compression_MB_s": 14.2,
+      "decode_MB_s": 343.3,
+      "input_bytes": 854104,
+      "compressed_bytes": 354926,
+      "scope": "zstd internal in-memory operation timing; MB=1000000 bytes"
+    },
+    {
+      "variant": "O2",
+      "corpus": "stock-libzstd.elf",
+      "level": 9,
+      "phase": "calibration",
+      "block": -1,
+      "command": 82,
+      "compression_MB_s": 14.6,
+      "decode_MB_s": 347.2,
+      "input_bytes": 854104,
+      "compressed_bytes": 354926,
+      "scope": "zstd internal in-memory operation timing; MB=1000000 bytes"
+    },
+    {
+      "variant": "O3",
+      "corpus": "stock-libzstd.elf",
+      "level": 9,
+      "phase": "calibration",
+      "block": -1,
+      "command": 92,
+      "compression_MB_s": 14.1,
+      "decode_MB_s": 368.3,
+      "input_bytes": 854104,
+      "compressed_bytes": 354926,
+      "scope": "zstd internal in-memory operation timing; MB=1000000 bytes"
+    }
+  ],
+  "calibration": {
+    "measured_trial_seconds": [
+      3.60394099900077,
+      3.5976789519991144,
+      3.5365689290010778,
+      3.779872394999984,
+      4.315080501999546,
+      4.291572713000278
+    ],
+    "conservative_remaining_seconds": 535.9329983483435,
+    "remaining_budget_s": 273.8813847199999,
+    "caveat": "level9 cost is a projection, cooling and scheduler delays can exhaust deadline"
+  },
+  "reason": "RuntimeError: calibration rejects five-minute budget; retain, redesign explicitly",
+  "ended_utc": "2026-11-08T14:20:41Z"
+}

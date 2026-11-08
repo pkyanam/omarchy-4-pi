@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "mode": "gate",
+  "status": "rejected",
+  "started_utc": "2026-11-08T14:18:21Z",
+  "runner_sha256": "d35d0f249c0017ca3792c961c10224e297ab77d8fd6f6dcd848b880c78d0bb1a",
+  "manifest_sha256": "005287346f79e751ffc179a178211fd515a5e5a8969eea027c7b83dc870809a2",
+  "commands": [],
+  "firmware_actual_clocks": null,
+  "firmware_throttle_history": null,
+  "energy": null,
+  "unknown_detail": "firmware clocks/throttle/energy not measured",
+  "stock_comparison": "context only; differing unknown build history",
+  "pair_comparison": "matched full-package O2/O3",
+  "affinity_cpu": 2,
+  "wall_scope": "child lifecycle, includes loader/startup/I/O; sampled wait overhead <=0.1s",
+  "conditions": "native 4GB Pi; locked desktop; fixed display geometry/cooling/supply; no competing measurement; schedutil; warm page cache; encrypted USB SSD",
+  "board_model": "Raspberry Pi 4 Model B Rev 1.5",
+  "revision": "00c03115",
+  "reason": "RuntimeError: bundle inventory mismatch",
+  "ended_utc": "2026-11-08T14:18:22Z"
+}

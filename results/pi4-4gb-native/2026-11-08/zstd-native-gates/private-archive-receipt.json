@@ -1,0 +1,12 @@
+{
+  "archive": "build/upstream-pi/stable-4.5/optimization/zstd-native-evidence-through-v2.tar.gz",
+  "bytes": 21262706,
+  "sha256": "94fb6d2261689094871f7dff44d6e450a4e657db5def6d85f140df2115562a02",
+  "full_raw_evidence_preserved": true,
+  "sanitized_fields": [
+    "boot_id",
+    "HYPRLAND_INSTANCE_SIGNATURE",
+    "DBUS_SESSION_BUS_ADDRESS",
+    "experiment absolute path"
+  ]
+}

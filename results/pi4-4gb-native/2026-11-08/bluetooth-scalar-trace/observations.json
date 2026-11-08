@@ -1,0 +1,236 @@
+{
+  "cohort": "pi4-4gb-native",
+  "kernel": "7.3.0-32.1-omarchy",
+  "running_config_sha256": "3b12d3dd8d8b0b24ab95ef96bb1b3388d2440a5bda069ecd74f3c7984a2fd51d",
+  "helper_sha256": "081de23982d893a200e0725de55a283631ae165ee87c0beb34206f7ed5db5b4a",
+  "result": {
+    "failure": null,
+    "cleanup_errors": [],
+    "rebind_attempted": true,
+    "physical_evidence": false,
+    "unresolved_worker_pid": null
+  },
+  "before_after_shared_state_equal": true,
+  "taint_before": "0",
+  "taint_after": "0",
+  "capture": {
+    "truncated": false
+  },
+  "events": [
+    {
+      "cpu": 0,
+      "event": "power",
+      "values": {
+        "powered": 0
+      },
+      "relative_s": 0.0
+    },
+    {
+      "cpu": 1,
+      "event": "power_return",
+      "values": {
+        "result": 0
+      },
+      "relative_s": 0.113611
+    },
+    {
+      "cpu": 2,
+      "event": "power",
+      "values": {
+        "powered": 0
+      },
+      "relative_s": 0.210655
+    },
+    {
+      "cpu": 2,
+      "event": "power_return",
+      "values": {
+        "result": 0
+      },
+      "relative_s": 0.328036
+    },
+    {
+      "cpu": 2,
+      "event": "flow",
+      "values": {
+        "enabled": 0
+      },
+      "relative_s": 0.328179
+    },
+    {
+      "cpu": 2,
+      "event": "tiocm",
+      "values": {
+        "set": 0,
+        "clear": 4
+      },
+      "relative_s": 0.328187
+    },
+    {
+      "cpu": 2,
+      "event": "tiocm_return",
+      "values": {
+        "result": 0
+      },
+      "relative_s": 0.32819
+    },
+    {
+      "cpu": 2,
+      "event": "power",
+      "values": {
+        "powered": 1
+      },
+      "relative_s": 0.328193
+    },
+    {
+      "cpu": 1,
+      "event": "power_return",
+      "values": {
+        "result": 0
+      },
+      "relative_s": 0.448783
+    },
+    {
+      "cpu": 1,
+      "event": "flow",
+      "values": {
+        "enabled": 1
+      },
+      "relative_s": 0.448794
+    },
+    {
+      "cpu": 1,
+      "event": "tiocm",
+      "values": {
+        "set": 4,
+        "clear": 0
+      },
+      "relative_s": 0.448812
+    },
+    {
+      "cpu": 1,
+      "event": "tiocm_return",
+      "values": {
+        "result": 0
+      },
+      "relative_s": 0.448815
+    },
+    {
+      "cpu": 2,
+      "event": "baud",
+      "values": {
+        "requested": 115200
+      },
+      "relative_s": 0.449885
+    },
+    {
+      "cpu": 2,
+      "event": "baud_return",
+      "values": {
+        "reported": 115200
+      },
+      "relative_s": 0.449903
+    },
+    {
+      "cpu": 3,
+      "event": "write",
+      "values": {
+        "requested": 10
+      },
+      "relative_s": 0.450397
+    },
+    {
+      "cpu": 3,
+      "event": "written",
+      "values": {
+        "accepted": 10
+      },
+      "relative_s": 0.450418
+    },
+    {
+      "cpu": 3,
+      "event": "write",
+      "values": {
+        "requested": 4
+      },
+      "relative_s": 2.497846
+    },
+    {
+      "cpu": 3,
+      "event": "written",
+      "values": {
+        "accepted": 4
+      },
+      "relative_s": 2.497855
+    }
+  ],
+  "kprobe_profile": [
+    {
+      "event": "write",
+      "hits": 2,
+      "missed": 0
+    },
+    {
+      "event": "written",
+      "hits": 2,
+      "missed": 0
+    },
+    {
+      "event": "baud",
+      "hits": 1,
+      "missed": 0
+    },
+    {
+      "event": "baud_return",
+      "hits": 1,
+      "missed": 0
+    },
+    {
+      "event": "flow",
+      "hits": 2,
+      "missed": 0
+    },
+    {
+      "event": "tiocm",
+      "hits": 2,
+      "missed": 0
+    },
+    {
+      "event": "tiocm_return",
+      "hits": 2,
+      "missed": 0
+    },
+    {
+      "event": "power",
+      "hits": 3,
+      "missed": 0
+    },
+    {
+      "event": "power_return",
+      "hits": 3,
+      "missed": 0
+    },
+    {
+      "event": "rx",
+      "hits": 0,
+      "missed": 0
+    },
+    {
+      "event": "bcm_rx",
+      "hits": 0,
+      "missed": 0
+    }
+  ],
+  "cpu_stats": {
+    "cpu1-stats.txt": "entries: 5\noverrun: 0\ncommit overrun: 0\nbytes: 156\noldest event ts:  4130.447049\nnow ts:  4142.283840\ndropped events: 0\nread events: 0\n",
+    "cpu0-stats.txt": "entries: 1\noverrun: 0\ncommit overrun: 0\nbytes: 24\noldest event ts:  4130.333438\nnow ts:  4142.283387\ndropped events: 0\nread events: 0\n",
+    "cpu3-stats.txt": "entries: 4\noverrun: 0\ncommit overrun: 0\nbytes: 136\noldest event ts:  4130.783835\nnow ts:  4142.284693\ndropped events: 0\nread events: 0\n",
+    "cpu2-stats.txt": "entries: 8\noverrun: 0\ncommit overrun: 0\nbytes: 220\noldest event ts:  4130.544093\nnow ts:  4142.284294\ndropped events: 0\nread events: 0\n"
+  },
+  "limits": [
+    "TTY acceptance is not TX FIFO or pin transmission.",
+    "Reported termios rate is not measured baud.",
+    "Power/flow calls are not electrical signal measurements.",
+    "No incoming selected callback is not a physical RX/error-counter measurement."
+  ]
+}

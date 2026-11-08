@@ -1,0 +1,28 @@
+; PROPOSED ONLY. Owner supplies one existing, fully allocated, incompressible
+; 256 MiB regular file on encrypted Btrfs. Never point at a block device.
+; Invoke each section separately; no preparation writes are performed here:
+; fio --readonly --filename=/absolute/path/to/fixture.bin --section=small-read tools/pi-experiments/low-level-storage-read.fio --output-format=json --output=small-read.json
+; Repeat with --section=stream-read and a different output file.
+[global]
+ioengine=psync
+direct=1
+allow_file_create=0
+size=256m
+numjobs=1
+iodepth=1
+time_based=1
+runtime=20
+ramp_time=0
+invalidate=0
+randrepeat=1
+randseed=20261108
+clat_percentiles=1
+percentile_list=50:95:99:99.9
+
+[small-read]
+rw=randread
+bs=4k
+
+[stream-read]
+rw=read
+bs=64k

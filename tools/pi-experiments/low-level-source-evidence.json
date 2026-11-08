@@ -1,0 +1,5215 @@
+{
+  "status": "source inspection only; no runtime experiment",
+  "archive": "build/upstream-pi/linux-7.3.tar.xz",
+  "archive_sha256_from_primary_audit": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
+  "recorded_upstream_commit": "c03c1a14507dfaf8b856c2608f9ac216021fc222",
+  "files": {
+    "crypto/aes.c": {
+      "sha256": "c74a9e8d49d74519cf419b2a8e3c1d32b83597f6e325e1511eec82acb1cae3f6",
+      "excerpts": [
+        {
+          "line": 232,
+          "text": " * memory isn't enabled.  This assumes that both scatterlists are non-NULL, i.e."
+        },
+        {
+          "line": 233,
+          "text": " * the caller must have handled the cryptlen == 0 case already."
+        },
+        {
+          "line": 234,
+          "text": " */"
+        },
+        {
+          "line": 235,
+          "text": "static inline bool"
+        },
+        {
+          "line": 236,
+          "text": "skcipher_request_is_linear_lowmem(const struct skcipher_request *req)"
+        },
+        {
+          "line": 237,
+          "text": "{"
+        },
+        {
+          "line": 238,
+          "text": "\treturn !IS_ENABLED(CONFIG_HIGHMEM) &&"
+        },
+        {
+          "line": 239,
+          "text": "\t       req->dst->length >= req->cryptlen &&"
+        },
+        {
+          "line": 240,
+          "text": "\t       req->src->length >= req->cryptlen;"
+        },
+        {
+          "line": 241,
+          "text": "}"
+        },
+        {
+          "line": 242,
+          "text": ""
+        },
+        {
+          "line": 243,
+          "text": "/*"
+        },
+        {
+          "line": 244,
+          "text": " * Call crypt_func() (a function that operates on simple virtual addresses) zero"
+        },
+        {
+          "line": 245,
+          "text": " * or more times to en/decrypt 'cryptlen' bytes of data from the source"
+        },
+        {
+          "line": 246,
+          "text": " * scatterlist 'src' and write it into the destination scatterlist 'dst',"
+        },
+        {
+          "line": 247,
+          "text": " * starting at 'start_pos' bytes into both."
+        },
+        {
+          "line": 248,
+          "text": " *"
+        },
+        {
+          "line": 249,
+          "text": " * This always calls crypt_func() with a length that's a multiple of"
+        },
+        {
+          "line": 250,
+          "text": " * AES_BLOCK_SIZE, except the last call which includes any remainder.  This is"
+        },
+        {
+          "line": 251,
+          "text": " * implemented by using an on-stack bounce buffer when necessary.  The current"
+        },
+        {
+          "line": 252,
+          "text": " * implementation also tries to prefer passing at least 4 blocks, so e.g."
+        },
+        {
+          "line": 457,
+          "text": "\t\tcrypto_skcipher_ctx(crypto_skcipher_reqtfm(req));"
+        },
+        {
+          "line": 458,
+          "text": ""
+        },
+        {
+          "line": 459,
+          "text": "\tif (unlikely(req->cryptlen < AES_BLOCK_SIZE))"
+        },
+        {
+          "line": 460,
+          "text": "\t\treturn -EINVAL;"
+        },
+        {
+          "line": 461,
+          "text": "\tif (likely(skcipher_request_is_linear_lowmem(req))) {"
+        },
+        {
+          "line": 462,
+          "text": "\t\t/* Fast path */"
+        },
+        {
+          "line": 463,
+          "text": "\t\taes_cbc_cts_encrypt(sg_virt(req->dst), sg_virt(req->src),"
+        },
+        {
+          "line": 464,
+          "text": "\t\t\t\t    req->cryptlen, req->iv, key);"
+        },
+        {
+          "line": 465,
+          "text": "\t\treturn 0;"
+        },
+        {
+          "line": 466,
+          "text": "\t}"
+        },
+        {
+          "line": 467,
+          "text": "\treturn crypto_aes_cbc_cts_crypt_nonlinear(req, /* enc= */ true);"
+        },
+        {
+          "line": 468,
+          "text": "}"
+        },
+        {
+          "line": 469,
+          "text": ""
+        },
+        {
+          "line": 470,
+          "text": "static __maybe_unused int"
+        },
+        {
+          "line": 471,
+          "text": "crypto_aes_cbc_cts_decrypt(struct skcipher_request *req)"
+        },
+        {
+          "line": 472,
+          "text": "{"
+        },
+        {
+          "line": 473,
+          "text": "\tconst struct aes_key *key ="
+        },
+        {
+          "line": 474,
+          "text": "\t\tcrypto_skcipher_ctx(crypto_skcipher_reqtfm(req));"
+        },
+        {
+          "line": 475,
+          "text": ""
+        },
+        {
+          "line": 476,
+          "text": "\tif (unlikely(req->cryptlen < AES_BLOCK_SIZE))"
+        },
+        {
+          "line": 477,
+          "text": "\t\treturn -EINVAL;"
+        },
+        {
+          "line": 478,
+          "text": "\tif (likely(skcipher_request_is_linear_lowmem(req))) {"
+        },
+        {
+          "line": 479,
+          "text": "\t\t/* Fast path */"
+        },
+        {
+          "line": 480,
+          "text": "\t\taes_cbc_cts_decrypt(sg_virt(req->dst), sg_virt(req->src),"
+        },
+        {
+          "line": 481,
+          "text": "\t\t\t\t    req->cryptlen, req->iv, key);"
+        },
+        {
+          "line": 482,
+          "text": "\t\treturn 0;"
+        },
+        {
+          "line": 483,
+          "text": "\t}"
+        },
+        {
+          "line": 484,
+          "text": "\treturn crypto_aes_cbc_cts_crypt_nonlinear(req, /* enc= */ false);"
+        },
+        {
+          "line": 485,
+          "text": "}"
+        },
+        {
+          "line": 486,
+          "text": ""
+        },
+        {
+          "line": 487,
+          "text": "/* AES-CTR */"
+        },
+        {
+          "line": 488,
+          "text": ""
+        },
+        {
+          "line": 489,
+          "text": "static __maybe_unused int crypto_aes_ctr_crypt(struct skcipher_request *req)"
+        },
+        {
+          "line": 490,
+          "text": "{"
+        },
+        {
+          "line": 491,
+          "text": "\tconst struct aes_enckey *key ="
+        },
+        {
+          "line": 492,
+          "text": "\t\tcrypto_skcipher_ctx(crypto_skcipher_reqtfm(req));"
+        },
+        {
+          "line": 493,
+          "text": ""
+        },
+        {
+          "line": 494,
+          "text": "\tAES_CRYPT_SG(aes_ctr, req->dst, req->src, req->cryptlen, 0, req->iv,"
+        },
+        {
+          "line": 579,
+          "text": "\t\tcrypto_skcipher_ctx(crypto_skcipher_reqtfm(req));"
+        },
+        {
+          "line": 580,
+          "text": ""
+        },
+        {
+          "line": 581,
+          "text": "\tif (unlikely(req->cryptlen < AES_BLOCK_SIZE))"
+        },
+        {
+          "line": 582,
+          "text": "\t\treturn -EINVAL;"
+        },
+        {
+          "line": 583,
+          "text": "\tif (likely(skcipher_request_is_linear_lowmem(req))) {"
+        },
+        {
+          "line": 584,
+          "text": "\t\t/* Fast path */"
+        },
+        {
+          "line": 585,
+          "text": "\t\taes_xts_encrypt(sg_virt(req->dst), sg_virt(req->src),"
+        },
+        {
+          "line": 586,
+          "text": "\t\t\t\treq->cryptlen, req->iv, key, /* cont= */ false);"
+        },
+        {
+          "line": 587,
+          "text": "\t\treturn 0;"
+        },
+        {
+          "line": 588,
+          "text": "\t}"
+        },
+        {
+          "line": 589,
+          "text": "\treturn crypto_aes_xts_crypt_nonlinear(req, /* enc= */ true);"
+        },
+        {
+          "line": 590,
+          "text": "}"
+        },
+        {
+          "line": 591,
+          "text": ""
+        },
+        {
+          "line": 592,
+          "text": "static __maybe_unused int crypto_aes_xts_decrypt(struct skcipher_request *req)"
+        },
+        {
+          "line": 593,
+          "text": "{"
+        },
+        {
+          "line": 594,
+          "text": "\tconst struct aes_xts_key *key ="
+        },
+        {
+          "line": 595,
+          "text": "\t\tcrypto_skcipher_ctx(crypto_skcipher_reqtfm(req));"
+        },
+        {
+          "line": 596,
+          "text": ""
+        },
+        {
+          "line": 597,
+          "text": "\tif (unlikely(req->cryptlen < AES_BLOCK_SIZE))"
+        },
+        {
+          "line": 598,
+          "text": "\t\treturn -EINVAL;"
+        },
+        {
+          "line": 599,
+          "text": "\tif (likely(skcipher_request_is_linear_lowmem(req))) {"
+        },
+        {
+          "line": 600,
+          "text": "\t\t/* Fast path */"
+        },
+        {
+          "line": 601,
+          "text": "\t\taes_xts_decrypt(sg_virt(req->dst), sg_virt(req->src),"
+        },
+        {
+          "line": 602,
+          "text": "\t\t\t\treq->cryptlen, req->iv, key, /* cont= */ false);"
+        },
+        {
+          "line": 603,
+          "text": "\t\treturn 0;"
+        },
+        {
+          "line": 604,
+          "text": "\t}"
+        },
+        {
+          "line": 605,
+          "text": "\treturn crypto_aes_xts_crypt_nonlinear(req, /* enc= */ false);"
+        },
+        {
+          "line": 606,
+          "text": "}"
+        },
+        {
+          "line": 607,
+          "text": ""
+        },
+        {
+          "line": 608,
+          "text": "static struct skcipher_alg skcipher_algs[] = {"
+        },
+        {
+          "line": 609,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_ECB)"
+        },
+        {
+          "line": 610,
+          "text": "\t{"
+        },
+        {
+          "line": 611,
+          "text": "\t\t.base.cra_name = \"ecb(aes)\","
+        },
+        {
+          "line": 612,
+          "text": "\t\t.base.cra_driver_name = \"ecb-aes-lib\","
+        },
+        {
+          "line": 613,
+          "text": "\t\t.base.cra_priority = 110,"
+        },
+        {
+          "line": 614,
+          "text": "\t\t.base.cra_blocksize = AES_BLOCK_SIZE,"
+        },
+        {
+          "line": 615,
+          "text": "\t\t.base.cra_ctxsize = sizeof(struct aes_key),"
+        },
+        {
+          "line": 706,
+          "text": "\t */"
+        },
+        {
+          "line": 707,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_XTS) && !IS_ENABLED(CONFIG_SPARC)"
+        },
+        {
+          "line": 708,
+          "text": "\t{"
+        },
+        {
+          "line": 709,
+          "text": "\t\t.base.cra_name = \"xts(aes)\","
+        },
+        {
+          "line": 710,
+          "text": "\t\t.base.cra_driver_name = \"xts-aes-lib\","
+        },
+        {
+          "line": 711,
+          "text": "\t\t.base.cra_priority = 110,"
+        },
+        {
+          "line": 712,
+          "text": "\t\t.base.cra_blocksize = AES_BLOCK_SIZE,"
+        },
+        {
+          "line": 713,
+          "text": "\t\t.base.cra_ctxsize = sizeof(struct aes_xts_key),"
+        },
+        {
+          "line": 714,
+          "text": "\t\t.base.cra_module = THIS_MODULE,"
+        },
+        {
+          "line": 715,
+          "text": "\t\t.min_keysize = 2 * AES_MIN_KEY_SIZE,"
+        },
+        {
+          "line": 716,
+          "text": "\t\t.max_keysize = 2 * AES_MAX_KEY_SIZE,"
+        },
+        {
+          "line": 717,
+          "text": "\t\t.ivsize = AES_BLOCK_SIZE,"
+        },
+        {
+          "line": 718,
+          "text": "\t\t.setkey = crypto_aes_xts_setkey,"
+        },
+        {
+          "line": 719,
+          "text": "\t\t.encrypt = crypto_aes_xts_encrypt,"
+        },
+        {
+          "line": 720,
+          "text": "\t\t.decrypt = crypto_aes_xts_decrypt,"
+        },
+        {
+          "line": 721,
+          "text": "\t},"
+        },
+        {
+          "line": 722,
+          "text": "#endif"
+        },
+        {
+          "line": 723,
+          "text": "};"
+        },
+        {
+          "line": 724,
+          "text": ""
+        },
+        {
+          "line": 725,
+          "text": "/* AES-GCM */"
+        },
+        {
+          "line": 726,
+          "text": ""
+        },
+        {
+          "line": 1165,
+          "text": "MODULE_ALIAS_CRYPTO(\"xctr-aes-lib\");"
+        },
+        {
+          "line": 1166,
+          "text": "#endif"
+        },
+        {
+          "line": 1167,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_XTS)"
+        },
+        {
+          "line": 1168,
+          "text": "MODULE_ALIAS_CRYPTO(\"xts(aes)\");"
+        },
+        {
+          "line": 1169,
+          "text": "MODULE_ALIAS_CRYPTO(\"xts-aes-lib\");"
+        },
+        {
+          "line": 1170,
+          "text": "#endif"
+        },
+        {
+          "line": 1171,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_GCM)"
+        },
+        {
+          "line": 1172,
+          "text": "MODULE_ALIAS_CRYPTO(\"gcm(aes)\");"
+        },
+        {
+          "line": 1173,
+          "text": "MODULE_ALIAS_CRYPTO(\"gcm-aes-lib\");"
+        },
+        {
+          "line": 1174,
+          "text": "MODULE_ALIAS_CRYPTO(\"rfc4106(gcm(aes))\");"
+        },
+        {
+          "line": 1175,
+          "text": "MODULE_ALIAS_CRYPTO(\"rfc4106-gcm-aes-lib\");"
+        },
+        {
+          "line": 1176,
+          "text": "#endif"
+        },
+        {
+          "line": 1177,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_CCM)"
+        },
+        {
+          "line": 1178,
+          "text": "MODULE_ALIAS_CRYPTO(\"ccm(aes)\");"
+        },
+        {
+          "line": 1179,
+          "text": "MODULE_ALIAS_CRYPTO(\"ccm-aes-lib\");"
+        },
+        {
+          "line": 1180,
+          "text": "#endif"
+        }
+      ]
+    },
+    "drivers/block/zram/zram_drv.c": {
+      "sha256": "8a6a5432ea0ead6c92eea4907a2e5d8c1d4e0eb07ba9d750e43745f13780c9c2",
+      "excerpts": [
+        {
+          "line": 2300,
+          "text": "\t\treturn write_same_filled_page(zram, element, index);"
+        },
+        {
+          "line": 2301,
+          "text": ""
+        },
+        {
+          "line": 2302,
+          "text": "\tzstrm = zcomp_stream_get(zram->comps[ZRAM_PRIMARY_COMP]);"
+        },
+        {
+          "line": 2303,
+          "text": "\tmem = kmap_local_page(page);"
+        },
+        {
+          "line": 2304,
+          "text": "\tret = zcomp_compress(zram->comps[ZRAM_PRIMARY_COMP], zstrm,"
+        },
+        {
+          "line": 2305,
+          "text": "\t\t\t     mem, &comp_len);"
+        },
+        {
+          "line": 2306,
+          "text": "\tkunmap_local(mem);"
+        },
+        {
+          "line": 2307,
+          "text": ""
+        },
+        {
+          "line": 2308,
+          "text": "\tif (unlikely(ret)) {"
+        },
+        {
+          "line": 2309,
+          "text": "\t\tzcomp_stream_put(zstrm);"
+        },
+        {
+          "line": 2310,
+          "text": "\t\tpr_err(\"Compression failed! err=%d\\n\", ret);"
+        },
+        {
+          "line": 2311,
+          "text": "\t\treturn ret;"
+        },
+        {
+          "line": 2312,
+          "text": "\t}"
+        },
+        {
+          "line": 2313,
+          "text": ""
+        },
+        {
+          "line": 2314,
+          "text": "\tif (comp_len >= huge_class_size) {"
+        },
+        {
+          "line": 2315,
+          "text": "\t\tzcomp_stream_put(zstrm);"
+        },
+        {
+          "line": 2316,
+          "text": "\t\treturn write_incompressible_page(zram, page, index);"
+        },
+        {
+          "line": 2317,
+          "text": "\t}"
+        },
+        {
+          "line": 2318,
+          "text": ""
+        },
+        {
+          "line": 2319,
+          "text": "\thandle = zs_malloc(zram->mem_pool, comp_len,"
+        },
+        {
+          "line": 2320,
+          "text": "\t\t\t   GFP_NOIO | __GFP_NOWARN |"
+        }
+      ]
+    },
+    "drivers/gpu/drm/v3d/v3d_bo.c": {
+      "sha256": "c7f5168524b88a6fdf5cda09e9f37b0f8cb48997638f6e36b6994d405eb27fe7",
+      "excerpts": [
+        {
+          "line": 109,
+          "text": ""
+        },
+        {
+          "line": 110,
+          "text": "\t/* So far we pin the BO in the MMU for its lifetime, so use"
+        },
+        {
+          "line": 111,
+          "text": "\t * shmem's helper for getting a lifetime sgt."
+        },
+        {
+          "line": 112,
+          "text": "\t */"
+        },
+        {
+          "line": 113,
+          "text": "\tsgt = drm_gem_shmem_get_pages_sgt(&bo->base);"
+        },
+        {
+          "line": 114,
+          "text": "\tif (IS_ERR(sgt))"
+        },
+        {
+          "line": 115,
+          "text": "\t\treturn PTR_ERR(sgt);"
+        },
+        {
+          "line": 116,
+          "text": ""
+        },
+        {
+          "line": 117,
+          "text": "\tif (!drm_gem_get_huge_mnt(obj->dev))"
+        },
+        {
+          "line": 118,
+          "text": "\t\talign = SZ_4K;"
+        },
+        {
+          "line": 119,
+          "text": "\telse if (obj->size >= SZ_1M)"
+        },
+        {
+          "line": 120,
+          "text": "\t\talign = SZ_1M;"
+        },
+        {
+          "line": 121,
+          "text": "\telse if (obj->size >= SZ_64K)"
+        },
+        {
+          "line": 122,
+          "text": "\t\talign = SZ_64K;"
+        },
+        {
+          "line": 123,
+          "text": "\telse"
+        },
+        {
+          "line": 124,
+          "text": "\t\talign = SZ_4K;"
+        },
+        {
+          "line": 125,
+          "text": ""
+        },
+        {
+          "line": 126,
+          "text": "\tspin_lock(&v3d->mm_lock);"
+        },
+        {
+          "line": 127,
+          "text": "\t/* Allocate the object's space in the GPU's page tables."
+        },
+        {
+          "line": 128,
+          "text": "\t * Inserting PTEs will happen later, but the offset is for the"
+        },
+        {
+          "line": 129,
+          "text": "\t * lifetime of the BO."
+        },
+        {
+          "line": 152,
+          "text": "\tstruct drm_gem_shmem_object *shmem_obj;"
+        },
+        {
+          "line": 153,
+          "text": "\tstruct v3d_bo *bo;"
+        },
+        {
+          "line": 154,
+          "text": "\tint ret;"
+        },
+        {
+          "line": 155,
+          "text": ""
+        },
+        {
+          "line": 156,
+          "text": "\tshmem_obj = drm_gem_shmem_create(dev, unaligned_size);"
+        },
+        {
+          "line": 157,
+          "text": "\tif (IS_ERR(shmem_obj))"
+        },
+        {
+          "line": 158,
+          "text": "\t\treturn ERR_CAST(shmem_obj);"
+        },
+        {
+          "line": 159,
+          "text": "\tbo = to_v3d_bo(&shmem_obj->base);"
+        },
+        {
+          "line": 160,
+          "text": "\tbo->vaddr = NULL;"
+        },
+        {
+          "line": 161,
+          "text": ""
+        },
+        {
+          "line": 162,
+          "text": "\tret = v3d_bo_create_finish(&shmem_obj->base);"
+        },
+        {
+          "line": 163,
+          "text": "\tif (ret)"
+        },
+        {
+          "line": 164,
+          "text": "\t\tgoto free_obj;"
+        },
+        {
+          "line": 165,
+          "text": ""
+        },
+        {
+          "line": 166,
+          "text": "\treturn bo;"
+        },
+        {
+          "line": 167,
+          "text": ""
+        },
+        {
+          "line": 168,
+          "text": "free_obj:"
+        },
+        {
+          "line": 169,
+          "text": "\tdrm_gem_shmem_free(shmem_obj);"
+        },
+        {
+          "line": 170,
+          "text": "\treturn ERR_PTR(ret);"
+        },
+        {
+          "line": 171,
+          "text": "}"
+        },
+        {
+          "line": 172,
+          "text": ""
+        }
+      ]
+    },
+    "drivers/gpu/drm/vc4/vc4_drv.c": {
+      "sha256": "155959640350d3e685ce857f6eb5e40cde18d4ca621e5242bebb46eb4165436f",
+      "excerpts": [
+        {
+          "line": 74,
+          "text": ""
+        },
+        {
+          "line": 75,
+          "text": "\treturn 0;"
+        },
+        {
+          "line": 76,
+          "text": "}"
+        },
+        {
+          "line": 77,
+          "text": ""
+        },
+        {
+          "line": 78,
+          "text": "static int vc5_dumb_create(struct drm_file *file_priv,"
+        },
+        {
+          "line": 79,
+          "text": "\t\t\t   struct drm_device *dev,"
+        },
+        {
+          "line": 80,
+          "text": "\t\t\t   struct drm_mode_create_dumb *args)"
+        },
+        {
+          "line": 81,
+          "text": "{"
+        },
+        {
+          "line": 82,
+          "text": "\tint ret;"
+        },
+        {
+          "line": 83,
+          "text": ""
+        },
+        {
+          "line": 84,
+          "text": "\tret = vc4_dumb_fixup_args(args);"
+        },
+        {
+          "line": 85,
+          "text": "\tif (ret)"
+        },
+        {
+          "line": 86,
+          "text": "\t\treturn ret;"
+        },
+        {
+          "line": 87,
+          "text": ""
+        },
+        {
+          "line": 88,
+          "text": "\treturn drm_gem_dma_dumb_create_internal(file_priv, dev, args);"
+        },
+        {
+          "line": 89,
+          "text": "}"
+        },
+        {
+          "line": 90,
+          "text": ""
+        },
+        {
+          "line": 91,
+          "text": "static int vc4_get_param_ioctl(struct drm_device *dev, void *data,"
+        },
+        {
+          "line": 92,
+          "text": "\t\t\t       struct drm_file *file_priv)"
+        },
+        {
+          "line": 93,
+          "text": "{"
+        },
+        {
+          "line": 94,
+          "text": "\tstruct vc4_dev *vc4 = to_vc4_dev(dev);"
+        },
+        {
+          "line": 327,
+          "text": ""
+        },
+        {
+          "line": 328,
+          "text": "\tdrm = &vc4->base;"
+        },
+        {
+          "line": 329,
+          "text": "\tplatform_set_drvdata(pdev, drm);"
+        },
+        {
+          "line": 330,
+          "text": ""
+        },
+        {
+          "line": 331,
+          "text": "\tif (gen == VC4_GEN_4) {"
+        },
+        {
+          "line": 332,
+          "text": "\t\tret = drmm_mutex_init(drm, &vc4->bin_bo_lock);"
+        },
+        {
+          "line": 333,
+          "text": "\t\tif (ret)"
+        },
+        {
+          "line": 334,
+          "text": "\t\t\tgoto err;"
+        },
+        {
+          "line": 335,
+          "text": ""
+        },
+        {
+          "line": 336,
+          "text": "\t\tret = vc4_bo_cache_init(drm);"
+        },
+        {
+          "line": 337,
+          "text": "\t\tif (ret)"
+        },
+        {
+          "line": 338,
+          "text": "\t\t\tgoto err;"
+        },
+        {
+          "line": 339,
+          "text": "\t}"
+        },
+        {
+          "line": 340,
+          "text": ""
+        },
+        {
+          "line": 341,
+          "text": "\tret = drmm_mode_config_init(drm);"
+        },
+        {
+          "line": 342,
+          "text": "\tif (ret)"
+        },
+        {
+          "line": 343,
+          "text": "\t\tgoto err;"
+        },
+        {
+          "line": 344,
+          "text": ""
+        },
+        {
+          "line": 345,
+          "text": "\tif (gen == VC4_GEN_4) {"
+        },
+        {
+          "line": 346,
+          "text": "\t\tret = vc4_gem_init(drm);"
+        },
+        {
+          "line": 347,
+          "text": "\t\tif (ret)"
+        },
+        {
+          "line": 348,
+          "text": "\t\t\tgoto err;"
+        },
+        {
+          "line": 349,
+          "text": "\t}"
+        },
+        {
+          "line": 350,
+          "text": ""
+        },
+        {
+          "line": 351,
+          "text": "\tnode = of_find_compatible_node(NULL, NULL, \"raspberrypi,bcm2835-firmware\");"
+        },
+        {
+          "line": 352,
+          "text": "\tif (node) {"
+        },
+        {
+          "line": 353,
+          "text": "\t\tfirmware = rpi_firmware_get(node);"
+        },
+        {
+          "line": 354,
+          "text": "\t\tof_node_put(node);"
+        },
+        {
+          "line": 355,
+          "text": ""
+        },
+        {
+          "line": 356,
+          "text": "\t\tif (!firmware) {"
+        },
+        {
+          "line": 357,
+          "text": "\t\t\tret = -EPROBE_DEFER;"
+        },
+        {
+          "line": 358,
+          "text": "\t\t\tgoto err;"
+        },
+        {
+          "line": 359,
+          "text": "\t\t}"
+        },
+        {
+          "line": 360,
+          "text": "\t}"
+        },
+        {
+          "line": 361,
+          "text": ""
+        },
+        {
+          "line": 463,
+          "text": "\tdrm_atomic_helper_shutdown(platform_get_drvdata(pdev));"
+        },
+        {
+          "line": 464,
+          "text": "}"
+        },
+        {
+          "line": 465,
+          "text": ""
+        },
+        {
+          "line": 466,
+          "text": "static const struct of_device_id vc4_of_match[] = {"
+        },
+        {
+          "line": 467,
+          "text": "\t{ .compatible = \"brcm,bcm2711-vc5\", .data = (void *)VC4_GEN_5 },"
+        },
+        {
+          "line": 468,
+          "text": "\t/* NB GEN_6_C will be corrected on D0 hw to GEN_6_D via vc4_hvs_bind */"
+        },
+        {
+          "line": 469,
+          "text": "\t{ .compatible = \"brcm,bcm2712-vc6\", .data = (void *)VC4_GEN_6_C },"
+        },
+        {
+          "line": 470,
+          "text": "\t{ .compatible = \"brcm,bcm2835-vc4\", .data = (void *)VC4_GEN_4 },"
+        },
+        {
+          "line": 471,
+          "text": "\t{ .compatible = \"brcm,cygnus-vc4\", .data = (void *)VC4_GEN_4 },"
+        },
+        {
+          "line": 472,
+          "text": "\t{},"
+        },
+        {
+          "line": 473,
+          "text": "};"
+        },
+        {
+          "line": 474,
+          "text": "MODULE_DEVICE_TABLE(of, vc4_of_match);"
+        },
+        {
+          "line": 475,
+          "text": ""
+        },
+        {
+          "line": 476,
+          "text": "static struct platform_driver vc4_platform_driver = {"
+        },
+        {
+          "line": 477,
+          "text": "\t.probe\t\t= vc4_platform_drm_probe,"
+        },
+        {
+          "line": 478,
+          "text": "\t.remove\t\t= vc4_platform_drm_remove,"
+        },
+        {
+          "line": 479,
+          "text": "\t.shutdown\t= vc4_platform_drm_shutdown,"
+        },
+        {
+          "line": 480,
+          "text": "\t.driver\t\t= {"
+        },
+        {
+          "line": 481,
+          "text": "\t\t.name\t= \"vc4-drm\","
+        },
+        {
+          "line": 482,
+          "text": "\t\t.of_match_table = vc4_of_match,"
+        },
+        {
+          "line": 483,
+          "text": "\t},"
+        }
+      ]
+    },
+    "drivers/md/dm-crypt.c": {
+      "sha256": "c107ee6bcbf01e89d1c21829625e53325d54e0edf9efc4881b0f102280be3c5f",
+      "excerpts": [
+        {
+          "line": 143,
+          "text": " */"
+        },
+        {
+          "line": 144,
+          "text": "enum flags { DM_CRYPT_SUSPENDED, DM_CRYPT_KEY_VALID,"
+        },
+        {
+          "line": 145,
+          "text": "\t     DM_CRYPT_SAME_CPU, DM_CRYPT_HIGH_PRIORITY,"
+        },
+        {
+          "line": 146,
+          "text": "\t     DM_CRYPT_NO_OFFLOAD, DM_CRYPT_NO_READ_WORKQUEUE,"
+        },
+        {
+          "line": 147,
+          "text": "\t     DM_CRYPT_NO_WRITE_WORKQUEUE, DM_CRYPT_WRITE_INLINE };"
+        },
+        {
+          "line": 148,
+          "text": ""
+        },
+        {
+          "line": 149,
+          "text": "enum cipher_flags {"
+        },
+        {
+          "line": 150,
+          "text": "\tCRYPT_MODE_INTEGRITY_AEAD,\t/* Use authenticated mode for cipher */"
+        },
+        {
+          "line": 151,
+          "text": "\tCRYPT_IV_LARGE_SECTORS,\t\t/* Calculate IV from sector_size, not 512B sectors */"
+        },
+        {
+          "line": 152,
+          "text": "\tCRYPT_ENCRYPT_PREPROCESS,\t/* Must preprocess data for encryption (elephant) */"
+        },
+        {
+          "line": 153,
+          "text": "\tCRYPT_KEY_MAC_SIZE_SET,\t\t/* The integrity_key_size option was used */"
+        },
+        {
+          "line": 154,
+          "text": "};"
+        },
+        {
+          "line": 155,
+          "text": ""
+        },
+        {
+          "line": 156,
+          "text": "/*"
+        },
+        {
+          "line": 157,
+          "text": " * The fields in here must be read only after initialization."
+        },
+        {
+          "line": 158,
+          "text": " */"
+        },
+        {
+          "line": 159,
+          "text": "struct crypt_config {"
+        },
+        {
+          "line": 160,
+          "text": "\tstruct dm_dev *dev;"
+        },
+        {
+          "line": 161,
+          "text": "\tsector_t start;"
+        },
+        {
+          "line": 162,
+          "text": ""
+        },
+        {
+          "line": 163,
+          "text": "\tstruct percpu_counter n_allocated_pages;"
+        },
+        {
+          "line": 283,
+          "text": "\treturn val >> SECTOR_SHIFT;"
+        },
+        {
+          "line": 284,
+          "text": "}"
+        },
+        {
+          "line": 285,
+          "text": ""
+        },
+        {
+          "line": 286,
+          "text": "static void crypt_endio(struct bio *clone);"
+        },
+        {
+          "line": 287,
+          "text": "static void kcryptd_queue_crypt(struct dm_crypt_io *io);"
+        },
+        {
+          "line": 288,
+          "text": "static struct scatterlist *crypt_get_sg_data(struct crypt_config *cc,"
+        },
+        {
+          "line": 289,
+          "text": "\t\t\t\t\t     struct scatterlist *sg);"
+        },
+        {
+          "line": 290,
+          "text": ""
+        },
+        {
+          "line": 291,
+          "text": "static bool crypt_integrity_aead(struct crypt_config *cc);"
+        },
+        {
+          "line": 292,
+          "text": ""
+        },
+        {
+          "line": 293,
+          "text": "/*"
+        },
+        {
+          "line": 294,
+          "text": " * Use this to access cipher attributes that are independent of the key."
+        },
+        {
+          "line": 295,
+          "text": " */"
+        },
+        {
+          "line": 296,
+          "text": "static struct crypto_skcipher *any_tfm(struct crypt_config *cc)"
+        },
+        {
+          "line": 297,
+          "text": "{"
+        },
+        {
+          "line": 298,
+          "text": "\treturn cc->cipher_tfm.tfms[0];"
+        },
+        {
+          "line": 299,
+          "text": "}"
+        },
+        {
+          "line": 300,
+          "text": ""
+        },
+        {
+          "line": 301,
+          "text": "static struct crypto_aead *any_tfm_aead(struct crypt_config *cc)"
+        },
+        {
+          "line": 302,
+          "text": "{"
+        },
+        {
+          "line": 303,
+          "text": "\treturn cc->cipher_tfm.tfms_aead[0];"
+        },
+        {
+          "line": 1795,
+          "text": "\tunsigned int rw = bio_data_dir(clone);"
+        },
+        {
+          "line": 1796,
+          "text": "\tblk_status_t error = clone->bi_status;"
+        },
+        {
+          "line": 1797,
+          "text": ""
+        },
+        {
+          "line": 1798,
+          "text": "\tif (io->ctx.aead_recheck && !error) {"
+        },
+        {
+          "line": 1799,
+          "text": "\t\tkcryptd_queue_crypt(io);"
+        },
+        {
+          "line": 1800,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1801,
+          "text": "\t}"
+        },
+        {
+          "line": 1802,
+          "text": ""
+        },
+        {
+          "line": 1803,
+          "text": "\t/*"
+        },
+        {
+          "line": 1804,
+          "text": "\t * free the processed pages"
+        },
+        {
+          "line": 1805,
+          "text": "\t */"
+        },
+        {
+          "line": 1806,
+          "text": "\tif (rw == WRITE || io->ctx.aead_recheck)"
+        },
+        {
+          "line": 1807,
+          "text": "\t\tcrypt_free_buffer_pages(cc, clone);"
+        },
+        {
+          "line": 1808,
+          "text": ""
+        },
+        {
+          "line": 1809,
+          "text": "\tbio_put(clone);"
+        },
+        {
+          "line": 1810,
+          "text": ""
+        },
+        {
+          "line": 1811,
+          "text": "\tif (rw == READ && !error) {"
+        },
+        {
+          "line": 1812,
+          "text": "\t\tkcryptd_queue_crypt(io);"
+        },
+        {
+          "line": 1813,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1814,
+          "text": "\t}"
+        },
+        {
+          "line": 1815,
+          "text": ""
+        },
+        {
+          "line": 1816,
+          "text": "\tif (unlikely(error))"
+        },
+        {
+          "line": 1817,
+          "text": "\t\tio->error = error;"
+        },
+        {
+          "line": 1818,
+          "text": ""
+        },
+        {
+          "line": 1819,
+          "text": "\tcrypt_dec_pending(io);"
+        },
+        {
+          "line": 1820,
+          "text": "}"
+        },
+        {
+          "line": 1821,
+          "text": ""
+        },
+        {
+          "line": 1822,
+          "text": "#define CRYPT_MAP_READ_GFP GFP_NOWAIT"
+        },
+        {
+          "line": 1823,
+          "text": ""
+        },
+        {
+          "line": 1824,
+          "text": "static int kcryptd_io_read(struct dm_crypt_io *io, gfp_t gfp)"
+        },
+        {
+          "line": 1825,
+          "text": "{"
+        },
+        {
+          "line": 1826,
+          "text": "\tstruct crypt_config *cc = io->cc;"
+        },
+        {
+          "line": 1827,
+          "text": "\tstruct bio *clone;"
+        },
+        {
+          "line": 1828,
+          "text": ""
+        },
+        {
+          "line": 1964,
+          "text": "\t/* crypt_convert should have filled the clone bio */"
+        },
+        {
+          "line": 1965,
+          "text": "\tBUG_ON(io->ctx.iter_out.bi_size);"
+        },
+        {
+          "line": 1966,
+          "text": ""
+        },
+        {
+          "line": 1967,
+          "text": "\tif ((likely(!async) && test_bit(DM_CRYPT_NO_OFFLOAD, &cc->flags)) ||"
+        },
+        {
+          "line": 1968,
+          "text": "\t    test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags)) {"
+        },
+        {
+          "line": 1969,
+          "text": "\t\tdm_submit_bio_remap(io->base_bio, clone);"
+        },
+        {
+          "line": 1970,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1971,
+          "text": "\t}"
+        },
+        {
+          "line": 1972,
+          "text": ""
+        },
+        {
+          "line": 1973,
+          "text": "\tspin_lock_irqsave(&cc->write_thread_lock, flags);"
+        },
+        {
+          "line": 1974,
+          "text": "\tif (RB_EMPTY_ROOT(&cc->write_tree))"
+        },
+        {
+          "line": 1975,
+          "text": "\t\twake_up_process(cc->write_thread);"
+        },
+        {
+          "line": 1976,
+          "text": "\trbp = &cc->write_tree.rb_node;"
+        },
+        {
+          "line": 1977,
+          "text": "\tparent = NULL;"
+        },
+        {
+          "line": 1978,
+          "text": "\tsector = io->sector;"
+        },
+        {
+          "line": 1979,
+          "text": "\twhile (*rbp) {"
+        },
+        {
+          "line": 1980,
+          "text": "\t\tparent = *rbp;"
+        },
+        {
+          "line": 1981,
+          "text": "\t\tif (sector < crypt_io_from_node(parent)->sector)"
+        },
+        {
+          "line": 1982,
+          "text": "\t\t\trbp = &(*rbp)->rb_left;"
+        },
+        {
+          "line": 1983,
+          "text": "\t\telse"
+        },
+        {
+          "line": 1984,
+          "text": "\t\t\trbp = &(*rbp)->rb_right;"
+        },
+        {
+          "line": 2067,
+          "text": "\t}"
+        },
+        {
+          "line": 2068,
+          "text": ""
+        },
+        {
+          "line": 2069,
+          "text": "\tcrypt_inc_pending(io);"
+        },
+        {
+          "line": 2070,
+          "text": "\tr = crypt_convert(cc, ctx,"
+        },
+        {
+          "line": 2071,
+          "text": "\t\t\t  test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags), true);"
+        },
+        {
+          "line": 2072,
+          "text": "\t/*"
+        },
+        {
+          "line": 2073,
+          "text": "\t * Crypto API backlogged the request, because its queue was full"
+        },
+        {
+          "line": 2074,
+          "text": "\t * and we're in softirq context, so continue from a workqueue"
+        },
+        {
+          "line": 2075,
+          "text": "\t * (TODO: is it actually possible to be in softirq in the write path?)"
+        },
+        {
+          "line": 2076,
+          "text": "\t */"
+        },
+        {
+          "line": 2077,
+          "text": "\tif (r == BLK_STS_DEV_RESOURCE) {"
+        },
+        {
+          "line": 2078,
+          "text": "\t\tINIT_WORK(&io->work, kcryptd_crypt_write_continue);"
+        },
+        {
+          "line": 2079,
+          "text": "\t\tqueue_work(cc->crypt_queue, &io->work);"
+        },
+        {
+          "line": 2080,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 2081,
+          "text": "\t}"
+        },
+        {
+          "line": 2082,
+          "text": "\tif (r)"
+        },
+        {
+          "line": 2083,
+          "text": "\t\tio->error = r;"
+        },
+        {
+          "line": 2084,
+          "text": "\tcrypt_finished = atomic_dec_and_test(&ctx->cc_pending);"
+        },
+        {
+          "line": 2085,
+          "text": "\tif (!crypt_finished && kcryptd_crypt_write_inline(cc, ctx)) {"
+        },
+        {
+          "line": 2086,
+          "text": "\t\t/* Wait for completion signaled by kcryptd_async_done() */"
+        },
+        {
+          "line": 2087,
+          "text": "\t\twait_for_completion(&ctx->restart);"
+        },
+        {
+          "line": 2228,
+          "text": "\telse"
+        },
+        {
+          "line": 2229,
+          "text": "\t\tkcryptd_crypt_write_convert(io);"
+        },
+        {
+          "line": 2230,
+          "text": "}"
+        },
+        {
+          "line": 2231,
+          "text": ""
+        },
+        {
+          "line": 2232,
+          "text": "static void kcryptd_queue_crypt(struct dm_crypt_io *io)"
+        },
+        {
+          "line": 2233,
+          "text": "{"
+        },
+        {
+          "line": 2234,
+          "text": "\tstruct crypt_config *cc = io->cc;"
+        },
+        {
+          "line": 2235,
+          "text": ""
+        },
+        {
+          "line": 2236,
+          "text": "\tif ((bio_data_dir(io->base_bio) == READ && test_bit(DM_CRYPT_NO_READ_WORKQUEUE, &cc->flags)) ||"
+        },
+        {
+          "line": 2237,
+          "text": "\t    (bio_data_dir(io->base_bio) == WRITE && test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags))) {"
+        },
+        {
+          "line": 2238,
+          "text": "\t\t/*"
+        },
+        {
+          "line": 2239,
+          "text": "\t\t * in_hardirq(): Crypto API's skcipher_walk_first() refuses to work in hard IRQ context."
+        },
+        {
+          "line": 2240,
+          "text": "\t\t * irqs_disabled(): the kernel may run some IO completion from the idle thread, but"
+        },
+        {
+          "line": 2241,
+          "text": "\t\t * it is being executed with irqs disabled."
+        },
+        {
+          "line": 2242,
+          "text": "\t\t */"
+        },
+        {
+          "line": 2243,
+          "text": "\t\tif (in_hardirq() || irqs_disabled()) {"
+        },
+        {
+          "line": 2244,
+          "text": "\t\t\tINIT_WORK(&io->work, kcryptd_crypt);"
+        },
+        {
+          "line": 2245,
+          "text": "\t\t\tqueue_work(system_bh_wq, &io->work);"
+        },
+        {
+          "line": 2246,
+          "text": "\t\t\treturn;"
+        },
+        {
+          "line": 2247,
+          "text": "\t\t} else {"
+        },
+        {
+          "line": 2248,
+          "text": "\t\t\tkcryptd_crypt(&io->work);"
+        },
+        {
+          "line": 2249,
+          "text": "\t\t\treturn;"
+        },
+        {
+          "line": 2250,
+          "text": "\t\t}"
+        },
+        {
+          "line": 2251,
+          "text": "\t}"
+        },
+        {
+          "line": 2252,
+          "text": ""
+        },
+        {
+          "line": 2253,
+          "text": "\tINIT_WORK(&io->work, kcryptd_crypt);"
+        },
+        {
+          "line": 3113,
+          "text": "\t\t\tset_bit(DM_CRYPT_NO_OFFLOAD, &cc->flags);"
+        },
+        {
+          "line": 3114,
+          "text": "\t\telse if (!strcasecmp(opt_string, \"no_read_workqueue\"))"
+        },
+        {
+          "line": 3115,
+          "text": "\t\t\tset_bit(DM_CRYPT_NO_READ_WORKQUEUE, &cc->flags);"
+        },
+        {
+          "line": 3116,
+          "text": "\t\telse if (!strcasecmp(opt_string, \"no_write_workqueue\"))"
+        },
+        {
+          "line": 3117,
+          "text": "\t\t\tset_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags);"
+        },
+        {
+          "line": 3118,
+          "text": "\t\telse if (sscanf(opt_string, \"integrity:%u:\", &val) == 1) {"
+        },
+        {
+          "line": 3119,
+          "text": "\t\t\tif (val == 0 || val > MAX_TAG_SIZE) {"
+        },
+        {
+          "line": 3120,
+          "text": "\t\t\t\tti->error = \"Invalid integrity arguments\";"
+        },
+        {
+          "line": 3121,
+          "text": "\t\t\t\treturn -EINVAL;"
+        },
+        {
+          "line": 3122,
+          "text": "\t\t\t}"
+        },
+        {
+          "line": 3123,
+          "text": "\t\t\tcc->used_tag_size = val;"
+        },
+        {
+          "line": 3124,
+          "text": "\t\t\tsval = strchr(opt_string + strlen(\"integrity:\"), ':') + 1;"
+        },
+        {
+          "line": 3125,
+          "text": "\t\t\tif (!strcasecmp(sval, \"aead\")) {"
+        },
+        {
+          "line": 3126,
+          "text": "\t\t\t\tset_bit(CRYPT_MODE_INTEGRITY_AEAD, &cc->cipher_flags);"
+        },
+        {
+          "line": 3127,
+          "text": "\t\t\t} else if (strcasecmp(sval, \"none\")) {"
+        },
+        {
+          "line": 3128,
+          "text": "\t\t\t\tti->error = \"Unknown integrity profile\";"
+        },
+        {
+          "line": 3129,
+          "text": "\t\t\t\treturn -EINVAL;"
+        },
+        {
+          "line": 3130,
+          "text": "\t\t\t}"
+        },
+        {
+          "line": 3131,
+          "text": ""
+        },
+        {
+          "line": 3132,
+          "text": "\t\t\tcc->cipher_auth = kstrdup(sval, GFP_KERNEL);"
+        },
+        {
+          "line": 3133,
+          "text": "\t\t\tif (!cc->cipher_auth)"
+        },
+        {
+          "line": 3315,
+          "text": "\t\t * For zoned block devices, we need to preserve the issuer write"
+        },
+        {
+          "line": 3316,
+          "text": "\t\t * ordering. To do so, disable write workqueues and force inline"
+        },
+        {
+          "line": 3317,
+          "text": "\t\t * encryption completion."
+        },
+        {
+          "line": 3318,
+          "text": "\t\t */"
+        },
+        {
+          "line": 3319,
+          "text": "\t\tset_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags);"
+        },
+        {
+          "line": 3320,
+          "text": "\t\tset_bit(DM_CRYPT_WRITE_INLINE, &cc->flags);"
+        },
+        {
+          "line": 3321,
+          "text": ""
+        },
+        {
+          "line": 3322,
+          "text": "\t\t/*"
+        },
+        {
+          "line": 3323,
+          "text": "\t\t * All zone append writes to a zone of a zoned block device will"
+        },
+        {
+          "line": 3324,
+          "text": "\t\t * have the same BIO sector, the start of the zone. When the"
+        },
+        {
+          "line": 3325,
+          "text": "\t\t * cypher IV mode uses sector values, all data targeting a"
+        },
+        {
+          "line": 3326,
+          "text": "\t\t * zone will be encrypted using the first sector numbers of the"
+        },
+        {
+          "line": 3327,
+          "text": "\t\t * zone. This will not result in write errors but will"
+        },
+        {
+          "line": 3328,
+          "text": "\t\t * cause most reads to fail as reads will use the sector values"
+        },
+        {
+          "line": 3329,
+          "text": "\t\t * for the actual data locations, resulting in IV mismatch."
+        },
+        {
+          "line": 3330,
+          "text": "\t\t * To avoid this problem, ask DM core to emulate zone append"
+        },
+        {
+          "line": 3331,
+          "text": "\t\t * operations with regular writes."
+        },
+        {
+          "line": 3332,
+          "text": "\t\t */"
+        },
+        {
+          "line": 3333,
+          "text": "\t\tDMDEBUG(\"Zone append operations will be emulated\");"
+        },
+        {
+          "line": 3334,
+          "text": "\t\tti->emulate_zone_append = true;"
+        },
+        {
+          "line": 3335,
+          "text": "\t}"
+        },
+        {
+          "line": 3361,
+          "text": "\t}"
+        },
+        {
+          "line": 3362,
+          "text": "\tcc->workqueue_id = wq_id;"
+        },
+        {
+          "line": 3363,
+          "text": ""
+        },
+        {
+          "line": 3364,
+          "text": "\tret = -ENOMEM;"
+        },
+        {
+          "line": 3365,
+          "text": "\tcommon_wq_flags = WQ_MEM_RECLAIM | WQ_SYSFS;"
+        },
+        {
+          "line": 3366,
+          "text": "\tif (test_bit(DM_CRYPT_HIGH_PRIORITY, &cc->flags))"
+        },
+        {
+          "line": 3367,
+          "text": "\t\tcommon_wq_flags |= WQ_HIGHPRI;"
+        },
+        {
+          "line": 3368,
+          "text": ""
+        },
+        {
+          "line": 3369,
+          "text": "\tcc->io_queue = alloc_workqueue(\"kcryptd_io-%s-%d\","
+        },
+        {
+          "line": 3370,
+          "text": "\t\t\t\t       common_wq_flags | WQ_PERCPU, 1,"
+        },
+        {
+          "line": 3371,
+          "text": "\t\t\t\t       devname, wq_id);"
+        },
+        {
+          "line": 3372,
+          "text": "\tif (!cc->io_queue) {"
+        },
+        {
+          "line": 3373,
+          "text": "\t\tti->error = \"Couldn't create kcryptd io queue\";"
+        },
+        {
+          "line": 3374,
+          "text": "\t\tgoto bad;"
+        },
+        {
+          "line": 3375,
+          "text": "\t}"
+        },
+        {
+          "line": 3376,
+          "text": ""
+        },
+        {
+          "line": 3377,
+          "text": "\tif (test_bit(DM_CRYPT_SAME_CPU, &cc->flags)) {"
+        },
+        {
+          "line": 3378,
+          "text": "\t\tcc->crypt_queue = alloc_workqueue(\"kcryptd-%s-%d\","
+        },
+        {
+          "line": 3379,
+          "text": "\t\t\t\t\t\t  common_wq_flags | WQ_CPU_INTENSIVE | WQ_PERCPU,"
+        },
+        {
+          "line": 3380,
+          "text": "\t\t\t\t\t\t  1, devname, wq_id);"
+        },
+        {
+          "line": 3381,
+          "text": "\t} else {"
+        },
+        {
+          "line": 3382,
+          "text": "\t\t/*"
+        },
+        {
+          "line": 3383,
+          "text": "\t\t * While crypt_queue is certainly CPU intensive, the use of"
+        },
+        {
+          "line": 3384,
+          "text": "\t\t * WQ_CPU_INTENSIVE is meaningless with WQ_UNBOUND."
+        },
+        {
+          "line": 3385,
+          "text": "\t\t */"
+        },
+        {
+          "line": 3386,
+          "text": "\t\tcc->crypt_queue = alloc_workqueue(\"kcryptd-%s-%d\","
+        },
+        {
+          "line": 3387,
+          "text": "\t\t\t\t\t\t  common_wq_flags | WQ_UNBOUND,"
+        },
+        {
+          "line": 3388,
+          "text": "\t\t\t\t\t\t  num_online_cpus(), devname, wq_id);"
+        },
+        {
+          "line": 3389,
+          "text": "\t}"
+        },
+        {
+          "line": 3390,
+          "text": "\tif (!cc->crypt_queue) {"
+        },
+        {
+          "line": 3391,
+          "text": "\t\tti->error = \"Couldn't create kcryptd queue\";"
+        },
+        {
+          "line": 3392,
+          "text": "\t\tgoto bad;"
+        },
+        {
+          "line": 3393,
+          "text": "\t}"
+        },
+        {
+          "line": 3394,
+          "text": ""
+        },
+        {
+          "line": 3395,
+          "text": "\tspin_lock_init(&cc->write_thread_lock);"
+        },
+        {
+          "line": 3396,
+          "text": "\tcc->write_tree = RB_ROOT;"
+        },
+        {
+          "line": 3397,
+          "text": ""
+        },
+        {
+          "line": 3398,
+          "text": "\tcc->write_thread = kthread_run(dmcrypt_write, cc, \"dmcrypt_write/%s\", devname);"
+        },
+        {
+          "line": 3399,
+          "text": "\tif (IS_ERR(cc->write_thread)) {"
+        },
+        {
+          "line": 3400,
+          "text": "\t\tret = PTR_ERR(cc->write_thread);"
+        },
+        {
+          "line": 3401,
+          "text": "\t\tcc->write_thread = NULL;"
+        },
+        {
+          "line": 3402,
+          "text": "\t\tti->error = \"Couldn't spawn write thread\";"
+        },
+        {
+          "line": 3403,
+          "text": "\t\tgoto bad;"
+        },
+        {
+          "line": 3493,
+          "text": "\tif (bio_data_dir(io->base_bio) == READ) {"
+        },
+        {
+          "line": 3494,
+          "text": "\t\tif (kcryptd_io_read(io, CRYPT_MAP_READ_GFP))"
+        },
+        {
+          "line": 3495,
+          "text": "\t\t\tkcryptd_queue_read(io);"
+        },
+        {
+          "line": 3496,
+          "text": "\t} else"
+        },
+        {
+          "line": 3497,
+          "text": "\t\tkcryptd_queue_crypt(io);"
+        },
+        {
+          "line": 3498,
+          "text": ""
+        },
+        {
+          "line": 3499,
+          "text": "\treturn DM_MAPIO_SUBMITTED;"
+        },
+        {
+          "line": 3500,
+          "text": "}"
+        },
+        {
+          "line": 3501,
+          "text": ""
+        },
+        {
+          "line": 3502,
+          "text": "static char hex2asc(unsigned char c)"
+        },
+        {
+          "line": 3503,
+          "text": "{"
+        },
+        {
+          "line": 3504,
+          "text": "\treturn c + '0' + ((unsigned int)(9 - c) >> 4 & 0x27);"
+        },
+        {
+          "line": 3505,
+          "text": "}"
+        },
+        {
+          "line": 3506,
+          "text": ""
+        },
+        {
+          "line": 3507,
+          "text": "static void crypt_status(struct dm_target *ti, status_type_t type,"
+        },
+        {
+          "line": 3508,
+          "text": "\t\t\t unsigned int status_flags, char *result, unsigned int maxlen)"
+        },
+        {
+          "line": 3509,
+          "text": "{"
+        },
+        {
+          "line": 3510,
+          "text": "\tstruct crypt_config *cc = ti->private;"
+        },
+        {
+          "line": 3511,
+          "text": "\tunsigned int i, sz = 0;"
+        },
+        {
+          "line": 3512,
+          "text": "\tint num_feature_args = 0;"
+        },
+        {
+          "line": 3513,
+          "text": ""
+        },
+        {
+          "line": 3538,
+          "text": "\t\tnum_feature_args += test_bit(DM_CRYPT_SAME_CPU, &cc->flags);"
+        },
+        {
+          "line": 3539,
+          "text": "\t\tnum_feature_args += test_bit(DM_CRYPT_HIGH_PRIORITY, &cc->flags);"
+        },
+        {
+          "line": 3540,
+          "text": "\t\tnum_feature_args += test_bit(DM_CRYPT_NO_OFFLOAD, &cc->flags);"
+        },
+        {
+          "line": 3541,
+          "text": "\t\tnum_feature_args += test_bit(DM_CRYPT_NO_READ_WORKQUEUE, &cc->flags);"
+        },
+        {
+          "line": 3542,
+          "text": "\t\tnum_feature_args += test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags);"
+        },
+        {
+          "line": 3543,
+          "text": "\t\tnum_feature_args += !!cc->used_tag_size;"
+        },
+        {
+          "line": 3544,
+          "text": "\t\tnum_feature_args += cc->sector_size != (1 << SECTOR_SHIFT);"
+        },
+        {
+          "line": 3545,
+          "text": "\t\tnum_feature_args += test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags);"
+        },
+        {
+          "line": 3546,
+          "text": "\t\tnum_feature_args += test_bit(CRYPT_KEY_MAC_SIZE_SET, &cc->cipher_flags);"
+        },
+        {
+          "line": 3547,
+          "text": "\t\tif (num_feature_args) {"
+        },
+        {
+          "line": 3548,
+          "text": "\t\t\tDMEMIT(\" %d\", num_feature_args);"
+        },
+        {
+          "line": 3549,
+          "text": "\t\t\tif (ti->num_discard_bios)"
+        },
+        {
+          "line": 3550,
+          "text": "\t\t\t\tDMEMIT(\" allow_discards\");"
+        },
+        {
+          "line": 3551,
+          "text": "\t\t\tif (test_bit(DM_CRYPT_SAME_CPU, &cc->flags))"
+        },
+        {
+          "line": 3552,
+          "text": "\t\t\t\tDMEMIT(\" same_cpu_crypt\");"
+        },
+        {
+          "line": 3553,
+          "text": "\t\t\tif (test_bit(DM_CRYPT_HIGH_PRIORITY, &cc->flags))"
+        },
+        {
+          "line": 3554,
+          "text": "\t\t\t\tDMEMIT(\" high_priority\");"
+        },
+        {
+          "line": 3555,
+          "text": "\t\t\tif (test_bit(DM_CRYPT_NO_OFFLOAD, &cc->flags))"
+        },
+        {
+          "line": 3556,
+          "text": "\t\t\t\tDMEMIT(\" submit_from_crypt_cpus\");"
+        },
+        {
+          "line": 3557,
+          "text": "\t\t\tif (test_bit(DM_CRYPT_NO_READ_WORKQUEUE, &cc->flags))"
+        },
+        {
+          "line": 3558,
+          "text": "\t\t\t\tDMEMIT(\" no_read_workqueue\");"
+        },
+        {
+          "line": 3559,
+          "text": "\t\t\tif (test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags))"
+        },
+        {
+          "line": 3560,
+          "text": "\t\t\t\tDMEMIT(\" no_write_workqueue\");"
+        },
+        {
+          "line": 3561,
+          "text": "\t\t\tif (cc->used_tag_size)"
+        },
+        {
+          "line": 3562,
+          "text": "\t\t\t\tDMEMIT(\" integrity:%u:%s\", cc->used_tag_size, cc->cipher_auth);"
+        },
+        {
+          "line": 3563,
+          "text": "\t\t\tif (cc->sector_size != (1 << SECTOR_SHIFT))"
+        },
+        {
+          "line": 3564,
+          "text": "\t\t\t\tDMEMIT(\" sector_size:%d\", cc->sector_size);"
+        },
+        {
+          "line": 3565,
+          "text": "\t\t\tif (test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags))"
+        },
+        {
+          "line": 3566,
+          "text": "\t\t\t\tDMEMIT(\" iv_large_sectors\");"
+        },
+        {
+          "line": 3567,
+          "text": "\t\t\tif (test_bit(CRYPT_KEY_MAC_SIZE_SET, &cc->cipher_flags))"
+        },
+        {
+          "line": 3568,
+          "text": "\t\t\t\tDMEMIT(\" integrity_key_size:%u\", cc->key_mac_size);"
+        },
+        {
+          "line": 3569,
+          "text": "\t\t}"
+        },
+        {
+          "line": 3570,
+          "text": "\t\tbreak;"
+        },
+        {
+          "line": 3571,
+          "text": ""
+        },
+        {
+          "line": 3572,
+          "text": "\tcase STATUSTYPE_IMA:"
+        },
+        {
+          "line": 3573,
+          "text": "\t\tDMEMIT_TARGET_NAME_VERSION(ti->type);"
+        },
+        {
+          "line": 3574,
+          "text": "\t\tDMEMIT(\",allow_discards=%c\", ti->num_discard_bios ? 'y' : 'n');"
+        },
+        {
+          "line": 3575,
+          "text": "\t\tDMEMIT(\",same_cpu_crypt=%c\", test_bit(DM_CRYPT_SAME_CPU, &cc->flags) ? 'y' : 'n');"
+        },
+        {
+          "line": 3577,
+          "text": "\t\tDMEMIT(\",submit_from_crypt_cpus=%c\", test_bit(DM_CRYPT_NO_OFFLOAD, &cc->flags) ?"
+        },
+        {
+          "line": 3578,
+          "text": "\t\t       'y' : 'n');"
+        },
+        {
+          "line": 3579,
+          "text": "\t\tDMEMIT(\",no_read_workqueue=%c\", test_bit(DM_CRYPT_NO_READ_WORKQUEUE, &cc->flags) ?"
+        },
+        {
+          "line": 3580,
+          "text": "\t\t       'y' : 'n');"
+        },
+        {
+          "line": 3581,
+          "text": "\t\tDMEMIT(\",no_write_workqueue=%c\", test_bit(DM_CRYPT_NO_WRITE_WORKQUEUE, &cc->flags) ?"
+        },
+        {
+          "line": 3582,
+          "text": "\t\t       'y' : 'n');"
+        },
+        {
+          "line": 3583,
+          "text": "\t\tDMEMIT(\",iv_large_sectors=%c\", test_bit(CRYPT_IV_LARGE_SECTORS, &cc->cipher_flags) ?"
+        },
+        {
+          "line": 3584,
+          "text": "\t\t       'y' : 'n');"
+        },
+        {
+          "line": 3585,
+          "text": ""
+        },
+        {
+          "line": 3586,
+          "text": "\t\tif (cc->used_tag_size)"
+        },
+        {
+          "line": 3587,
+          "text": "\t\t\tDMEMIT(\",integrity_tag_size=%u,cipher_auth=%s\","
+        },
+        {
+          "line": 3588,
+          "text": "\t\t\t       cc->used_tag_size, cc->cipher_auth);"
+        },
+        {
+          "line": 3589,
+          "text": "\t\tif (cc->sector_size != (1 << SECTOR_SHIFT))"
+        },
+        {
+          "line": 3590,
+          "text": "\t\t\tDMEMIT(\",sector_size=%d\", cc->sector_size);"
+        },
+        {
+          "line": 3591,
+          "text": "\t\tif (cc->cipher_string)"
+        },
+        {
+          "line": 3592,
+          "text": "\t\t\tDMEMIT(\",cipher_string=%s\", cc->cipher_string);"
+        },
+        {
+          "line": 3593,
+          "text": ""
+        },
+        {
+          "line": 3594,
+          "text": "\t\tDMEMIT(\",key_size=%u\", cc->key_size);"
+        },
+        {
+          "line": 3595,
+          "text": "\t\tDMEMIT(\",key_parts=%u\", cc->key_parts);"
+        },
+        {
+          "line": 3596,
+          "text": "\t\tDMEMIT(\",key_extra_size=%u\", cc->key_extra_size);"
+        },
+        {
+          "line": 3597,
+          "text": "\t\tDMEMIT(\",key_mac_size=%u\", cc->key_mac_size);"
+        }
+      ]
+    },
+    "drivers/usb/core/devio.c": {
+      "sha256": "a405936b03c59e92375b1b18f676da4c7d8e35918c8b3d4618c3692448bc9dcc",
+      "excerpts": [
+        {
+          "line": 130,
+          "text": ""
+        },
+        {
+          "line": 131,
+          "text": "#define USB_DEVICE_DEV\t\tMKDEV(USB_DEVICE_MAJOR, 0)"
+        },
+        {
+          "line": 132,
+          "text": ""
+        },
+        {
+          "line": 133,
+          "text": "/* Limit on the total amount of memory we can allocate for transfers */"
+        },
+        {
+          "line": 134,
+          "text": "static u32 usbfs_memory_mb = 16;"
+        },
+        {
+          "line": 135,
+          "text": "module_param(usbfs_memory_mb, uint, 0644);"
+        },
+        {
+          "line": 136,
+          "text": "MODULE_PARM_DESC(usbfs_memory_mb,"
+        },
+        {
+          "line": 137,
+          "text": "\t\t\"maximum MB allowed for usbfs buffers (0 = no limit)\");"
+        },
+        {
+          "line": 138,
+          "text": ""
+        },
+        {
+          "line": 139,
+          "text": "/* Hard limit, necessary to avoid arithmetic overflow */"
+        },
+        {
+          "line": 140,
+          "text": "#define USBFS_XFER_MAX         (UINT_MAX / 2 - 1000000)"
+        },
+        {
+          "line": 141,
+          "text": ""
+        },
+        {
+          "line": 142,
+          "text": "static DEFINE_SPINLOCK(usbfs_memory_usage_lock);"
+        },
+        {
+          "line": 143,
+          "text": "static u64 usbfs_memory_usage;\t/* Total memory currently allocated */"
+        },
+        {
+          "line": 144,
+          "text": ""
+        },
+        {
+          "line": 145,
+          "text": "/* Check whether it's okay to allocate more memory for a transfer */"
+        },
+        {
+          "line": 146,
+          "text": "static int usbfs_increase_memory_usage(u64 amount)"
+        },
+        {
+          "line": 147,
+          "text": "{"
+        },
+        {
+          "line": 148,
+          "text": "\tu64 lim, total_mem;"
+        },
+        {
+          "line": 149,
+          "text": "\tunsigned long flags;"
+        },
+        {
+          "line": 150,
+          "text": "\tint ret;"
+        },
+        {
+          "line": 151,
+          "text": ""
+        },
+        {
+          "line": 152,
+          "text": "\tlim = READ_ONCE(usbfs_memory_mb);"
+        },
+        {
+          "line": 153,
+          "text": "\tlim <<= 20;"
+        },
+        {
+          "line": 154,
+          "text": ""
+        },
+        {
+          "line": 155,
+          "text": "\tret = 0;"
+        },
+        {
+          "line": 156,
+          "text": "\tspin_lock_irqsave(&usbfs_memory_usage_lock, flags);"
+        },
+        {
+          "line": 157,
+          "text": "\ttotal_mem = usbfs_memory_usage + amount;"
+        },
+        {
+          "line": 158,
+          "text": "\tif (lim > 0 && total_mem > lim)"
+        },
+        {
+          "line": 159,
+          "text": "\t\tret = -ENOMEM;"
+        },
+        {
+          "line": 160,
+          "text": "\telse"
+        },
+        {
+          "line": 161,
+          "text": "\t\tusbfs_memory_usage = total_mem;"
+        },
+        {
+          "line": 162,
+          "text": "\tspin_unlock_irqrestore(&usbfs_memory_usage_lock, flags);"
+        }
+      ]
+    },
+    "drivers/usb/storage/uas.c": {
+      "sha256": "82d61ee8016f4d3a377f963df789f54dcf27aa1719f0f164bc01c7b873d07373",
+      "excerpts": [
+        {
+          "line": 549,
+          "text": "\turb = uas_alloc_sense_urb(devinfo, gfp, cmnd);"
+        },
+        {
+          "line": 550,
+          "text": "\tif (!urb)"
+        },
+        {
+          "line": 551,
+          "text": "\t\treturn -ENOMEM;"
+        },
+        {
+          "line": 552,
+          "text": "\tusb_anchor_urb(urb, &devinfo->sense_urbs);"
+        },
+        {
+          "line": 553,
+          "text": "\terr = usb_submit_urb(urb, gfp);"
+        },
+        {
+          "line": 554,
+          "text": "\tif (err) {"
+        },
+        {
+          "line": 555,
+          "text": "\t\tusb_unanchor_urb(urb);"
+        },
+        {
+          "line": 556,
+          "text": "\t\tuas_log_cmd_state(cmnd, \"sense submit err\", err);"
+        },
+        {
+          "line": 557,
+          "text": "\t\tusb_free_urb(urb);"
+        },
+        {
+          "line": 558,
+          "text": "\t}"
+        },
+        {
+          "line": 559,
+          "text": "\treturn err;"
+        },
+        {
+          "line": 560,
+          "text": "}"
+        },
+        {
+          "line": 561,
+          "text": ""
+        },
+        {
+          "line": 562,
+          "text": "static int uas_submit_urbs(struct scsi_cmnd *cmnd,"
+        },
+        {
+          "line": 563,
+          "text": "\t\t\t   struct uas_dev_info *devinfo)"
+        },
+        {
+          "line": 564,
+          "text": "{"
+        },
+        {
+          "line": 565,
+          "text": "\tstruct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);"
+        },
+        {
+          "line": 566,
+          "text": "\tint err;"
+        },
+        {
+          "line": 567,
+          "text": ""
+        },
+        {
+          "line": 568,
+          "text": "\tlockdep_assert_held(&devinfo->lock);"
+        },
+        {
+          "line": 569,
+          "text": "\tif (cmdinfo->state & SUBMIT_STATUS_URB) {"
+        },
+        {
+          "line": 582,
+          "text": "\t}"
+        },
+        {
+          "line": 583,
+          "text": ""
+        },
+        {
+          "line": 584,
+          "text": "\tif (cmdinfo->state & SUBMIT_DATA_IN_URB) {"
+        },
+        {
+          "line": 585,
+          "text": "\t\tusb_anchor_urb(cmdinfo->data_in_urb, &devinfo->data_urbs);"
+        },
+        {
+          "line": 586,
+          "text": "\t\terr = usb_submit_urb(cmdinfo->data_in_urb, GFP_ATOMIC);"
+        },
+        {
+          "line": 587,
+          "text": "\t\tif (err) {"
+        },
+        {
+          "line": 588,
+          "text": "\t\t\tusb_unanchor_urb(cmdinfo->data_in_urb);"
+        },
+        {
+          "line": 589,
+          "text": "\t\t\tuas_log_cmd_state(cmnd, \"data in submit err\", err);"
+        },
+        {
+          "line": 590,
+          "text": "\t\t\treturn err;"
+        },
+        {
+          "line": 591,
+          "text": "\t\t}"
+        },
+        {
+          "line": 592,
+          "text": "\t\tcmdinfo->state &= ~SUBMIT_DATA_IN_URB;"
+        },
+        {
+          "line": 593,
+          "text": "\t\tcmdinfo->state |= DATA_IN_URB_INFLIGHT;"
+        },
+        {
+          "line": 594,
+          "text": "\t}"
+        },
+        {
+          "line": 595,
+          "text": ""
+        },
+        {
+          "line": 596,
+          "text": "\tif (cmdinfo->state & ALLOC_DATA_OUT_URB) {"
+        },
+        {
+          "line": 597,
+          "text": "\t\tcmdinfo->data_out_urb = uas_alloc_data_urb(devinfo, GFP_ATOMIC,"
+        },
+        {
+          "line": 598,
+          "text": "\t\t\t\t\t\t\tcmnd, DMA_TO_DEVICE);"
+        },
+        {
+          "line": 599,
+          "text": "\t\tif (!cmdinfo->data_out_urb)"
+        },
+        {
+          "line": 600,
+          "text": "\t\t\treturn -ENOMEM;"
+        },
+        {
+          "line": 601,
+          "text": "\t\tcmdinfo->state &= ~ALLOC_DATA_OUT_URB;"
+        },
+        {
+          "line": 602,
+          "text": "\t}"
+        },
+        {
+          "line": 603,
+          "text": ""
+        },
+        {
+          "line": 604,
+          "text": "\tif (cmdinfo->state & SUBMIT_DATA_OUT_URB) {"
+        },
+        {
+          "line": 605,
+          "text": "\t\tusb_anchor_urb(cmdinfo->data_out_urb, &devinfo->data_urbs);"
+        },
+        {
+          "line": 606,
+          "text": "\t\terr = usb_submit_urb(cmdinfo->data_out_urb, GFP_ATOMIC);"
+        },
+        {
+          "line": 607,
+          "text": "\t\tif (err) {"
+        },
+        {
+          "line": 608,
+          "text": "\t\t\tusb_unanchor_urb(cmdinfo->data_out_urb);"
+        },
+        {
+          "line": 609,
+          "text": "\t\t\tuas_log_cmd_state(cmnd, \"data out submit err\", err);"
+        },
+        {
+          "line": 610,
+          "text": "\t\t\treturn err;"
+        },
+        {
+          "line": 611,
+          "text": "\t\t}"
+        },
+        {
+          "line": 612,
+          "text": "\t\tcmdinfo->state &= ~SUBMIT_DATA_OUT_URB;"
+        },
+        {
+          "line": 613,
+          "text": "\t\tcmdinfo->state |= DATA_OUT_URB_INFLIGHT;"
+        },
+        {
+          "line": 614,
+          "text": "\t}"
+        },
+        {
+          "line": 615,
+          "text": ""
+        },
+        {
+          "line": 616,
+          "text": "\tif (cmdinfo->state & ALLOC_CMD_URB) {"
+        },
+        {
+          "line": 617,
+          "text": "\t\tcmdinfo->cmd_urb = uas_alloc_cmd_urb(devinfo, GFP_ATOMIC, cmnd);"
+        },
+        {
+          "line": 618,
+          "text": "\t\tif (!cmdinfo->cmd_urb)"
+        },
+        {
+          "line": 619,
+          "text": "\t\t\treturn -ENOMEM;"
+        },
+        {
+          "line": 620,
+          "text": "\t\tcmdinfo->state &= ~ALLOC_CMD_URB;"
+        },
+        {
+          "line": 621,
+          "text": "\t}"
+        },
+        {
+          "line": 622,
+          "text": ""
+        },
+        {
+          "line": 623,
+          "text": "\tif (cmdinfo->state & SUBMIT_CMD_URB) {"
+        },
+        {
+          "line": 624,
+          "text": "\t\tusb_anchor_urb(cmdinfo->cmd_urb, &devinfo->cmd_urbs);"
+        },
+        {
+          "line": 625,
+          "text": "\t\terr = usb_submit_urb(cmdinfo->cmd_urb, GFP_ATOMIC);"
+        },
+        {
+          "line": 626,
+          "text": "\t\tif (err) {"
+        },
+        {
+          "line": 627,
+          "text": "\t\t\tusb_unanchor_urb(cmdinfo->cmd_urb);"
+        },
+        {
+          "line": 628,
+          "text": "\t\t\tuas_log_cmd_state(cmnd, \"cmd submit err\", err);"
+        },
+        {
+          "line": 629,
+          "text": "\t\t\treturn err;"
+        },
+        {
+          "line": 630,
+          "text": "\t\t}"
+        },
+        {
+          "line": 631,
+          "text": "\t\tcmdinfo->cmd_urb = NULL;"
+        },
+        {
+          "line": 632,
+          "text": "\t\tcmdinfo->state &= ~SUBMIT_CMD_URB;"
+        },
+        {
+          "line": 633,
+          "text": "\t\tcmdinfo->state |= COMMAND_INFLIGHT;"
+        },
+        {
+          "line": 634,
+          "text": "\t}"
+        },
+        {
+          "line": 635,
+          "text": ""
+        },
+        {
+          "line": 636,
+          "text": "\treturn 0;"
+        },
+        {
+          "line": 637,
+          "text": "}"
+        },
+        {
+          "line": 638,
+          "text": ""
+        },
+        {
+          "line": 639,
+          "text": "static enum scsi_qc_status uas_queuecommand_lck(struct scsi_cmnd *cmnd)"
+        },
+        {
+          "line": 640,
+          "text": "{"
+        },
+        {
+          "line": 641,
+          "text": "\tstruct scsi_device *sdev = cmnd->device;"
+        },
+        {
+          "line": 642,
+          "text": "\tstruct uas_dev_info *devinfo = sdev->hostdata;"
+        },
+        {
+          "line": 643,
+          "text": "\tstruct uas_cmd_info *cmdinfo = scsi_cmd_priv(cmnd);"
+        },
+        {
+          "line": 644,
+          "text": "\tunsigned long flags;"
+        },
+        {
+          "line": 645,
+          "text": "\tint idx, err;"
+        },
+        {
+          "line": 646,
+          "text": ""
+        },
+        {
+          "line": 647,
+          "text": "\t/* Re-check scsi_block_requests now that we've the host-lock */"
+        },
+        {
+          "line": 648,
+          "text": "\tif (cmnd->device->host->host_self_blocked)"
+        },
+        {
+          "line": 649,
+          "text": "\t\treturn SCSI_MLQUEUE_DEVICE_BUSY;"
+        },
+        {
+          "line": 650,
+          "text": ""
+        },
+        {
+          "line": 651,
+          "text": "\tif ((devinfo->flags & US_FL_NO_ATA_1X) &&"
+        },
+        {
+          "line": 652,
+          "text": "\t\t\t(cmnd->cmnd[0] == ATA_12 || cmnd->cmnd[0] == ATA_16)) {"
+        },
+        {
+          "line": 653,
+          "text": "\t\tmemcpy(cmnd->sense_buffer, usb_stor_sense_invalidCDB,"
+        },
+        {
+          "line": 654,
+          "text": "\t\t       sizeof(usb_stor_sense_invalidCDB));"
+        },
+        {
+          "line": 655,
+          "text": "\t\tcmnd->result = SAM_STAT_CHECK_CONDITION;"
+        }
+      ]
+    },
+    "lib/crypto/aes.c": {
+      "sha256": "c968ee138d52715d9523c84ee5be4001e8869aa0744fac0a6ee748df1cd50c83",
+      "excerpts": [
+        {
+          "line": 1200,
+          "text": "static inline void aes_ctr_fips_test(void)"
+        },
+        {
+          "line": 1201,
+          "text": "{"
+        },
+        {
+          "line": 1202,
+          "text": "}"
+        },
+        {
+          "line": 1203,
+          "text": "#endif /* !CONFIG_CRYPTO_LIB_AES_CTR */"
+        },
+        {
+          "line": 1204,
+          "text": ""
+        },
+        {
+          "line": 1205,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_LIB_AES_XTS)"
+        },
+        {
+          "line": 1206,
+          "text": "int aes_xts_preparekey(struct aes_xts_key *key, const u8 *in_key,"
+        },
+        {
+          "line": 1207,
+          "text": "\t\t       size_t key_len, int flags)"
+        },
+        {
+          "line": 1208,
+          "text": "{"
+        },
+        {
+          "line": 1209,
+          "text": "\tint err;"
+        },
+        {
+          "line": 1210,
+          "text": ""
+        },
+        {
+          "line": 1211,
+          "text": "\terr = __xts_verify_key(in_key, key_len, flags);"
+        },
+        {
+          "line": 1212,
+          "text": "\tif (unlikely(err))"
+        },
+        {
+          "line": 1213,
+          "text": "\t\tgoto out_zeroize;"
+        },
+        {
+          "line": 1214,
+          "text": "\t/* First half of XTS key is the main key */"
+        },
+        {
+          "line": 1215,
+          "text": "\terr = aes_preparekey(&key->main_key, in_key, key_len / 2);"
+        },
+        {
+          "line": 1216,
+          "text": "\tif (unlikely(err))"
+        },
+        {
+          "line": 1217,
+          "text": "\t\tgoto out_zeroize;"
+        },
+        {
+          "line": 1218,
+          "text": "\t/* Second half of XTS key is the tweak key */"
+        },
+        {
+          "line": 1219,
+          "text": "\terr = aes_prepareenckey(&key->tweak_key, &in_key[key_len / 2],"
+        },
+        {
+          "line": 1220,
+          "text": "\t\t\t\tkey_len / 2);"
+        },
+        {
+          "line": 1221,
+          "text": "\tif (unlikely(err))"
+        },
+        {
+          "line": 1222,
+          "text": "\t\tgoto out_zeroize;"
+        },
+        {
+          "line": 1223,
+          "text": "\treturn 0;"
+        },
+        {
+          "line": 1224,
+          "text": ""
+        },
+        {
+          "line": 1225,
+          "text": "out_zeroize:"
+        },
+        {
+          "line": 1226,
+          "text": "\tmemzero_explicit(key, sizeof(*key));"
+        },
+        {
+          "line": 1227,
+          "text": "\treturn err;"
+        },
+        {
+          "line": 1228,
+          "text": "}"
+        },
+        {
+          "line": 1229,
+          "text": "EXPORT_SYMBOL_GPL(aes_xts_preparekey);"
+        },
+        {
+          "line": 1230,
+          "text": ""
+        },
+        {
+          "line": 1231,
+          "text": "/*"
+        },
+        {
+          "line": 1232,
+          "text": " * Hooks for optimized AES-XTS implementations, overridable by the architecture."
+        },
+        {
+          "line": 1233,
+          "text": " * They are called with len > 0 && len % AES_BLOCK_SIZE == 0.  In other words,"
+        },
+        {
+          "line": 1234,
+          "text": " * they aren't expected to handle ciphertext stealing or empty inputs."
+        },
+        {
+          "line": 1235,
+          "text": " * Returning false causes the fallback implementation to be used instead."
+        },
+        {
+          "line": 1236,
+          "text": " *"
+        },
+        {
+          "line": 1237,
+          "text": " * (Currently, all users of AES-XTS in the kernel seem to en/decrypt whole"
+        },
+        {
+          "line": 1238,
+          "text": " * numbers of blocks anyway, with len >= 512.  So there's no need to heavily"
+        },
+        {
+          "line": 1239,
+          "text": " * optimize ciphertext stealing for short messages.)"
+        },
+        {
+          "line": 1240,
+          "text": " */"
+        },
+        {
+          "line": 1241,
+          "text": "#ifndef aes_xts_encrypt_arch"
+        },
+        {
+          "line": 1242,
+          "text": "static bool aes_xts_encrypt_arch(u8 *dst, const u8 *src, size_t len,"
+        },
+        {
+          "line": 1243,
+          "text": "\t\t\t\t u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1244,
+          "text": "\t\t\t\t const struct aes_xts_key *key, bool cont)"
+        },
+        {
+          "line": 1245,
+          "text": "{"
+        },
+        {
+          "line": 1246,
+          "text": "\treturn false;"
+        },
+        {
+          "line": 1247,
+          "text": "}"
+        },
+        {
+          "line": 1248,
+          "text": "#endif"
+        },
+        {
+          "line": 1249,
+          "text": "#ifndef aes_xts_decrypt_arch"
+        },
+        {
+          "line": 1250,
+          "text": "static bool aes_xts_decrypt_arch(u8 *dst, const u8 *src, size_t len,"
+        },
+        {
+          "line": 1251,
+          "text": "\t\t\t\t u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1252,
+          "text": "\t\t\t\t const struct aes_xts_key *key, bool cont)"
+        },
+        {
+          "line": 1253,
+          "text": "{"
+        },
+        {
+          "line": 1254,
+          "text": "\treturn false;"
+        },
+        {
+          "line": 1255,
+          "text": "}"
+        },
+        {
+          "line": 1256,
+          "text": "#endif"
+        },
+        {
+          "line": 1257,
+          "text": ""
+        },
+        {
+          "line": 1258,
+          "text": "static noinline void aes_xts_crypt_nocts_blockbyblock("
+        },
+        {
+          "line": 1259,
+          "text": "\tu8 *dst, const u8 *src, size_t len, u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1260,
+          "text": "\tconst struct aes_xts_key *key, bool cont, bool enc)"
+        },
+        {
+          "line": 1261,
+          "text": "{"
+        },
+        {
+          "line": 1262,
+          "text": "\tle128 t;"
+        },
+        {
+          "line": 1263,
+          "text": ""
+        },
+        {
+          "line": 1264,
+          "text": "\tif (cont)"
+        },
+        {
+          "line": 1265,
+          "text": "\t\tmemcpy(&t, tweak, sizeof(t));"
+        },
+        {
+          "line": 1266,
+          "text": "\telse"
+        },
+        {
+          "line": 1267,
+          "text": "\t\taes_encrypt(&key->tweak_key, (u8 *)&t, tweak);"
+        },
+        {
+          "line": 1268,
+          "text": "\tdo {"
+        },
+        {
+          "line": 1269,
+          "text": "\t\tcrypto_xor_cpy(dst, src, (const u8 *)&t, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1270,
+          "text": "\t\tif (enc)"
+        },
+        {
+          "line": 1271,
+          "text": "\t\t\taes_encrypt(&key->main_key, dst, dst);"
+        },
+        {
+          "line": 1272,
+          "text": "\t\telse"
+        },
+        {
+          "line": 1273,
+          "text": "\t\t\taes_decrypt(&key->main_key, dst, dst);"
+        },
+        {
+          "line": 1274,
+          "text": "\t\tcrypto_xor(dst, (const u8 *)&t, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1275,
+          "text": "\t\tgf128mul_x_ble(&t, &t);"
+        },
+        {
+          "line": 1276,
+          "text": "\t\tdst += AES_BLOCK_SIZE;"
+        },
+        {
+          "line": 1277,
+          "text": "\t\tsrc += AES_BLOCK_SIZE;"
+        },
+        {
+          "line": 1278,
+          "text": "\t\tlen -= AES_BLOCK_SIZE;"
+        },
+        {
+          "line": 1279,
+          "text": "\t} while (len);"
+        },
+        {
+          "line": 1280,
+          "text": "\tmemcpy(tweak, &t, sizeof(t));"
+        },
+        {
+          "line": 1281,
+          "text": "\tmemzero_explicit(&t, sizeof(t));"
+        },
+        {
+          "line": 1282,
+          "text": "}"
+        },
+        {
+          "line": 1283,
+          "text": ""
+        },
+        {
+          "line": 1284,
+          "text": "/* Requires len > 0 && len % AES_BLOCK_SIZE == 0 */"
+        },
+        {
+          "line": 1285,
+          "text": "static __always_inline void aes_xts_encrypt_nocts(u8 *dst, const u8 *src,"
+        },
+        {
+          "line": 1286,
+          "text": "\t\t\t\t\t\t  size_t len,"
+        },
+        {
+          "line": 1287,
+          "text": "\t\t\t\t\t\t  u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1288,
+          "text": "\t\t\t\t\t\t  const struct aes_xts_key *key,"
+        },
+        {
+          "line": 1289,
+          "text": "\t\t\t\t\t\t  bool cont)"
+        },
+        {
+          "line": 1290,
+          "text": "{"
+        },
+        {
+          "line": 1291,
+          "text": "\tif (likely(aes_xts_encrypt_arch(dst, src, len, tweak, key, cont)))"
+        },
+        {
+          "line": 1292,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1293,
+          "text": ""
+        },
+        {
+          "line": 1294,
+          "text": "\t/*"
+        },
+        {
+          "line": 1295,
+          "text": "\t * For the fallback, just go block-by-block.  It could be implemented on"
+        },
+        {
+          "line": 1296,
+          "text": "\t * top of AES-ECB, which could be significantly faster than this if the"
+        },
+        {
+          "line": 1297,
+          "text": "\t * arch has optimized AES-ECB code but not AES-XTS.  However, AES-XTS"
+        },
+        {
+          "line": 1298,
+          "text": "\t * performance is important enough that it needs to be (and has been)"
+        },
+        {
+          "line": 1299,
+          "text": "\t * implemented directly by every non-obsolete arch anyway."
+        },
+        {
+          "line": 1300,
+          "text": "\t */"
+        },
+        {
+          "line": 1301,
+          "text": "\taes_xts_crypt_nocts_blockbyblock(dst, src, len, tweak, key, cont,"
+        },
+        {
+          "line": 1302,
+          "text": "\t\t\t\t\t /* enc= */ true);"
+        },
+        {
+          "line": 1303,
+          "text": "}"
+        },
+        {
+          "line": 1304,
+          "text": ""
+        },
+        {
+          "line": 1305,
+          "text": "/* Requires len > 0 && len % AES_BLOCK_SIZE == 0 */"
+        },
+        {
+          "line": 1306,
+          "text": "static __always_inline void aes_xts_decrypt_nocts(u8 *dst, const u8 *src,"
+        },
+        {
+          "line": 1307,
+          "text": "\t\t\t\t\t\t  size_t len,"
+        },
+        {
+          "line": 1308,
+          "text": "\t\t\t\t\t\t  u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1309,
+          "text": "\t\t\t\t\t\t  const struct aes_xts_key *key,"
+        },
+        {
+          "line": 1310,
+          "text": "\t\t\t\t\t\t  bool cont)"
+        },
+        {
+          "line": 1311,
+          "text": "{"
+        },
+        {
+          "line": 1312,
+          "text": "\tif (likely(aes_xts_decrypt_arch(dst, src, len, tweak, key, cont)))"
+        },
+        {
+          "line": 1313,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1314,
+          "text": ""
+        },
+        {
+          "line": 1315,
+          "text": "\t/* Just go block-by-block.  See comment in aes_xts_encrypt_nocts(). */"
+        },
+        {
+          "line": 1316,
+          "text": "\taes_xts_crypt_nocts_blockbyblock(dst, src, len, tweak, key, cont,"
+        },
+        {
+          "line": 1317,
+          "text": "\t\t\t\t\t /* enc= */ false);"
+        },
+        {
+          "line": 1318,
+          "text": "}"
+        },
+        {
+          "line": 1319,
+          "text": ""
+        },
+        {
+          "line": 1320,
+          "text": "static noinline void aes_xts_encrypt_cts(u8 *dst, const u8 *src, size_t len,"
+        },
+        {
+          "line": 1321,
+          "text": "\t\t\t\t\t u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1322,
+          "text": "\t\t\t\t\t const struct aes_xts_key *key,"
+        },
+        {
+          "line": 1323,
+          "text": "\t\t\t\t\t bool cont)"
+        },
+        {
+          "line": 1324,
+          "text": "{"
+        },
+        {
+          "line": 1325,
+          "text": "\tsize_t partial_len = len % AES_BLOCK_SIZE; /* Length of partial block */"
+        },
+        {
+          "line": 1326,
+          "text": "\tsize_t nocts_len = round_down(len, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1327,
+          "text": "\tu8 tmp_block[AES_BLOCK_SIZE] __aligned(__alignof__(long));"
+        },
+        {
+          "line": 1328,
+          "text": ""
+        },
+        {
+          "line": 1329,
+          "text": "\t/* Encrypt all full blocks. */"
+        },
+        {
+          "line": 1330,
+          "text": "\taes_xts_encrypt_nocts(dst, src, nocts_len, tweak, key, cont);"
+        },
+        {
+          "line": 1331,
+          "text": "\tdst += nocts_len - AES_BLOCK_SIZE;"
+        },
+        {
+          "line": 1332,
+          "text": "\tsrc += nocts_len - AES_BLOCK_SIZE;"
+        },
+        {
+          "line": 1333,
+          "text": ""
+        },
+        {
+          "line": 1334,
+          "text": "\t/*"
+        },
+        {
+          "line": 1335,
+          "text": "\t * Swap the partial block with the first 'partial_len' bytes of the"
+        },
+        {
+          "line": 1336,
+          "text": "\t * encrypted last full block.  Note that a temporary buffer is needed to"
+        },
+        {
+          "line": 1337,
+          "text": "\t * support in-place encryption."
+        },
+        {
+          "line": 1338,
+          "text": "\t */"
+        },
+        {
+          "line": 1339,
+          "text": "\tmemcpy(tmp_block, src + AES_BLOCK_SIZE, partial_len);"
+        },
+        {
+          "line": 1340,
+          "text": "\tmemcpy(dst + AES_BLOCK_SIZE, dst, partial_len);"
+        },
+        {
+          "line": 1341,
+          "text": "\tmemcpy(dst, tmp_block, partial_len);"
+        },
+        {
+          "line": 1342,
+          "text": ""
+        },
+        {
+          "line": 1343,
+          "text": "\t/* Encrypt the last full block again. */"
+        },
+        {
+          "line": 1344,
+          "text": "\tcrypto_xor(dst, tweak, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1345,
+          "text": "\taes_encrypt(&key->main_key, dst, dst);"
+        },
+        {
+          "line": 1346,
+          "text": "\tcrypto_xor(dst, tweak, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1347,
+          "text": "\tmemzero_explicit(tmp_block, sizeof(tmp_block));"
+        },
+        {
+          "line": 1348,
+          "text": "}"
+        },
+        {
+          "line": 1349,
+          "text": ""
+        },
+        {
+          "line": 1350,
+          "text": "static noinline void aes_xts_decrypt_cts(u8 *dst, const u8 *src, size_t len,"
+        },
+        {
+          "line": 1351,
+          "text": "\t\t\t\t\t u8 tweak[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 1352,
+          "text": "\t\t\t\t\t const struct aes_xts_key *key,"
+        },
+        {
+          "line": 1353,
+          "text": "\t\t\t\t\t bool cont)"
+        },
+        {
+          "line": 1354,
+          "text": "{"
+        },
+        {
+          "line": 1355,
+          "text": "\tsize_t partial_len = len % AES_BLOCK_SIZE; /* Length of partial block */"
+        },
+        {
+          "line": 1356,
+          "text": "\tsize_t nocts_len = round_down(len, AES_BLOCK_SIZE) - AES_BLOCK_SIZE;"
+        },
+        {
+          "line": 1357,
+          "text": "\tunion {"
+        },
+        {
+          "line": 1358,
+          "text": "\t\tu8 block[AES_BLOCK_SIZE];"
+        },
+        {
+          "line": 1359,
+          "text": "\t\tle128 tweak;"
+        },
+        {
+          "line": 1360,
+          "text": "\t} tmp __aligned(__alignof__(long));"
+        },
+        {
+          "line": 1361,
+          "text": ""
+        },
+        {
+          "line": 1362,
+          "text": "\t/*"
+        },
+        {
+          "line": 1363,
+          "text": "\t * Decrypt all blocks except the last full block and the partial block."
+        },
+        {
+          "line": 1364,
+          "text": "\t * The last full block has to be handled specially because decryption"
+        },
+        {
+          "line": 1365,
+          "text": "\t * ciphertext stealing uses the last two tweaks in reverse order."
+        },
+        {
+          "line": 1366,
+          "text": "\t *"
+        },
+        {
+          "line": 1367,
+          "text": "\t * nocts_len == 0 is possible here, which aes_xts_decrypt_nocts()"
+        },
+        {
+          "line": 1368,
+          "text": "\t * doesn't handle (so that the length doesn't get checked redundantly in"
+        },
+        {
+          "line": 1369,
+          "text": "\t * the fast path).  So handle that case specially as well."
+        },
+        {
+          "line": 1370,
+          "text": "\t */"
+        },
+        {
+          "line": 1371,
+          "text": "\tif (nocts_len)"
+        },
+        {
+          "line": 1372,
+          "text": "\t\taes_xts_decrypt_nocts(dst, src, nocts_len, tweak, key, cont);"
+        },
+        {
+          "line": 1373,
+          "text": "\telse if (!cont)"
+        },
+        {
+          "line": 1374,
+          "text": "\t\taes_encrypt(&key->tweak_key, tweak, tweak);"
+        },
+        {
+          "line": 1375,
+          "text": "\tdst += nocts_len;"
+        },
+        {
+          "line": 1376,
+          "text": "\tsrc += nocts_len;"
+        },
+        {
+          "line": 1377,
+          "text": ""
+        },
+        {
+          "line": 1378,
+          "text": "\t/* Copy the tweak, advance it again, then decrypt last full block. */"
+        },
+        {
+          "line": 1379,
+          "text": "\tmemcpy(&tmp.tweak, tweak, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1380,
+          "text": "\tgf128mul_x_ble(&tmp.tweak, &tmp.tweak);"
+        },
+        {
+          "line": 1381,
+          "text": "\tcrypto_xor_cpy(dst, src, tmp.block, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1382,
+          "text": "\taes_decrypt(&key->main_key, dst, dst);"
+        },
+        {
+          "line": 1383,
+          "text": "\tcrypto_xor(dst, tmp.block, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1384,
+          "text": ""
+        },
+        {
+          "line": 1385,
+          "text": "\t/*"
+        },
+        {
+          "line": 1386,
+          "text": "\t * Swap the partial block with the first 'partial_len' bytes of the"
+        },
+        {
+          "line": 1387,
+          "text": "\t * decrypted last full block.  Note that a temporary buffer is needed to"
+        },
+        {
+          "line": 1388,
+          "text": "\t * support in-place decryption."
+        },
+        {
+          "line": 1389,
+          "text": "\t */"
+        },
+        {
+          "line": 1390,
+          "text": "\tmemcpy(tmp.block, src + AES_BLOCK_SIZE, partial_len);"
+        },
+        {
+          "line": 1391,
+          "text": "\tmemcpy(dst + AES_BLOCK_SIZE, dst, partial_len);"
+        },
+        {
+          "line": 1392,
+          "text": "\tmemcpy(dst, tmp.block, partial_len);"
+        },
+        {
+          "line": 1393,
+          "text": ""
+        },
+        {
+          "line": 1394,
+          "text": "\t/* Decrypt the last full block again. */"
+        },
+        {
+          "line": 1395,
+          "text": "\tcrypto_xor(dst, tweak, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1396,
+          "text": "\taes_decrypt(&key->main_key, dst, dst);"
+        },
+        {
+          "line": 1397,
+          "text": "\tcrypto_xor(dst, tweak, AES_BLOCK_SIZE);"
+        },
+        {
+          "line": 1398,
+          "text": "\tmemzero_explicit(&tmp, sizeof(tmp));"
+        },
+        {
+          "line": 1399,
+          "text": "}"
+        },
+        {
+          "line": 1400,
+          "text": ""
+        },
+        {
+          "line": 1401,
+          "text": "void aes_xts_encrypt(u8 *dst, const u8 *src, size_t len,"
+        },
+        {
+          "line": 1402,
+          "text": "\t\t     u8 tweak[AES_BLOCK_SIZE], const struct aes_xts_key *key,"
+        },
+        {
+          "line": 1403,
+          "text": "\t\t     bool cont)"
+        },
+        {
+          "line": 1404,
+          "text": "{"
+        },
+        {
+          "line": 1405,
+          "text": "\tif (WARN_ON_ONCE(len < AES_BLOCK_SIZE))"
+        },
+        {
+          "line": 1406,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1407,
+          "text": ""
+        },
+        {
+          "line": 1408,
+          "text": "\tif (unlikely(len % AES_BLOCK_SIZE)) {"
+        },
+        {
+          "line": 1409,
+          "text": "\t\taes_xts_encrypt_cts(dst, src, len, tweak, key, cont);"
+        },
+        {
+          "line": 1410,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1411,
+          "text": "\t}"
+        },
+        {
+          "line": 1412,
+          "text": ""
+        },
+        {
+          "line": 1413,
+          "text": "\taes_xts_encrypt_nocts(dst, src, len, tweak, key, cont);"
+        },
+        {
+          "line": 1414,
+          "text": "}"
+        },
+        {
+          "line": 1415,
+          "text": "EXPORT_SYMBOL_GPL(aes_xts_encrypt);"
+        },
+        {
+          "line": 1416,
+          "text": ""
+        },
+        {
+          "line": 1417,
+          "text": "void aes_xts_decrypt(u8 *dst, const u8 *src, size_t len,"
+        },
+        {
+          "line": 1418,
+          "text": "\t\t     u8 tweak[AES_BLOCK_SIZE], const struct aes_xts_key *key,"
+        },
+        {
+          "line": 1419,
+          "text": "\t\t     bool cont)"
+        },
+        {
+          "line": 1420,
+          "text": "{"
+        },
+        {
+          "line": 1421,
+          "text": "\tif (WARN_ON_ONCE(len < AES_BLOCK_SIZE))"
+        },
+        {
+          "line": 1422,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1423,
+          "text": ""
+        },
+        {
+          "line": 1424,
+          "text": "\tif (unlikely(len % AES_BLOCK_SIZE)) {"
+        },
+        {
+          "line": 1425,
+          "text": "\t\taes_xts_decrypt_cts(dst, src, len, tweak, key, cont);"
+        },
+        {
+          "line": 1426,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 1427,
+          "text": "\t}"
+        },
+        {
+          "line": 1428,
+          "text": ""
+        },
+        {
+          "line": 1429,
+          "text": "\taes_xts_decrypt_nocts(dst, src, len, tweak, key, cont);"
+        },
+        {
+          "line": 1430,
+          "text": "}"
+        }
+      ]
+    },
+    "lib/crypto/arm64/aes.h": {
+      "sha256": "9711520095dd84eb02d08f086c08b52eca4d30e2968e2643dc211c691c01bd5c",
+      "excerpts": [
+        {
+          "line": 5,
+          "text": " * Copyright (C) 2013 - 2017 Linaro Ltd <ard.biesheuvel@linaro.org>"
+        },
+        {
+          "line": 6,
+          "text": " * Copyright 2026 Google LLC"
+        },
+        {
+          "line": 7,
+          "text": " */"
+        },
+        {
+          "line": 8,
+          "text": ""
+        },
+        {
+          "line": 9,
+          "text": "#include <asm/neon.h>"
+        },
+        {
+          "line": 10,
+          "text": "#include <asm/simd.h>"
+        },
+        {
+          "line": 11,
+          "text": "#include <linux/unaligned.h>"
+        },
+        {
+          "line": 12,
+          "text": "#include <linux/cpufeature.h>"
+        },
+        {
+          "line": 13,
+          "text": ""
+        },
+        {
+          "line": 14,
+          "text": "static __ro_after_init DEFINE_STATIC_KEY_FALSE(have_neon);"
+        },
+        {
+          "line": 15,
+          "text": "static __ro_after_init DEFINE_STATIC_KEY_FALSE(have_aes);"
+        },
+        {
+          "line": 16,
+          "text": ""
+        },
+        {
+          "line": 17,
+          "text": "struct aes_block {"
+        },
+        {
+          "line": 18,
+          "text": "\tu8 b[AES_BLOCK_SIZE];"
+        },
+        {
+          "line": 19,
+          "text": "};"
+        },
+        {
+          "line": 20,
+          "text": ""
+        },
+        {
+          "line": 21,
+          "text": "asmlinkage void __aes_arm64_encrypt(const u32 rk[], u8 out[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 22,
+          "text": "\t\t\t\t    const u8 in[AES_BLOCK_SIZE], int rounds);"
+        },
+        {
+          "line": 23,
+          "text": "asmlinkage void __aes_arm64_decrypt(const u32 inv_rk[], u8 out[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 24,
+          "text": "\t\t\t\t    const u8 in[AES_BLOCK_SIZE], int rounds);"
+        },
+        {
+          "line": 25,
+          "text": "asmlinkage void __aes_ce_encrypt(const u32 rk[], u8 out[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 26,
+          "text": "\t\t\t\t const u8 in[AES_BLOCK_SIZE], int rounds);"
+        },
+        {
+          "line": 27,
+          "text": "asmlinkage void __aes_ce_decrypt(const u32 inv_rk[], u8 out[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 28,
+          "text": "\t\t\t\t const u8 in[AES_BLOCK_SIZE], int rounds);"
+        },
+        {
+          "line": 29,
+          "text": "asmlinkage u32 __aes_ce_sub(u32 l);"
+        },
+        {
+          "line": 30,
+          "text": "asmlinkage void __aes_ce_invert(struct aes_block *out,"
+        },
+        {
+          "line": 31,
+          "text": "\t\t\t\tconst struct aes_block *in);"
+        },
+        {
+          "line": 32,
+          "text": "asmlinkage void neon_aes_mac_update(u8 const in[], u32 const rk[], int rounds,"
+        },
+        {
+          "line": 33,
+          "text": "\t\t\t\t    size_t blocks, u8 dg[], int enc_before,"
+        },
+        {
+          "line": 34,
+          "text": "\t\t\t\t    int enc_after);"
+        },
+        {
+          "line": 35,
+          "text": ""
+        },
+        {
+          "line": 36,
+          "text": "/*"
+        },
+        {
+          "line": 37,
+          "text": " * Expand an AES key using the crypto extensions if supported and usable or"
+        },
+        {
+          "line": 38,
+          "text": " * generic code otherwise.  The expanded key format is compatible between the"
+        },
+        {
+          "line": 39,
+          "text": " * two cases.  The outputs are @rndkeys (required) and @inv_rndkeys (optional)."
+        },
+        {
+          "line": 40,
+          "text": " */"
+        },
+        {
+          "line": 41,
+          "text": "static void aes_expandkey_arm64(u32 rndkeys[], u32 *inv_rndkeys,"
+        },
+        {
+          "line": 42,
+          "text": "\t\t\t\tconst u8 *in_key, int key_len, int nrounds)"
+        },
+        {
+          "line": 43,
+          "text": "{"
+        },
+        {
+          "line": 44,
+          "text": "\t/*"
+        },
+        {
+          "line": 45,
+          "text": "\t * The AES key schedule round constants"
+        },
+        {
+          "line": 46,
+          "text": "\t */"
+        },
+        {
+          "line": 47,
+          "text": "\tstatic u8 const rcon[] = {"
+        },
+        {
+          "line": 48,
+          "text": "\t\t0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36,"
+        },
+        {
+          "line": 51,
+          "text": "\tu32 kwords = key_len / sizeof(u32);"
+        },
+        {
+          "line": 52,
+          "text": "\tstruct aes_block *key_enc, *key_dec;"
+        },
+        {
+          "line": 53,
+          "text": "\tint i, j;"
+        },
+        {
+          "line": 54,
+          "text": ""
+        },
+        {
+          "line": 55,
+          "text": "\tif (!static_branch_likely(&have_aes) || unlikely(!may_use_simd())) {"
+        },
+        {
+          "line": 56,
+          "text": "\t\taes_expandkey_generic(rndkeys, inv_rndkeys, in_key, key_len);"
+        },
+        {
+          "line": 57,
+          "text": "\t\treturn;"
+        },
+        {
+          "line": 58,
+          "text": "\t}"
+        },
+        {
+          "line": 59,
+          "text": ""
+        },
+        {
+          "line": 60,
+          "text": "\tfor (i = 0; i < kwords; i++)"
+        },
+        {
+          "line": 61,
+          "text": "\t\trndkeys[i] = get_unaligned_le32(&in_key[i * sizeof(u32)]);"
+        },
+        {
+          "line": 62,
+          "text": ""
+        },
+        {
+          "line": 63,
+          "text": "\tscoped_ksimd() {"
+        },
+        {
+          "line": 64,
+          "text": "\t\tfor (i = 0; i < sizeof(rcon); i++) {"
+        },
+        {
+          "line": 65,
+          "text": "\t\t\tu32 *rki = &rndkeys[i * kwords];"
+        },
+        {
+          "line": 66,
+          "text": "\t\t\tu32 *rko = rki + kwords;"
+        },
+        {
+          "line": 67,
+          "text": ""
+        },
+        {
+          "line": 68,
+          "text": "\t\t\trko[0] = ror32(__aes_ce_sub(rki[kwords - 1]), 8) ^"
+        },
+        {
+          "line": 69,
+          "text": "\t\t\t\t rcon[i] ^ rki[0];"
+        },
+        {
+          "line": 70,
+          "text": "\t\t\trko[1] = rko[0] ^ rki[1];"
+        },
+        {
+          "line": 71,
+          "text": "\t\t\trko[2] = rko[1] ^ rki[2];"
+        },
+        {
+          "line": 72,
+          "text": "\t\t\trko[3] = rko[2] ^ rki[3];"
+        },
+        {
+          "line": 73,
+          "text": ""
+        },
+        {
+          "line": 74,
+          "text": "\t\t\tif (key_len == AES_KEYSIZE_192) {"
+        },
+        {
+          "line": 75,
+          "text": "\t\t\t\tif (i >= 7)"
+        },
+        {
+          "line": 76,
+          "text": "\t\t\t\t\tbreak;"
+        },
+        {
+          "line": 77,
+          "text": "\t\t\t\trko[4] = rko[3] ^ rki[4];"
+        },
+        {
+          "line": 78,
+          "text": "\t\t\t\trko[5] = rko[4] ^ rki[5];"
+        },
+        {
+          "line": 79,
+          "text": "\t\t\t} else if (key_len == AES_KEYSIZE_256) {"
+        },
+        {
+          "line": 128,
+          "text": "\treturn 0;"
+        },
+        {
+          "line": 129,
+          "text": "}"
+        },
+        {
+          "line": 130,
+          "text": "EXPORT_SYMBOL(ce_aes_expandkey);"
+        },
+        {
+          "line": 131,
+          "text": ""
+        },
+        {
+          "line": 132,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_ecb_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 133,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_ecb_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 134,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_cbc_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 135,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_cbc_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 136,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_cbc_cts_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 137,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_cbc_cts_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 138,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_ctr_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 139,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_xctr_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 140,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_xts_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 141,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_xts_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 142,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_essiv_cbc_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 143,
+          "text": "EXPORT_SYMBOL_NS_GPL(neon_aes_essiv_cbc_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 144,
+          "text": ""
+        },
+        {
+          "line": 145,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_ecb_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 146,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_ecb_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 147,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_cbc_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 148,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_cbc_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 149,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_cbc_cts_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 150,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_cbc_cts_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 151,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_ctr_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 152,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_xctr_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 153,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_xts_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 154,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_xts_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 155,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_essiv_cbc_encrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 156,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_essiv_cbc_decrypt, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 157,
+          "text": "#if IS_MODULE(CONFIG_CRYPTO_AES_ARM64_CE_CCM)"
+        },
+        {
+          "line": 158,
+          "text": "EXPORT_SYMBOL_NS_GPL(ce_aes_mac_update, \"CRYPTO_INTERNAL\");"
+        },
+        {
+          "line": 159,
+          "text": "#endif"
+        },
+        {
+          "line": 160,
+          "text": ""
+        },
+        {
+          "line": 161,
+          "text": "static void aes_encrypt_arch(const struct aes_enckey *key,"
+        },
+        {
+          "line": 162,
+          "text": "\t\t\t     u8 out[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 163,
+          "text": "\t\t\t     const u8 in[AES_BLOCK_SIZE])"
+        },
+        {
+          "line": 164,
+          "text": "{"
+        },
+        {
+          "line": 165,
+          "text": "\tif (static_branch_likely(&have_aes) && likely(may_use_simd())) {"
+        },
+        {
+          "line": 166,
+          "text": "\t\tscoped_ksimd()"
+        },
+        {
+          "line": 167,
+          "text": "\t\t\t__aes_ce_encrypt(key->k.rndkeys, out, in, key->nrounds);"
+        },
+        {
+          "line": 168,
+          "text": "\t} else {"
+        },
+        {
+          "line": 169,
+          "text": "\t\t__aes_arm64_encrypt(key->k.rndkeys, out, in, key->nrounds);"
+        },
+        {
+          "line": 170,
+          "text": "\t}"
+        },
+        {
+          "line": 171,
+          "text": "}"
+        },
+        {
+          "line": 172,
+          "text": ""
+        },
+        {
+          "line": 173,
+          "text": "static void aes_decrypt_arch(const struct aes_key *key,"
+        },
+        {
+          "line": 174,
+          "text": "\t\t\t     u8 out[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 175,
+          "text": "\t\t\t     const u8 in[AES_BLOCK_SIZE])"
+        },
+        {
+          "line": 176,
+          "text": "{"
+        },
+        {
+          "line": 177,
+          "text": "\tif (static_branch_likely(&have_aes) && likely(may_use_simd())) {"
+        },
+        {
+          "line": 178,
+          "text": "\t\tscoped_ksimd()"
+        },
+        {
+          "line": 179,
+          "text": "\t\t\t__aes_ce_decrypt(key->inv_k.inv_rndkeys, out, in,"
+        },
+        {
+          "line": 180,
+          "text": "\t\t\t\t\t key->nrounds);"
+        },
+        {
+          "line": 181,
+          "text": "\t} else {"
+        },
+        {
+          "line": 182,
+          "text": "\t\t__aes_arm64_decrypt(key->inv_k.inv_rndkeys, out, in,"
+        },
+        {
+          "line": 183,
+          "text": "\t\t\t\t    key->nrounds);"
+        },
+        {
+          "line": 184,
+          "text": "\t}"
+        },
+        {
+          "line": 185,
+          "text": "}"
+        },
+        {
+          "line": 186,
+          "text": ""
+        },
+        {
+          "line": 187,
+          "text": "#if IS_ENABLED(CONFIG_CRYPTO_LIB_AES_CBC_MACS)"
+        },
+        {
+          "line": 188,
+          "text": "#define aes_cbcmac_blocks_arch aes_cbcmac_blocks_arch"
+        },
+        {
+          "line": 189,
+          "text": "static bool aes_cbcmac_blocks_arch(u8 h[AES_BLOCK_SIZE],"
+        },
+        {
+          "line": 190,
+          "text": "\t\t\t\t   const struct aes_enckey *key, const u8 *data,"
+        },
+        {
+          "line": 191,
+          "text": "\t\t\t\t   size_t nblocks, bool enc_before,"
+        },
+        {
+          "line": 192,
+          "text": "\t\t\t\t   bool enc_after)"
+        },
+        {
+          "line": 193,
+          "text": "{"
+        },
+        {
+          "line": 194,
+          "text": "\tif (static_branch_likely(&have_neon) && likely(may_use_simd())) {"
+        },
+        {
+          "line": 195,
+          "text": "\t\tscoped_ksimd() {"
+        },
+        {
+          "line": 196,
+          "text": "\t\t\tif (static_branch_likely(&have_aes))"
+        },
+        {
+          "line": 197,
+          "text": "\t\t\t\tce_aes_mac_update(data, key->k.rndkeys,"
+        },
+        {
+          "line": 198,
+          "text": "\t\t\t\t\t\t  key->nrounds, nblocks, h,"
+        },
+        {
+          "line": 199,
+          "text": "\t\t\t\t\t\t  enc_before, enc_after);"
+        },
+        {
+          "line": 200,
+          "text": "\t\t\telse"
+        },
+        {
+          "line": 201,
+          "text": "\t\t\t\tneon_aes_mac_update(data, key->k.rndkeys,"
+        },
+        {
+          "line": 202,
+          "text": "\t\t\t\t\t\t    key->nrounds, nblocks, h,"
+        },
+        {
+          "line": 203,
+          "text": "\t\t\t\t\t\t    enc_before, enc_after);"
+        },
+        {
+          "line": 204,
+          "text": "\t\t}"
+        },
+        {
+          "line": 205,
+          "text": "\t\treturn true;"
+        },
+        {
+          "line": 206,
+          "text": "\t}"
+        },
+        {
+          "line": 207,
+          "text": "\treturn false;"
+        },
+        {
+          "line": 208,
+          "text": "}"
+        },
+        {
+          "line": 209,
+          "text": "#endif /* CONFIG_CRYPTO_LIB_AES_CBC_MACS */"
+        },
+        {
+          "line": 210,
+          "text": ""
+        },
+        {
+          "line": 211,
+          "text": "#define aes_mod_init_arch aes_mod_init_arch"
+        },
+        {
+          "line": 212,
+          "text": "static void aes_mod_init_arch(void)"
+        },
+        {
+          "line": 213,
+          "text": "{"
+        },
+        {
+          "line": 214,
+          "text": "\tif (cpu_have_named_feature(ASIMD)) {"
+        },
+        {
+          "line": 215,
+          "text": "\t\tstatic_branch_enable(&have_neon);"
+        },
+        {
+          "line": 216,
+          "text": "\t\tif (cpu_have_named_feature(AES))"
+        },
+        {
+          "line": 217,
+          "text": "\t\t\tstatic_branch_enable(&have_aes);"
+        },
+        {
+          "line": 218,
+          "text": "\t}"
+        },
+        {
+          "line": 219,
+          "text": "}"
+        }
+      ]
+    },
+    "mm/cma.c": {
+      "sha256": "835f280de8852e9583ab6b7786c7dc92fa25f444d65c0e2517238075306bd724",
+      "excerpts": [
+        {
+          "line": 945,
+          "text": " *"
+        },
+        {
+          "line": 946,
+          "text": " * This function allocates part of contiguous memory on specific"
+        },
+        {
+          "line": 947,
+          "text": " * contiguous memory area."
+        },
+        {
+          "line": 948,
+          "text": " */"
+        },
+        {
+          "line": 949,
+          "text": "struct page *cma_alloc(struct cma *cma, unsigned long count,"
+        },
+        {
+          "line": 950,
+          "text": "\t\t       unsigned int align, bool no_warn)"
+        },
+        {
+          "line": 951,
+          "text": "{"
+        },
+        {
+          "line": 952,
+          "text": "\tstruct page *page;"
+        },
+        {
+          "line": 953,
+          "text": ""
+        },
+        {
+          "line": 954,
+          "text": "\tpage = cma_alloc_frozen(cma, count, align, no_warn);"
+        },
+        {
+          "line": 955,
+          "text": "\tif (page)"
+        },
+        {
+          "line": 956,
+          "text": "\t\tset_pages_refcounted(page, count);"
+        },
+        {
+          "line": 957,
+          "text": ""
+        },
+        {
+          "line": 958,
+          "text": "\treturn page;"
+        },
+        {
+          "line": 959,
+          "text": "}"
+        },
+        {
+          "line": 960,
+          "text": "EXPORT_SYMBOL_GPL(cma_alloc);"
+        },
+        {
+          "line": 961,
+          "text": ""
+        },
+        {
+          "line": 962,
+          "text": "static struct cma_memrange *find_cma_memrange(struct cma *cma,"
+        },
+        {
+          "line": 963,
+          "text": "\t\tconst struct page *pages, unsigned long count)"
+        },
+        {
+          "line": 964,
+          "text": "{"
+        },
+        {
+          "line": 965,
+          "text": "\tstruct cma_memrange *cmr = NULL;"
+        }
+      ]
+    },
+    "mm/huge_memory.c": {
+      "sha256": "379ec5cf318be5099224a0111b5f61fa507cccde25c97edf9000fc6c6d0fc388",
+      "excerpts": [
+        {
+          "line": 57,
+          "text": " * enabled, it is for all mappings, and khugepaged scans all mappings."
+        },
+        {
+          "line": 58,
+          "text": " * Defrag is invoked by khugepaged hugepage allocations and by page faults"
+        },
+        {
+          "line": 59,
+          "text": " * for all hugepage allocations."
+        },
+        {
+          "line": 60,
+          "text": " */"
+        },
+        {
+          "line": 61,
+          "text": "unsigned long transparent_hugepage_flags __read_mostly ="
+        },
+        {
+          "line": 62,
+          "text": "#ifdef CONFIG_TRANSPARENT_HUGEPAGE_ALWAYS"
+        },
+        {
+          "line": 63,
+          "text": "\t(1<<TRANSPARENT_HUGEPAGE_FLAG)|"
+        },
+        {
+          "line": 64,
+          "text": "#endif"
+        },
+        {
+          "line": 65,
+          "text": "#ifdef CONFIG_TRANSPARENT_HUGEPAGE_MADVISE"
+        },
+        {
+          "line": 66,
+          "text": "\t(1<<TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG)|"
+        },
+        {
+          "line": 67,
+          "text": "#endif"
+        },
+        {
+          "line": 68,
+          "text": "\t(1<<TRANSPARENT_HUGEPAGE_DEFRAG_REQ_MADV_FLAG)|"
+        },
+        {
+          "line": 69,
+          "text": "\t(1<<TRANSPARENT_HUGEPAGE_DEFRAG_KHUGEPAGED_FLAG)|"
+        },
+        {
+          "line": 70,
+          "text": "\t(1<<TRANSPARENT_HUGEPAGE_USE_ZERO_PAGE_FLAG);"
+        },
+        {
+          "line": 71,
+          "text": ""
+        },
+        {
+          "line": 72,
+          "text": "static struct lock_class_key deferred_split_key;"
+        },
+        {
+          "line": 73,
+          "text": "static struct list_lru deferred_split_lru;"
+        },
+        {
+          "line": 74,
+          "text": "static struct shrinker *deferred_split_shrinker;"
+        },
+        {
+          "line": 75,
+          "text": "static unsigned long deferred_split_count(struct shrinker *shrink,"
+        },
+        {
+          "line": 76,
+          "text": "\t\t\t\t\t  struct shrink_control *sc);"
+        },
+        {
+          "line": 77,
+          "text": "static unsigned long deferred_split_scan(struct shrinker *shrink,"
+        },
+        {
+          "line": 1348,
+          "text": ""
+        },
+        {
+          "line": 1349,
+          "text": "static struct folio *vma_alloc_anon_folio_pmd(struct vm_area_struct *vma,"
+        },
+        {
+          "line": 1350,
+          "text": "\t\tunsigned long addr)"
+        },
+        {
+          "line": 1351,
+          "text": "{"
+        },
+        {
+          "line": 1352,
+          "text": "\tgfp_t gfp = vma_thp_gfp_mask(vma);"
+        },
+        {
+          "line": 1353,
+          "text": "\tconst int order = HPAGE_PMD_ORDER;"
+        },
+        {
+          "line": 1354,
+          "text": "\tstruct folio *folio;"
+        },
+        {
+          "line": 1355,
+          "text": ""
+        },
+        {
+          "line": 1356,
+          "text": "\tfolio = vma_alloc_folio(gfp, order, vma, addr & HPAGE_PMD_MASK);"
+        },
+        {
+          "line": 1357,
+          "text": ""
+        },
+        {
+          "line": 1358,
+          "text": "\tif (unlikely(!folio)) {"
+        },
+        {
+          "line": 1359,
+          "text": "\t\tcount_vm_event(THP_FAULT_FALLBACK);"
+        },
+        {
+          "line": 1360,
+          "text": "\t\tcount_mthp_stat(order, MTHP_STAT_ANON_FAULT_FALLBACK);"
+        },
+        {
+          "line": 1361,
+          "text": "\t\treturn NULL;"
+        },
+        {
+          "line": 1362,
+          "text": "\t}"
+        },
+        {
+          "line": 1363,
+          "text": ""
+        },
+        {
+          "line": 1364,
+          "text": "\tVM_BUG_ON_FOLIO(!folio_test_large(folio), folio);"
+        },
+        {
+          "line": 1365,
+          "text": "\tif (mem_cgroup_charge(folio, vma->vm_mm, gfp)) {"
+        },
+        {
+          "line": 1366,
+          "text": "\t\tfolio_put(folio);"
+        },
+        {
+          "line": 1367,
+          "text": "\t\tcount_vm_event(THP_FAULT_FALLBACK);"
+        },
+        {
+          "line": 1368,
+          "text": "\t\tcount_vm_event(THP_FAULT_FALLBACK_CHARGE);"
+        },
+        {
+          "line": 1519,
+          "text": " * madvise: directly stall for MADV_HUGEPAGE, otherwise fail if not immediately"
+        },
+        {
+          "line": 1520,
+          "text": " *\t    available"
+        },
+        {
+          "line": 1521,
+          "text": " * never: never stall for any thp allocation"
+        },
+        {
+          "line": 1522,
+          "text": " */"
+        },
+        {
+          "line": 1523,
+          "text": "gfp_t vma_thp_gfp_mask(struct vm_area_struct *vma)"
+        },
+        {
+          "line": 1524,
+          "text": "{"
+        },
+        {
+          "line": 1525,
+          "text": "\tconst bool vma_madvised = vma && (vma->vm_flags & VM_HUGEPAGE);"
+        },
+        {
+          "line": 1526,
+          "text": ""
+        },
+        {
+          "line": 1527,
+          "text": "\t/* Always do synchronous compaction */"
+        },
+        {
+          "line": 1528,
+          "text": "\tif (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_DIRECT_FLAG, &transparent_hugepage_flags))"
+        },
+        {
+          "line": 1529,
+          "text": "\t\treturn GFP_TRANSHUGE | (vma_madvised ? 0 : __GFP_NORETRY);"
+        },
+        {
+          "line": 1530,
+          "text": ""
+        },
+        {
+          "line": 1531,
+          "text": "\t/* Kick kcompactd and fail quickly */"
+        },
+        {
+          "line": 1532,
+          "text": "\tif (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_FLAG, &transparent_hugepage_flags))"
+        },
+        {
+          "line": 1533,
+          "text": "\t\treturn GFP_TRANSHUGE_LIGHT | __GFP_KSWAPD_RECLAIM;"
+        },
+        {
+          "line": 1534,
+          "text": ""
+        },
+        {
+          "line": 1535,
+          "text": "\t/* Synchronous compaction if madvised, otherwise kick kcompactd */"
+        },
+        {
+          "line": 1536,
+          "text": "\tif (test_bit(TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG, &transparent_hugepage_flags))"
+        },
+        {
+          "line": 1537,
+          "text": "\t\treturn GFP_TRANSHUGE_LIGHT |"
+        },
+        {
+          "line": 1538,
+          "text": "\t\t\t(vma_madvised ? __GFP_DIRECT_RECLAIM :"
+        },
+        {
+          "line": 1539,
+          "text": "\t\t\t\t\t__GFP_KSWAPD_RECLAIM);"
+        }
+      ]
+    },
+    "mm/page_alloc.c": {
+      "sha256": "315ef97b0ec1c6d759fe1d57c79177c2fcf00f5228bd8895ff718aa265fda33c",
+      "excerpts": [
+        {
+          "line": 3782,
+          "text": "\treturn alloc_flags;"
+        },
+        {
+          "line": 3783,
+          "text": "}"
+        },
+        {
+          "line": 3784,
+          "text": ""
+        },
+        {
+          "line": 3785,
+          "text": "/* Must be called after current_gfp_context() which can change gfp_mask */"
+        },
+        {
+          "line": 3786,
+          "text": "static inline unsigned int alloc_flags_cma(gfp_t gfp_mask)"
+        },
+        {
+          "line": 3787,
+          "text": "{"
+        },
+        {
+          "line": 3788,
+          "text": "#ifdef CONFIG_CMA"
+        },
+        {
+          "line": 3789,
+          "text": "\tif (gfp_migratetype(gfp_mask) == MIGRATE_MOVABLE)"
+        },
+        {
+          "line": 3790,
+          "text": "\t\treturn ALLOC_CMA;"
+        },
+        {
+          "line": 3791,
+          "text": "#endif"
+        },
+        {
+          "line": 3792,
+          "text": "\treturn ALLOC_DEFAULT;"
+        },
+        {
+          "line": 3793,
+          "text": "}"
+        },
+        {
+          "line": 3794,
+          "text": ""
+        },
+        {
+          "line": 3795,
+          "text": "/*"
+        },
+        {
+          "line": 3796,
+          "text": " * get_page_from_freelist goes through the zonelist trying to allocate"
+        },
+        {
+          "line": 3797,
+          "text": " * a page."
+        },
+        {
+          "line": 3798,
+          "text": " */"
+        },
+        {
+          "line": 3799,
+          "text": "static struct page *"
+        },
+        {
+          "line": 3800,
+          "text": "get_page_from_freelist(gfp_t gfp_mask, unsigned int order, int alloc_flags,"
+        },
+        {
+          "line": 3801,
+          "text": "\t\t\t\t\t\tconst struct alloc_context *ac)"
+        },
+        {
+          "line": 3802,
+          "text": "{"
+        },
+        {
+          "line": 4575,
+          "text": "\t\t\talloc_flags &= ~ALLOC_CPUSET;"
+        },
+        {
+          "line": 4576,
+          "text": "\t} else if (unlikely(rt_or_dl_task(current)) && in_task())"
+        },
+        {
+          "line": 4577,
+          "text": "\t\talloc_flags |= ALLOC_MIN_RESERVE;"
+        },
+        {
+          "line": 4578,
+          "text": ""
+        },
+        {
+          "line": 4579,
+          "text": "\talloc_flags |= alloc_flags_cma(gfp_mask);"
+        },
+        {
+          "line": 4580,
+          "text": ""
+        },
+        {
+          "line": 4581,
+          "text": "\tif (defrag_mode)"
+        },
+        {
+          "line": 4582,
+          "text": "\t\talloc_flags |= ALLOC_NOFRAGMENT;"
+        },
+        {
+          "line": 4583,
+          "text": ""
+        },
+        {
+          "line": 4584,
+          "text": "\treturn alloc_flags;"
+        },
+        {
+          "line": 4585,
+          "text": "}"
+        },
+        {
+          "line": 4586,
+          "text": ""
+        },
+        {
+          "line": 4587,
+          "text": "static bool oom_reserves_allowed(struct task_struct *tsk)"
+        },
+        {
+          "line": 4588,
+          "text": "{"
+        },
+        {
+          "line": 4589,
+          "text": "\tif (!tsk_is_oom_victim(tsk))"
+        },
+        {
+          "line": 4590,
+          "text": "\t\treturn false;"
+        },
+        {
+          "line": 4591,
+          "text": ""
+        },
+        {
+          "line": 4592,
+          "text": "\t/*"
+        },
+        {
+          "line": 4593,
+          "text": "\t * !MMU doesn't have oom reaper so give access to memory reserves"
+        },
+        {
+          "line": 4594,
+          "text": "\t * only to the thread with TIF_MEMDIE set"
+        },
+        {
+          "line": 4595,
+          "text": "\t */"
+        },
+        {
+          "line": 4886,
+          "text": "\t\tgoto got_pg;"
+        },
+        {
+          "line": 4887,
+          "text": ""
+        },
+        {
+          "line": 4888,
+          "text": "\treserve_flags = __gfp_pfmemalloc_flags(gfp_mask);"
+        },
+        {
+          "line": 4889,
+          "text": "\tif (reserve_flags)"
+        },
+        {
+          "line": 4890,
+          "text": "\t\talloc_flags = alloc_flags_cma(gfp_mask) | reserve_flags |"
+        },
+        {
+          "line": 4891,
+          "text": "\t\t\t\tac->alloc_flags | (alloc_flags & ALLOC_KSWAPD);"
+        },
+        {
+          "line": 4892,
+          "text": ""
+        },
+        {
+          "line": 4893,
+          "text": "\t/*"
+        },
+        {
+          "line": 4894,
+          "text": "\t * Reset the nodemask and zonelist iterators if memory policies can be"
+        },
+        {
+          "line": 4895,
+          "text": "\t * ignored. These allocations are high priority and system rather than"
+        },
+        {
+          "line": 4896,
+          "text": "\t * user oriented."
+        },
+        {
+          "line": 4897,
+          "text": "\t */"
+        },
+        {
+          "line": 4898,
+          "text": "\tif (!(alloc_flags & ALLOC_CPUSET) || reserve_flags) {"
+        },
+        {
+          "line": 4899,
+          "text": "\t\tac->nodemask = NULL;"
+        },
+        {
+          "line": 4900,
+          "text": "\t\tac->preferred_zoneref = first_zones_zonelist(ac->zonelist,"
+        },
+        {
+          "line": 4901,
+          "text": "\t\t\t\t\tac->highest_zoneidx, ac->nodemask);"
+        },
+        {
+          "line": 4902,
+          "text": ""
+        },
+        {
+          "line": 4903,
+          "text": "\t\t/*"
+        },
+        {
+          "line": 4904,
+          "text": "\t\t * The first time we adjust anything due to being allowed to"
+        },
+        {
+          "line": 4905,
+          "text": "\t\t * ignore memory policies or watermarks, retry immediately. This"
+        },
+        {
+          "line": 4906,
+          "text": "\t\t * allows us to keep the first allocation attempt optimistic so"
+        },
+        {
+          "line": 5119,
+          "text": "\tif (!(*alloc_flags & ALLOC_NOLOCK) &&"
+        },
+        {
+          "line": 5120,
+          "text": "\t    should_fail_alloc_page(gfp_mask, order))"
+        },
+        {
+          "line": 5121,
+          "text": "\t\treturn false;"
+        },
+        {
+          "line": 5122,
+          "text": ""
+        },
+        {
+          "line": 5123,
+          "text": "\t*alloc_flags |= alloc_flags_cma(gfp_mask);"
+        },
+        {
+          "line": 5124,
+          "text": ""
+        },
+        {
+          "line": 5125,
+          "text": "\t/* Dirty zone balancing only done in the fast path */"
+        },
+        {
+          "line": 5126,
+          "text": "\tac->spread_dirty_pages = (gfp_mask & __GFP_WRITE);"
+        },
+        {
+          "line": 5127,
+          "text": ""
+        },
+        {
+          "line": 5128,
+          "text": "\t/*"
+        },
+        {
+          "line": 5129,
+          "text": "\t * The preferred zone is used for statistics but crucially it is"
+        },
+        {
+          "line": 5130,
+          "text": "\t * also used as the starting point for the zonelist iterator. It"
+        },
+        {
+          "line": 5131,
+          "text": "\t * may get reset for allocations that ignore memory policies."
+        },
+        {
+          "line": 5132,
+          "text": "\t */"
+        },
+        {
+          "line": 5133,
+          "text": "\tac->preferred_zoneref = first_zones_zonelist(ac->zonelist,"
+        },
+        {
+          "line": 5134,
+          "text": "\t\t\t\t\tac->highest_zoneidx, ac->nodemask);"
+        },
+        {
+          "line": 5135,
+          "text": ""
+        },
+        {
+          "line": 5136,
+          "text": "\treturn true;"
+        },
+        {
+          "line": 5137,
+          "text": "}"
+        },
+        {
+          "line": 5138,
+          "text": ""
+        },
+        {
+          "line": 5139,
+          "text": "/*"
+        }
+      ]
+    }
+  },
+  "recipe_patch_overlaps": {
+    "8205-mm-hint-uses-allocation-order.patch": {
+      "sha256": "0d3a867c0ccf3fde11d09b854b2deff85ea526360063affd81b0311c02863e64",
+      "targets": [
+        "include/linux/mmzone.h",
+        "mm/internal.h",
+        "mm/migrate.c",
+        "mm/page_alloc.c",
+        "mm/vmscan.c"
+      ],
+      "inspected_file_overlap": [
+        "mm/page_alloc.c"
+      ]
+    }
+  },
+  "related_reclaim_patches": {
+    "8205-mm-hint-uses-allocation-order.patch": {
+      "sha256": "0d3a867c0ccf3fde11d09b854b2deff85ea526360063affd81b0311c02863e64",
+      "targets": [
+        "include/linux/mmzone.h",
+        "mm/internal.h",
+        "mm/migrate.c",
+        "mm/page_alloc.c",
+        "mm/vmscan.c"
+      ]
+    },
+    "8206-mm-carry-order-and-hint-in-one-word.patch": {
+      "sha256": "fdfe62019e6ef5dfba2fabecc6ee5b58400f41ef000883fed135ecaca881b40c",
+      "targets": [
+        "include/linux/mmzone.h",
+        "mm/mm_init.c",
+        "mm/vmscan.c"
+      ]
+    },
+    "8204-mm-opportunistic-compaction.patch": {
+      "sha256": "f81f6b5769e47716ca318ecf76ab1c0fafa0e165fa858a64251359937bffcf04",
+      "targets": [
+        "include/linux/mmzone.h",
+        "include/linux/shrinker.h",
+        "mm/internal.h",
+        "mm/shrinker.c",
+        "mm/vmscan.c"
+      ]
+    },
+    "8207-mm-classify-huge-page-allocations-as-failable.patch": {
+      "sha256": "07683e522d6dea3d3ce658ee80bf4317f6c3caf248259da960bc4610f4d1e807",
+      "targets": [
+        "mm/internal.h"
+      ]
+    }
+  }
+}

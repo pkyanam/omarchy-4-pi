@@ -1,0 +1,951 @@
+{
+  "schema": "omarchy-pi-low-level-snapshot-v1",
+  "utc": "2026-11-08T12:15:40.418417+00:00",
+  "label": "locked-desktop-pre-browser-calibration",
+  "cohort": "pi4-4gb-native",
+  "kernel": "7.3.0-32.1-omarchy",
+  "euid": 0,
+  "elapsed_ns": 56919918,
+  "script_sha256": "34a5869c84f71e9e6b91eed998e5191d6c906f071db9d50743a98e79937d970f",
+  "files": {
+    "/proc/meminfo": {
+      "status": "ok",
+      "value": "MemTotal:        3832948 kB\nMemFree:          575228 kB\nMemAvailable:    2124020 kB\nBuffers:            1368 kB\nCached:          1862204 kB\nSwapCached:            0 kB\nActive:          1710640 kB\nInactive:        1181820 kB\nActive(anon):     598420 kB\nInactive(anon):   523408 kB\nActive(file):    1112220 kB\nInactive(file):   658412 kB\nUnevictable:       75264 kB\nMlocked:               0 kB\nSwapTotal:       3832828 kB\nSwapFree:        3830416 kB\nZswap:                 0 kB\nZswapped:              0 kB\nDirty:               776 kB\nWriteback:             0 kB\nAnonPages:       1104076 kB\nMapped:           278876 kB\nShmem:             93152 kB\nKReclaimable:      47192 kB\nSlab:             130960 kB\nSReclaimable:      47192 kB\nSUnreclaim:        83768 kB\nKernelStack:        6648 kB\nShadowCallStack:    1676 kB\nPageTables:        13308 kB\nSecPageTables:         0 kB\nNFS_Unstable:          0 kB\nBounce:                0 kB\nWritebackTmp:          0 kB\nCommitLimit:     5749300 kB\nCommitted_AS:    2481260 kB\nVmallocTotal:   135288315904 kB\nVmallocUsed:       37832 kB\nVmallocChunk:          0 kB\nPercpu:             2432 kB\nHardwareCorrupted:     0 kB\nAnonHugePages:    888832 kB\nShmemHugePages:    45056 kB\nShmemPmdMapped:        0 kB\nFileHugePages:         0 kB\nFilePmdMapped:         0 kB\nCmaTotal:          65536 kB\nCmaFree:           28224 kB\nBalloon:               0 kB\nGPUActive:             0 kB\nGPUReclaim:            0 kB\nHugePages_Total:       0\nHugePages_Free:        0\nHugePages_Rsvd:        0\nHugePages_Surp:        0\nHugepagesize:       2048 kB\nHugetlb:               0 kB"
+    },
+    "/proc/vmstat": {
+      "status": "ok",
+      "value": "nr_free_pages 143807\nnr_free_pages_blocks 62464\nnr_zone_inactive_anon 130852\nnr_zone_active_anon 149605\nnr_zone_inactive_file 164603\nnr_zone_active_file 278055\nnr_zone_unevictable 18816\nnr_zone_write_pending 228\nnr_mlock 0\nnr_zspages 411\nnr_free_cma 7056\nnuma_hit 2875639\nnuma_miss 0\nnuma_foreign 0\nnuma_interleave 414\nnuma_local 2875685\nnuma_other 0\nnr_inactive_anon 130852\nnr_active_anon 149605\nnr_inactive_file 164603\nnr_active_file 278055\nnr_unevictable 18816\nnr_slab_reclaimable 11798\nnr_slab_unreclaimable 20942\nnr_isolated_anon 0\nnr_isolated_file 0\nworkingset_nodes 2423\nworkingset_refault_anon 10\nworkingset_refault_file 4504\nworkingset_activate_anon 0\nworkingset_activate_file 29\nworkingset_restore_anon 0\nworkingset_restore_file 61\nworkingset_nodereclaim 512\nnr_anon_pages 276019\nnr_mapped 69719\nnr_file_pages 465893\nnr_dirty 194\nnr_writeback 0\nnr_shmem 23288\nnr_shmem_hugepages 22\nnr_shmem_pmdmapped 0\nnr_file_hugepages 0\nnr_file_pmdmapped 0\nnr_anon_transparent_hugepages 434\nnr_vmscan_write 613\nnr_vmscan_immediate_reclaim 1290\nnr_dirtied 209380\nnr_written 208937\nnr_throttled_written 0\nnr_kernel_misc_reclaimable 0\nnr_foll_pin_acquired 108\nnr_foll_pin_released 108\nnr_vmalloc 9458\nnr_kernel_stack 6648\nnr_shadow_call_stack 1676\nnr_page_table_pages 3327\nnr_sec_page_table_pages 0\nnr_iommu_pages 0\nnr_swapcached 0\npgpromote_success 0\npgpromote_candidate 0\npgpromote_candidate_nrl 0\npgdemote_kswapd 0\npgdemote_direct 0\npgdemote_khugepaged 0\npgdemote_proactive 0\npgsteal_kswapd 308206\npgsteal_direct 6978\npgsteal_khugepaged 39\npgsteal_proactive 0\npgsteal_anon 6733\npgsteal_file 308490\npgscan_kswapd 419227\npgscan_direct 7199\npgscan_khugepaged 39\npgscan_proactive 0\npgscan_anon 84213\npgscan_file 342252\npgrotate_anon 77480\npgrotate_file 33762\npgrefill 101369\nnr_hugetlb 0\nnr_balloon_pages 0\nnr_kernel_file_pages 23006\nnr_gpu_active 0\nnr_gpu_reclaim 0\nnr_dirty_threshold 65536\nnr_dirty_background_threshold 16384\nnr_memmap_pages 0\nnr_memmap_boot_pages 16384\npgpgin 1472523\npgpgout 744298\npswpin 10\npswpout 604\npgalloc_dma 1422529\npgalloc_dma32 4787317\npgalloc_normal 0\npgalloc_movable 0\npgalloc_device 0\nallocstall_dma 0\nallocstall_dma32 0\nallocstall_normal 0\nallocstall_movable 129\nallocstall_device 0\npgskip_dma 0\npgskip_dma32 0\npgskip_normal 0\npgskip_movable 0\npgskip_device 0\npgfree 6583184\npgactivate 89117\npgdeactivate 0\npglazyfree 0\npgfault 3202417\npgmajfault 1428\npglazyfreed 0\npgreuse 224650\npgscan_direct_throttle 0\nzone_reclaim_success 0\nzone_reclaim_failed 0\npginodesteal 0\nslabs_scanned 14916\nkswapd_inodesteal 1\nkswapd_low_wmark_hit_quickly 4\nkswapd_high_wmark_hit_quickly 32\npageoutrun 55\npgrotated 689\ndrop_pagecache 0\ndrop_slab 0\noom_kill 0\nnuma_pte_updates 0\nnuma_huge_pte_updates 0\nnuma_hint_faults 0\nnuma_hint_faults_local 0\nnuma_pages_migrated 0\npgmigrate_success 127591\npgmigrate_fail 12605\nthp_migration_success 0\nthp_migration_fail 0\nthp_migration_split 0\ncompact_migrate_scanned 494830\ncompact_free_scanned 2740851\ncompact_isolated 312699\ncompact_stall 383\ncompact_fail 248\ncompact_success 135\ncompact_daemon_wake 4\ncompact_daemon_migrate_scanned 118226\ncompact_daemon_free_scanned 973762\nhtlb_buddy_alloc_success 0\nhtlb_buddy_alloc_fail 0\ncma_alloc_success 233\ncma_alloc_fail 0\nunevictable_pgs_culled 156552\nunevictable_pgs_scanned 120161\nunevictable_pgs_rescued 120280\nunevictable_pgs_mlocked 123\nunevictable_pgs_munlocked 123\nunevictable_pgs_cleared 0\nunevictable_pgs_stranded 0\nthp_fault_alloc 4740\nthp_fault_fallback 101\nthp_fault_fallback_charge 0\nthp_collapse_alloc 397\nthp_collapse_alloc_failed 0\nthp_file_alloc 160\nthp_file_fallback 0\nthp_file_fallback_charge 0\nthp_file_mapped 0\nthp_split_page 0\nthp_split_page_failed 0\nthp_deferred_split_page 516\nthp_underused_split_page 0\nthp_split_pmd 774\nthp_scan_exceed_none_pte 83\nthp_scan_exceed_swap_pte 0\nthp_scan_exceed_share_pte 331\nthp_zero_page_alloc 1\nthp_zero_page_alloc_failed 0\nthp_swpout 0\nthp_swpout_fallback 0\nballoon_inflate 0\nballoon_deflate 0\nballoon_migrate 0\nswap_ra 0\nswap_ra_hit 0\nswpin_zero 0\nswpout_zero 9\nksm_swpin_copy 0\ncow_ksm 0\nzswpin 0\nzswpout 0\nzswpwb 0\nnrswpin 10\nnrswpout 604\nnr_unstable 0"
+    },
+    "/proc/pressure/cpu": {
+      "status": "ok",
+      "value": "some avg10=0.00 avg60=0.00 avg300=0.17 total=87991658\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+    },
+    "/proc/pressure/memory": {
+      "status": "ok",
+      "value": "some avg10=0.00 avg60=0.00 avg300=0.00 total=3035496\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=781564"
+    },
+    "/proc/pressure/io": {
+      "status": "ok",
+      "value": "some avg10=0.00 avg60=0.00 avg300=0.00 total=9586800\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=2186217"
+    },
+    "/proc/sys/vm/swappiness": {
+      "status": "ok",
+      "value": "150"
+    },
+    "/sys/module/zswap/parameters/enabled": {
+      "status": "ok",
+      "value": "N"
+    },
+    "/sys/kernel/mm/transparent_hugepage/enabled": {
+      "status": "ok",
+      "value": "[always] madvise never"
+    },
+    "/sys/kernel/mm/transparent_hugepage/defrag": {
+      "status": "ok",
+      "value": "always defer defer+madvise [madvise] never"
+    },
+    "/sys/kernel/mm/transparent_hugepage/shmem_enabled": {
+      "status": "ok",
+      "value": "always within_size advise [never] deny force"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size": {
+      "status": "ok",
+      "value": "2097152"
+    },
+    "/sys/kernel/mm/transparent_hugepage/khugepaged/defrag": {
+      "status": "ok",
+      "value": "1"
+    },
+    "/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed": {
+      "status": "ok",
+      "value": "397"
+    },
+    "/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans": {
+      "status": "ok",
+      "value": "85"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled": {
+      "status": "ok",
+      "value": "always [inherit] madvise never"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/enabled": {
+      "status": "ok",
+      "value": "always inherit madvise [never]"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "145"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/split": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/split_failed": {
+      "status": "ok",
+      "value": "36"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-1024kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "104"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/split": {
+      "status": "ok",
+      "value": "14"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/split_failed": {
+      "status": "ok",
+      "value": "9"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-128kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "235"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/split": {
+      "status": "ok",
+      "value": "96"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/split_failed": {
+      "status": "ok",
+      "value": "2"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-16kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "4740"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "101"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "397"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "83"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "331"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "439"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "5"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "160"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/split": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "516"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/split_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "56"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/split": {
+      "status": "ok",
+      "value": "30"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/split_failed": {
+      "status": "ok",
+      "value": "8"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-256kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "242"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/split": {
+      "status": "ok",
+      "value": "37"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/split_failed": {
+      "status": "ok",
+      "value": "8"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-32kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "54"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/split": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/split_failed": {
+      "status": "ok",
+      "value": "5"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-512kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/anon_fault_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/anon_fault_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/anon_fault_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/collapse_exceed_none_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/collapse_exceed_shared_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/collapse_exceed_swap_pte": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/nr_anon": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/nr_anon_partially_mapped": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "102"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/split": {
+      "status": "ok",
+      "value": "522"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/split_deferred": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/split_failed": {
+      "status": "ok",
+      "value": "7"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-64kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/collapse_alloc": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/collapse_alloc_failed": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/shmem_alloc": {
+      "status": "ok",
+      "value": "252"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/shmem_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/shmem_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/split": {
+      "status": "ok",
+      "value": "413"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/split_failed": {
+      "status": "ok",
+      "value": "10"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/swpin": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/swpin_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/swpin_fallback_charge": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/swpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/swpout_fallback": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/transparent_hugepage/hugepages-8kB/stats/zswpout": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/cma/linux,cma/alloc_pages_fail": {
+      "status": "ok",
+      "value": "0"
+    },
+    "/sys/kernel/mm/cma/linux,cma/alloc_pages_success": {
+      "status": "ok",
+      "value": "13826"
+    },
+    "/sys/kernel/mm/cma/linux,cma/available_pages": {
+      "status": "ok",
+      "value": "11721"
+    },
+    "/sys/kernel/mm/cma/linux,cma/release_pages_success": {
+      "status": "ok",
+      "value": "9163"
+    },
+    "/sys/kernel/mm/cma/linux,cma/total_pages": {
+      "status": "ok",
+      "value": "16384"
+    }
+  },
+  "zram": {
+    "zram0": {
+      "attributes": {
+        "stat": {
+          "status": "ok",
+          "value": "85        0     2928        2      605        0     4840      199        0      201      201        0        0        0        0        0        0"
+        },
+        "size": {
+          "status": "ok",
+          "value": "7665664"
+        },
+        "queue/scheduler": {
+          "status": "unavailable",
+          "value": null,
+          "detail": "No such file or directory"
+        },
+        "queue/logical_block_size": {
+          "status": "ok",
+          "value": "4096"
+        },
+        "queue/physical_block_size": {
+          "status": "ok",
+          "value": "4096"
+        },
+        "queue/discard_max_bytes": {
+          "status": "ok",
+          "value": "2199023255040"
+        },
+        "queue/nr_requests": {
+          "status": "unavailable",
+          "value": null,
+          "detail": "No such file or directory"
+        },
+        "device/queue_depth": {
+          "status": "unavailable",
+          "value": null,
+          "detail": "No such file or directory"
+        },
+        "comp_algorithm": {
+          "status": "ok",
+          "value": "lzo-rle lzo lz4 lz4hc [zstd] deflate 842"
+        },
+        "disksize": {
+          "status": "ok",
+          "value": "3924819968"
+        },
+        "mm_stat": {
+          "status": "ok",
+          "value": "2437120   722987  1683456        0  1683456        0        0        0        0"
+        },
+        "io_stat": {
+          "status": "ok",
+          "value": "0        0 0   958217"
+        },
+        "bd_stat": {
+          "status": "ok",
+          "value": "0        0        0"
+        },
+        "backing_dev": {
+          "status": "ok",
+          "value": "none"
+        }
+      },
+      "slaves": []
+    }
+  },
+  "limitations": [
+    "non-atomic sequential snapshot",
+    "system-wide counters include other clients",
+    "no selected active dm-crypt transform or queue flags established",
+    "GPU memory is not generally included in RSS or uniquely additive across clients",
+    "No process attribution in this checkpoint.",
+    "One locked-desktop sample, not an A/B or pressure workload.",
+    "Raw private system snapshot remains ignored."
+  ]
+}

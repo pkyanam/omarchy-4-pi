@@ -1,0 +1,67 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src data:; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Offline workbench</title>
+<style>
+  body { font: 16px monospace; max-width: 920px; margin: 24px auto; background: #faf8f2; color: #20221e; }
+  header { border-bottom: 2px solid; padding: 16px; }
+  section { padding: 16px; border-bottom: 1px solid #aaa; }
+  textarea { box-sizing: border-box; width: 100%; height: 140px; font: inherit; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px; border: 1px solid #aaa; }
+  svg { width: 100%; height: 120px; }
+</style>
+<header><h1 id="title"></h1><p>Fixed offline document, dashboard and editing corpus v1</p></header>
+<section><label>Working note<textarea id="note">Review the fixed project report and record the next action.</textarea></label><p id="echo"></p></section>
+<main id="content"></main>
+<script>
+'use strict';
+const tab = Number(new URLSearchParams(location.search).get('tab'));
+if (!Number.isInteger(tab) || tab < 0 || tab > 11) throw Error('invalid corpus tab');
+const kind = ['Documentation', 'Dashboard', 'Notebook'][tab % 3];
+document.title = `${tab + 1}: ${kind}`;
+document.querySelector('#title').textContent = document.title;
+const sentences = [
+  'The service accepts a request, checks its inputs, and records a durable result.',
+  'A bounded queue keeps work visible while the operator reviews the current state.',
+  'The report contains local fixture data; it makes no claim about device performance.',
+  'When a request fails, preserve the original context and retry only after inspection.'
+];
+for (let i = 0; i < 64; i++) {
+  const section = document.createElement('section');
+  const heading = document.createElement('h2');
+  heading.textContent = `${kind} ${i + 1}: project ${tab + 1}`;
+  section.append(heading);
+  const text = document.createElement('p');
+  text.textContent = Array.from({length: 12}, (_, j) => sentences[(i + j + tab) % 4]).join(' ');
+  section.append(text);
+  if (tab % 3 === 1) {
+    const table = document.createElement('table');
+    for (let row = 0; row < 8; row++) {
+      const tr = table.insertRow();
+      for (let col = 0; col < 4; col++) tr.insertCell().textContent = String((i * 31 + row * 17 + col * 7 + tab) % 1000);
+    }
+    section.append(table);
+  }
+  if (tab % 3 === 2) {
+    const pre = document.createElement('pre');
+    pre.textContent = Array.from({length: 12}, (_, j) => `task_${i}_${j}: validate -> transform -> store`).join('\n');
+    section.append(pre);
+  }
+  document.querySelector('#content').append(section);
+}
+window.fixture = {tab, kind, hidden: [], events: [], longTasks: []};
+document.addEventListener('visibilitychange', () => fixture.hidden.push({time: performance.now(), state: document.visibilityState}));
+document.querySelector('#note').addEventListener('input', event => {
+  document.querySelector('#echo').textContent = `${event.target.value.length} characters`;
+});
+for (const [type, target] of [['event', fixture.events], ['longtask', fixture.longTasks]]) {
+  if (PerformanceObserver.supportedEntryTypes.includes(type)) {
+    new PerformanceObserver(list => {
+      for (const e of list.getEntries()) target.push({name: e.name, startTime: e.startTime, duration: e.duration, processingStart: e.processingStart, processingEnd: e.processingEnd, interactionId: e.interactionId});
+    }).observe(type === 'event' ? {type, buffered: true, durationThreshold: 16} : {type, buffered: true});
+  }
+}
+window.fixtureReady = true;
+</script>

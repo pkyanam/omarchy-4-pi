@@ -1,0 +1,5 @@
+# CTS exact source verification
+
+Parent executed normal makepkg --verifysource offline with bundled reviewed keys, auto key retrieval disabled, the original source cache read-only and a private writable cache copy. Final attempt exits0 with no OOM. All declared source checksums and detached signatures pass, including the actual Linux archive and signed recipe patches. This does not compile kernel32.2 or qualify packages/boot/radio. Complete original logs, script and cgroup facts are preserved.
+
+Attempt1 stopped before source validation because makepkg requires writable SRCDEST. Attempt2 stopped copying cache metadata because the reduced capability set could not preserve foreign-owner file permissions. Attempt3 copies only source file bytes, then assigns builder ownership in private disk-backed storage. Neither correction modifies the shared cache or bypasses makepkg checks. Containers are retained stopped. Each used .25CPU/128MiB total RAM+swap/no network, separate from the zstd heavy lane.

@@ -1,0 +1,15 @@
+gpg: keybox '/work/gnupg/pubring.kbx' created
+gpg: key 7C64768D3DE334E7: 64 signatures not checked due to missing keys
+gpg: /work/gnupg/trustdb.gpg: trustdb created
+gpg: key 7C64768D3DE334E7: public key "Krzysztof Wilczynski <kw@linux.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+gpg: no ultimately trusted keys found
+gpg: key 38DBBDC86092693E: public key "Greg Kroah-Hartman <gregkh@linuxfoundation.org>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+gpg: key 79BE3E4300411886: public key "Linus Torvalds <torvalds@kernel.org>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+==> ERROR: You do not have write permission for the directory $SRCDEST (/cache/downloads).
+    Aborting...

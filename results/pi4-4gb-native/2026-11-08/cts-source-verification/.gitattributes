@@ -1,0 +1,3 @@
+# Preserve complete makepkg output.
+*.log -whitespace
+*.txt -whitespace

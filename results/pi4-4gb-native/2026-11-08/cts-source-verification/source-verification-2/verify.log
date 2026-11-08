@@ -1,0 +1,4 @@
+cp: preserving permissions for ‘/work/downloads/linux-7.3.tar.xz’: Operation not permitted
+cp: preserving permissions for ‘/work/downloads/linux-7.3.tar.sign’: Operation not permitted
+cp: preserving permissions for ‘/work/downloads/NVIDIA-kernel-module-source-615.78.08.tar.xz’: Operation not permitted
+cp: preserving permissions for ‘/work/downloads’: Operation not permitted

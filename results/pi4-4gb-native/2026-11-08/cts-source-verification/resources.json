@@ -1,0 +1,29 @@
+{
+  "source-verification": {
+    "exit_code": 11,
+    "oom_killed": false,
+    "running": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none"
+  },
+  "source-verification-2": {
+    "exit_code": 1,
+    "oom_killed": false,
+    "running": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none"
+  },
+  "source-verification-3": {
+    "exit_code": 0,
+    "oom_killed": false,
+    "running": false,
+    "memory": 134217728,
+    "memory_swap": 134217728,
+    "nano_cpus": 250000000,
+    "network_mode": "none"
+  }
+}

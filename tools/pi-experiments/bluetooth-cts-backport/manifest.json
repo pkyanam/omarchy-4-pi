@@ -1,0 +1,26 @@
+{
+  "upstream_commit": "ca576923c39863ac528427b563ea2f6631703d22",
+  "upstream_url": "https://github.com/torvalds/linux/commit/ca576923c39863ac528427b563ea2f6631703d22",
+  "source_root": "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source",
+  "driver": "drivers/tty/serial/8250/8250_bcm2835aux.c",
+  "before_sha256": "36cd6b9a527c56d683f7694ada656dba869028d3e1f998bde73b0229c81f3e18",
+  "after_sha256": "2ae07906f5415ceec9e4cac92a0d2f503e3e28150f0f3cdf8115087b34df6fb1",
+  "patch_sha256": "3d863fb62041f38ffd3f8428da69698053f6dae77a42bef03aac0633f0685c18",
+  "inputs": {
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/reference/ca576923c39863ac528427b563ea2f6631703d22.json": "4d7092adac8053a27c29cc363c9328e494bf18b17cba3675d639d3ecf1ec4dd5",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/drivers/tty/serial/8250/8250.h": "69523b42abee40768f66a850b40ae642a827cdab86b4790c8f4b965e96775537",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/drivers/tty/serial/8250/8250_bcm2835aux.c": "36cd6b9a527c56d683f7694ada656dba869028d3e1f998bde73b0229c81f3e18",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/drivers/tty/serial/8250/8250_core.c": "531d79a03acee7570e4fe67eca79334fbb48badc2d6a5f4740328d2542fef36b",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/drivers/tty/serial/8250/8250_port.c": "5fa10c541ee153cb3d7ce21174d533e6e131831c77f49d5e04df69b0eeaa6b41",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/drivers/tty/serial/serial_core.c": "2053931aef71c605f85bb9c8406dd3f8f2c29ce353b76297425f8c013f2ffe0c",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/include/linux/serial_8250.h": "d2445acf440cb7cf4c4eb3c1fdbd1e8193ea12da16fabe5e3e97f97e32a4e619",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/include/linux/serial_core.h": "8bbe6d745236cca4c0f2d6b02c4776f4c07f9f15ce8601ad060131a842005cb3",
+    "build/upstream-pi/stable-4.5/bt-uart-progress-candidate/source/include/uapi/linux/btf.h": "71e88c2f35b53c43cdddad952c04c6ae083afd34ee731c83312066321c8f83ae",
+    "build/upstream-pi/stable-4.5/h264-port-candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/tty.h": "5411d1a299d1b95f29c0d6b8b30bc6faf8288762dfde4efd4ce427672a08ddac",
+    "build/upstream-pi/stable-4.5/h264-port-candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/tty_port.h": "b63381280033cadc5254917b60112f995dff448eb11635496ce7e6c7fbcd3882",
+    "build/upstream-pi/stable-4.5/h264-port-candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/cleanup.h": "bebc1bd2947aa90cb49bbb13b8e486c8cd9c116e0ca379bb408f74833a97240b",
+    "build/upstream-pi/stable-4.5/h264-port-candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/serial_core.h": "8bbe6d745236cca4c0f2d6b02c4776f4c07f9f15ce8601ad060131a842005cb3",
+    "build/upstream-pi/stable-4.5/h264-port-candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/serial_8250.h": "d2445acf440cb7cf4c4eb3c1fdbd1e8193ea12da16fabe5e3e97f97e32a4e619",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/current.fdt": "d6a876ec0f13de62ef521b4f90677f528341e19512759f81bb16e211dffb0345"
+  }
+}

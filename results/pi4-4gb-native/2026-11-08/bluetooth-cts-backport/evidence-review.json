@@ -1,0 +1,366 @@
+{
+  "records": 19,
+  "samples": 17,
+  "before_equals_after": true,
+  "binding": "/sys/bus/serial/drivers/hci_uart_bcm",
+  "taint": "0",
+  "intervals": [
+    {
+      "offset": 0,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.000750663,
+          0.001432864
+        ],
+        "mux": [
+          0.001440882,
+          0.002076232
+        ],
+        "gpio": [
+          0.002082361,
+          0.002742284
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 0.05,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.050151113,
+          0.05078224
+        ],
+        "mux": [
+          0.050785759,
+          0.051257979
+        ],
+        "gpio": [
+          0.051261812,
+          0.051716514
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 0.1,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.100180264,
+          0.100983502
+        ],
+        "mux": [
+          0.100989094,
+          0.101760128
+        ],
+        "gpio": [
+          0.101767331,
+          0.102318718
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": "out lo"
+    },
+    {
+      "offset": 0.15,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.150147582,
+          0.150809394
+        ],
+        "mux": [
+          0.150813079,
+          0.151283911
+        ],
+        "gpio": [
+          0.151286429,
+          0.151745168
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": "out lo"
+    },
+    {
+      "offset": 0.2,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.200178956,
+          0.200850379
+        ],
+        "mux": [
+          0.200854416,
+          0.201341432
+        ],
+        "gpio": [
+          0.201344191,
+          0.202128891
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": ""
+    },
+    {
+      "offset": 0.25,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.250169255,
+          0.250841289
+        ],
+        "mux": [
+          0.250845252,
+          0.251369305
+        ],
+        "gpio": [
+          0.251372583,
+          0.251881155
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": ""
+    },
+    {
+      "offset": 0.3,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.300157665,
+          0.300794329
+        ],
+        "mux": [
+          0.300797959,
+          0.301295734
+        ],
+        "gpio": [
+          0.301298512,
+          0.301737084
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": "out lo"
+    },
+    {
+      "offset": 0.4,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.40013956,
+          0.40078765
+        ],
+        "mux": [
+          0.400790687,
+          0.401264352
+        ],
+        "gpio": [
+          0.401267037,
+          0.401689683
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 0.5,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.500139011,
+          0.500775823
+        ],
+        "mux": [
+          0.500779656,
+          0.501374024
+        ],
+        "gpio": [
+          0.50138619,
+          0.505916078
+        ]
+      },
+      "gpio30": "hi",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 0.65,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.650150742,
+          0.650816128
+        ],
+        "mux": [
+          0.650819794,
+          0.651291052
+        ],
+        "gpio": [
+          0.651293737,
+          0.651733216
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 0.8,
+      "intervals_from_trace_start": {
+        "pins": [
+          0.800153436,
+          0.800793841
+        ],
+        "mux": [
+          0.800797285,
+          0.80126395
+        ],
+        "gpio": [
+          0.801266542,
+          0.801699929
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 1,
+      "intervals_from_trace_start": {
+        "pins": [
+          1.000144837,
+          1.000796519
+        ],
+        "mux": [
+          1.00079989,
+          1.001278369
+        ],
+        "gpio": [
+          1.001280906,
+          1.001711515
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 1.5,
+      "intervals_from_trace_start": {
+        "pins": [
+          1.500142589,
+          1.500781179
+        ],
+        "mux": [
+          1.500784679,
+          1.501254825
+        ],
+        "gpio": [
+          1.501257066,
+          1.501690193
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 2,
+      "intervals_from_trace_start": {
+        "pins": [
+          2.000142175,
+          2.000793783
+        ],
+        "mux": [
+          2.000797412,
+          2.001282392
+        ],
+        "gpio": [
+          2.001285318,
+          2.001708168
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 4,
+      "intervals_from_trace_start": {
+        "pins": [
+          4.000145016,
+          4.000787199
+        ],
+        "mux": [
+          4.000790569,
+          4.001265104
+        ],
+        "gpio": [
+          4.001267493,
+          4.00170738
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 8,
+      "intervals_from_trace_start": {
+        "pins": [
+          8.000142515,
+          8.000786957
+        ],
+        "mux": [
+          8.000790457,
+          8.001267788
+        ],
+        "gpio": [
+          8.001270214,
+          8.001708619
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    },
+    {
+      "offset": 11,
+      "intervals_from_trace_start": {
+        "pins": [
+          11.000142398,
+          11.000785322
+        ],
+        "mux": [
+          11.000789007,
+          11.00126519
+        ],
+        "gpio": [
+          11.001267708,
+          11.001706558
+        ]
+      },
+      "gpio30": "lo",
+      "BT_ON": "out hi"
+    }
+  ],
+  "sha256": {
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/controller-result.json": "75f131a4592d9aae3a62f3d16595d0dc2d403e87955d6599e8a54f4966e4d69a",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/current.fdt": "d6a876ec0f13de62ef521b4f90677f528341e19512759f81bb16e211dffb0345",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/fdt.sha256": "4cb610ee1dd03788cff8f829491856612471f368c6c1e7ecafc11fd9f92e0838",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/gpio.jsonl": "8dc6df1929d2344ffc505125f1fdf398f9ab8e8c8a9396438bbe349903ee1155",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/observer.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/trace.log": "e44596532c619973f3d1cf6a45fbb13f2bff119a133805da2af2ea17ceb517f1",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/actions.json": "7985abe8454561793ed022ef9fc6cf669a5deb3600e3335f47dfbf93769a0679",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/after.json": "6e97689a5abb6bdbbba64471fff8ba943778987a04a3bfcc2839e39ba91eb1bc",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/before.json": "6e97689a5abb6bdbbba64471fff8ba943778987a04a3bfcc2839e39ba91eb1bc",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/capture.json": "16cf76d4ae36bd8702dfd748dfba91026e99c4da1d89a094174a315e554051ed",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/cpu0-stats.txt": "28156e7113e6b655b653b507d368d3e8756e80a194d2eddbef33cf46557b5384",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/cpu1-stats.txt": "0772442f4e4cc1b1650abde0acc8b1dd9c98b056e1ddbfc0e54e315c85857d6f",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/cpu2-stats.txt": "3bc29050a0733d7f368928606db59eb333074f6410cbe5c98ef1b495582ab4e8",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/cpu3-stats.txt": "ae0d23b6d4cc5acb9761ed41734345fec153d2a8b1562aaf118f428ca250512b",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/filters.json": "8320cd010b42dd55acdcfb9141d12b4109a09e194fd482dc6c0e70febffb55a9",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/formats.json": "8494e62040e418a806e18c22f446755cef1a35111ad597e47ce2462393940c57",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/instance.json": "f75be7ad82a98170d813a870158f9ff2c5f938018a86f4a9dda9c8fe1951ec2f",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/kprobe-profile.txt": "bb67240adfca29ddf50223c886ebe39d39721794f954047ac246981e3a8bca5e",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/owned.json": "640e8e7a6b103607f22138bc5c6bf102be39423362cec0d5cc932d625740605b",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/plan.json": "ebe8f69fac89665513569c31d4458b1bd6c2b7119db4ecfd9297e4cd120713c7",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/result.json": "764913ac739488742ed4c980c35a0df80981d63239d12b05f87a86e3b399a6d4",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/serial8250_modem_status-format.txt": "327af6b458f5e6c8da2b7c4f886e93ae9cba37400d38dd71521ae02d8e113336",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/serial8250_rx_chars-format.txt": "eb773f639c2aabfdb572ea2182bfa917725b20f6e2ab96e4e11be483c4afe98c",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/serial8250_start_tx-format.txt": "7d8d536462ecdd1eeca5f9deb3af7552142c98bf242bed69b4f2a5e3a2c7072e",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/serial8250_stop_tx-format.txt": "e73bd00374c43f1eca020f5323a507f9c3cc66fd5bb5f141c65df7067d35ccb4",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/serial8250_tx_chars-format.txt": "67a551b94d4f3c5b84b1793b291bf2f56540d8f3c25ceee668955bb58aa866bf",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/symbols.json": "39fe868b4274088db76f7d767e2e2c501cbf35826517a8964e3329ea8a2afb70",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/trace.txt": "f39d23dcc99881461701d4eef28bc87b926b5158dff831cb9208527dcb14203e",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/uart-contract.json": "d05092d9e1399db6c21a4ecccca484466a9ab1ee1b8808f1c474d707bdd78965",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/uart_handle_cts_change-format.txt": "816066aa355eaa150cb4b3559cd8a783df57e041f9b2fc0014059c52a1c35449",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/uart_write_wakeup-format.txt": "3a44b332a310befed3559ba649fef5ddbce0886b2388308353efb6a965dc45ac",
+    "build/upstream-pi/stable-4.5/bt-cts-candidate/parent-window-1/bt-cts-window-1/uart/worker.json": "a0a291450788d4b59a91a5cb175e5587527019a39cf53d386dd36b0fba40d8c0"
+  }
+}

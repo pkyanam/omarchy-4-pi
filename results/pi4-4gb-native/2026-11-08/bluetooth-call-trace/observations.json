@@ -1,0 +1,186 @@
+{
+  "cohort": "pi4-4gb-native",
+  "kernel": "7.3.0-32.1-omarchy",
+  "helper_sha256": "1c1e9acc5ccd51b4ed8185f2239069ead398771478b77239edf42d9f20d694c1",
+  "before_after_shared_state_identical": true,
+  "result": {
+    "failure": null,
+    "cleanup_errors": [],
+    "physical_evidence": false
+  },
+  "capture": {
+    "truncated": false,
+    "mode": "function-call-only"
+  },
+  "selected": [
+    "bcm_gpio_set_power:mod:hci_uart",
+    "bcm_open:mod:hci_uart",
+    "bcm_serdev_probe:mod:hci_uart",
+    "bcm_recv:mod:hci_uart",
+    "hci_uart_set_baudrate:mod:hci_uart",
+    "hci_uart_set_flow_control:mod:hci_uart",
+    "bcm_set_baudrate:mod:hci_uart",
+    "bcm_enqueue:mod:hci_uart",
+    "hci_uart_receive_buf:mod:hci_uart",
+    "ttyport_write_buf",
+    "ttyport_receive_buf",
+    "ttyport_write_wakeup",
+    "ttyport_set_baudrate",
+    "ttyport_set_flow_control",
+    "ttyport_set_tiocm",
+    "uart_set_termios"
+  ],
+  "events": [
+    {
+      "cpu": 0,
+      "function": "bcm_gpio_set_power",
+      "caller": "bcm_close",
+      "relative_s": 0.0
+    },
+    {
+      "cpu": 0,
+      "function": "bcm_serdev_probe",
+      "caller": "serdev_drv_probe",
+      "relative_s": 0.205362
+    },
+    {
+      "cpu": 0,
+      "function": "bcm_gpio_set_power",
+      "caller": "bcm_serdev_probe",
+      "relative_s": 0.206965
+    },
+    {
+      "cpu": 0,
+      "function": "uart_set_termios",
+      "caller": "tty_set_termios",
+      "relative_s": 0.327674
+    },
+    {
+      "cpu": 0,
+      "function": "bcm_open",
+      "caller": "hci_uart_register_device_priv",
+      "relative_s": 0.327678
+    },
+    {
+      "cpu": 0,
+      "function": "hci_uart_set_flow_control",
+      "caller": "bcm_open",
+      "relative_s": 0.32768
+    },
+    {
+      "cpu": 0,
+      "function": "ttyport_set_flow_control",
+      "caller": "serdev_device_set_flow_control",
+      "relative_s": 0.327681
+    },
+    {
+      "cpu": 0,
+      "function": "uart_set_termios",
+      "caller": "tty_set_termios",
+      "relative_s": 0.327681
+    },
+    {
+      "cpu": 0,
+      "function": "ttyport_set_tiocm",
+      "caller": "serdev_device_set_tiocm",
+      "relative_s": 0.327686
+    },
+    {
+      "cpu": 0,
+      "function": "bcm_gpio_set_power",
+      "caller": "bcm_open",
+      "relative_s": 0.327686
+    },
+    {
+      "cpu": 0,
+      "function": "hci_uart_set_flow_control",
+      "caller": "bcm_open",
+      "relative_s": 0.428635
+    },
+    {
+      "cpu": 0,
+      "function": "ttyport_set_flow_control",
+      "caller": "serdev_device_set_flow_control",
+      "relative_s": 0.428638
+    },
+    {
+      "cpu": 0,
+      "function": "uart_set_termios",
+      "caller": "tty_set_termios",
+      "relative_s": 0.42864
+    },
+    {
+      "cpu": 0,
+      "function": "ttyport_set_tiocm",
+      "caller": "serdev_device_set_tiocm",
+      "relative_s": 0.428653
+    },
+    {
+      "cpu": 0,
+      "function": "ttyport_set_baudrate",
+      "caller": "serdev_device_set_baudrate",
+      "relative_s": 0.429136
+    },
+    {
+      "cpu": 0,
+      "function": "uart_set_termios",
+      "caller": "tty_set_termios",
+      "relative_s": 0.429142
+    },
+    {
+      "cpu": 0,
+      "function": "bcm_set_baudrate",
+      "caller": "hci_uart_setup",
+      "relative_s": 0.429146
+    },
+    {
+      "cpu": 3,
+      "function": "bcm_enqueue",
+      "caller": "hci_uart_send_frame",
+      "relative_s": 0.429482
+    },
+    {
+      "cpu": 3,
+      "function": "ttyport_write_buf",
+      "caller": "serdev_device_write_buf",
+      "relative_s": 0.429523
+    },
+    {
+      "cpu": 3,
+      "function": "bcm_enqueue",
+      "caller": "hci_uart_send_frame",
+      "relative_s": 2.476747
+    },
+    {
+      "cpu": 3,
+      "function": "ttyport_write_buf",
+      "caller": "serdev_device_write_buf",
+      "relative_s": 2.476771
+    },
+    {
+      "cpu": 1,
+      "function": "ttyport_write_wakeup",
+      "caller": "tty_port_tty_wakeup",
+      "relative_s": 4.524682
+    },
+    {
+      "cpu": 1,
+      "function": "ttyport_write_wakeup",
+      "caller": "tty_port_tty_wakeup",
+      "relative_s": 4.5247
+    }
+  ],
+  "stats": {
+    "cpu1-stats.txt": "entries: 2\noverrun: 0\ncommit overrun: 0\nbytes: 56\noldest event ts:  3129.759087\nnow ts:  3137.171053\ndropped events: 0\nread events: 0\n",
+    "cpu0-stats.txt": "entries: 17\noverrun: 0\ncommit overrun: 0\nbytes: 484\noldest event ts:  3125.234405\nnow ts:  3137.170471\ndropped events: 0\nread events: 0\n",
+    "cpu3-stats.txt": "entries: 4\noverrun: 0\ncommit overrun: 0\nbytes: 120\noldest event ts:  3125.663887\nnow ts:  3137.171937\ndropped events: 0\nread events: 0\n",
+    "cpu2-stats.txt": "entries: 0\noverrun: 0\ncommit overrun: 0\nbytes: 0\noldest event ts:     0.000000\nnow ts:  3137.171529\ndropped events: 0\nread events: 0\n"
+  },
+  "unavailable": [
+    "write acceptance/results",
+    "effective baud",
+    "power/flow scalar values",
+    "TX/RX physical progress",
+    "controller readiness"
+  ]
+}

@@ -1,0 +1,692 @@
+{
+  "workload": "python-hashlib-sha256-1mib-v1",
+  "kernel": "7.3.0-32.1-omarchy",
+  "openssl": "OpenSSL 3.6.5 29 Sep 2026",
+  "original_governor": "schedutil",
+  "restored_governor": "schedutil",
+  "firmware_actual_clock": null,
+  "firmware_throttled": null,
+  "energy": null,
+  "trials": [
+    {
+      "governor": "schedutil",
+      "duration_target_s": 20,
+      "workers": 4,
+      "mib_hashed": 12652,
+      "worker_cpu_s": 78.475160892,
+      "samples": [
+        {
+          "elapsed_s": 0.2518762229999538,
+          "temp_millic": 40894,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 1.2544768870000098,
+          "temp_millic": 46738,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 2.2555701979999867,
+          "temp_millic": 48686,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 3.2566135649999524,
+          "temp_millic": 49660,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 4.25873826499992,
+          "temp_millic": 52582,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 5.259764983999958,
+          "temp_millic": 54043,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 6.2607783880000625,
+          "temp_millic": 55504,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 7.262834958999974,
+          "temp_millic": 56478,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 8.263835936000078,
+          "temp_millic": 57452,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 9.264850340000066,
+          "temp_millic": 58426,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 10.26584294700001,
+          "temp_millic": 58426,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 11.269867556999998,
+          "temp_millic": 60374,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 12.270888554000067,
+          "temp_millic": 59400,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 13.271894402000044,
+          "temp_millic": 60861,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 14.272888545999876,
+          "temp_millic": 60861,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 15.273886967999942,
+          "temp_millic": 61835,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 16.27491159400006,
+          "temp_millic": 61835,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 17.275891535000028,
+          "temp_millic": 61835,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 18.276948882999932,
+          "temp_millic": 63296,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 19.27802237900005,
+          "temp_millic": 63296,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ],
+      "pressure_after": "some avg10=0.31 avg60=2.25 avg300=1.78 total=65716515\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+    },
+    {
+      "governor": "performance",
+      "duration_target_s": 20,
+      "workers": 4,
+      "mib_hashed": 11993,
+      "worker_cpu_s": 75.554114852,
+      "samples": [
+        {
+          "elapsed_s": 0.02871371099990938,
+          "temp_millic": 45277,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 1.0312136719999216,
+          "temp_millic": 51121,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 2.0322857979999753,
+          "temp_millic": 53556,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 3.0334502010000506,
+          "temp_millic": 55991,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 4.035518716999832,
+          "temp_millic": 55991,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 5.036741325000094,
+          "temp_millic": 57452,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 6.041009472000042,
+          "temp_millic": 58426,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 7.042116691000047,
+          "temp_millic": 59400,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 8.043186891000005,
+          "temp_millic": 60374,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 9.04426022000007,
+          "temp_millic": 61835,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 10.045306660999813,
+          "temp_millic": 62322,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 11.046338824000031,
+          "temp_millic": 63296,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 12.047371913000006,
+          "temp_millic": 63296,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 13.04947392899976,
+          "temp_millic": 63783,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 14.050515035999979,
+          "temp_millic": 65731,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 15.051534199999878,
+          "temp_millic": 65244,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 16.052525269999933,
+          "temp_millic": 66705,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 17.05357089600011,
+          "temp_millic": 66705,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 18.054581095999765,
+          "temp_millic": 67192,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 19.055634574000123,
+          "temp_millic": 67192,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ],
+      "pressure_after": "some avg10=5.48 avg60=3.83 avg300=2.21 total=67751674\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+    },
+    {
+      "governor": "performance",
+      "duration_target_s": 20,
+      "workers": 4,
+      "mib_hashed": 12693,
+      "worker_cpu_s": 78.702950706,
+      "samples": [
+        {
+          "elapsed_s": 0.02861321099999259,
+          "temp_millic": 46738,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 1.0300374479998027,
+          "temp_millic": 53069,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 2.0332005949999257,
+          "temp_millic": 55504,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 3.03429646099994,
+          "temp_millic": 56965,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 4.0353433099999165,
+          "temp_millic": 57452,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 5.03639280599964,
+          "temp_millic": 58913,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 6.037423727999794,
+          "temp_millic": 60374,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 7.040553263999755,
+          "temp_millic": 61835,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 8.041620259999945,
+          "temp_millic": 61835,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 9.042619996999747,
+          "temp_millic": 62809,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 10.04362599399974,
+          "temp_millic": 62809,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 11.044648860999587,
+          "temp_millic": 65244,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 12.045647523999833,
+          "temp_millic": 65244,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 13.046644186999856,
+          "temp_millic": 65244,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 14.047673330999714,
+          "temp_millic": 65244,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 15.048635456999818,
+          "temp_millic": 66218,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 16.049636119999832,
+          "temp_millic": 66218,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 17.05063191299996,
+          "temp_millic": 67192,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 18.051632335999784,
+          "temp_millic": 67679,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 19.05264344299985,
+          "temp_millic": 67679,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ],
+      "pressure_after": "some avg10=1.33 avg60=2.46 avg300=2.06 total=68504658\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+    },
+    {
+      "governor": "schedutil",
+      "duration_target_s": 20,
+      "workers": 4,
+      "mib_hashed": 12746,
+      "worker_cpu_s": 79.202331297,
+      "samples": [
+        {
+          "elapsed_s": 0.029813564000050974,
+          "temp_millic": 47225,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 1.031018837999909,
+          "temp_millic": 54530,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 2.032059019999906,
+          "temp_millic": 57452,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 3.0331165719999262,
+          "temp_millic": 57452,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 4.035156142999767,
+          "temp_millic": 59887,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 5.036165510000046,
+          "temp_millic": 60861,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 6.037164654999742,
+          "temp_millic": 63783,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 7.038198854999791,
+          "temp_millic": 63296,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 8.040515111999866,
+          "temp_millic": 64270,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 9.041866293999647,
+          "temp_millic": 65244,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 10.042977900999631,
+          "temp_millic": 65731,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 11.044014230999892,
+          "temp_millic": 65731,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 12.046101118000024,
+          "temp_millic": 66218,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 13.047194206999848,
+          "temp_millic": 67192,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 14.04816994399971,
+          "temp_millic": 68166,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 15.049187310999969,
+          "temp_millic": 68166,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 16.050170973999684,
+          "temp_millic": 67679,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 17.051180581999688,
+          "temp_millic": 69140,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 18.05217078199985,
+          "temp_millic": 69140,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        },
+        {
+          "elapsed_s": 19.05320901899995,
+          "temp_millic": 69627,
+          "requested_freq_khz": 1800000,
+          "voltage_alarm": [
+            "0"
+          ]
+        }
+      ],
+      "pressure_after": "some avg10=0.56 avg60=1.41 avg300=1.83 total=68804216\nfull avg10=0.00 avg60=0.00 avg300=0.00 total=0"
+    }
+  ]
+}

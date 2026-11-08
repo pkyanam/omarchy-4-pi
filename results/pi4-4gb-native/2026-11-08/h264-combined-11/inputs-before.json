@@ -1,0 +1,18 @@
+{
+  "build/upstream-pi/linux-7.3.tar.xz": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
+  "build/upstream-pi/stable-4.5/kernel-reviewed/packages/linux-omarchy-headers-7.3-32.1-aarch64.pkg.tar.zst": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
+  "tools/pi-experiments/h264-port/replay-source.py": "a3129c6bc552e7cf624dd75e72f4efa0ac62c759e3a25a6c74f0afa828188b75",
+  "tools/pi-experiments/h264-port/external-lifecycle-module.Makefile": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+  "tools/pi-experiments/h264-port/patches/series": "3a0ca9df6a08107c3f096e49883aaf192069e48168a989fec62b462ff7b04711",
+  "tools/pi-experiments/h264-port/patches/0001-vcsm-mmal-buffer-services.patch": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
+  "tools/pi-experiments/h264-port/patches/0002-bcm2835-codec-linux73.patch": "a4d6d85e9f05f2213c8ea423771656e73dc32881e54cebbfe320f5175315a37a",
+  "tools/pi-experiments/h264-port/patches/0003-vchiq-children-build-integration.patch": "738ced1c46837dd28270cbdf74107943561dd3755d847d0fe3eacf5eb0fd1f58",
+  "tools/pi-experiments/h264-port/patches/0004-vchiq-synchronous-callback-cancellation.patch": "aa383f28d3dc47e39bd44b8e224aef85651290c6002af130ed85a8786794cd73",
+  "tools/pi-experiments/h264-port/patches/0005-vcsm-smio-command-ownership-and-worker-stop.patch": "64ade269bccba1052529d895156ac73c7607bc9a71b65244946da28e94aaea56",
+  "tools/pi-experiments/h264-port/patches/0006-vchiq-owned-service-removal-completion.patch": "9c3f77fd98d770d08a634ca115e4528516c2d82f203174fe9a2a1ab638787281",
+  "tools/pi-experiments/h264-port/patches/0007-vchiq-balance-unsent-owned-open.patch": "818606f46ae16da3dc2ab08d24bb91e90c0f4b78e861e426cdfe0ce9fa227f62",
+  "tools/pi-experiments/h264-port/patches/0008-mmal-invalid-vc-handle.patch": "f47e724292bebae0ab50140cb7c523f76dd260ed7a61d6c73565ec4ccb99d345",
+  "tools/pi-experiments/h264-port/patches/0009-vcsm-file-admission-and-balanced-connect.patch": "b3fb3bcfce542a2d25899041372ad4eb3e49068c9ff399a0067d3257f4c65c2c",
+  "tools/pi-experiments/h264-port/patches/0010-vcsm-bind-buffer-release-to-service-generation.patch": "c9ed23863b4aad640fefdeeec78be8ceb03a575178c1ae7103d5187aa8b82676",
+  "tools/pi-experiments/h264-port/patches/0011-vcsm-complete-import-before-retiring-owner.patch": "d86f3f72cd4fdea4d304577c8f6886ef727814c0293a4004e9bdcb0e0caac845"
+}

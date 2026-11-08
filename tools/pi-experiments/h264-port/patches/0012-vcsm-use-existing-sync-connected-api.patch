@@ -1,0 +1,11 @@
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+@@ -1679,7 +1679,7 @@
+ 	/* dma_set_max_seg_size checks if dma_parms is NULL. */
+ 	dma_set_max_seg_size(&device->dev, 0x3FFFFFFF);
+ 
+-	err = vchiq_register_connected_callback(device, vc_sm_connected_init);
++	err = vchiq_add_connected_callback_sync(device, vc_sm_connected_init);
+ 	if (err) {
+ 		vc_sm_generation_put(sm_state->generation);
+ 		sm_state = NULL;

@@ -1,0 +1,58 @@
+{
+  "containers": [
+    {
+      "name": "h264-combined-11-inspect",
+      "running": false,
+      "exit": 0,
+      "oom_killed": false,
+      "SizeRw": 196608,
+      "SizeRootFs": 3238174720
+    },
+    {
+      "name": "h264-combined-11-build",
+      "running": false,
+      "exit": 1,
+      "oom_killed": false,
+      "SizeRw": 196608,
+      "SizeRootFs": 3238174720
+    },
+    {
+      "name": "h264-combined-11-archive-list",
+      "running": false,
+      "exit": 0,
+      "oom_killed": false,
+      "SizeRw": 196608,
+      "SizeRootFs": 3238174720
+    },
+    {
+      "name": "h264-combined-11-build-final",
+      "running": false,
+      "exit": 2,
+      "oom_killed": false,
+      "SizeRw": 196608,
+      "SizeRootFs": 3238174720
+    },
+    {
+      "name": "h264-combined-11-final-audit",
+      "running": false,
+      "exit": 0,
+      "oom_killed": false,
+      "SizeRw": 196608,
+      "SizeRootFs": 3238174720
+    }
+  ],
+  "host_allocated_bytes": 21368832,
+  "linux_volume_allocated_bytes": 193466368,
+  "new_root_delta_bytes": 983040,
+  "total_new_allocated_bytes_at_snapshot": 215818240,
+  "prior_conservative_charge_bytes_approx": 6256000000,
+  "prior_plus_snapshot_bytes_approx": 6471818240,
+  "report_finalization_reserve_bytes": 1048576,
+  "ceiling_bytes": 1000000000,
+  "stop_threshold_bytes": 800000000,
+  "volume": "omarchy-pi-h264-combined-11-work",
+  "no_deleted_evidence": true,
+  "df": "Filesystem   1024-blocks      Used Available Capacity iused     ifree %iused  Mounted on\n/dev/disk3s5   482766932 406870620  46075116    90% 5299509 460751160    1%   /System/Volumes/Data\n",
+  "post_report_host_allocated_bytes": 21397504,
+  "post_report_total_new_allocated_bytes_at_snapshot": 215846912
+}

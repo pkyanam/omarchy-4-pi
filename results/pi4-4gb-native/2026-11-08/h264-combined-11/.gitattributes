@@ -1,0 +1,2 @@
+# Preserve compiler/error evidence verbatim.
+*.log -whitespace

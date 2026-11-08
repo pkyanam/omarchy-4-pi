@@ -1,0 +1,28 @@
+188932	/work
+184572	/work/headers
+4360	/work/source
+
+String dump of section '.modinfo':
+  [     0]  author=Broadcom Corporation
+  [    1c]  description=Videocore VCHIQ driver
+  [    3f]  license=Dual BSD/GPL
+
+00000000000000a0 r __export_symbol_vchiq_add_connected_callback
+0000000000000080 r __export_symbol_vchiq_add_connected_callback_sync
+0000000000000090 r __export_symbol_vchiq_remove_connected_callback
+0000000000000088 d __gendwarfksyms_ptr_vchiq_add_connected_callback
+0000000000000098 d __gendwarfksyms_ptr_vchiq_add_connected_callback_sync
+0000000000000090 d __gendwarfksyms_ptr_vchiq_remove_connected_callback
+0000000000000088 d __UNIQUE_ID_addressable_vchiq_add_connected_callback_593
+0000000000000098 d __UNIQUE_ID_addressable_vchiq_add_connected_callback_sync_591
+0000000000000090 d __UNIQUE_ID_addressable_vchiq_remove_connected_callback_592
+0000000000009f68 T vchiq_add_connected_callback
+0000000000009dc8 T vchiq_add_connected_callback_sync
+0000000000009148 T vchiq_remove_connected_callback
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+sock_throttled 0

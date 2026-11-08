@@ -250,3 +250,11 @@ The new companion1-2 passed31 transaction cases, actual companion ALPM and sourc
 Parent installed kernel/header7.3-32.11 and companion1-2 after fresh snapshot10 and verified off-board module/UKI/ESP/card protection. Public-update holds now include the companion. Pacman exits0 and all11 separate acceptance checks pass: exact versions/new signed module, installed-helper/firmware readback, only config and owned overlay changed, EFI/NV unchanged, native boot verification, no failed units and taint0. UKI remains byte-identical3b2b9760.... No reboot has yet occurred, so the active driver/FDT and Bluetooth are not qualified. Owner availability to unlock encrypted boot was requested; the desktop may remain locked afterward. Evidence is under results/pi4-4gb-native/2026-11-08/cts-installed-preboot/ and tools/pi-experiments/cts-firmware-v2/.
 
 A separate Sol/High/Normal lane compiles the exact eleven-patch H264 series against the now-faithful case-sensitive Linux headers. It has no Pi or installation authority and remains nondeployable regardless of compilation. Local VM2GiB and overall15GB growth ceiling remain unchanged.
+
+## Faithful H264 compile found and corrected an API integration error
+
+The exact eleven-patch series failed real compilation at VCSM probe on nonexistent vchiq_register_connected_callback; all22575 Linux header archive files and exact replay identity passed first. No .ko, modpost or BTF output exists for that run. Historical owner-unit host tests supplied a boundary stub under the nonexistent name, so their passing behavioral checks did not establish real transport API integration. This limitation is now explicit; old evidence remains immutable.
+
+Parent appended separable0012 changing only the call to existing exported int vchiq_add_connected_callback_sync(device, callback). The same return handling and paired synchronized removal remain. A fresh Sol/High/Normal lane compiles the exact12-patch series with faithful case-sensitive headers, CPU1/768MiB and1GB newstorage ceiling. No source-timeout/quiescence behavior is changed, and successful compilation would not qualify deployment.
+
+The installed CTS candidate remains at verified pre-reboot state with no reboot issued while encrypted-console unlock availability is pending. No Pi, package, media or desktop change was made during this source correction.

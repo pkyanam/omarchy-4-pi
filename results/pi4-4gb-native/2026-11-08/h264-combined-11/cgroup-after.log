@@ -1,0 +1,18 @@
+low 0
+high 0
+max 0
+oom 0
+oom_kill 0
+oom_group_kill 0
+sock_throttled 0
+510640128
+331980800
+usage_usec 14655347
+user_usec 13424444
+system_usec 1230903
+nice_usec 0
+nr_periods 148
+nr_throttled 7
+throttled_usec 105250
+nr_bursts 0
+burst_usec 0

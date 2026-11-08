@@ -1,0 +1,23 @@
+make: Entering directory '/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+make[1]: Entering directory '/work/source'
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_core.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.o
+  LD [M]  vchiq.o
+  CC [M]  drivers/platform/raspberrypi/vc-sm-cma/vc_sm.o
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c: In function ‘bcm2835_vc_sm_cma_probe’:
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1682:15: error: implicit declaration of function ‘vchiq_register_connected_callback’; did you mean ‘vchiq_remove_connected_callback’? [-Wimplicit-function-declaration]
+ 1682 |         err = vchiq_register_connected_callback(device, vc_sm_connected_init);
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |               vchiq_remove_connected_callback
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c: At top level:
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:237:13: warning: ‘free_kernel_id’ defined but not used [-Wunused-function]
+  237 | static void free_kernel_id(struct sm_state_t *state, int handle)
+      |             ^~~~~~~~~~~~~~
+make[3]: *** [/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.build:290: drivers/platform/raspberrypi/vc-sm-cma/vc_sm.o] Error 1
+make[2]: *** [/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Makefile:2232: .] Error 2
+make[1]: *** [/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Makefile:248: __sub-make] Error 2
+make[1]: Leaving directory '/work/source'
+make: *** [Makefile:248: __sub-make] Error 2
+make: Leaving directory '/work/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'

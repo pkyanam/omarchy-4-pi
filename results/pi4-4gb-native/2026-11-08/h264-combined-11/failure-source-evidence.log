@@ -1,0 +1,64 @@
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1675: 
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1676: 	device->dev.dma_parms = devm_kzalloc(&device->dev,
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1677: 					     sizeof(*device->dev.dma_parms),
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1678: 					     GFP_KERNEL);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1679: 	/* dma_set_max_seg_size checks if dma_parms is NULL. */
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1680: 	dma_set_max_seg_size(&device->dev, 0x3FFFFFFF);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1681: 
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1682: 	err = vchiq_register_connected_callback(device, vc_sm_connected_init);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1683: 	if (err) {
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1684: 		vc_sm_generation_put(sm_state->generation);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1685: 		sm_state = NULL;
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1686: 	}
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1687: 	return err;
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:1688: }
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:230: 		if (handle >= 0)
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:231: 			state->next_kernel_id = handle == INT_MAX ? INT_MAX : handle + 1;
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:232: 	}
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:233: 	mutex_unlock(&state->kernelid_map_lock);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:234: 	return handle;
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:235: }
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:236: 
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:237: static void free_kernel_id(struct sm_state_t *state, int handle)
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:238: {
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:239: 	mutex_lock(&state->kernelid_map_lock);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:240: 	idr_remove(&state->kernelid_map, handle);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:241: 	mutex_unlock(&state->kernelid_map_lock);
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:242: }
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:243: 
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:244: static int vc_sm_cma_seq_file_show(struct seq_file *s, void *v)
+drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c:245: {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:171:  * serialization by the consumer (probe/remove already provides it).
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:172:  */
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:173: int vchiq_add_connected_callback_sync(struct vchiq_device *device,
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:174:                                      void (*callback)(void))
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:175: {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:176: 	struct vchiq_drv_mgmt *drv_mgmt = device->drv_mgmt;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:177: 	int ret = 0;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:178: 	int i;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:179: 
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:180: 	mutex_lock(&drv_mgmt->connected_mutex);
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:181: 	if (drv_mgmt->connected) {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:182: 		callback();
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:183: 	} else {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:184: 		for (i = 0; i < drv_mgmt->num_deferred_callbacks; i++) {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:185: 			if (drv_mgmt->deferred_callback[i] == callback) {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:186: 				ret = -EEXIST;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:187: 				goto unlock;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:188: 			}
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:189: 		}
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:190: 		if (drv_mgmt->num_deferred_callbacks == VCHIQ_DRV_MAX_CALLBACKS) {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:191: 			ret = -ENOSPC;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:192: 		} else {
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:193: 			drv_mgmt->deferred_callback[drv_mgmt->num_deferred_callbacks++] = callback;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:194: 		}
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:195: 	}
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:196: unlock:
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:197: 	mutex_unlock(&drv_mgmt->connected_mutex);
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:198: 	return ret;
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:199: }
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:200: EXPORT_SYMBOL(vchiq_add_connected_callback_sync);
+drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c:201: 
+include/linux/raspberrypi/vchiq_arm.h:140: extern int vchiq_add_connected_callback_sync(struct vchiq_device *device,
+include/linux/raspberrypi/vchiq_arm.h:142: extern void vchiq_remove_connected_callback(struct vchiq_device *device,
+include/linux/raspberrypi/vchiq_arm.h:146: vchiq_add_connected_callback(struct vchiq_device *device,

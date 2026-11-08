@@ -1,5 +1,5 @@
 {
-  "status": "NONDEPLOYABLE: 0001-0006 module-compiled; 0007-0011 source-tested only; peer silence/missing RELEASED can block teardown indefinitely",
+  "status": "NONDEPLOYABLE: exact eleven-patch faithful-header build fails API registration call; 0012 corrects call, combined compile pending; firmware lifetime/quiescence unresolved",
   "kernel_archive_sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
   "headers_archive_sha256": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
   "files": {
@@ -56,8 +56,8 @@
       "bytes": 468
     },
     "patches/series": {
-      "sha256": "3a0ca9df6a08107c3f096e49883aaf192069e48168a989fec62b462ff7b04711",
-      "bytes": 511
+      "sha256": "81051a2c9602df40257e3a74ff6c34219aceaac574df22153fe1bc68cccf8cc4",
+      "bytes": 559
     },
     "patches/0001-vcsm-mmal-buffer-services.patch": {
       "sha256": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
@@ -286,6 +286,10 @@
     "import-unit/producer-cases.c": {
       "sha256": "e3a0dfe3bfd1534979ba6d8253e8d32723e272da80b8275bceb3b22d37367575",
       "bytes": 5184
+    },
+    "patches/0012-vcsm-use-existing-sync-connected-api.patch": {
+      "sha256": "58c22d055842a21707133a6546277435afb818c282a72e5f6c2e5f3dde8e598b",
+      "bytes": 464
     }
   }
 }

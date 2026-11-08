@@ -1,0 +1,18 @@
+{
+  "archive": "raspberrypi-4-pftf-cts-1-2-aarch64.pkg.tar.zst",
+  "sha256": "91d0683fc972450ff7f429bd1147bfb4136d6c3713712b8b53df8d1f96a0f524",
+  "bytes": 9713,
+  "added": [
+    "usr/share/omarchy/pi4-cts/firmware-identity.json"
+  ],
+  "changed": [
+    ".BUILDINFO",
+    ".MTREE",
+    ".PKGINFO",
+    "usr/lib/omarchy/pi4-cts/media-sync.py"
+  ],
+  "source_archive_match": true,
+  "all_other_payload_bytes_attrs_equal": true,
+  "mtree_verified": true,
+  "DT_one_property_delta": true
+}

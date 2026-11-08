@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "route": "private-reviewed-PFTF-RPi4-1.53",
+  "size": 3997696,
+  "baseline_sha256": "9d7e2b14292e9275f1bc00ebcb07fc879a629c343cedea6381776d1696d77067",
+  "mutable": {
+    "start": 3866724,
+    "end": 3923968,
+    "contract": "NV variable data only; never written by this helper"
+  },
+  "sources": {
+    "pftf": "v1.53",
+    "edk2": "2970e5699ba6267f3384ffab20f96647578aebc8",
+    "edk2_platforms": "c8295e076affae5cf04fd4234db13a0e025f44e1",
+    "definitions": "RPi4.fdf DATA explicitly serializes EFI_FIRMWARE_VOLUME_HEADER and VARIABLE_STORE_HEADER fields; header length 0x48 plus GUID/UINT32/UINT8/UINT8/UINT16/UINT32 = 28 bytes",
+    "files": {
+      "VarBlockServiceDxe.c": "e6255d41d6529e2b95d88f244be3ba69a6c536bca470efc3e847dfe2eca31dfd",
+      "header.bin": "12864517baf3d839b21de39747f042ea335737b5482ca101f0be13d09471fb93",
+      "RPi4.fdf": "76ae91c5237fbef70e87bb89ff5deca1a5de7988d92f0b03ca2c30737499fd09"
+    }
+  },
+  "regions": [
+    {
+      "name": "ATF",
+      "start": 0,
+      "end": 131072,
+      "sha256": "c35ec9d27dbf90dffbfda9167a6f957fc8394792c5061ca6d132cc53f405ceaf"
+    },
+    {
+      "name": "UEFI",
+      "start": 131072,
+      "end": 3866624,
+      "sha256": "58f59562d1dad08a2d44d8357b024da8843c694972a306bf75b982a9be5b48cc"
+    },
+    {
+      "name": "FV-and-variable-store-headers",
+      "start": 3866624,
+      "end": 3866724,
+      "sha256": "12864517baf3d839b21de39747f042ea335737b5482ca101f0be13d09471fb93"
+    },
+    {
+      "name": "NV-event",
+      "start": 3923968,
+      "end": 3928064,
+      "sha256": "f47a8ec3e9aff2318d896942282ad4fe37d6391c82914f54a5da8a37de1300c6"
+    },
+    {
+      "name": "FTW-working",
+      "start": 3928064,
+      "end": 3932160,
+      "sha256": "118f92ea0ebaee277948aa097d401c4c06c6f7779121ffc52c450b69295c44be"
+    },
+    {
+      "name": "FTW-spare",
+      "start": 3932160,
+      "end": 3997696,
+      "sha256": "71189f7fb6aed638640078fba3a35fda6c39c8962e74dcc75935aac948da9063"
+    }
+  ]
+}

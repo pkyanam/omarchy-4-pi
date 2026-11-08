@@ -1,0 +1,3 @@
+# Exact CRLF firmware config and pinned primary source bytes.
+firmware/config.txt.* -text -whitespace
+reference/** -whitespace

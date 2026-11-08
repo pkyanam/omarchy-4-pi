@@ -1,0 +1,12 @@
+{
+  "state": "actual extracted companion preflight passed; no install or card write",
+  "pins": {
+    "linux-omarchy-7.3-32.11-aarch64.pkg.tar.zst": "4c457229efda934ce399e03fc94cf6bc4900448275fe5bbacd3d8bfa02e39f13",
+    "linux-omarchy-headers-7.3-32.11-aarch64.pkg.tar.zst": "6fc8159044c8cb81b0336bc3f3c5e05b1c30cede104b2334dc13c00667805a38",
+    "raspberrypi-4-pftf-cts-1-2-aarch64.pkg.tar.zst": "91d0683fc972450ff7f429bd1147bfb4136d6c3713712b8b53df8d1f96a0f524"
+  },
+  "preflight": "Firmware card identity/baseline checked; no write\n",
+  "media_unchanged": true,
+  "package_plan": "linux-omarchy 7.3-32.11\nlinux-omarchy-headers 7.3-32.11\nraspberrypi-4-pftf-cts 1-2\n",
+  "firmware_sha256": "4de071429a7eb715673d9b5d8bc6d076f3cdd8da488f3c49eafdce7007a033b1"
+}

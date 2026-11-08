@@ -1,0 +1,246 @@
+test_baseline_check_no_write (__main__.Transactions.test_baseline_check_no_write) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.014s
+
+OK
+Firmware card identity/baseline checked; no write
+test_wrong_uuid (__main__.Transactions.test_wrong_uuid) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.022s
+
+OK
+test_wrong_filesystem (__main__.Transactions.test_wrong_filesystem) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.094s
+
+OK
+test_unmounted (__main__.Transactions.test_unmounted) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.092s
+
+OK
+test_config_permissions (__main__.Transactions.test_config_permissions) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.012s
+
+OK
+test_config_owner (__main__.Transactions.test_config_owner) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.009s
+
+OK
+test_config_symlink (__main__.Transactions.test_config_symlink) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.081s
+
+OK
+test_config_parent_symlink (__main__.Transactions.test_config_parent_symlink) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.092s
+
+OK
+test_overlay_parent_symlink_inside_mount (__main__.Transactions.test_overlay_parent_symlink_inside_mount) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.095s
+
+OK
+test_overlay_symlink (__main__.Transactions.test_overlay_symlink) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.020s
+
+OK
+test_baseline_drift (__main__.Transactions.test_baseline_drift) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.090s
+
+OK
+test_config_drift (__main__.Transactions.test_config_drift) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.101s
+
+OK
+test_backup_symlink (__main__.Transactions.test_backup_symlink) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.105s
+
+OK
+test_publish_order (__main__.Transactions.test_publish_order) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.125s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+test_failures_preserve_config_and_retry (__main__.Transactions.test_failures_preserve_config_and_retry) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.219s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+test_directory_sync_failure_before_config (__main__.Transactions.test_directory_sync_failure_before_config) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.118s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+test_directory_sync_failure_after_config_is_not_rollback (__main__.Transactions.test_directory_sync_failure_after_config_is_not_rollback) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.211s
+
+OK
+Firmware restore complete; boot/live FDT still requires physical verification
+test_overlay_readback_before_config (__main__.Transactions.test_overlay_readback_before_config) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.194s
+
+OK
+test_restore_failures_keep_active_pair (__main__.Transactions.test_restore_failures_keep_active_pair) ... Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+Firmware I/O failed: STOP; do not reboot; inspect/restore card
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.507s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+test_stale_temporary_not_deleted (__main__.Transactions.test_stale_temporary_not_deleted) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.107s
+
+OK
+test_opt_in_without_overlay (__main__.Transactions.test_opt_in_without_overlay) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.175s
+
+OK
+test_mount_symlink (__main__.Transactions.test_mount_symlink) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.095s
+
+OK
+test_repeat_restore_owned_only (__main__.Transactions.test_repeat_restore_owned_only) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.220s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+test_remove_guard (__main__.Transactions.test_remove_guard) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.288s
+
+OK
+Firmware restored; companion removal allowed
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+test_foreign_overlay_restore_rejected (__main__.Transactions.test_foreign_overlay_restore_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.201s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+test_nv_old_current_and_store_mutation_preserved (__main__.Transactions.test_nv_old_current_and_store_mutation_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.495s
+
+OK
+Firmware card identity/baseline checked; no write
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware card identity/baseline checked; no write
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+Firmware card identity/baseline checked; no write
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware card identity/baseline checked; no write
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+Firmware card identity/baseline checked; no write
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware card identity/baseline checked; no write
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+Firmware card identity/baseline checked; no write
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware card identity/baseline checked; no write
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+test_nv_change_after_apply_allows_restore (__main__.Transactions.test_nv_change_after_apply_allows_restore) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.201s
+
+OK
+Firmware apply complete; boot/live FDT still requires physical verification
+Firmware restore complete; boot/live FDT still requires physical verification
+Firmware restored; companion removal allowed
+test_fixed_regions_and_headers_rejected_even_with_nv_change (__main__.Transactions.test_fixed_regions_and_headers_rejected_even_with_nv_change) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 2.990s
+
+OK
+test_size_and_efi_symlink_rejected (__main__.Transactions.test_size_and_efi_symlink_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.211s
+
+OK
+test_manifest_permissions_and_symlink_rejected (__main__.Transactions.test_manifest_permissions_and_symlink_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.097s
+
+OK
+test_old_helper_rejects_actual_current_nv (__main__.Transactions.test_old_helper_rejects_actual_current_nv) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+OK
+PASS 31 transaction cases

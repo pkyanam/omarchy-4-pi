@@ -1,0 +1,10 @@
+{
+  "sampled_max_with_32MB_reserve": 129837056,
+  "conservative_max_with_128MB_reserve": 225837056,
+  "lane_ceiling": 300000000,
+  "stop_threshold": 240000000,
+  "prior_global": 5444543872,
+  "parent_reserve": 512000000,
+  "conservative_global": 6256543872,
+  "all_stopped": true
+}

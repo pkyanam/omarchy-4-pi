@@ -1,0 +1,17 @@
+{
+  "actual_companion": true,
+  "actual_kernel_headers_archives_database_only": true,
+  "real_payload_subset": {
+    "usr/lib/modules/7.3.0-32.1-omarchy/kernel/drivers/tty/serial/8250/8250_bcm2835aux.ko.zst": "db5cd638b0e88a6b957e50474b7de97ac9bb6f595af8c7e058539cfa8c799993",
+    "usr/lib/modules/7.3.0-32.1-omarchy/build/Module.symvers": "9717ce5b1296bf82b456540fc72c7bb6609e0bfd4cd1049981b78a3232774c31"
+  },
+  "NVIDIA_installed": false,
+  "synthetic_dependency_providers_only": true,
+  "first_install_posthook_failure_pacman0": true,
+  "prehook_failed_gate": true,
+  "extracted_archive_preflight": true,
+  "NV_change_after_apply_restore_removal": true,
+  "EFI_readback_preserved": true,
+  "mount_facts_mocked": true,
+  "physical_FAT_qualified": false
+}

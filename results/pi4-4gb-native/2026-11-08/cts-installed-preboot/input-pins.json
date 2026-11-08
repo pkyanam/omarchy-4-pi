@@ -1,0 +1,15 @@
+{
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/optimization/current-RPI_EFI.fd": "9d7e2b14292e9275f1bc00ebcb07fc879a629c343cedea6381776d1696d77067",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/optimization/cts3211-current-RPI_EFI.fd": "4de071429a7eb715673d9b5d8bc6d076f3cdd8da488f3c49eafdce7007a033b1",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/optimization/cts3211-firmware-region-comparison.json": "947cc29a7f5d5c812fb5595afd1b1fad871d38655d72ce3c9b1886d9af133d5a",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/transactions.py": "430133264e207d5131310c0264da67644111a07251d437c089c2b7573ebbd3ef",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/baseline-media.json": "b986c79ff2a446075eb9022977847a5fac4d5523f203cab61c385557a380a8b4",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/95-omarchy-pi4-cts.hook": "91cdfded0100bd5b426eb4bd3d9958212b695949a55d17d8ffc3cecddd713504",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/10-omarchy-pi4-cts.hook": "321230ac8c8499fb0d6dea27f65b3f71db950ff86508d96a81e7f419d4101fc9",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/PKGBUILD": "89937b677053df272a61be859184f1f3b0b8375905132cfcd15812d72868ab8d",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/config.txt.baseline": "3f2af8477c6a20a299fd7523a9d35e2f4f5d68fee48326f43f7d50a40ad9d794",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/config.txt.candidate": "d023a498b42bea25f59c6c6b146d2d230295766c0d9ac20ea39f628f13a0a3ee",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/09-omarchy-pi4-cts-remove.hook": "0042de62f7612763602eaf3538258d2d9a3f42dee830292b5b5452dcb2bce2e8",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/media-sync.py": "220a592aba8cc3c6da14201df8680c8c3945ca1bf1329ae827f3356d9956b917",
+  "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/cts-firmware-nv-preserving/before/firmware/omarchy-pi4-aux-rtscts.dtso": "267d4eb68ab2c5338f4fd042a28d12820e7909203830e8229a2ae1cfa12afbe5"
+}

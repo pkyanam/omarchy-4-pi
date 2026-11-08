@@ -1,0 +1,78 @@
+{
+  "alpm.py": {
+    "bytes": 5476,
+    "sha256": "38bc577d831738e25fc076c2d0d538595c8461d1d779d6ffc085659de2c624db"
+  },
+  "generate.py": {
+    "bytes": 4868,
+    "sha256": "473a7f12c3eba58a5159518ab30b4311f81d2268a53a2bf60dba0843d4ea46a4"
+  },
+  "README.md": {
+    "bytes": 1175,
+    "sha256": "8ef28c9975d47be402751a0d4f70ca860a12037110943348de2acac8927ae0ef"
+  },
+  "validate.py": {
+    "bytes": 3387,
+    "sha256": "76370f374cc3716b0385c2746d7d13222d2061ba1e5c35a4be9dd500349b20c5"
+  },
+  ".gitattributes": {
+    "bytes": 127,
+    "sha256": "53e209301771a0918fad8d8278dfbf03ac2e8a3bd3b61720ef539c3605781bcc"
+  },
+  "firmware/baseline-media.json": {
+    "bytes": 2156,
+    "sha256": "b986c79ff2a446075eb9022977847a5fac4d5523f203cab61c385557a380a8b4"
+  },
+  "firmware/95-omarchy-pi4-cts.hook": {
+    "bytes": 263,
+    "sha256": "91cdfded0100bd5b426eb4bd3d9958212b695949a55d17d8ffc3cecddd713504"
+  },
+  "firmware/10-omarchy-pi4-cts.hook": {
+    "bytes": 269,
+    "sha256": "321230ac8c8499fb0d6dea27f65b3f71db950ff86508d96a81e7f419d4101fc9"
+  },
+  "firmware/PKGBUILD": {
+    "bytes": 1811,
+    "sha256": "62890302d96f0620b78acc7d2c57e2785d69bf1aa9acd96892a4c4939b3df4cc"
+  },
+  "firmware/config.txt.baseline": {
+    "bytes": 352,
+    "sha256": "3f2af8477c6a20a299fd7523a9d35e2f4f5d68fee48326f43f7d50a40ad9d794"
+  },
+  "firmware/config.txt.candidate": {
+    "bytes": 463,
+    "sha256": "d023a498b42bea25f59c6c6b146d2d230295766c0d9ac20ea39f628f13a0a3ee"
+  },
+  "firmware/09-omarchy-pi4-cts-remove.hook": {
+    "bytes": 273,
+    "sha256": "0042de62f7612763602eaf3538258d2d9a3f42dee830292b5b5452dcb2bce2e8"
+  },
+  "firmware/media-sync.py": {
+    "bytes": 6654,
+    "sha256": "c736d572e91cb2a9e9305e75e3ec4570fba2334fa82b5df50e91d8d746182f9e"
+  },
+  "firmware/omarchy-pi4-aux-rtscts.dtso": {
+    "bytes": 137,
+    "sha256": "267d4eb68ab2c5338f4fd042a28d12820e7909203830e8229a2ae1cfa12afbe5"
+  },
+  "firmware/firmware-identity.json": {
+    "bytes": 1986,
+    "sha256": "01a08995270e682b429dd04ceb9c62015a61166e08d71beffbcd82ee95c3998b"
+  },
+  "tests/transactions.py": {
+    "bytes": 11999,
+    "sha256": "6421040d643873feab77ac02c8608ccd9caa80fb48efa159295e0dabee575841"
+  },
+  "reference/VarBlockServiceDxe.c": {
+    "bytes": 8576,
+    "sha256": "e6255d41d6529e2b95d88f244be3ba69a6c536bca470efc3e847dfe2eca31dfd"
+  },
+  "reference/header.bin": {
+    "bytes": 100,
+    "sha256": "12864517baf3d839b21de39747f042ea335737b5482ca101f0be13d09471fb93"
+  },
+  "reference/RPi4.fdf": {
+    "bytes": 16015,
+    "sha256": "76ae91c5237fbef70e87bb89ff5deca1a5de7988d92f0b03ca2c30737499fd09"
+  }
+}

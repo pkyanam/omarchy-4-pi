@@ -1,0 +1,7 @@
+{
+  "full_v3_gate_and_interrupted_v3_archive": "build/upstream-pi/stable-4.5/optimization/zstd-v3-gate-and-interruption.tar.gz",
+  "bytes": 10655466,
+  "sha256": "d22125533277ebabc174c6dc4a9f5547e4e853c42d0307f68b841e30ecf52428",
+  "both_results_match_previously_recorded_hashes": true,
+  "complete_gate_all_expected_command_exits": true
+}

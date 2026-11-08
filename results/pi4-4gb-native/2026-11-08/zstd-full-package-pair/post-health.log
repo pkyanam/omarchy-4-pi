@@ -1,0 +1,8 @@
+zstd-package-benchmark-v3.py: OK
+7.3.0-32.1-omarchy
+0
+
+
+linux-omarchy 7.3-32.1
+linux-omarchy-headers 7.3-32.1
+zstd 1.5.7-3

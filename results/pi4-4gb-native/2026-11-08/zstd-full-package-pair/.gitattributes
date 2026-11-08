@@ -1,0 +1,4 @@
+# Preserve raw CLI streams and post-run output.
+*.stdout -whitespace
+*.stderr -whitespace
+*.log -whitespace

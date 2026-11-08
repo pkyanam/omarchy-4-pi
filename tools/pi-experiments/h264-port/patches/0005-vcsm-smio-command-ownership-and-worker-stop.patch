@@ -1,0 +1,551 @@
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
+@@ -15,7 +15,7 @@
+ #include <linux/kthread.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+-#include <linux/semaphore.h>
++#include <linux/refcount.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ 
+@@ -26,52 +26,56 @@
+ 
+ /* ---- Private Constants and Types -------------------------------------- */
+ 
+-/* Command blocks come from a pool */
+-#define SM_MAX_NUM_CMD_RSP_BLKS 32
+-
+-/* The number of supported connections */
++/* Commands have a caller reference and a queued-list reference. */
+ #define SM_MAX_NUM_CONNECTIONS 3
+ 
+ struct sm_cmd_rsp_blk {
+-	struct list_head head;	/* To create lists */
+-	/* To be signaled when the response is there */
++	struct list_head head;
+ 	struct completion cmplt;
+-
++	refcount_t refs;
+ 	u32 id;
+ 	u16 length;
+-
++	int status;
++	u32 wait;
+ 	u8 msg[VC_SM_MAX_MSG_LEN];
+-
+-	uint32_t wait:1;
+-	uint32_t sent:1;
+-	uint32_t alloc:1;
+-
+ };
+ 
+ struct sm_instance {
+ 	u32 num_connections;
++	u32 closed_connections;
+ 	unsigned int service_handle[SM_MAX_NUM_CONNECTIONS];
+ 	struct task_struct *io_thread;
+ 	struct completion io_cmplt;
+-
+ 	vpu_event_cb vpu_event;
+-
+-	/* Mutex over the following lists */
+ 	struct mutex lock;
++	bool stopping;
++	refcount_t refs;
+ 	u32 trans_id;
+ 	struct list_head cmd_list;
+ 	struct list_head rsp_list;
+-	struct list_head dead_list;
+-
+-	struct sm_cmd_rsp_blk free_blk[SM_MAX_NUM_CMD_RSP_BLKS];
+-
+-	/* Mutex over the free_list */
+-	struct mutex free_lock;
+-	struct list_head free_list;
+-
+-	struct semaphore free_sema;
+ 	struct vchiq_instance *vchiq_instance;
+ };
++
++static void sm_instance_put(struct sm_instance *instance)
++{
++	if (refcount_dec_and_test(&instance->refs))
++		kfree(instance);
++}
++
++static void sm_cmd_put(struct sm_cmd_rsp_blk *cmd)
++{
++	if (refcount_dec_and_test(&cmd->refs))
++		kfree(cmd);
++}
++
++/* Caller holds lock and the command's queued-list reference. */
++static void sm_cmd_complete(struct sm_cmd_rsp_blk *cmd, int status)
++{
++	list_del_init(&cmd->head);
++	cmd->status = status;
++	complete(&cmd->cmplt);
++	sm_cmd_put(cmd);
++}
+ 
+ /* ---- Private Variables ------------------------------------------------ */
+ 
+@@ -86,112 +90,44 @@
+ 	return vchiq_queue_kernel_message(vchiq_instance, handle, data, size);
+ }
+ 
+-static struct
+-sm_cmd_rsp_blk *vc_vchi_cmd_create(struct sm_instance *instance,
+-				   enum vc_sm_msg_type id, void *msg,
+-				   u32 size, int wait)
+-{
+-	struct sm_cmd_rsp_blk *blk;
+-	struct vc_sm_msg_hdr_t *hdr;
+-
+-	if (down_interruptible(&instance->free_sema)) {
+-		blk = kmalloc(sizeof(*blk), GFP_KERNEL);
+-		if (!blk)
+-			return NULL;
+-
+-		blk->alloc = 1;
+-		init_completion(&blk->cmplt);
+-	} else {
+-		mutex_lock(&instance->free_lock);
+-		blk =
+-		    list_first_entry(&instance->free_list,
+-				     struct sm_cmd_rsp_blk, head);
+-		list_del(&blk->head);
+-		mutex_unlock(&instance->free_lock);
+-	}
+-
+-	blk->sent = 0;
+-	blk->wait = wait;
+-	blk->length = sizeof(*hdr) + size;
+-
+-	hdr = (struct vc_sm_msg_hdr_t *)blk->msg;
+-	hdr->type = id;
++static void vc_sm_cma_vchi_rx_ack(struct sm_instance *instance,
++				  struct vc_sm_result_t *reply, u32 reply_len)
++{
++	struct sm_cmd_rsp_blk *cmd;
++
+ 	mutex_lock(&instance->lock);
+-	instance->trans_id++;
+-	/*
+-	 * Retain the top bit for identifying asynchronous events, or VPU cmds.
+-	 */
+-	instance->trans_id &= ~0x80000000;
+-	hdr->trans_id = instance->trans_id;
+-	blk->id = instance->trans_id;
++	list_for_each_entry(cmd, &instance->rsp_list, head) {
++		if (cmd->id != reply->trans_id)
++			continue;
++		if (reply_len > sizeof(cmd->msg) || reply_len < sizeof(*reply)) {
++			sm_cmd_complete(cmd, -EPROTO);
++		} else {
++			memcpy(cmd->msg, reply, reply_len);
++			sm_cmd_complete(cmd, 0);
++		}
++		break;
++	}
+ 	mutex_unlock(&instance->lock);
+-
+-	if (size)
+-		memcpy(hdr->body, msg, size);
+-
+-	return blk;
+-}
+-
+-static void
+-vc_vchi_cmd_delete(struct sm_instance *instance, struct sm_cmd_rsp_blk *blk)
+-{
+-	if (blk->alloc) {
+-		kfree(blk);
+-		return;
+-	}
+-
+-	mutex_lock(&instance->free_lock);
+-	list_add(&blk->head, &instance->free_list);
+-	mutex_unlock(&instance->free_lock);
+-	up(&instance->free_sema);
+-}
+-
+-static void vc_sm_cma_vchi_rx_ack(struct sm_instance *instance,
+-				  struct sm_cmd_rsp_blk *cmd,
+-				  struct vc_sm_result_t *reply,
+-				  u32 reply_len)
+-{
+-	mutex_lock(&instance->lock);
+-	list_for_each_entry(cmd,
+-			    &instance->rsp_list,
+-			    head) {
+-		if (cmd->id == reply->trans_id)
+-			break;
+-	}
+-	mutex_unlock(&instance->lock);
+-
+-	if (&cmd->head == &instance->rsp_list) {
+-		//pr_debug("%s: received response %u, throw away...",
+-		pr_err("%s: received response %u, throw away...",
+-		       __func__,
+-		       reply->trans_id);
+-	} else if (reply_len > sizeof(cmd->msg)) {
+-		pr_err("%s: reply too big (%u) %u, throw away...",
+-		       __func__, reply_len,
+-		     reply->trans_id);
+-	} else {
+-		memcpy(cmd->msg, reply,
+-		       reply_len);
+-		complete(&cmd->cmplt);
+-	}
+ }
+ 
+ static int vc_sm_cma_vchi_videocore_io(void *arg)
+ {
+ 	struct sm_instance *instance = arg;
+-	struct sm_cmd_rsp_blk *cmd = NULL, *cmd_tmp;
++	struct sm_cmd_rsp_blk *cmd;
+ 	struct vc_sm_result_t *reply;
+ 	struct vchiq_header *header;
+ 	s32 status;
+ 	int svc_use = 1;
+ 
+-	while (1) {
++	while (!kthread_should_stop()) {
+ 		if (svc_use)
+ 			vchiq_release_service(instance->vchiq_instance, instance->service_handle[0]);
+ 		svc_use = 0;
+ 
+ 		if (wait_for_completion_interruptible(&instance->io_cmplt))
+ 			continue;
++		if (READ_ONCE(instance->stopping) || kthread_should_stop())
++			break;
+ 		vchiq_use_service(instance->vchiq_instance, instance->service_handle[0]);
+ 		svc_use = 1;
+ 
+@@ -200,7 +136,7 @@
+ 			 * Get new command and move it to response list
+ 			 */
+ 			mutex_lock(&instance->lock);
+-			if (list_empty(&instance->cmd_list)) {
++			if (instance->stopping || list_empty(&instance->cmd_list)) {
+ 				/* no more commands to process */
+ 				mutex_unlock(&instance->lock);
+ 				break;
+@@ -208,7 +144,7 @@
+ 			cmd = list_first_entry(&instance->cmd_list,
+ 					       struct sm_cmd_rsp_blk, head);
+ 			list_move(&cmd->head, &instance->rsp_list);
+-			cmd->sent = 1;
++			refcount_inc(&cmd->refs); /* worker owns bytes across queue */
+ 			mutex_unlock(&instance->lock);
+ 			/* Send the command */
+ 			status =
+@@ -220,32 +156,27 @@
+ 				       __func__, status);
+ 			}
+ 
+-			/* If no reply is needed then we're done */
+-			if (!cmd->wait) {
+-				mutex_lock(&instance->lock);
+-				list_del(&cmd->head);
+-				mutex_unlock(&instance->lock);
+-				vc_vchi_cmd_delete(instance, cmd);
+-				continue;
+-			}
+-
+-			if (status) {
+-				complete(&cmd->cmplt);
+-				continue;
+-			}
++			mutex_lock(&instance->lock);
++			if (!cmd->wait || status)
++				sm_cmd_complete(cmd, status);
++			mutex_unlock(&instance->lock);
++			sm_cmd_put(cmd);
+ 
+ 		} while (1);
+ 
+-		while ((header = vchiq_msg_hold(instance->vchiq_instance,
++		while (!READ_ONCE(instance->stopping) &&
++		       (header = vchiq_msg_hold(instance->vchiq_instance,
+ 						instance->service_handle[0]))) {
+ 			reply = (struct vc_sm_result_t *)header->data;
+-			if (reply->trans_id & 0x80000000) {
++			if (header->size < sizeof(*reply)) {
++				/* Malformed transport payload. */
++			} else if (reply->trans_id & 0x80000000) {
+ 				/* Async event or cmd from the VPU */
+ 				if (instance->vpu_event)
+ 					instance->vpu_event(instance, reply,
+ 							    header->size);
+ 			} else {
+-				vc_sm_cma_vchi_rx_ack(instance, cmd, reply,
++				vc_sm_cma_vchi_rx_ack(instance, reply,
+ 						      header->size);
+ 			}
+ 
+@@ -254,15 +185,9 @@
+ 					      header);
+ 		}
+ 
+-		/* Go through the dead list and free them */
+-		mutex_lock(&instance->lock);
+-		list_for_each_entry_safe(cmd, cmd_tmp, &instance->dead_list,
+-					 head) {
+-			list_del(&cmd->head);
+-			vc_vchi_cmd_delete(instance, cmd);
+-		}
+-		mutex_unlock(&instance->lock);
+-	}
++	}
++	if (svc_use)
++		vchiq_release_service(instance->vchiq_instance, instance->service_handle[0]);
+ 
+ 	return 0;
+ }
+@@ -301,7 +226,7 @@
+ 
+ 	pr_debug("%s: start", __func__);
+ 
+-	if (num_connections > SM_MAX_NUM_CONNECTIONS) {
++	if (!num_connections || num_connections > SM_MAX_NUM_CONNECTIONS) {
+ 		pr_err("%s: unsupported number of connections %u (max=%u)",
+ 		       __func__, num_connections, SM_MAX_NUM_CONNECTIONS);
+ 
+@@ -309,20 +234,15 @@
+ 	}
+ 	/* Allocate memory for this instance */
+ 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
++	if (!instance)
++		goto err_null;
++	refcount_set(&instance->refs, 1);
+ 
+ 	/* Misc initialisations */
+ 	mutex_init(&instance->lock);
+ 	init_completion(&instance->io_cmplt);
+ 	INIT_LIST_HEAD(&instance->cmd_list);
+ 	INIT_LIST_HEAD(&instance->rsp_list);
+-	INIT_LIST_HEAD(&instance->dead_list);
+-	INIT_LIST_HEAD(&instance->free_list);
+-	sema_init(&instance->free_sema, SM_MAX_NUM_CMD_RSP_BLKS);
+-	mutex_init(&instance->free_lock);
+-	for (i = 0; i < SM_MAX_NUM_CMD_RSP_BLKS; i++) {
+-		init_completion(&instance->free_blk[i].cmplt);
+-		list_add(&instance->free_blk[i].head, &instance->free_list);
+-	}
+ 
+ 	instance->vchiq_instance = vchiq_instance;
+ 
+@@ -349,7 +269,7 @@
+ 	/* Create the thread which takes care of all io to/from videoocore. */
+ 	instance->io_thread = kthread_create(&vc_sm_cma_vchi_videocore_io,
+ 					     (void *)instance, "SMIO");
+-	if (!instance->io_thread) {
++	if (IS_ERR(instance->io_thread)) {
+ 		pr_err("%s: failed to create SMIO thread", __func__);
+ 
+ 		goto err_close_services;
+@@ -372,104 +292,120 @@
+ 	return NULL;
+ }
+ 
++/*
++ * The owner must exclude NEW handle acquisitions before stop, and serialize
++ * stop calls. Already admitted senders own instance references. This function
++ * does not own/free vchiq_instance: shutdown is legal only after successful stop.
++ * A failed close keeps *handle intact for retry; transport callbacks may remain.
++ */
+ int vc_sm_cma_vchi_stop(struct vchiq_instance *vchiq_instance, struct sm_instance **handle)
+ {
+ 	struct sm_instance *instance;
++	struct sm_cmd_rsp_blk *cmd, *tmp;
+ 	u32 i;
+-
+-	if (!handle) {
+-		pr_err("%s: invalid pointer to handle %p", __func__, handle);
+-		goto lock;
+-	}
+-
+-	if (!*handle) {
+-		pr_err("%s: invalid handle %p", __func__, *handle);
+-		goto lock;
+-	}
+-
++	int ret;
++
++	if (!handle || !*handle)
++		return -EINVAL;
+ 	instance = *handle;
+-
+-	/* Close all VCHI service connections */
++	mutex_lock(&instance->lock);
++	WRITE_ONCE(instance->stopping, true);
++	mutex_unlock(&instance->lock);
++	complete(&instance->io_cmplt);
++
++	/* Closing wakes queue_message's quota/slot waits. Never free the transport
++	 * while SMIO can still use it. Preserve failed-close ownership for retry.
++	 */
+ 	for (i = 0; i < instance->num_connections; i++) {
+-		vchiq_use_service(vchiq_instance, instance->service_handle[i]);
+-		vchiq_close_service(vchiq_instance, instance->service_handle[i]);
+-	}
+-
+-	kfree(instance);
+-
++		if (instance->closed_connections & (1U << i))
++			continue;
++		ret = vchiq_close_service(vchiq_instance, instance->service_handle[i]);
++		if (ret)
++			return ret;
++		instance->closed_connections |= 1U << i;
++	}
++	complete(&instance->io_cmplt);
++	kthread_stop(instance->io_thread);
++
++	mutex_lock(&instance->lock);
++	list_for_each_entry_safe(cmd, tmp, &instance->cmd_list, head)
++		sm_cmd_complete(cmd, -ESHUTDOWN);
++	list_for_each_entry_safe(cmd, tmp, &instance->rsp_list, head)
++		sm_cmd_complete(cmd, -ESHUTDOWN);
++	mutex_unlock(&instance->lock);
+ 	*handle = NULL;
++	sm_instance_put(instance);
+ 	return 0;
+-
+-lock:
+-	return -EINVAL;
+-}
+-
+-static int vc_sm_cma_vchi_send_msg(struct sm_instance *handle,
++}
++
++static int vc_sm_cma_vchi_send_msg(struct sm_instance *instance,
+ 				   enum vc_sm_msg_type msg_id, void *msg,
+ 				   u32 msg_size, void *result, u32 result_size,
+ 				   u32 *cur_trans_id, u8 wait_reply)
+ {
+-	int status = 0;
+-	struct sm_instance *instance = handle;
+-	struct sm_cmd_rsp_blk *cmd_blk;
+-
+-	if (!handle) {
+-		pr_err("%s: invalid handle", __func__);
++	struct sm_cmd_rsp_blk *cmd;
++	struct vc_sm_msg_hdr_t *hdr;
++	int status;
++
++	if (!instance || !msg || msg_size > VC_SM_MAX_MSG_LEN - sizeof(*hdr) ||
++	    result_size > VC_SM_MAX_MSG_LEN)
+ 		return -EINVAL;
+-	}
+-	if (!msg) {
+-		pr_err("%s: invalid msg pointer", __func__);
+-		return -EINVAL;
+-	}
+-
+-	cmd_blk =
+-	    vc_vchi_cmd_create(instance, msg_id, msg, msg_size, wait_reply);
+-	if (!cmd_blk) {
+-		pr_err("[%s]: failed to allocate global tracking resource",
+-		       __func__);
+-		return -ENOMEM;
+-	}
+-
++	/* The external owner keeps instance alive until this admission finishes. */
++	mutex_lock(&instance->lock);
++	if (instance->stopping) {
++		mutex_unlock(&instance->lock);
++		return -ESHUTDOWN;
++	}
++	refcount_inc(&instance->refs);
++	mutex_unlock(&instance->lock);
++	cmd = kzalloc(sizeof(*cmd), GFP_KERNEL);
++	if (!cmd) {
++		status = -ENOMEM;
++		goto put_instance;
++	}
++	refcount_set(&cmd->refs, 1); /* caller */
++	init_completion(&cmd->cmplt);
++	cmd->wait = wait_reply;
++	cmd->length = sizeof(*hdr) + msg_size;
++	hdr = (struct vc_sm_msg_hdr_t *)cmd->msg;
++	hdr->type = msg_id;
++	memcpy(hdr->body, msg, msg_size);
++	mutex_lock(&instance->lock);
++	if (instance->stopping) {
++		mutex_unlock(&instance->lock);
++		status = -ESHUTDOWN;
++		goto put_cmd;
++	}
++	instance->trans_id = (instance->trans_id + 1) & ~0x80000000;
++	hdr->trans_id = cmd->id = instance->trans_id;
+ 	if (cur_trans_id)
+-		*cur_trans_id = cmd_blk->id;
+-
+-	mutex_lock(&instance->lock);
+-	list_add_tail(&cmd_blk->head, &instance->cmd_list);
++		*cur_trans_id = cmd->id;
++	refcount_inc(&cmd->refs); /* queued list, released by worker/stop */
++	list_add_tail(&cmd->head, &instance->cmd_list);
+ 	mutex_unlock(&instance->lock);
+ 	complete(&instance->io_cmplt);
+-
++	status = 0;
+ 	if (!wait_reply)
+-		/* We're done */
+-		return 0;
+-
+-	/* Wait for the response */
+-	if (wait_for_completion_interruptible(&cmd_blk->cmplt)) {
+-		mutex_lock(&instance->lock);
+-		if (!cmd_blk->sent) {
+-			list_del(&cmd_blk->head);
+-			mutex_unlock(&instance->lock);
+-			vc_vchi_cmd_delete(instance, cmd_blk);
+-			return -ENXIO;
+-		}
+-
+-		list_move(&cmd_blk->head, &instance->dead_list);
+-		mutex_unlock(&instance->lock);
+-		complete(&instance->io_cmplt);
+-		return -EINTR;	/* We're done */
+-	}
+-
+-	if (result && result_size) {
+-		memcpy(result, cmd_blk->msg, result_size);
+-	} else {
+-		struct vc_sm_result_t *res =
+-			(struct vc_sm_result_t *)cmd_blk->msg;
+-		status = (res->success == 0) ? 0 : -ENXIO;
+-	}
+-
+-	mutex_lock(&instance->lock);
+-	list_del(&cmd_blk->head);
+-	mutex_unlock(&instance->lock);
+-	vc_vchi_cmd_delete(instance, cmd_blk);
++		goto put_cmd;
++
++	/* An interrupted caller releases only its reference. The queued command
++	 * stays owned until the reply or stop; SMIO may still be reading its bytes.
++	 */
++	if (wait_for_completion_interruptible(&cmd->cmplt)) {
++		status = -EINTR;
++		goto put_cmd;
++	}
++	status = cmd->status;
++	if (!status) {
++		if (result && result_size)
++			memcpy(result, cmd->msg, result_size);
++		else
++			status = ((struct vc_sm_result_t *)cmd->msg)->success ? -ENXIO : 0;
++	}
++put_cmd:
++	sm_cmd_put(cmd);
++put_instance:
++	sm_instance_put(instance);
+ 	return status;
+ }
+ 

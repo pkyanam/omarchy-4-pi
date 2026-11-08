@@ -1,0 +1,121 @@
+--- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
++++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
+@@ -159,33 +159,72 @@
+ }
+ 
+ /*
+- * This function is used to defer initialization until the vchiq stack is
+- * initialized. If the stack is already initialized, then the callback will
+- * be made immediately, otherwise it will be deferred until
+- * vchiq_call_connected_callbacks is called.
++ * Synchronous connected-callback registration/cancellation contract:
++ * callbacks run under connected_mutex in sleepable context. They must not
++ * register/cancel connected callbacks (including indirectly), nor wait for a
++ * caller that is cancelling one. The caller keeps device, callback text and
++ * callback-owned state alive until remove_connected_callback returns.
++ *
++ * Holding the same mutex for dispatch and removal bounds BOTH deferred and
++ * immediate invocations: after removal returns no queued or active invocation
++ * from this registration remains. A concurrent new registration needs external
++ * serialization by the consumer (probe/remove already provides it).
+  */
+-void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
++int vchiq_add_connected_callback_sync(struct vchiq_device *device,
++                                     void (*callback)(void))
+ {
+ 	struct vchiq_drv_mgmt *drv_mgmt = device->drv_mgmt;
+-
+-	if (mutex_lock_killable(&drv_mgmt->connected_mutex))
+-		return;
+-
++	int ret = 0;
++	int i;
++
++	mutex_lock(&drv_mgmt->connected_mutex);
+ 	if (drv_mgmt->connected) {
+-		/* We're already connected. Call the callback immediately. */
+ 		callback();
+ 	} else {
+-		if (drv_mgmt->num_deferred_callbacks >= VCHIQ_DRV_MAX_CALLBACKS) {
+-			dev_err(&device->dev,
+-				"core: deferred callbacks(%d) exceeded the maximum limit(%d)\n",
+-				drv_mgmt->num_deferred_callbacks, VCHIQ_DRV_MAX_CALLBACKS);
++		for (i = 0; i < drv_mgmt->num_deferred_callbacks; i++) {
++			if (drv_mgmt->deferred_callback[i] == callback) {
++				ret = -EEXIST;
++				goto unlock;
++			}
++		}
++		if (drv_mgmt->num_deferred_callbacks == VCHIQ_DRV_MAX_CALLBACKS) {
++			ret = -ENOSPC;
+ 		} else {
+-			drv_mgmt->deferred_callback[drv_mgmt->num_deferred_callbacks] =
+-				callback;
+-			drv_mgmt->num_deferred_callbacks++;
++			drv_mgmt->deferred_callback[drv_mgmt->num_deferred_callbacks++] = callback;
+ 		}
+ 	}
++unlock:
+ 	mutex_unlock(&drv_mgmt->connected_mutex);
++	return ret;
++}
++EXPORT_SYMBOL(vchiq_add_connected_callback_sync);
++
++void vchiq_remove_connected_callback(struct vchiq_device *device,
++                                     void (*callback)(void))
++{
++	struct vchiq_drv_mgmt *drv_mgmt = device->drv_mgmt;
++	int i;
++
++	mutex_lock(&drv_mgmt->connected_mutex);
++	for (i = 0; i < drv_mgmt->num_deferred_callbacks; i++) {
++		if (drv_mgmt->deferred_callback[i] == callback) {
++			while (++i < drv_mgmt->num_deferred_callbacks)
++				drv_mgmt->deferred_callback[i - 1] = drv_mgmt->deferred_callback[i];
++			drv_mgmt->deferred_callback[--drv_mgmt->num_deferred_callbacks] = NULL;
++			break;
++		}
++	}
++	mutex_unlock(&drv_mgmt->connected_mutex);
++}
++EXPORT_SYMBOL(vchiq_remove_connected_callback);
++
++/* Retain the existing ABI for audio and other upstream consumers. */
++void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
++{
++	int ret = vchiq_add_connected_callback_sync(device, callback);
++
++	if (ret)
++		dev_err(&device->dev, "connected callback registration failed: %d\n", ret);
+ }
+ EXPORT_SYMBOL(vchiq_add_connected_callback);
+ 
+--- a/include/linux/raspberrypi/vchiq_arm.h
++++ b/include/linux/raspberrypi/vchiq_arm.h
+@@ -134,6 +134,14 @@
+ extern void
+ vchiq_instance_set_trace(struct vchiq_instance *instance, int trace);
+ 
++/* See vchiq_arm.c: cancellation waits for an active callback to return.
++ * Callbacks may sleep but must not reenter registration/cancellation.
++ */
++extern int vchiq_add_connected_callback_sync(struct vchiq_device *device,
++                                            void (*callback)(void));
++extern void vchiq_remove_connected_callback(struct vchiq_device *device,
++                                            void (*callback)(void));
++
+ extern void
+ vchiq_add_connected_callback(struct vchiq_device *device,
+ 			     void (*callback)(void));
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+@@ -1511,6 +1511,9 @@
+ /* Driver unloading. */
+ static void bcm2835_vc_sm_cma_remove(struct vchiq_device *device)
+ {
++	/* Drain immediate/deferred initialization before touching its state. */
++	vchiq_remove_connected_callback(device, vc_sm_connected_init);
++
+ 	pr_debug("[%s]: start\n", __func__);
+ 	if (sm_inited) {
+ 		misc_deregister(&sm_state->misc_dev);

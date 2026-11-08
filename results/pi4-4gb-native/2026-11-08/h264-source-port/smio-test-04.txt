@@ -1,0 +1,42 @@
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:797:7: runtime error: member access within misaligned address 0x6110000000d9 for type 'struct vc_sm_msg_hdr_t', which requires 4 byte alignment
+0x6110000000d9: note: pointer points here
+ 00 00 00  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:797:7 
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:797:7: runtime error: store to misaligned address 0x6110000000d9 for type 'u32' (aka 'unsigned int'), which requires 4 byte alignment
+0x6110000000d9: note: pointer points here
+ 00 00 00  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:797:7 
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:798:14: runtime error: member access within misaligned address 0x6110000000d9 for type 'struct vc_sm_msg_hdr_t', which requires 4 byte alignment
+0x6110000000d9: note: pointer points here
+ 00 00 00  01 08 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:798:14 
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:798:9: runtime error: store to misaligned address 0x6110000000e1 for type 'u8 *' (aka 'unsigned char *'), which requires 4 byte alignment
+0x6110000000e1: note: pointer points here
+ 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:798:9 
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:806:7: runtime error: member access within misaligned address 0x6110000000d9 for type 'struct vc_sm_msg_hdr_t', which requires 4 byte alignment
+0x6110000000d9: note: pointer points here
+ 00 00 00  01 08 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00
+              ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:806:7 
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:806:7: runtime error: store to misaligned address 0x6110000000dd for type 'u32' (aka 'unsigned int'), which requires 4 byte alignment
+0x6110000000dd: note: pointer points here
+ 08 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  00
+             ^ 
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior /Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:806:7 
+PASS instance allocation failure
+PASS service-open failure (transport boundary injected)
+PASS thread-create failure
+PASS idle worker stop joins actual production worker
+PASS blocked queue + outstanding IMPORT cancellation, close interruption/retry, admission closure
+PASS interrupted caller retains queued-command ownership until stop
+PASS queue error propagates without fabricated IMPORT result
+PASS production reply delivery then fresh service generation
+PASS 40 outstanding production IMPORT requests drain without command-pool deadlock
+PASS fire-and-forget FREE command ownership (not firmware RELEASED ownership)
+PASS command allocation failure releases instance reference
+All SMIO implementation cases passed; NOT VCSM dma-buf/remove/reprobe proof

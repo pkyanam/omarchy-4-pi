@@ -1,0 +1,6 @@
+PASS remove-before-connect and duplicate rejection
+PASS cancellation preserves other consumer
+PASS remove/re-register (transport reprobe prerequisite)
+PASS registration capacity failure
+PASS cancellation drains active deferred invocation
+PASS cancellation drains active immediate invocation

@@ -1,0 +1,86 @@
+make: Entering directory '/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+make[1]: Entering directory '/candidate/replayed-final'
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_core.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.o
+  LD [M]  vchiq.o
+  CC [M]  drivers/platform/raspberrypi/vc-sm-cma/vc_sm.o
+  CC [M]  drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.o
+  LD [M]  vc-sm-cma.o
+  CC [M]  drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.o
+  LD [M]  bcm2835-mmal-vchiq.o
+  CC [M]  drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.o
+  LD [M]  bcm2835-codec.o
+  MODPOST Module.symvers
+  CC [M]  vchiq.mod.o
+  CC [M]  .module-common.o
+  LD [M]  vchiq.ko
+  BTF [M] vchiq.ko
+  CC [M]  vc-sm-cma.mod.o
+  LD [M]  vc-sm-cma.ko
+  BTF [M] vc-sm-cma.ko
+  CC [M]  bcm2835-mmal-vchiq.mod.o
+  LD [M]  bcm2835-mmal-vchiq.ko
+  BTF [M] bcm2835-mmal-vchiq.ko
+  CC [M]  bcm2835-codec.mod.o
+  LD [M]  bcm2835-codec.ko
+  BTF [M] bcm2835-codec.ko
+make[1]: Leaving directory '/candidate/replayed-final'
+make: Leaving directory '/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+5d50036a9f6962c50a280288c211b3060d461044ad55e053f5c8b095d2d9f047  /candidate/replayed-final/bcm2835-codec.ko
+filename:       /candidate/replayed-final/bcm2835-codec.ko
+alias:          vchiq:bcm2835-codec
+version:        0.0.1
+license:        GPL
+author:         Dave Stevenson, <dave.stevenson@raspberrypi.com>
+description:    BCM2835 codec V4L2 driver
+import_ns:      DMA_BUF
+srcversion:     10B251403F7978CE76C7894
+depends:        v4l2-mem2mem,videobuf2-v4l2,videodev,bcm2835-mmal-vchiq,mc,videobuf2-dma-contig,videobuf2-common,vchiq
+name:           bcm2835_codec
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+parm:           decode_video_nr:decoder video device number (int)
+parm:           encode_video_nr:encoder video device number (int)
+parm:           isp_video_nr:isp video device number (int)
+parm:           deinterlace_video_nr:deinterlace video device number (int)
+parm:           encode_image_nr:encoder image device number (int)
+parm:           disable_bayer:Disable support for Bayer formats (bool)
+parm:           debug:activates debug info (0-3) (uint)
+parm:           advanced_deinterlace:Use advanced deinterlace (bool)
+parm:           field_override:force TB(8)/BT(9) field (int)
+946c7f92386922b61b8c5396a42b06f022c926dcf546af14bbfb350cec88bce5  /candidate/replayed-final/bcm2835-mmal-vchiq.ko
+filename:       /candidate/replayed-final/bcm2835-mmal-vchiq.ko
+license:        GPL
+author:         Dave Stevenson, <dave.stevenson@raspberrypi.org>
+description:    BCM2835 MMAL VCHIQ interface
+srcversion:     6E4B9681FD7F2EC9AC49A85
+depends:        vchiq,vc-sm-cma
+name:           bcm2835_mmal_vchiq
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+parm:           debug:activates debug info (0-3) (uint)
+054518606efebd311b416ad2616e05ae6887d96a8c919b9a80fe360385c4d51a  /candidate/replayed-final/vchiq.ko
+filename:       /candidate/replayed-final/vchiq.ko
+author:         Broadcom Corporation
+description:    Videocore VCHIQ driver
+license:        Dual BSD/GPL
+srcversion:     C75426F902C6E82F58CD89C
+alias:          of:N*T*Cbrcm,bcm2836-vchiqC*
+alias:          of:N*T*Cbrcm,bcm2836-vchiq
+alias:          of:N*T*Cbrcm,bcm2835-vchiqC*
+alias:          of:N*T*Cbrcm,bcm2835-vchiq
+depends:        
+name:           vchiq
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+c72316cd39df5b95efef200dc0020ef8ef20820e4039aaabdebda0faf6208fbf  /candidate/replayed-final/vc-sm-cma.ko
+filename:       /candidate/replayed-final/vc-sm-cma.ko
+alias:          vchiq:vcsm-cma
+alias:          vcsm-cma
+license:        GPL v2
+description:    VideoCore CMA Shared Memory Driver
+author:         Dave Stevenson
+import_ns:      DMA_BUF
+srcversion:     EDFBAB3499A9B9C4F9A360B
+depends:        vchiq
+name:           vc_sm_cma
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64

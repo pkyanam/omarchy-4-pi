@@ -1,0 +1,2 @@
+# Preserve upstream kernel patch whitespace byte-for-byte.
+patches/*.patch -whitespace

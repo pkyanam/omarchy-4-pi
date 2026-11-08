@@ -1,0 +1,12 @@
+/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c:628:3: error: call to undeclared function 'vchiq_msg_queue_push'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+  628 |                 vchiq_msg_queue_push(vchiq_instance, handle, header);
+      |                 ^
+1 error generated.
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/run.py", line 8, in <module>
+    subprocess.run(['cc','-std=gnu11','-pthread','-Wall','-Wextra','-Werror','-Wno-unused-parameter','-fsanitize=address,undefined','-g',str(p),'-o',str(p.with_suffix(''))],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.0_1/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 692, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['cc', '-std=gnu11', '-pthread', '-Wall', '-Wextra', '-Werror', '-Wno-unused-parameter', '-fsanitize=address,undefined', '-g', '/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio.c', '-o', '/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/smio-unit/generated-smio']' returned non-zero exit status 1.

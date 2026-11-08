@@ -1,0 +1,91 @@
+{
+  "status": "NONDEPLOYABLE: first five source patches only",
+  "kernel_archive_sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
+  "headers_archive_sha256": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
+  "files": {
+    "prepared-comparison.json": {
+      "sha256": "1a9ad149f67843d7d7db90831bb764a18936bb970f88a087adcf59983270878f",
+      "bytes": 6683
+    },
+    ".gitignore": {
+      "sha256": "0616debba1a55571d1f3d3fce872718530da0356a54ca6a95160aa7f9549563f",
+      "bytes": 67
+    },
+    "external-lifecycle-module.Makefile": {
+      "sha256": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+      "bytes": 807
+    },
+    "reference-provenance.json": {
+      "sha256": "32fe99f94f39b968041b92e61178186347b281deae06e293e170b815a3843233",
+      "bytes": 7453
+    },
+    "patches/series": {
+      "sha256": "ff3ddb46703f6ec38a5395ef3acded85e106c43c6db06b19e28d653b29ac48fa",
+      "bytes": 220
+    },
+    "patches/0001-vcsm-mmal-buffer-services.patch": {
+      "sha256": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
+      "bytes": 115376
+    },
+    "patches/0003-vchiq-children-build-integration.patch": {
+      "sha256": "738ced1c46837dd28270cbdf74107943561dd3755d847d0fe3eacf5eb0fd1f58",
+      "bytes": 1922
+    },
+    "patches/0002-bcm2835-codec-linux73.patch": {
+      "sha256": "a4d6d85e9f05f2213c8ea423771656e73dc32881e54cebbfe320f5175315a37a",
+      "bytes": 119242
+    },
+    "patches/0005-vcsm-smio-command-ownership-and-worker-stop.patch": {
+      "sha256": "64ade269bccba1052529d895156ac73c7607bc9a71b65244946da28e94aaea56",
+      "bytes": 15009
+    },
+    "patches/0004-vchiq-synchronous-callback-cancellation.patch": {
+      "sha256": "aa383f28d3dc47e39bd44b8e224aef85651290c6002af130ed85a8786794cd73",
+      "bytes": 4719
+    },
+    "smio-unit/run.py": {
+      "sha256": "b55a0e4458be91a0d4d67eaf28c5fa59cbab625eeebad1175b8c00e5e00a94bc",
+      "bytes": 1029
+    },
+    "smio-unit/shim.c": {
+      "sha256": "adb9ae8cc232dda0b96b85e38d2f02cc64992bb47bb299f90c920be257cd55bc",
+      "bytes": 6437
+    },
+    "smio-unit/cases.c": {
+      "sha256": "139c42d2e235e80c2b33471df9647cd62b2516c62efbb67e27ea336a335420b4",
+      "bytes": 3830
+    },
+    "smio-unit/README.md": {
+      "sha256": "0c0778f22f61a9a2ed0afa4655db1485fef84b594bfa8283eb7417e5ffe6b040",
+      "bytes": 10196
+    },
+    "smio-unit/manifest.json": {
+      "sha256": "1143d307c302472c93d6d1c658fc6a6dd502e02cdbe7a54fef9d17b6ef685d32",
+      "bytes": 18397
+    },
+    "lifecycle-unit/README.md": {
+      "sha256": "3ba3047a88bd8067f72cdff06f51b89dae695f5dac6c00471b75741b5bbf9261",
+      "bytes": 8726
+    },
+    "lifecycle-unit/manifest.json": {
+      "sha256": "023d6ebf37b35ecccb062f094c068efd1b2c7823eeacf1347c9c7bcab3ad74c2",
+      "bytes": 4916
+    },
+    "lifecycle-unit/tests/run.py": {
+      "sha256": "04b7528e6e74821d7e50a878179d4a62a240fd259b2b8facd941a9d4c01b7544",
+      "bytes": 1674
+    },
+    "lifecycle-unit/tests/harness.c": {
+      "sha256": "c994a7d24c22383176d8a69e93e1b89d1d43811d442fa467db791c9700b9333c",
+      "bytes": 4426
+    },
+    "replay-source.py": {
+      "sha256": "a3129c6bc552e7cf624dd75e72f4efa0ac62c759e3a25a6c74f0afa828188b75",
+      "bytes": 1634
+    },
+    "README.md": {
+      "sha256": "1d512a88fe081a6d052c1e7e6412ab0cfd5b3ab1c2f97503be34a9c4d4648435",
+      "bytes": 3209
+    }
+  }
+}

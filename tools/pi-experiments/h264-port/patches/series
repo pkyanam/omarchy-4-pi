@@ -1,0 +1,5 @@
+0001-vcsm-mmal-buffer-services.patch
+0002-bcm2835-codec-linux73.patch
+0003-vchiq-children-build-integration.patch
+0004-vchiq-synchronous-callback-cancellation.patch
+0005-vcsm-smio-command-ownership-and-worker-stop.patch

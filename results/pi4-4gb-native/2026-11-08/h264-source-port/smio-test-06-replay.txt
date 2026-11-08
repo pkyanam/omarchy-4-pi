@@ -1,0 +1,12 @@
+PASS instance allocation failure
+PASS service-open failure (transport boundary injected)
+PASS thread-create failure
+PASS idle worker stop joins actual production worker
+PASS blocked queue + outstanding IMPORT cancellation, close interruption/retry, admission closure
+PASS interrupted caller retains queued-command ownership until stop
+PASS queue error propagates without fabricated IMPORT result
+PASS production reply delivery then fresh service generation
+PASS 40 outstanding production IMPORT requests drain without command-pool deadlock
+PASS fire-and-forget FREE command ownership (not firmware RELEASED ownership)
+PASS command allocation failure releases instance reference
+All SMIO implementation cases passed; NOT VCSM dma-buf/remove/reprobe proof

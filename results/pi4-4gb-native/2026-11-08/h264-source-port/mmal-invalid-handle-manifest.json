@@ -1,0 +1,12 @@
+{
+  "status": "source-tested; not integrated or module-compiled",
+  "files": {
+    "build/upstream-pi/stable-4.5/h264-port-candidate/replayed-smio-02/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c": "442451e27b7671a2c4e88eee51782d47807c2954534dcaa28742876312f16a90",
+    "build/upstream-pi/stable-4.5/h264-mmal-invalid-handle/mmal-vchiq.c": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "tools/pi-experiments/h264-port/mmal-invalid-handle/fix.patch": "f47e724292bebae0ab50140cb7c523f76dd260ed7a61d6c73565ec4ccb99d345",
+    "tools/pi-experiments/h264-port/mmal-invalid-handle/check.py": "f02815fa7c645472f32169fd6bfd3325dcb6b4e029db70033caf2067604f842d",
+    "tools/pi-experiments/h264-port/mmal-invalid-handle/README.md": "4d978c6540d746e0a19bcadc18dbf99be2961d3b99ee0b4298a11c1e110d1d94",
+    "tools/pi-experiments/h264-port/mmal-invalid-handle/boundary.c": "00cbf0cddae912c64b203fcefa010b16fbeee52bded7fcec98a8bd2dc0faa80c",
+    "tools/pi-experiments/h264-port/mmal-invalid-handle/.gitattributes": "058f7b573e013bcfdf00034b57d8ecf7db4470fdfcde64a39163f069f2199b16"
+  }
+}

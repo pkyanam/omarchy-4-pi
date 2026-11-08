@@ -1,0 +1,19 @@
+--- a/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
++++ b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
+@@ -1757,10 +1757,12 @@
+ 
+ 		buffer->vc_handle = vc_sm_cma_int_handle(buffer->vcsm_handle);
+ 		if (!buffer->vc_handle) {
+-			pr_err("%s: vc_sm_int_handle failed %d\n",
+-			       __func__, ret);
+-			vc_sm_cma_free(buffer->vcsm_handle);
+-			return ret;
++			pr_err("%s: invalid VC handle\n", __func__);
++			ret = vc_sm_cma_free(buffer->vcsm_handle);
++			if (ret)
++				return ret;
++			buffer->vcsm_handle = NULL;
++			return -EIO;
+ 		}
+ 		pr_dbg_lvl(2, debug, "%s: import dmabuf %p - got vc handle %08X\n",
+ 			   __func__, buffer->dma_buf, buffer->vc_handle);

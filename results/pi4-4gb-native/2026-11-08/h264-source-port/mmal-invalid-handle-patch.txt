@@ -1,0 +1,1 @@
+patching file 'drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c'

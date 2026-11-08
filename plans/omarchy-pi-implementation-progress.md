@@ -112,3 +112,13 @@ The first coherent inactive H.264 port compiled VCHIQ, VCSM, MMAL and bcm2835-co
 The source-only Vulkan compute client has exact CPU-reference/guard checks but was uncompiled at handoff. A new Sol/High/Normal lane owns private bounded build-dependency setup and actual C/SPIR-V validation (0.25 CPU/256 MiB), separate from H.264 (1 CPU/768 MiB). Bluetooth transport-trace preparation continues independently. Parent still owns every physical Pi operation.
 
 Completed read-only low-level tools and sanitized live memory checkpoint are committed as `06571fc2`; controlled browser corpus/runner and four source checks as `b84853ea`. Top-level THP always and 2 MiB inherit permit that narrow later comparison, but the single locked-desktop sample demonstrates no bottleneck. The generated browser fixture is not yet daily-workload representative, and trace-to-presentation timing remains uncalibrated. No THP, zram, storage queue or security default was changed. Desktop visual gates still await the pending owner unlock; installed runtime/settings remain 2.6.
+
+## Headless physical validation and continuing implementation
+
+Owner explicitly selected “Continue headless for now.” Graphical preview/notification/screensaver acceptance is deferred without changing the normal idle policy or bypassing lock. No further unlock input is currently requested.
+
+Commit `1e17080b` preserves the parent-reviewed Bluetooth function trace helper, ten control tests, first-setup failure explanation and sanitized 23-event physical capture. One bounded unbind/bind restored exact global state and binding with no drop/overrun and taint zero. Actual write-adapter calls are now established, accepted lengths/returns and electrical progress remain unknown. A separate Sol/High/Normal lane is preparing source-validated scalar probes; no probe ABI is guessed.
+
+Commit `0d48bd38` preserves the real Vulkan client, shader, bounded signed-dependency build reproduction and successful physical correctness/health evidence. Three cases matched scalar output and guards exactly on the named V3DV driver. No performance or energy claim is made; no system package, driver or policy was changed.
+
+H.264 patch 0004 implements synchronous connected-callback cancellation and passes production-function race checks plus all-module compile/modpost. Outstanding SMIO worker/command, dma-buf and firmware-release lifetime remains unsafe; the candidate is inactive and nondeployable. A new Sol/High/Normal lane owns that next unit with prior patches/evidence preserved. A third independent lane is resolving actual installed zstd package provenance and preparing full-feature isolated package candidates without compiling yet, before any stronger compiler conclusion. Parent remains sole Pi owner.

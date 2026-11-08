@@ -1,2 +1,3 @@
 # Retain verbatim compiler/sanitizer evidence, including whitespace.
 *.txt -whitespace
+import-*.log -whitespace

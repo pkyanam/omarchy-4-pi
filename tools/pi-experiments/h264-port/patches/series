@@ -8,3 +8,4 @@
 0008-mmal-invalid-vc-handle.patch
 0009-vcsm-file-admission-and-balanced-connect.patch
 0010-vcsm-bind-buffer-release-to-service-generation.patch
+0011-vcsm-complete-import-before-retiring-owner.patch

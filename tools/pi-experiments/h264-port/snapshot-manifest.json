@@ -1,5 +1,5 @@
 {
-  "status": "NONDEPLOYABLE: 0001-0006 module-compiled; 0007-0010 source-tested only; interrupted IMPORT/setup ownership unsafe",
+  "status": "NONDEPLOYABLE: 0001-0006 module-compiled; 0007-0011 source-tested only; peer silence/missing RELEASED can block teardown indefinitely",
   "kernel_archive_sha256": "87363c24f10e06321eb362765521094e94471f6bff8bce2d6b3e40f39f004953",
   "headers_archive_sha256": "1c90e860325eed52865869c060f762718784f9bda9cc9d7978fa636ce74f89e1",
   "files": {
@@ -56,8 +56,8 @@
       "bytes": 468
     },
     "patches/series": {
-      "sha256": "bd0812349d50a0aa746297bbfe82ee9a90fa99a27d4202a413d30f655eb83c4e",
-      "bytes": 457
+      "sha256": "3a0ca9df6a08107c3f096e49883aaf192069e48168a989fec62b462ff7b04711",
+      "bytes": 511
     },
     "patches/0001-vcsm-mmal-buffer-services.patch": {
       "sha256": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
@@ -238,6 +238,54 @@
     "lifecycle-unit/tests/harness.c": {
       "sha256": "c994a7d24c22383176d8a69e93e1b89d1d43811d442fa467db791c9700b9333c",
       "bytes": 4426
+    },
+    "patches/0011-vcsm-complete-import-before-retiring-owner.patch": {
+      "sha256": "d86f3f72cd4fdea4d304577c8f6886ef727814c0293a4004e9bdcb0e0caac845",
+      "bytes": 17515
+    },
+    "import-unit/producer-boundaries.c": {
+      "sha256": "d8c5a005d3d838a1cc6dc4b63d7aed622b07a75e3312d0a710e36b91d7e6f2eb",
+      "bytes": 548
+    },
+    "import-unit/run-smio.py": {
+      "sha256": "9226653014e93329082e9263b513684c77938f08284dd8c6d36ffaec15eeaa01",
+      "bytes": 1837
+    },
+    "import-unit/replay-comparison.json": {
+      "sha256": "be978b3893ace3999ad0c7f2630c7ccb3459128885e0f11248db44fb61954dc3",
+      "bytes": 9225
+    },
+    "import-unit/README.md": {
+      "sha256": "2946237d5221d4f5312818227912910f24c3cef4c760b52d461b7b54e3481e46",
+      "bytes": 11248
+    },
+    "import-unit/producer-shim.c": {
+      "sha256": "b3ab13ff1ded23c06d859614434f5847d3488b32933b890bab283e44fc5d47a3",
+      "bytes": 2324
+    },
+    "import-unit/all-prior-manifests-check.json": {
+      "sha256": "b689b68852fb6ca3f84f2d182dea5e9ee0092582617ea24028577c36d54e12e7",
+      "bytes": 235679
+    },
+    "import-unit/prior-manifest-check.json": {
+      "sha256": "e9192b5bcd37daaac05e81cba65889bc1d7ab0e940161c93736a9f773b1241c2",
+      "bytes": 50962
+    },
+    "import-unit/manifest.json": {
+      "sha256": "9ff3b4db12e64047e6a53cb3d8ca5056620efee1834ae384587eb35270c2d6cc",
+      "bytes": 22903
+    },
+    "import-unit/smio-cases.c": {
+      "sha256": "48e19e729481c08e0e0518b1ce45b20a812406192c6987dd7f4016998416714a",
+      "bytes": 2605
+    },
+    "import-unit/run-producers.py": {
+      "sha256": "cdc691c95925fde8113aee64347027386934dd481c61ab077aa134d346f4b6dd",
+      "bytes": 1997
+    },
+    "import-unit/producer-cases.c": {
+      "sha256": "e3a0dfe3bfd1534979ba6d8253e8d32723e272da80b8275bceb3b22d37367575",
+      "bytes": 5184
     }
   }
 }

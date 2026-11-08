@@ -1,0 +1,67 @@
+=================================================================
+==34548==ERROR: AddressSanitizer: heap-use-after-free on address 0x611000000900 at pc 0x000100b8105c bp 0x00016f2852e0 sp 0x00016f2852d8
+READ of size 8 at 0x611000000900 thread T0
+    #0 0x000100b81058 in vc_sm_add_resource generated.c:225
+    #1 0x000100b7e58c in vc_sm_cma_ioctl_alloc generated.c:661
+    #2 0x000100b797bc in main generated.c:863
+    #3 0x000193e17e7c in start+0x1a1c (dyld:arm64e+0x31e7c)
+
+0x611000000900 is located 0 bytes inside of 232-byte region [0x611000000900,0x6110000009e8)
+freed by thread T0 here:
+    #0 0x000101551368 in free+0x7c (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x41368)
+    #1 0x000100b847a8 in vc_sm_buffer_destroy generated.c:193
+    #2 0x000100b83700 in vc_sm_release_resource generated.c:315
+    #3 0x000100b87760 in vc_sm_dma_buf_release generated.c:343
+    #4 0x000100b7cc00 in dma_buf_put generated.c:846
+    #5 0x000100b878b8 in dma_buf_fd generated.c:102
+    #6 0x000100b7e564 in vc_sm_cma_ioctl_alloc generated.c:655
+    #7 0x000100b797bc in main generated.c:863
+    #8 0x000193e17e7c in start+0x1a1c (dyld:arm64e+0x31e7c)
+
+previously allocated by thread T0 here:
+    #0 0x000101551560 in calloc+0x80 (libclang_rt.asan_osx_dynamic.dylib:arm64e+0x41560)
+    #1 0x000100b7cf14 in vc_sm_cma_ioctl_alloc generated.c:565
+    #2 0x000100b797bc in main generated.c:863
+    #3 0x000193e17e7c in start+0x1a1c (dyld:arm64e+0x31e7c)
+
+SUMMARY: AddressSanitizer: heap-use-after-free generated.c:225 in vc_sm_add_resource
+Shadow bytes around the buggy address:
+  0x611000000680: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x611000000700: fd fd fd fd fd fd fd fd fd fd fd fd fd fa fa fa
+  0x611000000780: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
+  0x611000000800: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x611000000880: fd fd fd fd fd fa fa fa fa fa fa fa fa fa fa fa
+=>0x611000000900:[fd]fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x611000000980: fd fd fd fd fd fd fd fd fd fd fd fd fd fa fa fa
+  0x611000000a00: fa fa fa fa fa fa fa fa fd fd fd fd fd fd fd fd
+  0x611000000a80: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x611000000b00: fd fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa
+  0x611000000b80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==34548==ABORTING
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/import-unit/run-producers.py", line 21, in <module>
+    subprocess.run([str(o/'test')],check=True,timeout=20)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.0_1/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 692, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/import-unit/mutant-no-setup-01/test']' died with <Signals.SIGABRT: 6>.

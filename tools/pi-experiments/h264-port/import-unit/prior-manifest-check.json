@@ -1,0 +1,1010 @@
+{
+  "buffer-source/Makefile": {
+    "expected": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+    "actual": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/Kconfig": {
+    "expected": "a1ef0a2103add311d7646f4892d325a25b0d22f78d3e870b032abb8c39ee2137",
+    "actual": "a1ef0a2103add311d7646f4892d325a25b0d22f78d3e870b032abb8c39ee2137",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/Makefile": {
+    "expected": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372",
+    "actual": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/bcm2835-codec/Kconfig": {
+    "expected": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c",
+    "actual": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/bcm2835-codec/Makefile": {
+    "expected": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9",
+    "actual": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c": {
+    "expected": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "actual": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/bcm2835-codec/codec-formats.h": {
+    "expected": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "actual": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/Kconfig": {
+    "expected": "3529fcb6470fa5fcd32103dd1536704f5d8d5891a99e23db37175d85556acfdb",
+    "actual": "3529fcb6470fa5fcd32103dd1536704f5d8d5891a99e23db37175d85556acfdb",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/Makefile": {
+    "expected": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249",
+    "actual": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c": {
+    "expected": "ecd915cd53ac45a7b0b9b2055fe7cdbb3b7e07cff64695eb95e4c81fcbcdcb41",
+    "actual": "ecd915cd53ac45a7b0b9b2055fe7cdbb3b7e07cff64695eb95e4c81fcbcdcb41",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h": {
+    "expected": "cdbe821db3f410c2476c8c65255b88babc7c61f9fe4344dbd75ea316ee88ac3e",
+    "actual": "cdbe821db3f410c2476c8c65255b88babc7c61f9fe4344dbd75ea316ee88ac3e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_ioctl.h": {
+    "expected": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "actual": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c": {
+    "expected": "17de52f49d95fc55f3cd2b7f09bd75b55efbc72ed2528e9332dd978b59a8d117",
+    "actual": "17de52f49d95fc55f3cd2b7f09bd75b55efbc72ed2528e9332dd978b59a8d117",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h": {
+    "expected": "e88f1d6187d475576d414af06b5baf9ead05501e84b437c73c48291321c74f81",
+    "actual": "e88f1d6187d475576d414af06b5baf9ead05501e84b437c73c48291321c74f81",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h": {
+    "expected": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "actual": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_knl.h": {
+    "expected": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "actual": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/TESTING": {
+    "expected": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d",
+    "actual": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/TODO": {
+    "expected": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2",
+    "actual": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c": {
+    "expected": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "actual": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.c": {
+    "expected": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "actual": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c": {
+    "expected": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "actual": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.c": {
+    "expected": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "actual": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c": {
+    "expected": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "actual": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-interface/vchiq_ioctl.h": {
+    "expected": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "actual": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/Kconfig": {
+    "expected": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379",
+    "actual": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/Makefile": {
+    "expected": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2",
+    "actual": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h": {
+    "expected": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "actual": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h": {
+    "expected": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "actual": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h": {
+    "expected": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "actual": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h": {
+    "expected": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "actual": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h": {
+    "expected": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "actual": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h": {
+    "expected": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "actual": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h": {
+    "expected": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "actual": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c": {
+    "expected": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "actual": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h": {
+    "expected": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "actual": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/include/linux/raspberrypi/vchiq.h": {
+    "expected": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "actual": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/include/linux/raspberrypi/vchiq_arm.h": {
+    "expected": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "actual": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/include/linux/raspberrypi/vchiq_bus.h": {
+    "expected": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "actual": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/include/linux/raspberrypi/vchiq_cfg.h": {
+    "expected": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "actual": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/include/linux/raspberrypi/vchiq_core.h": {
+    "expected": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "actual": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-source/include/linux/raspberrypi/vchiq_debugfs.h": {
+    "expected": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "actual": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/README.md": {
+    "expected": "cd36d24b597be5b150e1090ad7e91daaef0f30e623d32ddfa042d88ab8cb63ee",
+    "actual": "cd36d24b597be5b150e1090ad7e91daaef0f30e623d32ddfa042d88ab8cb63ee",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/attempt-01/generated.c": {
+    "expected": "65c8d88644837cf49e372b99702e93f0e26dbc5e5acc379eff8d55f8008c94e2",
+    "actual": "65c8d88644837cf49e372b99702e93f0e26dbc5e5acc379eff8d55f8008c94e2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/attempt-02/generated.c": {
+    "expected": "ed41c87f77393e5ea0f1f87e4ab76a470bb238ad19acba531f9c21dd68f38dd4",
+    "actual": "ed41c87f77393e5ea0f1f87e4ab76a470bb238ad19acba531f9c21dd68f38dd4",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/attempt-03/generated.c": {
+    "expected": "0f4b66e4c2cd47a4ff529d71b9c1bc49faf7a7b6d9c345055f621e283d27f78c",
+    "actual": "0f4b66e4c2cd47a4ff529d71b9c1bc49faf7a7b6d9c345055f621e283d27f78c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/attempt-03/test": {
+    "expected": "55b87688496b1becb9ce4eba6d9e9bef414d7df7ee6f6f3f41200173a7a93b1d",
+    "actual": "55b87688496b1becb9ce4eba6d9e9bef414d7df7ee6f6f3f41200173a7a93b1d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/attempt-04/generated.c": {
+    "expected": "6703424c8bf66fea6dba0b61141baf228140c1869f9df9b5191bab322d6f91b3",
+    "actual": "6703424c8bf66fea6dba0b61141baf228140c1869f9df9b5191bab322d6f91b3",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/attempt-04/test": {
+    "expected": "4a091452e0367cc2ea145c2573c587184d051c61bacf220a0690524f347ca6e4",
+    "actual": "4a091452e0367cc2ea145c2573c587184d051c61bacf220a0690524f347ca6e4",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/boundaries.c": {
+    "expected": "14ad6a85c95193c4c677d8384969cb8d8f439f2ce9b81eef0e84ac314de55f59",
+    "actual": "14ad6a85c95193c4c677d8384969cb8d8f439f2ce9b81eef0e84ac314de55f59",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/callback-consumers.txt": {
+    "expected": "a3929bbbde8e3f0ac79515bad24b14820f3b6f03b5d93f4ee336997ae65f3a37",
+    "actual": "a3929bbbde8e3f0ac79515bad24b14820f3b6f03b5d93f4ee336997ae65f3a37",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/cases.c": {
+    "expected": "79d80db4cb6947a804eee92753deb158a8a0c9a3fa7d82ce73b1cd586fe76f5a",
+    "actual": "79d80db4cb6947a804eee92753deb158a8a0c9a3fa7d82ce73b1cd586fe76f5a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/correct.py": {
+    "expected": "a1b22cb873e3d3892a4c956e6021dad58e7d1a51fc642159322e7bedca27d31b",
+    "actual": "a1b22cb873e3d3892a4c956e6021dad58e7d1a51fc642159322e7bedca27d31b",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/Makefile": {
+    "expected": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+    "actual": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/Kconfig": {
+    "expected": "a1ef0a2103add311d7646f4892d325a25b0d22f78d3e870b032abb8c39ee2137",
+    "actual": "a1ef0a2103add311d7646f4892d325a25b0d22f78d3e870b032abb8c39ee2137",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/Makefile": {
+    "expected": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372",
+    "actual": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/bcm2835-codec/Kconfig": {
+    "expected": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c",
+    "actual": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/bcm2835-codec/Makefile": {
+    "expected": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9",
+    "actual": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c": {
+    "expected": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "actual": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/bcm2835-codec/codec-formats.h": {
+    "expected": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "actual": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/Kconfig": {
+    "expected": "3529fcb6470fa5fcd32103dd1536704f5d8d5891a99e23db37175d85556acfdb",
+    "actual": "3529fcb6470fa5fcd32103dd1536704f5d8d5891a99e23db37175d85556acfdb",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/Makefile": {
+    "expected": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249",
+    "actual": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c": {
+    "expected": "98c3ae1e46930c80895cb4985f277a1d4661ba244f4a51bb5b21d1a4cc63ab69",
+    "actual": "98c3ae1e46930c80895cb4985f277a1d4661ba244f4a51bb5b21d1a4cc63ab69",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h": {
+    "expected": "cdbe821db3f410c2476c8c65255b88babc7c61f9fe4344dbd75ea316ee88ac3e",
+    "actual": "cdbe821db3f410c2476c8c65255b88babc7c61f9fe4344dbd75ea316ee88ac3e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_ioctl.h": {
+    "expected": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "actual": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c": {
+    "expected": "17de52f49d95fc55f3cd2b7f09bd75b55efbc72ed2528e9332dd978b59a8d117",
+    "actual": "17de52f49d95fc55f3cd2b7f09bd75b55efbc72ed2528e9332dd978b59a8d117",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h": {
+    "expected": "e88f1d6187d475576d414af06b5baf9ead05501e84b437c73c48291321c74f81",
+    "actual": "e88f1d6187d475576d414af06b5baf9ead05501e84b437c73c48291321c74f81",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h": {
+    "expected": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "actual": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_knl.h": {
+    "expected": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "actual": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/TESTING": {
+    "expected": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d",
+    "actual": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/TODO": {
+    "expected": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2",
+    "actual": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c": {
+    "expected": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "actual": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.c": {
+    "expected": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "actual": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c": {
+    "expected": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "actual": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.c": {
+    "expected": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "actual": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c": {
+    "expected": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "actual": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-interface/vchiq_ioctl.h": {
+    "expected": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "actual": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/Kconfig": {
+    "expected": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379",
+    "actual": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/Makefile": {
+    "expected": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2",
+    "actual": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h": {
+    "expected": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "actual": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h": {
+    "expected": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "actual": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h": {
+    "expected": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "actual": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h": {
+    "expected": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "actual": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h": {
+    "expected": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "actual": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h": {
+    "expected": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "actual": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h": {
+    "expected": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "actual": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c": {
+    "expected": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "actual": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h": {
+    "expected": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "actual": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/include/linux/raspberrypi/vchiq.h": {
+    "expected": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "actual": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/include/linux/raspberrypi/vchiq_arm.h": {
+    "expected": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "actual": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/include/linux/raspberrypi/vchiq_bus.h": {
+    "expected": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "actual": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/include/linux/raspberrypi/vchiq_cfg.h": {
+    "expected": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "actual": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/include/linux/raspberrypi/vchiq_core.h": {
+    "expected": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "actual": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/draft-01/include/linux/raspberrypi/vchiq_debugfs.h": {
+    "expected": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "actual": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/edit-audit.txt": {
+    "expected": "7f5943d092e07263e0db4a7f52c53a1df93cfb6fc00064da12f75f10faef5c91",
+    "actual": "7f5943d092e07263e0db4a7f52c53a1df93cfb6fc00064da12f75f10faef5c91",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/edit.py": {
+    "expected": "f35385682561f0adfc2f7da495701e96704807141c975e52d6accc4f4342b0c4",
+    "actual": "f35385682561f0adfc2f7da495701e96704807141c975e52d6accc4f4342b0c4",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/export-replay.py": {
+    "expected": "b6b05872ad95695369a4bd14cc5c7258b2c7ec1696a000347aa0bf7b47df1a5e",
+    "actual": "b6b05872ad95695369a4bd14cc5c7258b2c7ec1696a000347aa0bf7b47df1a5e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/mutant-early-unmap-01/generated.c": {
+    "expected": "89044f13021d8e4888967fb9d1aef7091f9459003691138ab4799d2fc33b3779",
+    "actual": "89044f13021d8e4888967fb9d1aef7091f9459003691138ab4799d2fc33b3779",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/mutant-early-unmap-01/test": {
+    "expected": "1e8609aa2cd6feacb349f411e620740a381a8d9e628c7ed6473e7555fec8630e",
+    "actual": "1e8609aa2cd6feacb349f411e620740a381a8d9e628c7ed6473e7555fec8630e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/patch-before-id-error-check.patch": {
+    "expected": "ccd6a56a7a778200ed809e62c772059f51b686f55b0fa13c34f7709e3cb7bc1b",
+    "actual": "ccd6a56a7a778200ed809e62c772059f51b686f55b0fa13c34f7709e3cb7bc1b",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/prior-manifest-check-before.json": {
+    "expected": "0dffee9a096e478a7697e974ce402cc25f4791207d9ee6e11623c5e94bfd0cf5",
+    "actual": "0dffee9a096e478a7697e974ce402cc25f4791207d9ee6e11623c5e94bfd0cf5",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/prior-manifest-check.json": {
+    "expected": "125e447356a7d628a16a84014b8c7c5dff250f1e6d407a3c8cedf7860a61af43",
+    "actual": "125e447356a7d628a16a84014b8c7c5dff250f1e6d407a3c8cedf7860a61af43",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/replay-green-01/generated.c": {
+    "expected": "6703424c8bf66fea6dba0b61141baf228140c1869f9df9b5191bab322d6f91b3",
+    "actual": "6703424c8bf66fea6dba0b61141baf228140c1869f9df9b5191bab322d6f91b3",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/replay-green-01/test": {
+    "expected": "4f1063c5f448d5b8c836ec0728073a7dba178187e731113d4c2c5235b1066adc",
+    "actual": "4f1063c5f448d5b8c836ec0728073a7dba178187e731113d4c2c5235b1066adc",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/replay.py": {
+    "expected": "d645c6584540b60abbf1330606de1e1a3ad6b5eb63a002797e3b0342b16520bd",
+    "actual": "d645c6584540b60abbf1330606de1e1a3ad6b5eb63a002797e3b0342b16520bd",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/run-attempt-01.py": {
+    "expected": "47a09c595fec3f2ecfd1891e41769ba8b17713df20e3ac642ac63157001e88d1",
+    "actual": "47a09c595fec3f2ecfd1891e41769ba8b17713df20e3ac642ac63157001e88d1",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/run-attempt-02.py": {
+    "expected": "9b1b31133a5b9689c3dfdb77a764c35e88207895626bc7955902bfe5c457b921",
+    "actual": "9b1b31133a5b9689c3dfdb77a764c35e88207895626bc7955902bfe5c457b921",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/run.py": {
+    "expected": "d52a6d0a1e1f433113e47d2345eb995bbd6a86dc1dfe134ad9068e1b978e9836",
+    "actual": "d52a6d0a1e1f433113e47d2345eb995bbd6a86dc1dfe134ad9068e1b978e9836",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/shim.c": {
+    "expected": "e2a34436377aaec7bd9281d74c0b0d6de592d58be7b3b8c355399b6d8f7abfdd",
+    "actual": "e2a34436377aaec7bd9281d74c0b0d6de592d58be7b3b8c355399b6d8f7abfdd",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "buffer-unit/test.sh": {
+    "expected": "04ea63f1dfe558bf96652fd31b8062d5d36de17d06f39c171d0cb12dde6c63ef",
+    "actual": "04ea63f1dfe558bf96652fd31b8062d5d36de17d06f39c171d0cb12dde6c63ef",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/buffer-mutant-early-unmap-01.log": {
+    "expected": "4aa4abd3054b6a6680cea79ccef1cab9f4139c7b10618a4b4f4597534972631e",
+    "actual": "4aa4abd3054b6a6680cea79ccef1cab9f4139c7b10618a4b4f4597534972631e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/buffer-replay-green-01.log": {
+    "expected": "3680ad722e5d63282b52cae060628cf878bb5918bc74e95dc1b5f49720a863be",
+    "actual": "3680ad722e5d63282b52cae060628cf878bb5918bc74e95dc1b5f49720a863be",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/buffer-test-01.log": {
+    "expected": "b86d694c52a61060747360feee9dadc361607950efbea35a82c623e314eed9e4",
+    "actual": "b86d694c52a61060747360feee9dadc361607950efbea35a82c623e314eed9e4",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/buffer-test-02.log": {
+    "expected": "140c94fb2afc614c79e5880a223342a8666d973c5bdd40f91aa31e7e6fd0e6cc",
+    "actual": "140c94fb2afc614c79e5880a223342a8666d973c5bdd40f91aa31e7e6fd0e6cc",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/buffer-test-03.log": {
+    "expected": "3680ad722e5d63282b52cae060628cf878bb5918bc74e95dc1b5f49720a863be",
+    "actual": "3680ad722e5d63282b52cae060628cf878bb5918bc74e95dc1b5f49720a863be",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/buffer-test-04.log": {
+    "expected": "3680ad722e5d63282b52cae060628cf878bb5918bc74e95dc1b5f49720a863be",
+    "actual": "3680ad722e5d63282b52cae060628cf878bb5918bc74e95dc1b5f49720a863be",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "logs/replay-buffer-10.log": {
+    "expected": "2208ae09564ab30291e539ba7f4c85b54e92c5a08e51c8040358c18721297ada",
+    "actual": "2208ae09564ab30291e539ba7f4c85b54e92c5a08e51c8040358c18721297ada",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0001-vcsm-mmal-buffer-services.patch": {
+    "expected": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
+    "actual": "fb862845673b528a4b2d1c39c84664abdff6b1bbd0c364c7bf5050a7cc4684f6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0002-bcm2835-codec-linux73.patch": {
+    "expected": "a4d6d85e9f05f2213c8ea423771656e73dc32881e54cebbfe320f5175315a37a",
+    "actual": "a4d6d85e9f05f2213c8ea423771656e73dc32881e54cebbfe320f5175315a37a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0003-vchiq-children-build-integration.patch": {
+    "expected": "738ced1c46837dd28270cbdf74107943561dd3755d847d0fe3eacf5eb0fd1f58",
+    "actual": "738ced1c46837dd28270cbdf74107943561dd3755d847d0fe3eacf5eb0fd1f58",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0004-vchiq-synchronous-callback-cancellation.patch": {
+    "expected": "aa383f28d3dc47e39bd44b8e224aef85651290c6002af130ed85a8786794cd73",
+    "actual": "aa383f28d3dc47e39bd44b8e224aef85651290c6002af130ed85a8786794cd73",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0005-vcsm-smio-command-ownership-and-worker-stop.patch": {
+    "expected": "64ade269bccba1052529d895156ac73c7607bc9a71b65244946da28e94aaea56",
+    "actual": "64ade269bccba1052529d895156ac73c7607bc9a71b65244946da28e94aaea56",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0006-vchiq-owned-service-removal-completion.patch": {
+    "expected": "9c3f77fd98d770d08a634ca115e4528516c2d82f203174fe9a2a1ab638787281",
+    "actual": "9c3f77fd98d770d08a634ca115e4528516c2d82f203174fe9a2a1ab638787281",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0007-vchiq-balance-unsent-owned-open.patch": {
+    "expected": "818606f46ae16da3dc2ab08d24bb91e90c0f4b78e861e426cdfe0ce9fa227f62",
+    "actual": "818606f46ae16da3dc2ab08d24bb91e90c0f4b78e861e426cdfe0ce9fa227f62",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0008-mmal-invalid-vc-handle.patch": {
+    "expected": "f47e724292bebae0ab50140cb7c523f76dd260ed7a61d6c73565ec4ccb99d345",
+    "actual": "f47e724292bebae0ab50140cb7c523f76dd260ed7a61d6c73565ec4ccb99d345",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0009-vcsm-file-admission-and-balanced-connect.patch": {
+    "expected": "b3fb3bcfce542a2d25899041372ad4eb3e49068c9ff399a0067d3257f4c65c2c",
+    "actual": "b3fb3bcfce542a2d25899041372ad4eb3e49068c9ff399a0067d3257f4c65c2c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/0010-vcsm-bind-buffer-release-to-service-generation.patch": {
+    "expected": "c9ed23863b4aad640fefdeeec78be8ceb03a575178c1ae7103d5187aa8b82676",
+    "actual": "c9ed23863b4aad640fefdeeec78be8ceb03a575178c1ae7103d5187aa8b82676",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "patches/series": {
+    "expected": "bd0812349d50a0aa746297bbfe82ee9a90fa99a27d4202a413d30f655eb83c4e",
+    "actual": "3a0ca9df6a08107c3f096e49883aaf192069e48168a989fec62b462ff7b04711",
+    "preserved_or_authorized_append": true,
+    "exception": "authorized append; immutable historical prefix"
+  },
+  "replayed-buffer-10/Makefile": {
+    "expected": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+    "actual": "35f8af5c43ca7ea8a003c3f7d672022a0ef00736a8a2726151314f473eb7a9dd",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/Kconfig": {
+    "expected": "a1ef0a2103add311d7646f4892d325a25b0d22f78d3e870b032abb8c39ee2137",
+    "actual": "a1ef0a2103add311d7646f4892d325a25b0d22f78d3e870b032abb8c39ee2137",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/Makefile": {
+    "expected": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372",
+    "actual": "a328e9435372c9f7183bd7d2189df59c71a6d08ab920657220c8850f0642e372",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/bcm2835-codec/Kconfig": {
+    "expected": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c",
+    "actual": "9c35b7bea53c5a66f59af08651116104c1daedb40966256a652ff241c37d332c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/bcm2835-codec/Makefile": {
+    "expected": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9",
+    "actual": "40569e43be79dbb863204ab74e2a69ae7be1eba18eb432a1024efbfb548d72a9",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/bcm2835-codec/bcm2835-v4l2-codec.c": {
+    "expected": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "actual": "06a1f2ded5d47cecfe361402717b9ba11f499694c7294ce62a30f0c0efce97b1",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/bcm2835-codec/codec-formats.h": {
+    "expected": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "actual": "e3a599d6690866d1fd91d2151edeca4a1db3f3335d055c5b332b14a75bb4a98c",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/Kconfig": {
+    "expected": "3529fcb6470fa5fcd32103dd1536704f5d8d5891a99e23db37175d85556acfdb",
+    "actual": "3529fcb6470fa5fcd32103dd1536704f5d8d5891a99e23db37175d85556acfdb",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/Makefile": {
+    "expected": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249",
+    "actual": "7e440e3246a9077debe01394d3764f53bd517966c76347bf6d68c4c4e1183249",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c": {
+    "expected": "ecd915cd53ac45a7b0b9b2055fe7cdbb3b7e07cff64695eb95e4c81fcbcdcb41",
+    "actual": "ecd915cd53ac45a7b0b9b2055fe7cdbb3b7e07cff64695eb95e4c81fcbcdcb41",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h": {
+    "expected": "cdbe821db3f410c2476c8c65255b88babc7c61f9fe4344dbd75ea316ee88ac3e",
+    "actual": "cdbe821db3f410c2476c8c65255b88babc7c61f9fe4344dbd75ea316ee88ac3e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_ioctl.h": {
+    "expected": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "actual": "379932d987cc9015b3789db3d7c6a619cae9b5f9fea22db685cd0cd067e7c64d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c": {
+    "expected": "17de52f49d95fc55f3cd2b7f09bd75b55efbc72ed2528e9332dd978b59a8d117",
+    "actual": "17de52f49d95fc55f3cd2b7f09bd75b55efbc72ed2528e9332dd978b59a8d117",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h": {
+    "expected": "e88f1d6187d475576d414af06b5baf9ead05501e84b437c73c48291321c74f81",
+    "actual": "e88f1d6187d475576d414af06b5baf9ead05501e84b437c73c48291321c74f81",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_defs.h": {
+    "expected": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "actual": "84d94d62598e1a2a631da37ec333e6cad4b08ad4677968bd857d269f797a5ee2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_knl.h": {
+    "expected": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "actual": "59a0d9320e3be33ade9e06ea81909129fd71607cd81787a45b38192fbc530449",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/TESTING": {
+    "expected": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d",
+    "actual": "f2675d8e3e28844cd1d541f30aca6d66a5dc3679d6b5b9b267188e48118e3e8d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/TODO": {
+    "expected": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2",
+    "actual": "b2ec3ae4b51be3ec88ff5227e658ad86153ea0c8aa73c3029d81067dccd795c2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c": {
+    "expected": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "actual": "f404d75cb1dbf7fb7297c982bd2e0a184024de392e5bf0203d84c9afbf9b1bbb",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/vchiq_bus.c": {
+    "expected": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "actual": "66e3c100ca11f1d58675b6877c7bcdfb635b2f3a985151be00ef7a85738bf01b",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c": {
+    "expected": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "actual": "a11dccbba7a0a6f551744a5a58c2afb27229eca295e71ad051ac6daea19cf971",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/vchiq_debugfs.c": {
+    "expected": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "actual": "8a68f5d888fceaacaadfb49935fa890183db2926437e7159562fc1742afa7a9a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/vchiq_dev.c": {
+    "expected": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "actual": "96ba5731168e59a6b7d9acbc06cd8af949a7c3382ec9b9d44fd7d7e710f6aee6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-interface/vchiq_ioctl.h": {
+    "expected": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "actual": "40c5b31e54be868ce5e403322405467691dac188349c4a3008f90ca46c23a8ad",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/Kconfig": {
+    "expected": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379",
+    "actual": "fe5792567c7eeddee5c077ba15f67c0ec3fdad84d77d6e659a049b4cdf1a5379",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/Makefile": {
+    "expected": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2",
+    "actual": "9a90f4783d797ebe34022b29bad3eba1834ed4f230408e8399e298427a012ce2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h": {
+    "expected": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "actual": "739a93f02aaa1f1b37f44ee5f4c29063b75fd2ba4460159d147308824865d5a8",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h": {
+    "expected": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "actual": "1f428680cd354ada91100bc0cd49e17c7c0ff26248780982746638e7a036e42e",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h": {
+    "expected": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "actual": "1cefa909a59f096a38bb3fa6f50842b41e58f78d1cac17f492fdbb317446518d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h": {
+    "expected": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "actual": "6a8ab4b648dff0be395d4f5382addf7ca79eff802ffb7f9d6562b05ea9882db5",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h": {
+    "expected": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "actual": "f5a41ccfe40cb4360b6466de42c1511d896e23fc62d8b617be2b97f385f76f8d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h": {
+    "expected": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "actual": "cf2586bfa2b2c463c77ee6a10685470e66d0abc47f748d2700c31ce4e039727d",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h": {
+    "expected": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "actual": "e9193cdd7906ff7d220997b6f7f850840477173cc0d62e4b5eda4b44db97015a",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c": {
+    "expected": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "actual": "ea3401fd29750e3df40007cd56b51c9e22792713d6f02912f8fa4721e2d7add6",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h": {
+    "expected": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "actual": "6226b9fe402ea86f47f7cf39f6b6c0db0f717c8afc269811e9b413ac6efc0a59",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/include/linux/raspberrypi/vchiq.h": {
+    "expected": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "actual": "9fe1dc938bd280f718b6b3aa22f180ae49640b98926bdd30117b7186944d03b2",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/include/linux/raspberrypi/vchiq_arm.h": {
+    "expected": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "actual": "34661a6634f161bd4af78d81e8dee605a81775890ed5babab6a9f8955e30103f",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/include/linux/raspberrypi/vchiq_bus.h": {
+    "expected": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "actual": "c7c104998f8a60cc969973035f66a0a505bfe09f12ac9b46c86ceba12f392294",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/include/linux/raspberrypi/vchiq_cfg.h": {
+    "expected": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "actual": "8568a265411fb9ac0d79b8e0d22756ee24ed7d2bdeff603afa563a05a26be6ff",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/include/linux/raspberrypi/vchiq_core.h": {
+    "expected": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "actual": "11937ebd5082db23f3edb4f3369da7ece376c7483381f8ee6d47baa8204f4262",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  },
+  "replayed-buffer-10/include/linux/raspberrypi/vchiq_debugfs.h": {
+    "expected": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "actual": "f3774a261100386fdbff8d43363149f208a8d2a9cec9cf971df859787120b487",
+    "preserved_or_authorized_append": true,
+    "exception": null
+  }
+}

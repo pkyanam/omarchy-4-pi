@@ -1,0 +1,9 @@
+Assertion failed: (src.refs==2&&unmaps==0&&atomic_read(&st.live_buffers)==1), function main, file generated.c, line 856.
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/import-unit/run-producers.py", line 21, in <module>
+    subprocess.run([str(o/'test')],check=True,timeout=20)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.0_1/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 692, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/import-unit/mutant-early-free-01/test']' died with <Signals.SIGABRT: 6>.

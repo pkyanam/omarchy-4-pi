@@ -1,6 +1,6 @@
 # Inactive Linux 7.3 H.264 source port snapshot
 
-NONDEPLOYABLE. No package recipe selects this series, and no module from it has been loaded on the Pi. This tracked snapshot preserves the first ten source patches and production-function tests beyond the ignored build tree. Patches 0001–0006 are module-compiled; 0007–0010 are source-tested only and await a combined module build. Later implementation remains separately owned and unqualified.
+NONDEPLOYABLE. No package recipe selects this series, and no module from it has been loaded on the Pi. This tracked snapshot preserves the first eleven source patches and production-function tests beyond the ignored build tree. Patches 0001–0006 are module-compiled; 0007–0011 are source-tested only and await a combined module build. Later implementation remains separately owned and unqualified.
 
 Patches 0001–0003 port pinned Raspberry Pi VCSM/MMAL/bcm2835-codec to upstream Linux 7.3; 0004 synchronizes deferred callback cancellation; 0005 adds command ownership and actual SMIO worker join after successful service close. Upstream platform/transport/media architecture remains. Copyright/SPDX headers and the underlying Linux/downstream license terms are retained in the patch contents. Complete source provenance is in reference-provenance.json. Do not treat compile success as safe lifecycle, successful DMA or decoding support.
 
@@ -34,3 +34,7 @@ close-unit and progress-unit retain their production-body test generators and bo
 ## Generation admission and mapping-retention subsets
 
 0009 binds file admission to its original retired/readiness generation and balances failed connection/open unwind. Its production probe/remove/reprobe tests retain old files but have zero outstanding buffers; boundary cleanup of inherited leaks is not credited to production. 0010 routes events through original-generation context and defers the tested mapping cleanup until RELEASED. Its early-unmap mutant fails. Interrupted IMPORT and setup-error ownership remain unsafe, and full dma-buf/module/device/unbind safety is not claimed. Read owner-unit and buffer-unit for exact production paths, injected boundaries and remaining contracts. None of 0007–0010 is module-compiled yet. The live Pi has not loaded this code.
+
+## Interrupted IMPORT and setup failure ownership
+
+0011 retains admitted IMPORT ownership until a definitive response or definite nonpublication, and retains mappings through export/fd setup errors until firmware RELEASED. Production sender/worker and producer bodies pass host ASan/UBSan tests; premature cleanup and setup-lifetime mutants fail. This deliberately blocking completion contract cannot safely bound cancellation or teardown when the peer is silent or RELEASED is missing. No DMA reset/quiescence guarantee is inferred. See import-unit/README.md for the audited publication boundary, injected boundaries and remaining gaps. Patches 0007–0011 remain uncompiled as modules; none is deployed.

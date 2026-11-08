@@ -1,0 +1,569 @@
+From: Omarchy Pi source-port candidate
+Subject: [PATCH 11/11] vcsm: complete IMPORT before retiring DMA ownership
+
+NONDEPLOYABLE: blocking completion has no peer-silence recovery guarantee.
+No timeout, service close or host join is DMA quiescence proof.
+
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.c
+@@ -199,6 +199,8 @@
+ static void vc_sm_buffer_init(struct vc_sm_buffer *buffer, struct sm_state_t *state)
+ {
+ 	buffer->owner = state;
++	mutex_init(&buffer->lock);
++	INIT_LIST_HEAD(&buffer->attachments);
+ 	INIT_LIST_HEAD(&buffer->global_buffer_list);
+ 	atomic_inc(&state->live_buffers);
+ }
+@@ -393,7 +395,7 @@
+ 			 __func__, buffer);
+ 		goto defer;
+ 	}
+-	if (buffer->in_use) {
++	if (buffer->in_use || buffer->setup_pending) {
+ 		/* dmabuf still in use - we await the release */
+ 		pr_debug("[%s]: buffer %p is still in use\n", __func__, buffer);
+ 		goto defer;
+@@ -410,7 +412,12 @@
+ 			       __func__, buffer);
+ 		buffer->import.dma_buf = NULL;
+ 	} else {
+-		dma_free_coherent(&buffer->owner->device->dev, buffer->size,
++		if (buffer->alloc.sg_table) {
++			sg_free_table(buffer->alloc.sg_table);
++			kfree(buffer->alloc.sg_table);
++		}
++		if (buffer->cookie)
++			dma_free_coherent(&buffer->owner->device->dev, buffer->size,
+ 				  buffer->cookie, buffer->dma_addr);
+ 	}
+ 
+@@ -783,6 +790,62 @@
+ };
+ 
+ /* Import a dma_buf to be shared with VC. */
++/* Runs on SMIO before completion and before the next firmware event. The
++ * producer owns in_use until export or error retirement, so early RELEASED
++ * cannot destroy a buffer still being set up by its caller.
++ */
++static void vc_sm_import_done(void *context, u32 handle)
++{
++	struct vc_sm_buffer *buffer = context;
++
++	mutex_lock(&buffer->owner->kernelid_map_lock);
++	mutex_lock(&buffer->lock);
++	buffer->import_pending = false;
++	if (handle && handle == buffer->early_release) {
++		/* RELEASED can precede the response; only its confirmed handle
++		 * authorizes retirement. The producer still owns in_use.
++		 */
++		idr_remove(&buffer->owner->kernelid_map, buffer->kernel_id);
++		handle = 0;
++	}
++	buffer->vc_handle = handle;
++	buffer->vpu_state = handle ? VPU_MAPPED : VPU_NOT_MAPPED;
++	mutex_unlock(&buffer->lock);
++	mutex_unlock(&buffer->owner->kernelid_map_lock);
++}
++
++/* No publication or definitive rejection: remove the local ID. Successful
++ * publication: FREE and retain the ID/mapping until real RELEASED.
++ */
++static void vc_sm_import_unpublish(struct vc_sm_buffer *buffer)
++{
++	struct sm_state_t *state = buffer->owner;
++
++	mutex_lock(&state->kernelid_map_lock);
++	mutex_lock(&buffer->lock);
++	if (!buffer->vc_handle && buffer->kernel_id > 0)
++		idr_remove(&state->kernelid_map, buffer->kernel_id);
++	mutex_unlock(&buffer->lock);
++	mutex_unlock(&state->kernelid_map_lock);
++}
++
++static void vc_sm_import_abort(struct vc_sm_buffer *buffer)
++{
++	vc_sm_import_unpublish(buffer);
++	mutex_lock(&buffer->lock);
++	buffer->in_use = false;
++	buffer->setup_pending = false;
++	vc_sm_vpu_free(buffer);
++	vc_sm_release_resource(buffer);
++}
++
++static void vc_sm_import_finish(struct vc_sm_buffer *buffer)
++{
++	mutex_lock(&buffer->lock);
++	buffer->setup_pending = false;
++	vc_sm_release_resource(buffer);
++}
++
+ static int
+ vc_sm_cma_import_dmabuf_internal(struct vc_sm_privdata_t *private,
+ 				 struct dma_buf *dma_buf,
+@@ -808,18 +871,20 @@
+ 	else
+ 		dma_buf = dma_buf_get(fd);
+ 
+-	if (!dma_buf)
+-		return -EINVAL;
++	if (IS_ERR_OR_NULL(dma_buf))
++		return dma_buf ? PTR_ERR(dma_buf) : -EINVAL;
+ 
+ 	attach = dma_buf_attach(dma_buf, &sm_state->device->dev);
+ 	if (IS_ERR(attach)) {
+ 		ret = PTR_ERR(attach);
++		attach = NULL;
+ 		goto error;
+ 	}
+ 
+ 	sgt = dma_buf_map_attachment_unlocked(attach, DMA_BIDIRECTIONAL);
+ 	if (IS_ERR(sgt)) {
+ 		ret = PTR_ERR(sgt);
++		sgt = NULL;
+ 		goto error;
+ 	}
+ 
+@@ -852,7 +917,22 @@
+ 	}
+ 	import.size = sg_dma_len(sgt->sgl);
+ 	import.allocator = current->tgid;
++	/* Keep track of the buffer we created. */
++	buffer->private = private;
++	buffer->size = import.size;
++
++	buffer->imported = true;
++	buffer->import.dma_buf = dma_buf;
++
++	buffer->import.attach = attach;
++	buffer->import.sgt = sgt;
++	buffer->dma_addr = dma_addr;
++	buffer->in_use = true;
++
++	buffer->setup_pending = true;
++	buffer->import_pending = true;
+ 	import.kernel_id = get_kernel_id(buffer);
++	buffer->kernel_id = (int)import.kernel_id;
+ 	if ((int)import.kernel_id < 0) {
+ 		ret = (int)import.kernel_id;
+ 		goto error;
+@@ -866,40 +946,17 @@
+ 
+ 	/* Allocate the videocore buffer. */
+ 	status = vc_sm_cma_vchi_import(sm_state->sm_handle, &import, &result,
+-				       &sm_state->int_trans_id);
+-	if (status == -EINTR) {
+-		pr_debug("[%s]: requesting import memory action restart (trans_id: %u)\n",
+-			 __func__, sm_state->int_trans_id);
+-		ret = -ERESTARTSYS;
+-		private->restart_sys = -EINTR;
+-		private->int_action = VC_SM_MSG_TYPE_IMPORT;
+-		goto error;
+-	} else if (status || !result.res_handle) {
++				       &sm_state->int_trans_id, vc_sm_import_done, buffer);
++	if (status || !result.res_handle) {
+ 		pr_debug("[%s]: failed to import memory on videocore (status: %u, trans_id: %u)\n",
+ 			 __func__, status, sm_state->int_trans_id);
+ 		ret = -ENOMEM;
+ 		goto error;
+ 	}
+ 
+-	mutex_init(&buffer->lock);
+-	INIT_LIST_HEAD(&buffer->attachments);
+ 	memcpy(buffer->name, import.name,
+ 	       min(sizeof(buffer->name), sizeof(import.name) - 1));
+ 
+-	/* Keep track of the buffer we created. */
+-	buffer->private = private;
+-	buffer->vc_handle = result.res_handle;
+-	buffer->size = import.size;
+-	buffer->vpu_state = VPU_MAPPED;
+-
+-	buffer->imported = true;
+-	buffer->import.dma_buf = dma_buf;
+-
+-	buffer->import.attach = attach;
+-	buffer->import.sgt = sgt;
+-	buffer->dma_addr = dma_addr;
+-	buffer->in_use = true;
+-	buffer->kernel_id = import.kernel_id;
+ 
+ 	/*
+ 	 * We're done - we need to export a new dmabuf chaining through most
+@@ -920,24 +977,27 @@
+ 	vc_sm_add_resource(private, buffer);
+ 
+ 	*imported_buf = buffer->dma_buf;
++	vc_sm_import_finish(buffer);
+ 
+ 	return 0;
+ 
+ error:
+-	if (result.res_handle) {
+-		struct vc_sm_free_t free = { result.res_handle, 0 };
+-
+-		vc_sm_cma_vchi_free(sm_state->sm_handle, &free,
+-				    &sm_state->int_trans_id);
+-	}
+-	free_kernel_id(sm_state, import.kernel_id);
+-	if (buffer)
+-		vc_sm_buffer_destroy(buffer);
+-	if (sgt)
+-		dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
+-	if (attach)
+-		dma_buf_detach(dma_buf, attach);
+-	dma_buf_put(dma_buf);
++	if (buffer) {
++		/* The buffer owns all attachment/mapping references from init. */
++		if (!buffer->imported) {
++			buffer->imported = true;
++			buffer->import.dma_buf = dma_buf;
++			buffer->import.attach = attach;
++			buffer->import.sgt = sgt;
++		}
++		vc_sm_import_abort(buffer);
++	} else {
++		if (sgt)
++			dma_buf_unmap_attachment_unlocked(attach, sgt, DMA_BIDIRECTIONAL);
++		if (attach)
++			dma_buf_detach(dma_buf, attach);
++		dma_buf_put(dma_buf);
++	}
+ 	return ret;
+ }
+ 
+@@ -965,7 +1025,6 @@
+ 
+ 	vc_sm_buffer_init(buffer, state);
+ 
+-	mutex_init(&buffer->lock);
+ 	/* Acquire the mutex as vc_sm_release_resource will release it in the
+ 	 * error path.
+ 	 */
+@@ -1088,6 +1147,12 @@
+ 			break;
+ 		}
+ 		mutex_lock(&buffer->lock);
++		if (buffer->import_pending && release->vc_handle) {
++			buffer->early_release = release->vc_handle;
++			mutex_unlock(&buffer->lock);
++			mutex_unlock(&state->kernelid_map_lock);
++			break;
++		}
+ 		if (!buffer->vc_handle || buffer->vc_handle != release->vc_handle) {
+ 			mutex_unlock(&buffer->lock);
+ 			mutex_unlock(&state->kernelid_map_lock);
+@@ -1226,6 +1291,9 @@
+ 	}
+ 
+ 	vc_sm_buffer_init(buffer, sm_state);
++	buffer->size = aligned_size;
++	buffer->private = private;
++	buffer->in_use = true;
+ 
+ 	buffer->cookie = dma_alloc_coherent(&sm_state->device->dev,
+ 					    aligned_size,
+@@ -1247,8 +1315,6 @@
+ 		memcpy(import.name, VC_SM_RESOURCE_NAME_DEFAULT,
+ 		       sizeof(VC_SM_RESOURCE_NAME_DEFAULT));
+ 
+-	mutex_init(&buffer->lock);
+-	INIT_LIST_HEAD(&buffer->attachments);
+ 	memcpy(buffer->name, import.name,
+ 	       min(sizeof(buffer->name), sizeof(import.name) - 1));
+ 
+@@ -1260,13 +1326,17 @@
+ 	dmabuf = dma_buf_export(&exp_info);
+ 	if (IS_ERR(dmabuf)) {
+ 		ret = PTR_ERR(dmabuf);
++		dmabuf = NULL;
+ 		goto error;
+ 	}
+ 	buffer->dma_buf = dmabuf;
+ 
+ 	import.addr = buffer->dma_addr;
+ 	import.size = aligned_size;
++	buffer->setup_pending = true;
++	buffer->import_pending = true;
+ 	import.kernel_id = get_kernel_id(buffer);
++	buffer->kernel_id = (int)import.kernel_id;
+ 	if ((int)import.kernel_id < 0) {
+ 		ret = (int)import.kernel_id;
+ 		goto error;
+@@ -1274,15 +1344,8 @@
+ 
+ 	/* Wrap it into a videocore buffer. */
+ 	status = vc_sm_cma_vchi_import(sm_state->sm_handle, &import, &result,
+-				       &sm_state->int_trans_id);
+-	if (status == -EINTR) {
+-		pr_debug("[%s]: requesting import memory action restart (trans_id: %u)\n",
+-			 __func__, sm_state->int_trans_id);
+-		ret = -ERESTARTSYS;
+-		private->restart_sys = -EINTR;
+-		private->int_action = VC_SM_MSG_TYPE_IMPORT;
+-		goto error;
+-	} else if (status || !result.res_handle) {
++				       &sm_state->int_trans_id, vc_sm_import_done, buffer);
++	if (status || !result.res_handle) {
+ 		pr_err("[%s]: failed to import memory on videocore (status: %u, trans_id: %u)\n",
+ 		       __func__, status, sm_state->int_trans_id);
+ 		ret = -ENOMEM;
+@@ -1291,9 +1354,7 @@
+ 
+ 	/* Keep track of the buffer we created. */
+ 	buffer->private = private;
+-	buffer->vc_handle = result.res_handle;
+ 	buffer->size = import.size;
+-	buffer->vpu_state = VPU_MAPPED;
+ 	buffer->kernel_id = import.kernel_id;
+ 
+ 	sgt = kmalloc(sizeof(*sgt), GFP_KERNEL);
+@@ -1314,8 +1375,10 @@
+ 	buffer->alloc.sg_table = sgt;
+ 
+ 	fd = dma_buf_fd(dmabuf, O_CLOEXEC);
+-	if (fd < 0)
++	if (fd < 0) {
++		ret = fd;
+ 		goto error;
++	}
+ 
+ 	vc_sm_add_resource(private, buffer);
+ 
+@@ -1324,25 +1387,28 @@
+ 
+ 	/* We're done */
+ 	ioparam->handle = fd;
++	mutex_lock(&buffer->lock);
+ 	ioparam->vc_handle = buffer->vc_handle;
+ 	ioparam->dma_addr = buffer->dma_addr;
++	mutex_unlock(&buffer->lock);
++	vc_sm_import_finish(buffer);
+ 	return 0;
+ 
+ error:
+ 	pr_err("[%s]: something failed - cleanup. ret %d\n", __func__, ret);
+ 
++	if (buffer)
++		vc_sm_import_unpublish(buffer);
+ 	if (dmabuf) {
+ 		/* dmabuf has been exported, therefore allow dmabuf cleanup to
+ 		 * deal with this
+ 		 */
++		mutex_lock(&buffer->lock);
++		buffer->setup_pending = false;
++		mutex_unlock(&buffer->lock);
+ 		dma_buf_put(dmabuf);
+-	} else {
+-		/* No dmabuf, therefore just free the buffer here */
+-		if (buffer && buffer->cookie)
+-			dma_free_coherent(&sm_state->device->dev, buffer->size,
+-					  buffer->cookie, buffer->dma_addr);
+-		if (buffer)
+-			vc_sm_buffer_destroy(buffer);
++	} else if (buffer) {
++		vc_sm_import_abort(buffer);
+ 	}
+ 	return ret;
+ }
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm.h
+@@ -66,6 +66,9 @@
+ 
+ 	enum vc_sm_vpu_mapping_state vpu_state;
+ 	u32 vc_handle;	/* VideoCore handle for this buffer */
++	bool setup_pending; /* Producer owns storage through fd publication/return. */
++	bool import_pending;
++	u32 early_release; /* Untrusted until matched by definitive IMPORT reply. */
+ 	int vpu_allocated;	/*
+ 				 * The VPU made this allocation. Release the
+ 				 * local dma_buf when the VPU releases the
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
+@@ -37,6 +37,9 @@
+ 	u16 length;
+ 	int status;
+ 	u32 wait;
++	u32 expected;
++	void (*import_done)(void *, u32);
++	void *import_context;
+ 	u8 msg[VC_SM_MAX_MSG_LEN];
+ };
+ 
+@@ -74,7 +77,7 @@
+ {
+ 	list_del_init(&cmd->head);
+ 	cmd->status = status;
+-	complete(&cmd->cmplt);
++	complete_all(&cmd->cmplt);
+ 	sm_cmd_put(cmd);
+ }
+ 
+@@ -100,12 +103,23 @@
+ 	list_for_each_entry(cmd, &instance->rsp_list, head) {
+ 		if (cmd->id != reply->trans_id)
+ 			continue;
+-		if (reply_len > sizeof(cmd->msg) || reply_len < sizeof(*reply)) {
+-			sm_cmd_complete(cmd, -EPROTO);
+-		} else {
+-			memcpy(cmd->msg, reply, reply_len);
+-			sm_cmd_complete(cmd, 0);
++		/* A malformed packet is not a definitive IMPORT rejection. Keep
++		 * the transaction and its DMA owner for a valid response.
++		 */
++		if (reply_len != cmd->expected)
++			break;
++		memcpy(cmd->msg, reply, reply_len);
++		if (cmd->import_done) {
++			/* Keep queued ownership, but never nest buffer/IDR locks
++			 * inside the transport admission lock. Stop waits for this
++			 * IMPORT's completion before retiring the service.
++			 */
++			mutex_unlock(&instance->lock);
++			cmd->import_done(cmd->import_context,
++				((struct vc_sm_import_result *)reply)->res_handle);
++			mutex_lock(&instance->lock);
+ 		}
++		sm_cmd_complete(cmd, 0);
+ 		break;
+ 	}
+ 	mutex_unlock(&instance->lock);
+@@ -308,6 +322,26 @@
+ 	if (!handle || !*handle)
+ 		return -EINVAL;
+ 	instance = *handle;
++	/* External owner excludes new senders. Do not turn a published IMPORT
++	 * into ESHUTDOWN: service closure supplies no firmware DMA proof.
++	 */
++	for (;;) {
++		struct sm_cmd_rsp_blk *pending = NULL;
++
++		mutex_lock(&instance->lock);
++		list_for_each_entry(cmd, &instance->cmd_list, head)
++			if (cmd->import_done) { pending = cmd; break; }
++		if (!pending)
++			list_for_each_entry(cmd, &instance->rsp_list, head)
++				if (cmd->import_done) { pending = cmd; break; }
++		if (pending)
++			refcount_inc(&pending->refs);
++		mutex_unlock(&instance->lock);
++		if (!pending)
++			break;
++		wait_for_completion(&pending->cmplt);
++		sm_cmd_put(pending);
++	}
+ 	mutex_lock(&instance->lock);
+ 	WRITE_ONCE(instance->stopping, true);
+ 	mutex_unlock(&instance->lock);
+@@ -335,7 +369,8 @@
+ static int vc_sm_cma_vchi_send_msg(struct sm_instance *instance,
+ 				   enum vc_sm_msg_type msg_id, void *msg,
+ 				   u32 msg_size, void *result, u32 result_size,
+-				   u32 *cur_trans_id, u8 wait_reply)
++				   u32 *cur_trans_id, u8 wait_reply,
++				   void (*import_done)(void *, u32), void *context)
+ {
+ 	struct sm_cmd_rsp_blk *cmd;
+ 	struct vc_sm_msg_hdr_t *hdr;
+@@ -360,6 +395,9 @@
+ 	refcount_set(&cmd->refs, 1); /* caller */
+ 	init_completion(&cmd->cmplt);
+ 	cmd->wait = wait_reply;
++	cmd->expected = result_size ? result_size : sizeof(struct vc_sm_result_t);
++	cmd->import_done = import_done;
++	cmd->import_context = context;
+ 	cmd->length = sizeof(*hdr) + msg_size;
+ 	hdr = (struct vc_sm_msg_hdr_t *)cmd->msg;
+ 	hdr->type = msg_id;
+@@ -370,7 +408,13 @@
+ 		status = -ESHUTDOWN;
+ 		goto put_cmd;
+ 	}
+-	instance->trans_id = (instance->trans_id + 1) & ~0x80000000;
++	/* Never alias a late/duplicate response to a new transaction. */
++	if (instance->trans_id == 0x7fffffff) {
++		mutex_unlock(&instance->lock);
++		status = -ENOSPC;
++		goto put_cmd;
++	}
++	instance->trans_id++;
+ 	hdr->trans_id = cmd->id = instance->trans_id;
+ 	if (cur_trans_id)
+ 		*cur_trans_id = cmd->id;
+@@ -382,10 +426,13 @@
+ 	if (!wait_reply)
+ 		goto put_cmd;
+ 
+-	/* An interrupted caller releases only its reference. The queued command
+-	 * stays owned until the reply or stop; SMIO may still be reading its bytes.
++	/* IMPORT admission transfers cancellation to completion: signals cannot
++	 * discard a possibly published mapping. Peer silence can block this
++	 * caller and unbind indefinitely; no timeout/close proves DMA quiescence.
+ 	 */
+-	if (wait_for_completion_interruptible(&cmd->cmplt)) {
++	if (import_done) {
++		wait_for_completion(&cmd->cmplt);
++	} else if (wait_for_completion_interruptible(&cmd->cmplt)) {
+ 		status = -EINTR;
+ 		goto put_cmd;
+ 	}
+@@ -407,15 +454,18 @@
+ 			u32 *cur_trans_id)
+ {
+ 	return vc_sm_cma_vchi_send_msg(handle, VC_SM_MSG_TYPE_FREE,
+-				   msg, sizeof(*msg), 0, 0, cur_trans_id, 0);
++				   msg, sizeof(*msg), 0, 0, cur_trans_id, 0, NULL, NULL);
+ }
+ 
+ int vc_sm_cma_vchi_import(struct sm_instance *handle, struct vc_sm_import *msg,
+-			  struct vc_sm_import_result *result, u32 *cur_trans_id)
+-{
++			  struct vc_sm_import_result *result, u32 *cur_trans_id,
++			  void (*done)(void *, u32), void *context)
++{
++	if (!done)
++		return -EINVAL;
+ 	return vc_sm_cma_vchi_send_msg(handle, VC_SM_MSG_TYPE_IMPORT,
+ 				   msg, sizeof(*msg), result, sizeof(*result),
+-				   cur_trans_id, 1);
++				   cur_trans_id, 1, done, context);
+ }
+ 
+ int vc_sm_cma_vchi_client_version(struct sm_instance *handle,
+@@ -425,9 +475,9 @@
+ {
+ 	return vc_sm_cma_vchi_send_msg(handle, VC_SM_MSG_TYPE_CLIENT_VERSION,
+ 				   //msg, sizeof(*msg), result, sizeof(*result),
+-				   //cur_trans_id, 1);
++				   //cur_trans_id, 1, done, context);
+ 				   msg, sizeof(*msg), NULL, 0,
+-				   cur_trans_id, 0);
++				   cur_trans_id, 0, NULL, NULL);
+ }
+ 
+ int vc_sm_vchi_client_vc_mem_req_reply(struct sm_instance *handle,
+@@ -437,5 +487,5 @@
+ 	return vc_sm_cma_vchi_send_msg(handle,
+ 				       VC_SM_MSG_TYPE_VC_MEM_REQUEST_REPLY,
+ 				       msg, sizeof(*msg), 0, 0, cur_trans_id,
+-				       0);
+-}
++				       0, NULL, NULL);
++}
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.h
+@@ -46,10 +46,13 @@
+ 
+ /*
+  * Import a contiguous block of memory and wrap it in a GPU MEM_HANDLE_T.
++ * done is mandatory and runs on SMIO before wakeup/event delivery. Once
++ * admitted, IMPORT is not signal-cancellable; a silent peer blocks the caller
++ * and teardown indefinitely. No service close/reset DMA guarantee is implied.
+  */
+ int vc_sm_cma_vchi_import(struct sm_instance *handle, struct vc_sm_import *msg,
+ 			  struct vc_sm_import_result *result,
+-			  u32 *cur_trans_id);
++			  u32 *cur_trans_id, void (*done)(void *, u32), void *context);
+ 
+ int vc_sm_cma_vchi_client_version(struct sm_instance *handle,
+ 				  struct vc_sm_version *msg,

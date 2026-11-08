@@ -4,7 +4,7 @@ Discovery only. **Nothing here is fixed, patched, tuned or claimed as a win.** E
 
 Board: Pi 4 Model B Rev 1.5, `c03115`, MIDR `0x410fd083` (Cortex-A72 r0p3), 4GB, uncapped, booting `7.3.0-32.1-omarchy` at EL2 through PFTF/Limine/UKI. Storage is a USB SSD (LUKS2 + Btrfs). Overlays: `miniuart-bt`, `upstream-pi4`, `omarchy-pi4-mainline-dma`. Firmware config already sets `arm_boost=1`.
 
-Baseline capture for before/after comparison: `build/upstream-pi/stable-4.5/pi4-baseline-4gb.log`, produced by `pi4-baseline-probe.sh`. That script is read-only and safe to re-run; **run it before any change and again after**, on identical cooling and power, and treat its numbers as the comparison point rather than the ones quoted here.
+Baseline capture and trend log: `build/upstream-pi/stable-4.5/pi4-metrics.csv`, with `record-pi4-metrics.sh` to append a sample and `plot-pi4-metrics.py` to render it. `METRICS.md` beside them documents the columns, the sampling rules, and the measured noise floor, and is the file to read before recording a before/after pair. **Record a sample before a change and again after, under identical conditions**, and treat that trend as the comparison point rather than the numbers quoted here.
 
 ## Headline: the single biggest finding is that hardware AES is not available
 

@@ -10,3 +10,6 @@ __pycache__/
 
 # macOS Finder metadata
 .DS_Store
+
+# Local secrets (PI_PASSWORD and similar); never committed
+.env

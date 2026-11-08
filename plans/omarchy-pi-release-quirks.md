@@ -157,3 +157,17 @@ Password authentication was available from `.env` (`PI_PASSWORD`, read as a vari
 Recovery is still only *available*, not demonstrated: the four snapshots are bootable menu entries, but no rollback has been performed.
 
 Still open: a rollback rehearsal, then display preview/revert/persistence, portal capture, DDC ACLs, HDMI/EDID/ELD, and the operational-speed question above. PI-015's VCHIQ gap is untouched — this kernel still ships no video decode or firmware audio.
+
+## Optimization discovery for a separate implementer — November 8
+
+A dedicated discovery pass measured the running board for efficiency work against Raspberry Pi OS. **Nothing was fixed.** The findings live in [omarchy-pi-optimization-discovery.md](omarchy-pi-optimization-discovery.md), with a repeatable read-only baseline capture at `build/upstream-pi/stable-4.5/pi4-baseline-4gb.log` (script: `pi4-baseline-probe.sh`).
+
+The five findings most likely to matter, in the order the discovery pass recommends attacking them:
+
+1. **Hardware AES is not available, and nobody has explained why.** `cryptsetup` reports ≈81 MiB/s for `aes-xts 512b` — software speed — and `modprobe aes_ce_blk` fails with `No such device` even though the config and the packaged module are both correct. The CPU reports only `fp asimd evtstrm crc32 cpuid`, while an A72 has `aes`/`sha1`/`sha2`/`pmull`, and the kernel runs at EL2. This gates all SSD and zram throughput at once.
+2. **KPTI is forced on by KASLR while Meltdown reports "Not affected".** Measured `getpid` at 1.15–1.22 µs and `open+close` at 12.6–14.5 µs. The genuine Spectre mitigations should stay; the page-table isolation justified only by Meltdown is the candidate.
+3. **The toolchain targets generic `armv8-a -O2` with `!lto`.** Measured on this board: `-mcpu=cortex-a72` alone is worth only 2–3%, while `-O3` is worth 3.9x on an integer loop and 2x on float. The counter-intuitive part is that the ISA flag everyone reaches for first is nearly worthless here.
+4. **Frequency scaling uses `cpufreq-dt`, not `raspberrypi-cpufreq`,** there is no OPP table for the generic driver to read, `vcgencmd` is absent, and a 4-core load fell from 1.8 GHz to 1.2 GHz at 20 s at only 51–54 °C with the single thermal trip at 110 °C — so that drop is DVFS behaviour, not throttling.
+5. **`pi-tuning.md` is stale about zram.** It says the kernel lacks zstd and zram therefore uses LZO; the live device is `[zstd]` at ≈3.9 GB on a 3.7 GiB machine with `swappiness=150`. That configuration has never been tested.
+
+Hardware video decode remains entirely absent (`ls /dev/video*` finds nothing), and the 8GB model is still unmeasured, so the discovery note lists five items that must be re-measured on real 8GB hardware rather than inferred from the 4GB results.

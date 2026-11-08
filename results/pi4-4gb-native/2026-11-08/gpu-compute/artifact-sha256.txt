@@ -1,0 +1,9 @@
+d22e4c9bfcf2bc780582059c670a96428b2b3dcb618dc50540ef62a889157a3d  /src/gpu-compute-box.comp
+361514fb9d3ab5e285bef03971f7b0a97d920a8361d6fc0d5bf280cd47cc978e  /src/gpu-compute-build.py
+1a338ee6aa0b7c333e46029cc8ee273d857161eac0d13963891039b31ea27aff  /src/gpu-compute-run.py
+f95c534f18a0dc9b8b7e8633fd401ce88d1088aa176bf12778c484e0f95c6281  /src/gpu-compute-vulkan.c
+bdce61d6727ca4637623282c30e48691f1c100b8cd1f556c0e00f6503033116d  /evidence/validated-build/gpu-compute-vulkan
+f0bd34100c841c3a3c1bf8a49e6e98f94535ab0180f079aacb3e504f125e092d  /evidence/validated-build/box.spv
+bb66ec897125e9b07734bdc42e98732a0a4d329b389f9ab78a838bd76ecfcf32  /usr/lib/libvulkan.so.1
+6ab264fb4e8df9942b0fb75b48fcd5c30b2f081d8dfaa6c25d7be1d3fce5b2ab  /usr/lib/libc.so.6
+b1f2738bdb51e6419d7062f96c8a44bd68853698dc5ac624fa6ca9f9b03d456d  /usr/lib/ld-linux-aarch64.so.1

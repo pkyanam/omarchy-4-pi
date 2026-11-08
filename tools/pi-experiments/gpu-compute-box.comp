@@ -1,0 +1,19 @@
+#version 450
+// Integer grayscale box filter; no floating point, textures, or shared memory.
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+layout(set = 0, binding = 0, std430) readonly buffer Input { uint pixels[]; } src;
+layout(set = 0, binding = 1, std430) writeonly buffer Output { uint pixels[]; } dst;
+layout(push_constant) uniform Shape { uint width; uint height; } shape;
+void main() {
+  uvec2 p = gl_GlobalInvocationID.xy;
+  if (p.x >= shape.width || p.y >= shape.height) return;
+  uint sum = 0;
+  for (int dy = -1; dy <= 1; ++dy) {
+    for (int dx = -1; dx <= 1; ++dx) {
+      uint x = uint(clamp(int(p.x) + dx, 0, int(shape.width) - 1));
+      uint y = uint(clamp(int(p.y) + dy, 0, int(shape.height) - 1));
+      sum += src.pixels[y * shape.width + x];
+    }
+  }
+  dst.pixels[p.y * shape.width + p.x] = sum / 9u;
+}

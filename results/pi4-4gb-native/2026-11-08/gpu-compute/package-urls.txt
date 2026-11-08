@@ -1,0 +1,6 @@
+https://mirror.archlinuxarm.org/aarch64/extra/vulkan-headers-1:1.4.363.0-1-any.pkg.tar.xz
+http://mirror.archlinuxarm.org/aarch64/extra/vulkan-headers-1:1.4.363.0-1-any.pkg.tar.xz
+http://mirror.archlinuxarm.org/aarch64/extra/vulkan-headers-1:1.4.363.0-1-any.pkg.tar.xz
+http://mirror.archlinuxarm.org/aarch64/extra/vulkan-icd-loader-1.4.363.0-1-aarch64.pkg.tar.xz
+http://mirror.archlinuxarm.org/aarch64/extra/spirv-tools-1:1.4.363.0-1-aarch64.pkg.tar.xz
+http://mirror.archlinuxarm.org/aarch64/extra/glslang-1:1.4.363.0-1-aarch64.pkg.tar.xz

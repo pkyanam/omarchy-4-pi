@@ -1,0 +1,10 @@
+device index=0 uuid=[omitted] name="V3D 4.2.14.0" vendor=0x14e4 device=0xbe485fd3 type=1 api=1.3.354 driver_id=19 driver_name="V3DV Mesa" driver_info="Mesa 26.2.6-arch1.1" driver_version=109060102
+limits local=256,256,256 invocations=256 groups=65535,65535,65535 storage_range=1073741824 storage_stage=8 storage_set=32 push=256 shared=32768 allocations=478976
+queue family=0 flags=0x7 timestamp_valid_bits=64 gpu_execution_ns=unknown energy=unknown
+buffer=0 bytes=198660 allocation=198912 memory_type=0 flags=0x7
+buffer=1 bytes=198660 allocation=198912 memory_type=0 flags=0x7
+setup_wall_ns=35898102
+case=0 width=1 height=1 pattern=0 pixels=1 logical_reads=9 logical_writes=1 ref_wall_ns=1445 ref_cpu_ns=5871 submit_fence_wall_ns=208721 submit_fence_process_cpu_ns=235593 gpu_execution_ns=unknown mismatches=0 corruption=0
+case=1 width=17 height=19 pattern=1 pixels=323 logical_reads=2907 logical_writes=323 ref_wall_ns=236758 ref_cpu_ns=239685 submit_fence_wall_ns=169758 submit_fence_process_cpu_ns=186648 gpu_execution_ns=unknown mismatches=0 corruption=0
+case=2 width=257 height=193 pattern=2 pixels=49601 logical_reads=446409 logical_writes=49601 ref_wall_ns=35700862 ref_cpu_ns=35705185 submit_fence_wall_ns=1464623 submit_fence_process_cpu_ns=211906 gpu_execution_ns=unknown mismatches=0 corruption=0
+correctness=PASS cases=3 energy=unknown desktop_acceleration=unmeasured

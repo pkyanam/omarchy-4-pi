@@ -1,0 +1,759 @@
+build-inside.sh: OK
+build-offline.sh: OK
+current.fdt: OK
+evidence-provenance.json: OK
+firmware/10-omarchy-pi4-cts.hook: OK
+firmware/95-omarchy-pi4-cts.hook: OK
+firmware/PKGBUILD: OK
+firmware/baseline-media.json: OK
+firmware/config.txt.baseline: OK
+firmware/config.txt.candidate: OK
+firmware/media-sync.py: OK
+firmware/omarchy-pi4-aux-rtscts.dtso: OK
+kernel/.omarchy/package.json: OK
+kernel/0010-archlinux-base.patch: OK
+kernel/0010-archlinux-base.patch.sig: OK
+kernel/0011-kbuild-optimize-for-performance-o3.patch: OK
+kernel/0011-kbuild-optimize-for-performance-o3.patch.sig: OK
+kernel/0110-bore-7.0.0.patch: OK
+kernel/0130-sched-detach-tasks.patch: OK
+kernel/0130-sched-detach-tasks.patch.sig: OK
+kernel/0140-sched-always-inline.patch: OK
+kernel/0150-adios-3.2.0.patch: OK
+kernel/0150-adios-3.2.0.patch.sig: OK
+kernel/0220-x86-amd-zen5-tlb-sizes.patch: OK
+kernel/0220-x86-amd-zen5-tlb-sizes.patch.sig: OK
+kernel/0290-zstd-bmi2-fallback-aliases.patch: OK
+kernel/0290-zstd-bmi2-fallback-aliases.patch.sig: OK
+kernel/0291-zstd-bmi2-cpu-feature-dispatch.patch: OK
+kernel/0291-zstd-bmi2-cpu-feature-dispatch.patch.sig: OK
+kernel/0292-crypto-zstd-defer-cstream-init.patch: OK
+kernel/0292-crypto-zstd-defer-cstream-init.patch.sig: OK
+kernel/0293-crypto-zstd-defer-dstream-init.patch: OK
+kernel/0293-crypto-zstd-defer-dstream-init.patch.sig: OK
+kernel/0296-efi-secure-boot-lockdown.patch: OK
+kernel/0296-efi-secure-boot-lockdown.patch.sig: OK
+kernel/0297-module-sig-platform-keyring.patch: OK
+kernel/0297-module-sig-platform-keyring.patch.sig: OK
+kernel/0302-btrfs-zstd-decompress-direct-to-page.patch: OK
+kernel/0302-btrfs-zstd-decompress-direct-to-page.patch.sig: OK
+kernel/0320-vfs-open-consume-path-reference.patch: OK
+kernel/0320-vfs-open-consume-path-reference.patch.sig: OK
+kernel/0350-drm-edid-populate-monitor-range-from-displayid-adaptive-sync.patch: OK
+kernel/0400-drm-i915-alpm-limit-pr-alpm-to-panel-replay.patch: OK
+kernel/0400-drm-i915-alpm-limit-pr-alpm-to-panel-replay.patch.sig: OK
+kernel/0401-psr2-early-transport-panels.patch: OK
+kernel/0401-psr2-early-transport-panels.patch.sig: OK
+kernel/0402-drm-i915-quirk-panel-replay-exit-on-flush.patch: OK
+kernel/0403-drm-i915-quirk-dell-xps14-ptl-panel-replay-exit-on-flush.patch: OK
+kernel/0403-drm-i915-quirk-dell-xps14-ptl-panel-replay-exit-on-flush.patch.sig: OK
+kernel/0404-drm-i915-quirk-dell-xps16-ptl-panel-replay-exit-on-flush.patch: OK
+kernel/0404-drm-i915-quirk-dell-xps16-ptl-panel-replay-exit-on-flush.patch.sig: OK
+kernel/0405-drm-i915-quirk-dell-xps13-dx13260-ptl-psr1-only.patch: OK
+kernel/0405-drm-i915-quirk-dell-xps13-dx13260-ptl-psr1-only.patch.sig: OK
+kernel/0406-drm-i915-quirk-dell-xps13-dx13260-wcl-panel-replay-exit-on-flush.patch: OK
+kernel/0406-drm-i915-quirk-dell-xps13-dx13260-wcl-panel-replay-exit-on-flush.patch.sig: OK
+kernel/0450-amd-hdmi-vrr-allm.patch: OK
+kernel/0452-amd-hdmi-frl-default.patch: OK
+kernel/0452-amd-hdmi-frl-default.patch.sig: OK
+kernel/0455-amd-hdmi-frl-cap-on-nondestructive-verify.patch: OK
+kernel/0455-amd-hdmi-frl-cap-on-nondestructive-verify.patch.sig: OK
+kernel/0460-vesa-displayid-dsc-bpp.patch: OK
+kernel/0461-vesa-dsc-passthru-mode-match-fix.patch: OK
+kernel/0475-revert-drm-i915-dp-as-sdp-vrr-or-pr.patch: OK
+kernel/0475-revert-drm-i915-dp-as-sdp-vrr-or-pr.patch.sig: OK
+kernel/0478-amd-freesync-vcp-code-check-hdmi-pcon.patch: OK
+kernel/0515-xps13-sof-quirk.patch: OK
+kernel/0515-xps13-sof-quirk.patch.sig: OK
+kernel/0517-hda-realtek-rog-strix-g733zw-speakers.patch: OK
+kernel/0518-asoc-amd-yc-acer-aspire-a314-23p.patch: OK
+kernel/0518-asoc-amd-yc-acer-aspire-a314-23p.patch.sig: OK
+kernel/0520-hda-cs420x-macbookair7-2-quirk-fix.patch: OK
+kernel/0520-hda-cs420x-macbookair7-2-quirk-fix.patch.sig: OK
+kernel/0526-sof-amd-acp7x-suspend-unknown-revision.patch: OK
+kernel/0526-sof-amd-acp7x-suspend-unknown-revision.patch.sig: OK
+kernel/0531-spi-cs42l43-dell-dx13260-ptl-speaker-id-quirk.patch: OK
+kernel/0531-spi-cs42l43-dell-dx13260-ptl-speaker-id-quirk.patch.sig: OK
+kernel/0542-media-cvs-wake-irq-without-claiming-gpio.patch: OK
+kernel/0542-media-cvs-wake-irq-without-claiming-gpio.patch.sig: OK
+kernel/0548-media-cvs-sensor-node-in-bound-callback.patch: OK
+kernel/0548-media-cvs-sensor-node-in-bound-callback.patch.sig: OK
+kernel/0549-media-imx471-analog-gain-max-960.patch: OK
+kernel/0549-media-imx471-analog-gain-max-960.patch.sig: OK
+kernel/0550-media-ipu7-clean-up-mmus-after-auxiliary-devices.patch: OK
+kernel/0550-media-ipu7-clean-up-mmus-after-auxiliary-devices.patch.sig: OK
+kernel/0551-usbio-reset-resume-sabre.patch: OK
+kernel/0551-usbio-reset-resume-sabre.patch.sig: OK
+kernel/0565-i2c-asue140d-touchpad-100khz.patch: OK
+kernel/0565-i2c-asue140d-touchpad-100khz.patch.sig: OK
+kernel/0566-hid-asus-no-keyboard-init-reports-to-touchpads.patch: OK
+kernel/0566-hid-asus-no-keyboard-init-reports-to-touchpads.patch.sig: OK
+kernel/0567-hid-magicmouse-null-deref-without-input-device.patch: OK
+kernel/0567-hid-magicmouse-null-deref-without-input-device.patch.sig: OK
+kernel/0572-hid-asus-worker-teardown.patch: OK
+kernel/0572-hid-asus-worker-teardown.patch.sig: OK
+kernel/0605-thunderbolt-pcie-rescan-after-tunnel.patch: OK
+kernel/0605-thunderbolt-pcie-rescan-after-tunnel.patch.sig: OK
+kernel/0608-thunderbolt-fixes-3.patch: OK
+kernel/0620-usb-string-sanitize.patch: OK
+kernel/0620-usb-string-sanitize.patch.sig: OK
+kernel/0662-iwlwifi-mld-skip-tx-when-firmware-dead.patch: OK
+kernel/0662-iwlwifi-mld-skip-tx-when-firmware-dead.patch.sig: OK
+kernel/0664-btintel-pcie-stale-cache-in-dxstate-fallback.patch: OK
+kernel/0664-btintel-pcie-stale-cache-in-dxstate-fallback.patch.sig: OK
+kernel/0665-btintel-pcie-pm-flow-s0ix-s3-s4.patch: OK
+kernel/0665-btintel-pcie-pm-flow-s0ix-s3-s4.patch.sig: OK
+kernel/0666-btintel-pcie-verify-serialize-dstate.patch: OK
+kernel/0666-btintel-pcie-verify-serialize-dstate.patch.sig: OK
+kernel/0667-btintel-pcie-gp0-cause-w1c-write.patch: OK
+kernel/0667-btintel-pcie-gp0-cause-w1c-write.patch.sig: OK
+kernel/0668-btintel-pcie-dstate-races.patch: OK
+kernel/0668-btintel-pcie-dstate-races.patch.sig: OK
+kernel/0680-wifi-brcmfmac-pcie-ignore-missing-d3-ack-without-wowl.patch: OK
+kernel/0680-wifi-brcmfmac-pcie-ignore-missing-d3-ack-without-wowl.patch.sig: OK
+kernel/0681-wifi-brcmfmac-report-port-authorized-for-4-way-hs-offload.patch: OK
+kernel/0681-wifi-brcmfmac-report-port-authorized-for-4-way-hs-offload.patch.sig: OK
+kernel/0700-pci-target-speed-quirk.patch: OK
+kernel/0700-pci-target-speed-quirk.patch.sig: OK
+kernel/0702-ahci-jmb585-32bit-dma-revert.patch: OK
+kernel/0702-ahci-jmb585-32bit-dma-revert.patch.sig: OK
+kernel/0704-pci-vmd-meteor-lake-mtl016-flush.patch: OK
+kernel/0704-pci-vmd-meteor-lake-mtl016-flush.patch.sig: OK
+kernel/0705-pci-toshiba-ahci-ssd-dma-alias-quirk.patch: OK
+kernel/0705-pci-toshiba-ahci-ssd-dma-alias-quirk.patch.sig: OK
+kernel/0706-pci-vmd-arrow-lake-arl004-flush.patch: OK
+kernel/0706-pci-vmd-arrow-lake-arl004-flush.patch.sig: OK
+kernel/0707-pci-intel-dg1-4905-no-flr-no-bus-reset.patch: OK
+kernel/0707-pci-intel-dg1-4905-no-flr-no-bus-reset.patch.sig: OK
+kernel/0711-iommu-amd-perfopt-support.patch: OK
+kernel/0711-iommu-amd-perfopt-support.patch.sig: OK
+kernel/0712-drm-amdgpu-perfopt-in-identity-domain.patch: OK
+kernel/0712-drm-amdgpu-perfopt-in-identity-domain.patch.sig: OK
+kernel/0770-acpi-pm-acer-swift3-sf314-56g-power-resource.patch: OK
+kernel/0770-acpi-pm-acer-swift3-sf314-56g-power-resource.patch.sig: OK
+kernel/0771-gpiolib-acpi-quirk-irq-active-low-dell-xps.patch: OK
+kernel/0771-gpiolib-acpi-quirk-irq-active-low-dell-xps.patch.sig: OK
+kernel/0772-acpi-pm-casper-excalibur-g900-power-resource.patch: OK
+kernel/0772-acpi-pm-casper-excalibur-g900-power-resource.patch.sig: OK
+kernel/0773-acpi-pm-acer-aspire-a515-53g-power-resource.patch: OK
+kernel/0773-acpi-pm-acer-aspire-a515-53g-power-resource.patch.sig: OK
+kernel/0776-acpi-pm-s2idle-ixx-gpe-wake-indicator.patch: OK
+kernel/0776-acpi-pm-s2idle-ixx-gpe-wake-indicator.patch.sig: OK
+kernel/0777-acpi-pm-sleep-drop-unused-sleep-no-lps0.patch: OK
+kernel/0777-acpi-pm-sleep-drop-unused-sleep-no-lps0.patch.sig: OK
+kernel/0801-amd-pmf-util-unbind-use-after-free.patch: OK
+kernel/0801-amd-pmf-util-unbind-use-after-free.patch.sig: OK
+kernel/0803-acpi-battery-hook-api-acpi-prefix.patch: OK
+kernel/0803-acpi-battery-hook-api-acpi-prefix.patch.sig: OK
+kernel/0804-acpi-battery-unified-hooks-acpi-sbs.patch: OK
+kernel/0805-hwmon-applesmc-charge-control-end-threshold.patch: OK
+kernel/0805-hwmon-applesmc-charge-control-end-threshold.patch.sig: OK
+kernel/0806-platform-chrome-cros-usbpd-notify-parent-goog0004.patch: OK
+kernel/0806-platform-chrome-cros-usbpd-notify-parent-goog0004.patch.sig: OK
+kernel/0807-platform-msi-wmi-hotkeys-vendor-backlight.patch: OK
+kernel/0807-platform-msi-wmi-hotkeys-vendor-backlight.patch.sig: OK
+kernel/0850-futex-wait-multiple.patch: OK
+kernel/0850-futex-wait-multiple.patch.sig: OK
+kernel/0851-futex-wait-multiple-fixes.patch: OK
+kernel/0851-futex-wait-multiple-fixes.patch.sig: OK
+kernel/0852-futex-wait-multiple-abi-fixes.patch: OK
+kernel/0852-futex-wait-multiple-abi-fixes.patch.sig: OK
+kernel/0860-module-add-module-kallsyms-on-each-addr.patch: OK
+kernel/0860-module-add-module-kallsyms-on-each-addr.patch.sig: OK
+kernel/0861-ftrace-drop-weak-function-locations-of-modules.patch: OK
+kernel/0861-ftrace-drop-weak-function-locations-of-modules.patch.sig: OK
+kernel/0863-ftrace-free-empty-module-page-group.patch: OK
+kernel/0863-ftrace-free-empty-module-page-group.patch.sig: OK
+kernel/1000-n1x-mediatek-platform.patch: OK
+kernel/1010-n1x-ffa-ec.patch: OK
+kernel/1011-n1x-dell-xps16-battery-status.patch: OK
+kernel/1012-n1x-acpi-thermal-skip-power-telemetry.patch: OK
+kernel/1013-n1x-dell-arm64-hotkeys.patch: OK
+kernel/1020-n1x-power.patch: OK
+kernel/1021-ACPI-processor_idle-let-LPI-states-freeze-the-tick-in-suspend-to-idle.patch: OK
+kernel/1023-ACPI-processor_idle-let-suspend-to-idle-reach-the-NVIDIA-N1x-DRIPS-state.patch: OK
+kernel/1024-PCI-quirks-let-the-NVIDIA-N1x-NVMe-link-reach-L1.2-so-the-SoC-can-sleep.patch: OK
+kernel/1030-n1x-audio.patch: OK
+kernel/1031-ALSA-hda-acpi-add-runtime-PM-suspend-resume-to-the-ACPI-controller.patch: OK
+kernel/1032-ASoC-cs35l56-Wait-for-firmware-timer-expiry-before-system-suspend.patch: OK
+kernel/1034-soundwire-mediatek-close-the-interrupt-gate-before-quiescing-a-link.patch: OK
+kernel/1040-n1x-gpu-iommu.patch: OK
+kernel/1060-ASoC-mediatek-mt8901-give-the-card-the-ACPI-subsystem-ID.patch: OK
+kernel/1070-Revert-NVIDIA-SAUCE-usb-typec-ucsi-acpi-disable-USB4-via-vendor-_DSM-at-probe.patch: OK
+kernel/1071-usb-typec-ucsi-acpi-query-the-_DSM-functions-before-using-them.patch: OK
+kernel/1072-soc-mediatek-power_wrap-make-the-USB4-resource-release-optional.patch: OK
+kernel/1073-thunderbolt-check-for-a-PCI-NHI-before-treating-it-as-one.patch: OK
+kernel/1074-thunderbolt-nhi-let-a-single-wired-interrupt-service-the-rings.patch: OK
+kernel/1075-thunderbolt-nhi-share-teardown-and-export-the-NHI-core.patch: OK
+kernel/1076-soc-mediatek-power_wrap-report-whether-the-USB4-resources-are-released.patch: OK
+kernel/1077-thunderbolt-add-a-driver-for-USB4-host-interfaces-described-by-ACPI.patch: OK
+kernel/1078-PCI-Keep-hotplug-bridges-below-a-switch-to-their-share-of-bus-numbers.patch: OK
+kernel/1079-thunderbolt-quirks-disable-CL-states-on-the-NVIDIA-N1x-host-router.patch: OK
+kernel/1080-thunderbolt-keep-the-NVIDIA-N1x-routers-awake-in-system-sleep.patch: OK
+kernel/1081-thunderbolt-platform-leave-the-N1x-host-routers-powered.patch: OK
+kernel/1082-thunderbolt-retry-the-NVIDIA-N1x-DP-IN-adapters-after-a-DPRX-failure.patch: OK
+kernel/1083-usb-typec-ucsi-retry-init-when-the-PPM-answers-early-commands-incorrectly.patch: OK
+kernel/1084-usb-typec-ucsi-allow-retries-of-ucsi_resume_work.patch: OK
+kernel/1085-thunderbolt-keep-the-tunnels-of-routers-kept-awake-in-system-sleep.patch: OK
+kernel/1086-thunderbolt-space-out-the-NVIDIA-N1x-DP-tunnel-teardowns.patch: OK
+kernel/1087-PCI-ACPI-Mark-USB4-tunneled-devices-removable-on-every-ACPI-platform.patch: OK
+kernel/1088-iommu-Give-external-facing-ports-the-domain-of-untrusted-devices.patch: OK
+kernel/1089-thunderbolt-platform-report-IOMMU-DMA-protection-for-the-NVIDIA-N1x.patch: OK
+kernel/1090-sspm_ci-distinguish-not-submitted-from-completion-unknown.patch: OK
+kernel/1091-PCI-harden-MediaTek-Power-Wrap-system-sleep.patch: OK
+kernel/1092-usb-xhci-mtk-v2-add-ACPI-power-management-support.patch: OK
+kernel/1093-usb-xhci-add-XHCI_DELAY_BEFORE_CRS-quirk-for-MediaTek-v2.patch: OK
+kernel/1094-spi-mt65xx-enable-ACPI-and-power-management.patch: OK
+kernel/1095-i2c-mt65xx-enable-suspend-and-resume.patch: OK
+kernel/1096-pinctrl-mt8901-sync-wake-EINT-event-mask.patch: OK
+kernel/1097-usb-xhci-plat-use-firmware-managed-USB-without-SSPM.patch: OK
+kernel/1098-soc-mediatek-gate-SSPM-dependent-ACPI-paths.patch: OK
+kernel/1099-soc-mediatek-power_wrap-keep-DGX-Spark-DVFSRC-policy.patch: OK
+kernel/1101-HID-asus-drive-the-0B05-4B42-keyboard-backlight-without-asus-wmi.patch: OK
+kernel/1102-HID-asus-host-controlled-Fn-lock-for-the-0B05-4B42-keyboard.patch: OK
+kernel/1103-HID-asus-disable-OOBE-mode-on-the-ProArt-P14-keyboard-too.patch: OK
+kernel/1104-HID-asus-turn-the-keyboard-backlight-off-for-sleep-without-asus-wmi.patch: OK
+kernel/1105-thunderbolt-platform-keep-the-N1x-tunnel-Root-Ports-awake-for-PCIe-tunnels.patch: OK
+kernel/1106-ACPI-OSI-hide-Windows-2022-from-the-ProArt-P16-and-Lenovo-Pro-9.patch: OK
+kernel/1107-HID-asus-boot-the-ProArt-N1x-keyboards-with-media-keys.patch: OK
+kernel/1108-HID-multitouch-mark-the-ProArt-N1x-PixArt-touchpads-as-pressure-pads.patch: OK
+kernel/1109-HID-asus-let-the-0B05-4B42-keyboard-send-F13-F24-so-its-Copilot-key-works.patch: OK
+kernel/1110-HID-asus-restore-the-keyboard-backlight-and-Fn-lock-on-reset_resume.patch: OK
+kernel/1111-power_wrap-send-the-LPS0-notifications-on-MT8901.patch: OK
+kernel/1112-power_wrap-keep-the-USB4-resources-on-N1x-laptops-by-default.patch: OK
+kernel/1113-power_wrap-use-suspend-to-idle-by-default-on-MT8901.patch: OK
+kernel/2000-media-iris-reset-AHB-bridge-before-enabling-HW-mode.patch: OK
+kernel/2001-ASoC-qcom-q6apm-lpass-dais-Reset-the-codec-DMA-channel-map-in-hw_params.patch: OK
+kernel/2002-power-supply-qcom_battmgr-Notify-charger-supplies-of-online-changes.patch: OK
+kernel/2003-wifi-ath12k-don-t-count-a-vdev-restart-as-a-started-.patch: OK
+kernel/2004-media-iris-Fix-out-of-bounds-read-in-timestamp-metad.patch: OK
+kernel/2005-Revert-media-qcom-iris-use-disable_irq-during-power-.patch: OK
+kernel/2006-media-qcom-iris-Wait-for-threaded-IRQ-completion-dur.patch: OK
+kernel/2110-Documentation-Correction-in-HID-output_report-callba.patch: OK
+kernel/2111-HID-Add-BUS_SPI-support-and-define-HID_SPI_DEVICE-ma.patch: OK
+kernel/2112-HID-spi-hid-add-transport-driver-skeleton-for-HID-ov.patch: OK
+kernel/2113-HID-spi-hid-add-spi-hid-driver-HID-layer.patch: OK
+kernel/2114-HID-spi-hid-add-HID-SPI-protocol-implementation.patch: OK
+kernel/2115-HID-spi_hid-add-spi_hid-traces.patch: OK
+kernel/2116-HID-spi_hid-add-ACPI-support-for-SPI-over-HID.patch: OK
+kernel/2117-HID-spi_hid-add-device-tree-support-for-SPI-over-HID.patch: OK
+kernel/2118-dt-bindings-input-Document-hid-over-spi-DT-schema.patch: OK
+kernel/2119-HID-spi-hid-add-power-management-implementation.patch: OK
+kernel/2120-HID-spi-hid-add-panel-follower-support.patch: OK
+kernel/2121-dt-bindings-media-qcom-x1e80100-camss-correct-resour.patch: OK
+kernel/2122-dt-bindings-media-add-OV13858-and-VD55G0-sensors.patch: OK
+kernel/2123-media-qcom-camss-unwind-failed-stream-starts.patch: OK
+kernel/2124-media-qcom-camss-support-X1E80100-C-PHY-links.patch: OK
+kernel/2125-Documentation-media-record-Surface-Pro-11-camera-pro.patch: OK
+kernel/2126-wifi-ath12k-Add-support-for-disabling-rfkill-via-dev.patch: OK
+kernel/2127-arm64-dts-qcom-denali-preserve-ath12k-rfkill-quirk.patch: OK
+kernel/2128-dt-bindings-net-qcom-ath12k-document-disable-rfkill.patch: OK
+kernel/2129-media-qcom-camss-restore-observed-Denali-C-PHY-seque.patch: OK
+kernel/2130-platform-surface-recheck-tablet-mode-after-resume.patch: OK
+kernel/2131-platform-surface-resync-tablet-mode-on-KIP-connectio.patch: OK
+kernel/2132-platform-surface-retry-KIP-cover-state-while-settlin.patch: OK
+kernel/2133-power-supply-qcom_battmgr-preserve-charge-limits.patch: OK
+kernel/2134-media-ov13858-retry-the-first-SCCB-write-after-power.patch: OK
+kernel/2135-drm-msm-dp-restrict-the-EDID-read-workaround-to-EDID.patch: OK
+kernel/2136-drm-msm-dp-attach-the-AUX-i2c-adapter-to-the-connect.patch: OK
+kernel/2137-irqchip-qcom-pdc-report-the-selected-X1E-mode.patch: OK
+kernel/2138-soc-qcom-smp2p-reset-inbound-state-only-on-restart.patch: OK
+kernel/2139-arm64-dts-qcom-x1e80100-drop-QCE-sleep-bandwidth-vot.patch: OK
+kernel/2140-platform-surface-aggregator_registry-add-KIP-OOB-pai.patch: OK
+kernel/2141-Bluetooth-SMP-implement-LE-legacy-out-of-band-pairin.patch: OK
+kernel/2142-drm-msm-dpu-re-program-colour-processing-blocks-on-t.patch: OK
+kernel/2143-HID-surface-hid-suspend-HID-clients-on-shutdown.patch: OK
+kernel/2144-arm64-skip-the-EFI-reset-path-when-restarting-from-a.patch: OK
+kernel/2145-drm-msm-dpu-Reassert-core-clock-rate-on-runtime-resu.patch: OK
+kernel/2146-drm-msm-dp-use-direct-SDP-flush-for-PSR.patch: OK
+kernel/2147-ASoC-qcom-x1e80100-raise-the-speaker-volume-ceiling-.patch: OK
+kernel/2148-Bluetooth-hci_qca-Drop-unused-event-during-BT-on.patch: OK
+kernel/2149-Bluetooth-SCO-accept-incoming-eSCO-with-Enhanced-Acc.patch: OK
+kernel/2151-arm64-dts-qcom-hamoa-Drop-cluster_cl5-idle-state-fro.patch: OK
+kernel/2152-arm64-qcom-add-Surface-Pro-11-platform-support.patch: OK
+kernel/2153-HID-spi-fix-G6-touch-digitizer-module-alias.patch: OK
+kernel/2154-ASoC-wsa884x-recover-PA-faults-and-apply-SP11-2S-4-o.patch: OK
+kernel/2155-Bluetooth-hci_qca-keep-the-WCN6750-baudrate-event-dr.patch: OK
+kernel/2156-drm-msm-dpu-disable-the-clocks-if-the-core-rate-rest.patch: OK
+kernel/2161-arm64-dts-qcom-hamoa-add-camera-subsystem-nodes.patch: OK
+kernel/2162-media-i2c-add-Surface-Pro-11-camera-sensors.patch: OK
+kernel/2163-arm64-dts-qcom-enable-Surface-Pro-11-cameras.patch: OK
+kernel/2164-arm64-dts-qcom-denali-enable-verified-IR-illuminator.patch: OK
+kernel/2165-media-imx681-write-exposure-through-the-24-bit-latch.patch: OK
+kernel/2166-media-imx681-expose-analogue-gain-as-a-linear-value.patch: OK
+kernel/2167-media-i2c-vd55g0-power-the-sensor-off-only-once-when.patch: OK
+kernel/2168-media-i2c-vd55g0-register-as-a-sensor-subdevice.patch: OK
+kernel/2169-arm64-dts-qcom-x1-microsoft-denali-describe-the-came.patch: OK
+kernel/2170-drm-msm-adreno-a6xx-Mark-cxpd-device_link-as-statele.patch: OK
+kernel/2171-drm-msm-Centralize-the-standalone-drm-device-check-f.patch: OK
+kernel/2172-drm-msm-adreno-Fix-invalid-drvdata-typecast-in-adren.patch: OK
+kernel/2173-drm-msm-Always-use-component-model-for-standalone-GP.patch: OK
+kernel/2174-drm-msm-Attach-a-driver-to-the-GMU.patch: OK
+kernel/2176-soc-qcom-add-ADSP-power-limits-Modern-Standby-notifi.patch: OK
+kernel/2178-drm-msm-keep-the-GMU-optional-and-its-lock-initialis.patch: OK
+kernel/2179-soc-qcom-adsp-pwr-lmts-drop-an-unused-include-and-sa.patch: OK
+kernel/2200-arm64-dts-qcom-x1e80100-lenovo-yoga-slim7x-Add-pm8010-camera-PMIC.patch: OK
+kernel/2201-arm64-dts-qcom-x1e80100-lenovo-yoga-slim7x-Add-l7b_2p8-regulator.patch: OK
+kernel/2202-arm64-dts-qcom-x1e80100-lenovo-yoga-slim7x-Add-ov02c10-RGB-sensor.patch: OK
+kernel/2203-arm64-dts-qcom-x1e80100-lenovo-yoga-slim7x-enable-camera-privacy-indicator.patch: OK
+kernel/2207-arm64-dts-qcom-hamoa-Power-the-display-GDSC-while-the-camera-runs.patch: OK
+kernel/2208-i2c-qcom-cci-Reset-the-controller-when-it-resumes.patch: OK
+kernel/2209-i2c-qcom-cci-Suspend-the-controller-50-ms-after-the-last-transfer.patch: OK
+kernel/2210-arm64-dts-qcom-hamoa-glymur-Disable-the-crypto-engine.patch: OK
+kernel/2217-serial-qcom-geni-release-the-OPP-and-ICC-votes-in-sy.patch: OK
+kernel/2300-ASoC-codecs-lpass-wsa-macro-use-v2.5-Compander1-addr.patch: OK
+kernel/2301-ASoC-codecs-lpass-rx-wsa-macro-sort-reg_defaults-bef.patch: OK
+kernel/2302-ASoC-codecs-lpass-wsa-macro-switch-cache-to-REGCACHE.patch: OK
+kernel/2305-ASoC-codecs-lpass-va-macro-switch-cache-to-REGCACHE_.patch: OK
+kernel/2306-phy-qualcomm-qmp-combo-Add-DP-COM-v8-header-and-fix-.patch: OK
+kernel/2307-phy-qualcomm-qmp-combo-Update-DP-PHY-common-init-tab.patch: OK
+kernel/2308-phy-qualcomm-qmp-combo-Update-link-rate-specific-DP-.patch: OK
+kernel/2309-phy-qualcomm-qmp-combo-Add-hardware-specific-DP-PHY-.patch: OK
+kernel/2310-phy-qualcomm-qmp-combo-Add-v8-PCS-level-drive-level-.patch: OK
+kernel/2311-phy-qualcomm-qmp-combo-Extract-common-DP-PHY-init-se.patch: OK
+kernel/2312-phy-qualcomm-qmp-combo-Update-qmp_v8_configure_dp_cl.patch: OK
+kernel/2313-phy-qualcomm-qmp-combo-Fix-Glymur-v8-DP-PHY-init-and.patch: OK
+kernel/2314-phy-qualcomm-qmp-combo-Fix-error-propagation-in-qmp_.patch: OK
+kernel/2315-dt-bindings-phy-qcom-qmp-usb3-dp-Extend-X1E-descript.patch: OK
+kernel/2316-phy-core-Define-TBT-phy_mode.patch: OK
+kernel/2317-phy-qualcomm-qmp-combo-Add-preliminary-USB4-support.patch: OK
+kernel/2318-drm-bridge-aux-hpd-bridge-replay-last-HPD-status-on-.patch: OK
+kernel/2319-arm64-dts-qcom-glymur-Add-missing-USB-clock-power-an.patch: OK
+kernel/2320-firmware-arm_scmi-Add-SCMI-QCOM-Generic-Extension-Pr.patch: OK
+kernel/2321-dt-bindings-firmware-arm-scmi-Add-Qualcomm-Generic-E.patch: OK
+kernel/2322-firmware-arm_scmi-vendors-Add-QCOM-SCMI-Generic-Exte.patch: OK
+kernel/2323-PM-devfreq-Add-new-target_freq-attribute-flag-for-go.patch: OK
+kernel/2324-PM-devfreq-Add-new-track_remote-flag-for-governors.patch: OK
+kernel/2325-PM-devfreq-Add-a-governor-for-tracking-remote-device.patch: OK
+kernel/2326-PM-devfreq-Introduce-the-QCOM-SCMI-Memlat-devfreq-dr.patch: OK
+kernel/2327-arm64-dts-qcom-glymur-Enable-LLCC-DDR-DDR_QOS-DVFS.patch: OK
+kernel/2328-arm64-dts-qcom-glymur-Fix-missing-SMMU-stream-IDs-fo.patch: OK
+kernel/2329-phy-qualcomm-phy-qcom-eusb2-repeater-Fix-SMB-Power-l.patch: OK
+kernel/2330-phy-qcom-edp-split-power-on-sequencing-by-PHY-versio.patch: OK
+kernel/2331-phy-qcom-edp-update-v8-power-on-programming-sequence.patch: OK
+kernel/2332-drm-dp-keep-MOT-set-between-messages-when-no_zero_si.patch: OK
+kernel/2333-drm-msm-a8xx-report-the-GMEM-size-of-the-active-slic.patch: OK
+kernel/2334-usb-dwc3-qcom-fix-NULL-pointer-dereference-on-dwc3_q.patch: OK
+kernel/2335-usb-dwc3-qcom-Add-support-to-skip-phy-management-by-.patch: OK
+kernel/2336-dt-bindings-leds-qcom-lpg-Document-PMK8850-PWM.patch: OK
+kernel/2337-arm64-dts-qcom-pmk8850-Add-PWM-controller.patch: OK
+kernel/2338-clk-qcom-gcc-glymur-Keep-the-USB-GDSCs-in-retention.patch: OK
+kernel/2339-clk-qcom-reset-Return-regmap-errors.patch: OK
+kernel/2340-phy-qcom-edp-Program-the-v8-TX2-TX3-lane-control-at-.patch: OK
+kernel/2341-phy-qcom-edp-Program-v8-PCS-LDO-and-AUX-less-timing-.patch: OK
+kernel/2342-phy-qcom-edp-Don-t-enable-the-v8-PHY-self-test-in-CF.patch: OK
+kernel/2343-phy-qcom-edp-Program-the-v8-PCS-lane-drive-levels.patch: OK
+kernel/2344-phy-qcom-edp-Program-v8-TX-resistor-code-offsets-and.patch: OK
+kernel/2345-phy-qcom-edp-Forward-video-ready-notifications-to-th.patch: OK
+kernel/2346-phy-qcom-edp-Use-the-training-LDO-setting-for-v8-eDP.patch: OK
+kernel/2347-phy-qcom-qmp-combo-Follow-swing-changes-with-the-v8-.patch: OK
+kernel/2348-phy-qcom-qmp-combo-Keep-DP-off-the-USB3-lane-block-o.patch: OK
+kernel/2349-phy-qcom-qmp-combo-Let-the-Glymur-DP-lane-pair-follo.patch: OK
+kernel/2350-phy-qcom-qmp-combo-Keep-the-pipe-clock-on-when-USB-p.patch: OK
+kernel/2351-phy-qcom-qmp-combo-Drop-only-the-init-reference-a-fa.patch: OK
+kernel/2352-phy-qcom-qmp-combo-Track-whether-the-common-block-is.patch: OK
+kernel/2353-phy-qcom-qmp-combo-Use-the-mode-switch-sequence-on-a.patch: OK
+kernel/2354-phy-qcom-qmp-combo-Stay-resumed-until-the-USB-contro.patch: OK
+kernel/2355-phy-qcom-qmp-combo-Register-the-clocks-before-enabli.patch: OK
+kernel/2356-phy-qcom-qmp-usb-Register-the-pipe-clock-before-enab.patch: OK
+kernel/2357-phy-qcom-qmp-combo-Refuse-a-DP-power-on-in-USB3-only.patch: OK
+kernel/2358-drm-msm-dpu-link-the-Glymur-layer-mixers-4-7-to-thei.patch: OK
+kernel/2359-drm-msm-dpu-size-the-core-clock-per-layer-mixer-on-D.patch: OK
+kernel/2360-drm-msm-dp-drop-the-link-runtime-PM-reference-only-i.patch: OK
+kernel/2361-drm-msm-dp-report-PHY-configure-and-power-on-errors.patch: OK
+kernel/2362-drm-msm-dp-tell-the-eDP-PHY-when-the-link-carries-vi.patch: OK
+kernel/2363-drm-msm-dp-report-a-failed-link-retrain-before-the-s.patch: OK
+kernel/2364-drm-msm-dp-keep-retrying-link-training-while-a-Type-.patch: OK
+kernel/2365-drm-msm-dp-retry-channel-equalisation-before-lowerin.patch: OK
+kernel/2366-drm-msm-dp-handle-HPD-notifications-in-a-worker.patch: OK
+kernel/2367-drm-msm-dp-make-the-eDP-1.4-LINK_RATE_SET-path-actua.patch: OK
+kernel/2368-drm-msm-dp-read-the-link-capabilities-afresh-for-eve.patch: OK
+kernel/2369-drm-msm-dp-keep-the-LINK_RATE_SET-index-in-step-with.patch: OK
+kernel/2370-drm-msm-dp-skip-eDP-table-rates-that-the-source-cann.patch: OK
+kernel/2371-drm-msm-dp-use-MAX_LINK_RATE-when-the-best-eDP-table.patch: OK
+kernel/2372-usb-typec-ucsi-Don-t-set-the-USB-state-while-an-Alte.patch: OK
+kernel/2373-usb-dwc3-set-the-PHY-host-mode-before-creating-the-x.patch: OK
+kernel/2374-usb-dwc3-qcom-report-runtime-PM-and-wake-interrupt-f.patch: OK
+kernel/2375-usb-dwc3-qcom-set-the-HS-PHY-interrupt-trigger-befor.patch: OK
+kernel/2376-usb-dwc3-qcom-defer-the-VBUS-override-while-the-glue.patch: OK
+kernel/2377-wifi-ath12k-retrieve-MAC-address-from-system-firmwar.patch: OK
+kernel/2379-Bluetooth-hci_qca-Add-M.2-Bluetooth-device-support-u.patch: OK
+kernel/2380-dt-bindings-arm-qcom-Document-Microsoft-Surface-Lapt.patch: OK
+kernel/2381-firmware-qcom-scm-Allow-QSEECOM-on-Surface-Laptop-8t.patch: OK
+kernel/2382-platform-surface-aggregator_registry-Add-Surface-Lap.patch: OK
+kernel/2383-drm-panel-edp-Add-Sharp-LQ138P1JX61-Surface-Laptop-8.patch: OK
+kernel/2384-arm64-dts-qcom-Add-the-Microsoft-Surface-Laptop-8.patch: OK
+kernel/2385-power-sequencing-pcie-m2-Match-WCN7850-with-Qualcomm.patch: OK
+kernel/2386-dt-bindings-connector-pcie-m2-e-connector-Add-local-.patch: OK
+kernel/2387-of-dynamic-Add-of_changeset_add_prop_u8_array.patch: OK
+kernel/2388-power-sequencing-pcie-m2-Copy-the-connector-s-BD-add.patch: OK
+kernel/2389-ACPI-platform_profile-Do-not-use-acpi_kobj-after-a-f.patch: OK
+kernel/2390-platform-surface-platform_profile-Handle-an-EC-that-.patch: OK
+kernel/2391-drm-msm-dpu-Enable-quad-pipe-for-DSC-and-dual-DSI-ca.patch: OK
+kernel/2392-clk-qcom-gcc-glymur-Model-the-USB4-PHY-RX-and-P2RR2P.patch: OK
+kernel/2393-dt-bindings-clock-qcom-Add-Glymur-GCC-USB4-PHY-and-D.patch: OK
+kernel/2394-clk-qcom-gcc-glymur-Add-the-USB4-PHY-and-DP0-PHY-res.patch: OK
+kernel/2395-clk-qcom-gcc-glymur-Keep-the-USB4-router-0-domains-o.patch: OK
+kernel/2396-clk-qcom-dispcc-glymur-Make-the-DPTX0-DP-IN-link-div.patch: OK
+kernel/2397-clk-qcom-gcc-glymur-Add-USB4-host-router-startup-ope.patch: OK
+kernel/2398-arm64-dts-qcom-surface-laptop8-Add-the-USB4-P2RR2P-p.patch: OK
+kernel/2399-arm64-dts-qcom-surface-laptop8-Clear-GUSB3PIPECTL.DE.patch: OK
+kernel/2400-phy-qcom-qmp-combo-Add-the-Glymur-USB4-and-TBT3-PHY-.patch: OK
+kernel/2401-phy-qcom-qmp-combo-Apply-the-Type-C-mode-requested-d.patch: OK
+kernel/2402-phy-qcom-qmp-combo-Run-only-the-DP-PLL-for-DP-tunnel.patch: OK
+kernel/2403-phy-qcom-qmp-combo-Restore-USB4_AON_TOGGLE_ENABLE-on.patch: OK
+kernel/2404-phy-qcom-qmp-combo-Clamp-the-USB4-outputs-across-sys.patch: OK
+kernel/2405-phy-qcom-qmp-combo-Program-the-shared-Glymur-USB4-DP.patch: OK
+kernel/2406-thunderbolt-Let-the-host-interface-glue-set-the-DMA-.patch: OK
+kernel/2407-thunderbolt-nhi-Keep-a-stopped-polling-ring-masked.patch: OK
+kernel/2408-thunderbolt-nhi-Let-host-glue-mask-and-dispatch-ring.patch: OK
+kernel/2409-thunderbolt-Delay-USB3-re-activation-after-any-USB3-.patch: OK
+kernel/2410-thunderbolt-Register-the-Qualcomm-USB4-drivers-from-.patch: OK
+kernel/2411-soc-qcom-pmic_glink_altmode-Reject-invalid-TBT3-and-.patch: OK
+kernel/2412-soc-qcom-pmic_glink_altmode-Mask-the-V2-notification.patch: OK
+kernel/2413-soc-qcom-pmic_glink_altmode-Request-V2-notifications.patch: OK
+kernel/2414-drm-msm-dpu-clear-the-DSC-blocks-left-by-a-previous-.patch: OK
+kernel/2415-drm-msm-dpu-clear-all-plane-pipe-configs-before-spli.patch: OK
+kernel/2416-drm-msm-dpu-use-the-DSC-1.2-initial-line-calculation.patch: OK
+kernel/2417-drm-msm-dpu-drive-one-interface-from-four-DSC-encode.patch: OK
+kernel/2418-drm-msm-dpu-route-the-Glymur-DP0-controller-to-the-U.patch: OK
+kernel/2419-drm-msm-Let-a-USB4-DP-provider-hold-the-modeset-stat.patch: OK
+kernel/2420-drm-msm-Compress-external-DisplayPort-streams-with-D.patch: OK
+kernel/2421-drm-msm-dp-drive-DisplayPort-over-a-Glymur-USB4-tunn.patch: OK
+kernel/2422-drm-msm-dp-save-and-restore-the-display-around-USB4-.patch: OK
+kernel/2423-drm-msm-dp-show-DSC-and-FEC-state-in-debugfs.patch: OK
+kernel/2424-thunderbolt-qcom-Add-Glymur-USB4-router-MCU-and-firm.patch: OK
+kernel/2425-thunderbolt-qcom-Add-the-Glymur-USB4-router-startup-.patch: OK
+kernel/2426-thunderbolt-qcom-Add-the-Glymur-USB4-line-interrupt-.patch: OK
+kernel/2427-thunderbolt-qcom-Add-the-Glymur-USB4-DisplayPort-IN-.patch: OK
+kernel/2428-thunderbolt-Add-an-experimental-Qualcomm-Glymur-USB4.patch: OK
+kernel/2429-usb-xhci-plat-let-the-platform-report-a-root-port-s-.patch: OK
+kernel/2430-usb-dwc3-report-whether-a-SuperSpeed-port-is-tunnell.patch: OK
+kernel/2431-usb-dwc3-keep-a-USB4-tunnelled-host-port-across-syst.patch: OK
+kernel/2432-usb-core-hub-don-t-enable-U1-on-a-link-tunnelled-ove.patch: OK
+kernel/2433-arm64-dts-qcom-surface-laptop8-Describe-the-USB4-hos.patch: OK
+kernel/2434-arm64-dts-qcom-surface-laptop8-Disable-the-Wi-Fi-har.patch: OK
+kernel/2435-thunderbolt-qcom-Build-the-Glymur-USB4-drivers-as-th.patch: OK
+kernel/2436-ASoC-codecs-lpass-wsa-macro-add-the-RX1-path-control.patch: OK
+kernel/2437-drm-msm-dpu-size-the-CWB-list-by-the-CWB-blocks-an-e.patch: OK
+kernel/2438-soundwire-qcom-re-enumerate-v3.1.0-controllers-on-ru.patch: OK
+kernel/2439-ASoC-qcom-x1e80100-raise-the-Zenbook-A16-digital-spe.patch: OK
+kernel/2440-arm64-dts-qcom-surface-laptop8-Load-the-DSPs-from-Qu.patch: OK
+kernel/2500-arm64-dts-qcom-zenbook-a16-describe-the-EC-Wi-Fi-Bluetooth-and-board-supplies.patch: OK
+kernel/2501-PCI-power-sequence-the-Zenbook-A16-s-QCC2072.patch: OK
+kernel/2502-qcom-efi-fixes-the-Zenbook-A16-needs-to-boot-and-report-its-battery.patch: OK
+kernel/2510-dt-bindings-arm-qcom-Add-the-Acer-Aspire-14-AI-and-16-AI.patch: OK
+kernel/2511-firmware-qcom-scm-Allow-QSEECOM-on-the-Acer-Aspire-14-AI-and-16-AI.patch: OK
+kernel/2512-arm64-dts-qcom-Add-the-Acer-Aspire-14-AI-and-16-AI.patch: OK
+kernel/2513-arm64-dts-qcom-x1-acer-swift-14-Add-support-for-Acer-Swift-14.patch: OK
+kernel/2514-arm64-dts-qcom-x1-acer-swift-14-Fix-includes.patch: OK
+kernel/2515-arm64-dts-qcom-x1e-acer-swift-14-Move-PCIe-PERST-and-Wake-GPIOs.patch: OK
+kernel/2516-arm64-dts-qcom-x1-acer-swift-14-Follow-the-merged-DW.patch: OK
+kernel/2520-dt-bindings-arm-qcom-Document-HP-EliteBook-6-G1q.patch: OK
+kernel/2521-arm64-dts-qcom-Add-dts-for-HP-EliteBook-6-G1q.patch: OK
+kernel/2522-firmware-qcom-scm-Allow-QSEECOM-for-HP-EliteBook-6-G.patch: OK
+kernel/2530-arm64-dts-qcom-Add-the-Dell-Latitude-5455.patch: OK
+kernel/2531-arm64-dts-qcom-x1p64100-dell-latitude-5455-Reach-the.patch: OK
+kernel/2532-firmware-qcom-scm-Allow-QSEECOM-on-the-Dell-Latitude.patch: OK
+kernel/2540-dt-bindings-arm-qcom-Add-HP-EliteBook-X-G2q-14-AI.patch: OK
+kernel/2541-arm64-dts-qcom-Add-HP-EliteBook-X-G2q-14-AI.patch: OK
+kernel/2542-firmware-qcom-scm-Allow-QSEECOM-on-HP-EliteBook-X-G2.patch: OK
+kernel/2550-dt-bindings-arm-qcom-Add-Lenovo-Yoga-Slim-7x-Gen11.patch: OK
+kernel/2551-arm64-dts-qcom-glymur-Add-Lenovo-Yoga-Slim-7x-Gen11.patch: OK
+kernel/2552-arm64-dts-qcom-glymur-lenovo-yoga-slim7x-add-the-cam.patch: OK
+kernel/2553-firmware-qcom-scm-Allow-QSEECOM-on-Yoga-Slim-7x-Gen1.patch: OK
+kernel/2560-dt-bindings-arm-qcom-add-Lenovo-ThinkPad-T14s-Gen-7-.patch: OK
+kernel/2561-arm64-dts-qcom-Add-Lenovo-ThinkPad-T14s-Gen-7.patch: OK
+kernel/2562-firmware-qcom-scm-Allow-QSEECOM-on-ThinkPad-T14s-Gen.patch: OK
+kernel/2563-arm64-dts-qcom-mahua-lenovo-thinkpad-t14s-gen7-Add-E.patch: OK
+kernel/2570-dt-bindings-arm-qcom-Add-HP-OmniBook-X-16-cp1.patch: OK
+kernel/2571-arm64-dts-qcom-Add-HP-OmniBook-X-16-cp1.patch: OK
+kernel/2580-dt-bindings-arm-qcom-Add-Acer-Swift-Go-Pro-AI-SFA14-.patch: OK
+kernel/2581-arm64-dts-qcom-Add-support-for-Acer-Swift-Go-Pro-AI-.patch: OK
+kernel/2582-firmware-qcom-scm-Allow-QSEECOM-on-Acer-Swift-Go-Pro.patch: OK
+kernel/2590-dt-bindings-arm-Add-Samsung-Galaxy-Book4-Edge.patch: OK
+kernel/2591-firmware-qcom-scm-Allow-QSEECOM-on-the-Samsung-Galax.patch: OK
+kernel/2592-arm64-dts-qcom-Add-hamoa-Samsung-Galaxy-Book4-Edge-d.patch: OK
+kernel/2600-dt-bindings-arm-qcom-Add-Lenovo-Ideapad-Slim-5-varia.patch: OK
+kernel/2601-firmware-qcom-scm-Allow-QSEECOM-on-Lenovo-IdeaPad-5-.patch: OK
+kernel/2602-arm64-dts-qcom-Add-Lenovo-IdeaPad-Slim-5x-14Q8X9.patch: OK
+kernel/2610-arm64-dts-qcom-Add-Dell-Inspiron-14-Plus-5441.patch: OK
+kernel/2611-firmware-qcom-scm-Allow-QSEECOM-on-the-Dell-Inspiron.patch: OK
+kernel/2620-arm64-dts-qcom-glymur-Add-PCIe3-PHY-and-PCIe3a-contr.patch: OK
+kernel/2621-arm64-dts-qcom-mahua-Replace-pcie3a-pcie3_phy-with-d.patch: OK
+kernel/2630-dt-bindings-arm-qcom-add-HP-OmniBook-Ultra-14-kg0xxx.patch: OK
+kernel/2631-arm64-dts-qcom-add-HP-OmniBook-Ultra-14-kg0xxx.patch: OK
+kernel/2632-firmware-qcom-scm-add-HP-OmniBook-Ultra-14-kg0xxx-to.patch: OK
+kernel/2640-dt-bindings-arm-qcom-Add-Asus-Zenbook-A14-UX3407NA.patch: OK
+kernel/2641-arm64-dts-qcom-glymur-Add-Asus-Zenbook-A14-UX3407NA.patch: OK
+kernel/2642-firmware-qcom-scm-Allow-QSEECOM-on-Asus-Zenbook-A14-.patch: OK
+kernel/2650-dt-bindings-arm-qcom-Add-the-HP-OmniBook-5-14.patch: OK
+kernel/2651-arm64-dts-qcom-Add-the-HP-OmniBook-5-14.patch: OK
+kernel/2652-arm64-dts-qcom-x1p42100-hp-omnibook-5-Follow-the-bin.patch: OK
+kernel/2653-firmware-qcom-scm-Allow-QSEECOM-on-the-HP-OmniBook-5.patch: OK
+kernel/2660-dt-bindings-arm-qcom-Add-the-ASUS-Vivobook-S16-S3607.patch: OK
+kernel/2661-dt-bindings-display-panel-samsung-atna33xc20-Add-the.patch: OK
+kernel/2662-arm64-dts-qcom-Add-the-ASUS-Vivobook-S16-S3607QA.patch: OK
+kernel/2663-firmware-qcom-scm-Allow-QSEECOM-on-the-ASUS-Vivobook.patch: OK
+kernel/2670-dt-bindings-arm-qcom-Add-the-Lenovo-IdeaPad-5x-2-in-.patch: OK
+kernel/2671-arm64-dts-qcom-Add-the-Lenovo-IdeaPad-5x-2-in-1.patch: OK
+kernel/2672-arm64-dts-qcom-x1p42100-lenovo-ideapad-5-2in1-Follow.patch: OK
+kernel/2673-firmware-qcom-scm-Allow-QSEECOM-on-the-Lenovo-IdeaPa.patch: OK
+kernel/2680-dt-bindings-arm-qcom-Add-the-Lenovo-IdeaPad-Slim-3x.patch: OK
+kernel/2681-arm64-dts-qcom-Add-the-Lenovo-IdeaPad-Slim-3x.patch: OK
+kernel/2682-arm64-dts-qcom-x126100-lenovo-ideapad-slim3-Follow-t.patch: OK
+kernel/2683-firmware-qcom-scm-Allow-QSEECOM-on-the-Lenovo-IdeaPa.patch: OK
+kernel/2690-dt-bindings-arm-qcom-Add-the-ASUS-Vivobook-16-X1607Q.patch: OK
+kernel/2691-arm64-dts-qcom-Add-the-ASUS-Vivobook-16-X1607QA.patch: OK
+kernel/2692-arm64-dts-qcom-x126100-asus-vivobook-16-Build-on-pur.patch: OK
+kernel/2693-arm64-dts-qcom-x126100-asus-vivobook-16-Follow-the-b.patch: OK
+kernel/2694-firmware-qcom-scm-Allow-QSEECOM-on-the-ASUS-Vivobook.patch: OK
+kernel/2695-arm64-dts-qcom-x126100-asus-vivobook-16-Add-the-Disp.patch: OK
+kernel/2696-arm64-dts-qcom-x126100-asus-vivobook-16-Name-the-sou.patch: OK
+kernel/2700-arm64-dts-qcom-x1-asus-zenbook-a14-Add-the-DisplayPo.patch: OK
+kernel/2701-arm64-dts-qcom-x1-hp-omnibook-x14-Add-the-DisplayPor.patch: OK
+kernel/2702-arm64-dts-qcom-x1e80100-romulus-Add-the-DisplayPort-.patch: OK
+kernel/2710-dt-bindings-arm-qcom-Add-the-HP-OmniBook-5-16-2026.patch: OK
+kernel/2711-arm64-dts-qcom-Add-the-HP-OmniBook-5-16-bf1xxx.patch: OK
+kernel/2712-arm64-dts-qcom-mahua-hp-omnibook-5-bf1xxx-Build-on-L.patch: OK
+kernel/2713-firmware-qcom-scm-Allow-QSEECOM-on-HP-OmniBook-5-16.patch: OK
+kernel/2720-dt-bindings-vendor-prefixes-Add-Anduril-Industries.patch: OK
+kernel/2721-dt-bindings-arm-qcom-Add-the-Anduril-BlueChip.patch: OK
+kernel/2722-arm64-dts-qcom-glymur-Add-the-Anduril-BlueChip.patch: OK
+kernel/2723-firmware-qcom-scm-Allow-QSEECOM-on-the-Anduril-BlueC.patch: OK
+kernel/2724-arm64-dts-qcom-glymur-anduril-bluechip-Link-only-th.patch: OK
+kernel/2730-dt-bindings-arm-qcom-Add-the-ASUS-ProArt-PZ13.patch: OK
+kernel/2731-dt-bindings-display-panel-samsung-atna33xc20-add-ATN.patch: OK
+kernel/2732-arm64-dts-qcom-Add-the-ASUS-ProArt-PZ13.patch: OK
+kernel/2733-firmware-qcom-scm-allow-QSEECOM-on-the-ASUS-ProArt-P.patch: OK
+kernel/2734-platform-arm64-add-the-ASUS-ProArt-PZ13-embedded-con.patch: OK
+kernel/2740-dt-bindings-arm-qcom-Add-the-HP-OmniBook-3-14-and-16.patch: OK
+kernel/2741-dt-bindings-display-panel-samsung-atna33xc20-Add-the.patch: OK
+kernel/2742-arm64-dts-qcom-Add-the-HP-OmniBook-3-14.patch: OK
+kernel/2743-arm64-dts-qcom-x1p42100-hp-omnibook-3-oled-Follow-th.patch: OK
+kernel/2744-arm64-dts-qcom-Add-the-HP-OmniBook-3-16.patch: OK
+kernel/2745-firmware-qcom-scm-Allow-QSEECOM-on-the-HP-OmniBook-3.patch: OK
+kernel/2750-dt-bindings-arm-qcom-Add-the-ASUS-Zenbook-14-UX3480QA.patch: OK
+kernel/2751-arm64-dts-qcom-Add-the-ASUS-Zenbook-14-UX3480QA.patch: OK
+kernel/2752-arm64-dts-qcom-x1p42100-asus-zenbook-14-ux3480qa-Add-passive-CPU-trips.patch: OK
+kernel/2753-firmware-qcom-scm-Allow-QSEECOM-on-ASUS-Zenbook-14-UX3480QA.patch: OK
+kernel/2760-dt-bindings-arm-qcom-Add-the-Microsoft-Surface-Laptop-8-15-inch.patch: OK
+kernel/2761-firmware-qcom-scm-Allow-QSEECOM-on-the-Surface-Laptop-8-15-inch.patch: OK
+kernel/2762-platform-surface-aggregator_registry-Add-the-Surface-Laptop-8-15-inch.patch: OK
+kernel/2763-platform-surface-platform_profile-Handle-the-Surface-Laptop-8-15-inch-EC.patch: OK
+kernel/2764-arm64-dts-qcom-Add-the-Microsoft-Surface-Laptop-8-15-inch.patch: OK
+kernel/8204-mm-opportunistic-compaction.patch: OK
+kernel/8204-mm-opportunistic-compaction.patch.sig: OK
+kernel/8205-mm-hint-uses-allocation-order.patch: OK
+kernel/8206-mm-carry-order-and-hint-in-one-word.patch: OK
+kernel/8206-mm-carry-order-and-hint-in-one-word.patch.sig: OK
+kernel/8207-mm-classify-huge-page-allocations-as-failable.patch: OK
+kernel/8207-mm-classify-huge-page-allocations-as-failable.patch.sig: OK
+kernel/8209-xe-shrinker-use-opportunistic-hint.patch: OK
+kernel/8209-xe-shrinker-use-opportunistic-hint.patch.sig: OK
+kernel/8210-xe-shrinker-single-backup-decision.patch: OK
+kernel/8210-xe-shrinker-single-backup-decision.patch.sig: OK
+kernel/9000-serial-8250-bcm2835aux-hardware-flow.patch: OK
+kernel/PKGBUILD: OK
+kernel/README.md: OK
+kernel/UPGRADING-7.3.md: OK
+kernel/config.aarch64: OK
+kernel/glymur-anduril-bluechip.json: OK
+kernel/glymur-hp-omnibook-ultra-kg0xxx.json: OK
+kernel/glymur-microsoft-surface-laptop8-15.json: OK
+kernel/glymur-microsoft-surface-laptop8.json: OK
+kernel/keys/pgp/12D27D5D8C8E9BF1AABC7C7C7C64768D3DE334E7.asc: OK
+kernel/keys/pgp/647F28654894E3BD457199BE38DBBDC86092693E.asc: OK
+kernel/keys/pgp/ABAF11C65A2970B130ABE3C479BE3E4300411886.asc: OK
+kernel/mahua-hp-omnibook-5-bf1xxx.json: OK
+kernel/mahua-hp-omnibook-x16.json: OK
+kernel/mahua-lenovo-thinkpad-t14s-gen7-lcd.json: OK
+kernel/nvidia-0003-set-oled-edp-brightness-over-aux.patch: OK
+kernel/nvidia-0004-drive-both-displays-of-a-dock-on-one-n1x-usb4-port.patch: OK
+kernel/nvidia-0005-retrain-the-link-after-the-sink-was-unplugged.patch: OK
+kernel/nvidia-0006-set-a-mode-afresh-on-a-sink-that-comes-back-through-a-usb4-tunnel.patch: OK
+kernel/nvidia-0007-train-a-tunnelled-link-again-when-the-sink-cannot-decode-it.patch: OK
+kernel/nvidia-0008-free-the-semaphore-surface-callback-when-the-waiter-is-already-signalled.patch: OK
+kernel/nvidia-0009-report-usb-c-connectors-as-displayport.patch: OK
+kernel/x126100-asus-vivobook-16.json: OK
+kernel/x1e78100-acer-sfa14-11.json: OK
+kernel/x1e80100-samsung-galaxy-book4-edge-14.json: OK
+kernel/x1e84100-samsung-galaxy-book4-edge-16.json: OK
+kernel/x1p42100-acer-aspire-14-ai.json: OK
+kernel/x1p42100-acer-aspire-16-ai.json: OK
+kernel/x1p42100-asus-proart-pz13.json: OK
+kernel/x1p42100-asus-vivobook-s16-lcd.json: OK
+kernel/x1p42100-asus-vivobook-s16.json: OK
+kernel/x1p42100-asus-zenbook-14-ux3480qa.json: OK
+kernel/x1p42100-hp-omnibook-3-16.json: OK
+kernel/x1p42100-hp-omnibook-3-oled.json: OK
+kernel/x1p42100-hp-omnibook-5.json: OK
+kernel/x1p42100-microsoft-surface-pro-12in.json: OK
+kernel/x1p64100-dell-inspiron-14-plus-5441.json: OK
+kernel-from-reviewed.patch: OK
+manifest.json: OK
+package-owners.sh: OK
+static-check.py: OK
+verify-fdt.py: OK
+verify-packages.sh: OK
+firmware/09-omarchy-pi4-cts-remove.hook: OK
+kernel/reviewed-resolved.config: OK
+kernel/check-config.py: OK
+kernel/offline-inputs.sh: OK
+kernel/check-candidate-payload.py: OK
+kernel/preflight-evidence/recipe-from-reviewed.patch: OK
+kernel/preflight-evidence/final-syntax.log: OK
+kernel/preflight-evidence/control-tests-3.log: OK
+kernel/preflight-evidence/control-tests-2.log: OK
+kernel/preflight-evidence/control-tests.log: OK
+kernel/preflight-evidence/source-vs-resolved.diff: OK
+kernel/preflight-evidence/control-tests.py: OK
+kernel/preflight-evidence/before/PKGBUILD: OK
+kernel/preflight-evidence/before/build-inside.sh: OK
+kernel/preflight-evidence/before/build-offline.sh: OK
+kernel/preflight-evidence/before/INPUTS.sha256: OK
+kernel/preflight-evidence/before/verify-packages.sh: OK
+firmware-tests/alpm.py: OK
+PASS helper, hooks, baseline/config and DT source bytes unchanged
+PASS shell syntax and Python parse
+--- before/firmware/PKGBUILD
++++ firmware/PKGBUILD
+@@ -1,12 +1,12 @@
+ # Inactive PFTF AUX-route firmware payload; early boot DT application, not a new boot chain.
+-pkgname=raspberrypi-4-pftf-cts
++pkgbase=raspberrypi-4-pftf-cts
++pkgname=('raspberrypi-4-pftf-cts')
+ pkgver=1
+ pkgrel=1
+ pkgdesc='Paired AUX RTS/CTS overlay for the reviewed Pi 4 PFTF 1.53 route'
+ arch=('aarch64')
+ url='https://github.com/pftf/RPi4'
+ license=('GPL-2.0-only')
+-depends=('linux-omarchy=7.3-32.2' 'raspberrypi-4-support' 'python' 'util-linux')
+ makedepends=('dtc')
+ options=('!debug')
+ source=('omarchy-pi4-aux-rtscts.dtso' 'media-sync.py' 'baseline-media.json' 'config.txt.baseline' 'config.txt.candidate' '10-omarchy-pi4-cts.hook' '95-omarchy-pi4-cts.hook' '09-omarchy-pi4-cts-remove.hook')
+@@ -14,7 +14,8 @@
+ build() {
+   dtc -@ -I dts -O dtb -o omarchy-pi4-aux-rtscts.dtbo omarchy-pi4-aux-rtscts.dtso
+ }
+-package() {
++package_raspberrypi-4-pftf-cts() {
++  depends=('linux-omarchy=7.3-32.2' 'raspberrypi-4-support' 'python' 'util-linux')
+   install -Dm644 -t "$pkgdir/usr/share/omarchy/pi4-cts" omarchy-pi4-aux-rtscts.dtbo baseline-media.json config.txt.baseline config.txt.candidate
+   install -Dm644 media-sync.py "$pkgdir/usr/lib/omarchy/pi4-cts/media-sync.py"
+   install -Dm644 -t "$pkgdir/usr/share/libalpm/hooks" 10-omarchy-pi4-cts.hook 95-omarchy-pi4-cts.hook 09-omarchy-pi4-cts-remove.hook
+
+--- before/build-inside.sh
++++ build-inside.sh
+@@ -6,8 +6,9 @@
+ trap 'for file in memory.peak memory.events cpu.stat; do cat "/sys/fs/cgroup/$file" >"/output/evidence/$file"; done' EXIT
+ cp -a /candidate/kernel /work/cts/kernel
+ cp -a /candidate/firmware /work/cts/firmware
+-# Check every recipe source/dependency before copying the cache or running prepare.
+-# Do not install dependencies (including firmware runtime dependencies) to pass this gate.
++# Check recipe sources and makepkg build dependencies before expensive work.
++# Split-package runtime dependencies belong to output metadata; they are not
++# builder prerequisites. No dependency installation or bypass is used.
+ preflight_failed=0
+ for recipe in kernel firmware; do
+   if ! CTS_SOURCE_ONLY=0 /bin/bash /candidate/kernel/offline-inputs.sh "/candidate/$recipe" /cache/downloads; then
+
+--- before/kernel/offline-inputs.sh
++++ kernel/offline-inputs.sh
+@@ -18,8 +18,9 @@
+   fi
+ done
+ if [[ ${CTS_SOURCE_ONLY:-0} != "1" ]]; then
+-  # makepkg also checks depends; the exact candidate kernel/support dependency
+-  # for firmware must be satisfied before spending time compiling the kernel.
++  # Match makepkg: top-level depends and makedepends are build prerequisites.
++  # Runtime depends declared inside split package functions are output metadata;
++  # never execute those functions here or require their target system packages.
+   if ! pacman -T base-devel dtc kmod "${makedepends[@]}" "${depends[@]}"; then
+     echo "Missing offline build/runtime dependencies for $PWD" >&2
+     missing=1
+
+--- before/firmware-tests/alpm.py
++++ firmware-tests/alpm.py
+@@ -17,7 +17,12 @@
+ def package(name, version, firmware=False):
+   data = f'pkgname = {name}\npkgver = {version}\npkgdesc = private lifecycle fixture\nurl = https://invalid.local\nbuilddate = 1\npackager = fixture\nsize = 1\narch = aarch64\nlicense = GPL\n'
+   if firmware:
+-    depends = subprocess.check_output(['/bin/bash', '-c', 'source /work/firmware/PKGBUILD; printf \"depend = %s\\n\" \"${depends[@]}\"'], text=True)
++    recipe = Path('/tmp/cts-recipe')
++    staged = Path('/tmp/cts-package')
++    shutil.copytree(SOURCE, recipe)
++    (recipe / 'omarchy-pi4-aux-rtscts.dtbo').write_bytes(b'fixture-overlay-payload')
++    depends = subprocess.check_output(['/bin/bash', '-c', 'source ./PKGBUILD; pkgdir=/tmp/cts-package; package_raspberrypi-4-pftf-cts; printf "depend = %s\\n" "${depends[@]}"'], cwd=recipe, text=True)
++    assert depends.splitlines() == ['depend = linux-omarchy=7.3-32.2', 'depend = raspberrypi-4-support', 'depend = python', 'depend = util-linux'], depends
+     data += depends
+   dest = Path('/tmp') / f'{name}-{version}-aarch64.pkg.tar'
+   with tarfile.open(dest, 'w') as tar:
+@@ -26,12 +31,8 @@
+       tar.addfile(entry, io.BytesIO(content))
+     add('.PKGINFO', data.encode())
+     if firmware:
+-      recipe = Path('/tmp/cts-recipe')
+-      staged = Path('/tmp/cts-package')
+-      shutil.copytree(SOURCE, recipe)
+-      (recipe / 'omarchy-pi4-aux-rtscts.dtbo').write_bytes(b'fixture-overlay-payload')
+-      subprocess.run(['/bin/bash', '-c', 'source ./PKGBUILD; pkgdir=/tmp/cts-package; package'], cwd=recipe, check=True)
+-      # Actual package() layout; synthetic bytes/hashes only inside private fixture.
++      # Actual split package function supplied layout and runtime metadata above.
++      # Synthetic bytes/hashes only inside this private lifecycle fixture.
+       baseline = {name: hashlib.sha256((SOURCE / 'config.txt.baseline').read_bytes() if name == 'config.txt' else ('fixture:' + name).encode()).hexdigest() for name in json.loads((SOURCE / 'baseline-media.json').read_text())}
+       (staged / 'usr/share/omarchy/pi4-cts/baseline-media.json').write_text(json.dumps(baseline))
+       for p in staged.rglob('*'):
+@@ -51,6 +52,7 @@
+ pacman('-U', kernel, support, success=True)
+ # No hook installed yet, no config; post-hook invokes actual helper and fails.
+ p = pacman('-U', fw)
++assert p.returncode == 0, p.stdout
+ assert 'Root required' not in p.stdout
+ assert 'Configure root-owned' in p.stdout
+ assert 'Checking the identified' not in p.stdout
+@@ -73,6 +75,7 @@
+ assert (suite['MEDIA'] / 'config.txt').read_bytes() == suite['NEW']
+ pacman('-U', old, success=False)
+ pacman('-R', 'linux-omarchy', success=False)
++pacman('-R', 'raspberrypi-4-support', success=False)
+ pacman('-R', 'raspberrypi-4-pftf-cts', success=False)
+ pacman('-Q', 'raspberrypi-4-pftf-cts', success=True)
+ subprocess.run(['/usr/bin/python', '-I', '/usr/lib/omarchy/pi4-cts/media-sync.py', 'restore'], check=True)
+
+--- before/INPUTS.sha256
++++ INPUTS.sha256
+@@ -1,10 +1,10 @@
+-2418efa073c314e4e4005b75075db69c384fe8bfe32ff54cd7e20f98f76b2a8c  build-inside.sh
++ee1d81e644e417befcdc648fb0633a651e679ff5de787c15c091bf2345e1db2f  build-inside.sh
+ 1d999ddf48648289b249eb55695fda044df88e94e56dfb126c6ce5a6502ec3a5  build-offline.sh
+ d6a876ec0f13de62ef521b4f90677f528341e19512759f81bb16e211dffb0345  current.fdt
+ 9cd351157dd6b06bc35c405e0925093d831135d23972721ad85aa133895a159a  evidence-provenance.json
+ 321230ac8c8499fb0d6dea27f65b3f71db950ff86508d96a81e7f419d4101fc9  firmware/10-omarchy-pi4-cts.hook
+ 91cdfded0100bd5b426eb4bd3d9958212b695949a55d17d8ffc3cecddd713504  firmware/95-omarchy-pi4-cts.hook
+-51bbf5b9280ec7c8a0b2b9b6c7054eb5528c1f86010d03846f558ff3a7c65da6  firmware/PKGBUILD
++89937b677053df272a61be859184f1f3b0b8375905132cfcd15812d72868ab8d  firmware/PKGBUILD
+ b986c79ff2a446075eb9022977847a5fac4d5523f203cab61c385557a380a8b4  firmware/baseline-media.json
+ 3f2af8477c6a20a299fd7523a9d35e2f4f5d68fee48326f43f7d50a40ad9d794  firmware/config.txt.baseline
+ d023a498b42bea25f59c6c6b146d2d230295766c0d9ac20ea39f628f13a0a3ee  firmware/config.txt.candidate
+@@ -599,7 +599,7 @@
+ 0042de62f7612763602eaf3538258d2d9a3f42dee830292b5b5452dcb2bce2e8  firmware/09-omarchy-pi4-cts-remove.hook
+ 3b12d3dd8d8b0b24ab95ef96bb1b3388d2440a5bda069ecd74f3c7984a2fd51d  kernel/reviewed-resolved.config
+ 635e20e9e13b8193fe0df74c17d99c3ac783815a49e47b30fc137c1feb112ef1  kernel/check-config.py
+-40581d18eec881f3e03f1af6f1c5b23b60933fd5d0f69c0ceaded22514860e0e  kernel/offline-inputs.sh
++802070ff2f5dba2bdb784115c5d78c419cc13b806718099f71e6308e1db39ee1  kernel/offline-inputs.sh
+ 2202245baca7b4d2b931c717fc2004b60a89116bbb17d2c8d052bba6e4f4f3b1  kernel/check-candidate-payload.py
+ c4bbf563fa0c57687251157f76275477dc60b269f078a8e945269c276247e283  kernel/preflight-evidence/recipe-from-reviewed.patch
+ e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  kernel/preflight-evidence/final-syntax.log
+@@ -613,3 +613,4 @@
+ 59fe66cfc3489dd8d444cd35bb5ccebd9ce51acfb2f926b4096ae384a8fe8b6a  kernel/preflight-evidence/before/build-offline.sh
+ 10bfe220fdeb7fae2f692f28031b12aae935db931416f80212fc2836ea0d6c5e  kernel/preflight-evidence/before/INPUTS.sha256
+ c62685654ce35ad76b8d1c9524016c798e9526238b292f3d71f3d10d00968259  kernel/preflight-evidence/before/verify-packages.sh
++1df9934abbbfd3bb719f96ea08a389aa3c7fb0a240beb4268b503549218fe8e9  firmware-tests/alpm.py
+
+companion-build/attempt-1/container.json exit 1 OOM False memory 134217728 swap-total 134217728 cpu 250000000
+companion-build/attempt-2/container.json exit 0 OOM False memory 134217728 swap-total 134217728 cpu 250000000
+companion-build/attempt-2/verify-container.json exit 0 OOM False memory 134217728 swap-total 134217728 cpu 250000000
+firmware-tests/results/companion-split-1/container.json exit 0 OOM False memory 134217728 swap-total 134217728 cpu 250000000
+PASS complete INPUTS manifest

@@ -1,0 +1,2 @@
+linux-omarchy=7.3-32.2
+raspberrypi-4-support

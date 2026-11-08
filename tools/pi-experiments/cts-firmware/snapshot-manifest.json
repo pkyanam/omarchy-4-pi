@@ -1,5 +1,5 @@
 {
-  "status": "inactive; helper and synthetic-media ALPM fixture tested; not physically qualified",
+  "status": "inactive; normal production companion built and archive/FDT/ALPM validated; no physical qualification",
   "files": {
     "README.md": {
       "sha256": "e93ccb0405c983d0b2e124f35abb7df6c790aee2b331f74c5d4a967abf4c21b4",
@@ -18,8 +18,8 @@
       "bytes": 269
     },
     "firmware/PKGBUILD": {
-      "sha256": "51bbf5b9280ec7c8a0b2b9b6c7054eb5528c1f86010d03846f558ff3a7c65da6",
-      "bytes": 1635
+      "sha256": "89937b677053df272a61be859184f1f3b0b8375905132cfcd15812d72868ab8d",
+      "bytes": 1695
     },
     "firmware/config.txt.baseline": {
       "sha256": "3f2af8477c6a20a299fd7523a9d35e2f4f5d68fee48326f43f7d50a40ad9d794",
@@ -42,8 +42,8 @@
       "bytes": 137
     },
     "tests/alpm.py": {
-      "sha256": "85ba6f932411effd6b2c2ab3a4b381926d89d9e24a3b9ea00584ee4a6bb1c120",
-      "bytes": 4215
+      "sha256": "1df9934abbbfd3bb719f96ea08a389aa3c7fb0a240beb4268b503549218fe8e9",
+      "bytes": 4454
     },
     "tests/run-alpm.sh": {
       "sha256": "e1487364e47c5c0354a6abece08418125052237c3f9e2609c07d0840658f5eea",

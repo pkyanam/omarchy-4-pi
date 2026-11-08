@@ -1,0 +1,2 @@
+PASS: precisely one AUX property added; all other properties preserved
+PASS archive identity, exact runtime dependencies, all packaged source bytes, compiled overlay bytes, captured FDT one-property delta and both offline preflights

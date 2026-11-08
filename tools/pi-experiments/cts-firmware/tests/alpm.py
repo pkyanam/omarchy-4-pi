@@ -17,7 +17,12 @@ SOURCE = Path('/work/firmware')
 def package(name, version, firmware=False):
   data = f'pkgname = {name}\npkgver = {version}\npkgdesc = private lifecycle fixture\nurl = https://invalid.local\nbuilddate = 1\npackager = fixture\nsize = 1\narch = aarch64\nlicense = GPL\n'
   if firmware:
-    depends = subprocess.check_output(['/bin/bash', '-c', 'source /work/firmware/PKGBUILD; printf \"depend = %s\\n\" \"${depends[@]}\"'], text=True)
+    recipe = Path('/tmp/cts-recipe')
+    staged = Path('/tmp/cts-package')
+    shutil.copytree(SOURCE, recipe)
+    (recipe / 'omarchy-pi4-aux-rtscts.dtbo').write_bytes(b'fixture-overlay-payload')
+    depends = subprocess.check_output(['/bin/bash', '-c', 'source ./PKGBUILD; pkgdir=/tmp/cts-package; package_raspberrypi-4-pftf-cts; printf "depend = %s\\n" "${depends[@]}"'], cwd=recipe, text=True)
+    assert depends.splitlines() == ['depend = linux-omarchy=7.3-32.2', 'depend = raspberrypi-4-support', 'depend = python', 'depend = util-linux'], depends
     data += depends
   dest = Path('/tmp') / f'{name}-{version}-aarch64.pkg.tar'
   with tarfile.open(dest, 'w') as tar:
@@ -26,12 +31,8 @@ def package(name, version, firmware=False):
       tar.addfile(entry, io.BytesIO(content))
     add('.PKGINFO', data.encode())
     if firmware:
-      recipe = Path('/tmp/cts-recipe')
-      staged = Path('/tmp/cts-package')
-      shutil.copytree(SOURCE, recipe)
-      (recipe / 'omarchy-pi4-aux-rtscts.dtbo').write_bytes(b'fixture-overlay-payload')
-      subprocess.run(['/bin/bash', '-c', 'source ./PKGBUILD; pkgdir=/tmp/cts-package; package'], cwd=recipe, check=True)
-      # Actual package() layout; synthetic bytes/hashes only inside private fixture.
+      # Actual split package function supplied layout and runtime metadata above.
+      # Synthetic bytes/hashes only inside this private lifecycle fixture.
       baseline = {name: hashlib.sha256((SOURCE / 'config.txt.baseline').read_bytes() if name == 'config.txt' else ('fixture:' + name).encode()).hexdigest() for name in json.loads((SOURCE / 'baseline-media.json').read_text())}
       (staged / 'usr/share/omarchy/pi4-cts/baseline-media.json').write_text(json.dumps(baseline))
       for p in staged.rglob('*'):
@@ -51,6 +52,7 @@ fw = package('raspberrypi-4-pftf-cts', '1-1', True)
 pacman('-U', kernel, support, success=True)
 # No hook installed yet, no config; post-hook invokes actual helper and fails.
 p = pacman('-U', fw)
+assert p.returncode == 0, p.stdout
 assert 'Root required' not in p.stdout
 assert 'Configure root-owned' in p.stdout
 assert 'Checking the identified' not in p.stdout
@@ -73,6 +75,7 @@ pacman('-U', fw, success=True)
 assert (suite['MEDIA'] / 'config.txt').read_bytes() == suite['NEW']
 pacman('-U', old, success=False)
 pacman('-R', 'linux-omarchy', success=False)
+pacman('-R', 'raspberrypi-4-support', success=False)
 pacman('-R', 'raspberrypi-4-pftf-cts', success=False)
 pacman('-Q', 'raspberrypi-4-pftf-cts', success=True)
 subprocess.run(['/usr/bin/python', '-I', '/usr/lib/omarchy/pi4-cts/media-sync.py', 'restore'], check=True)

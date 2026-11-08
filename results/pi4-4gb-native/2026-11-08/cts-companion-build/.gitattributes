@@ -1,0 +1,3 @@
+# Complete build/fixture logs and upstream decoded DT retain original whitespace.
+*.log -whitespace
+*.dts -whitespace

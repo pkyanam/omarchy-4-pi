@@ -1,0 +1,27 @@
+Device [headset-address] Jabra Evolve 75
+Device [headset-address] Jabra Evolve 75
+Device [headset-address] (public)
+	Name: Jabra Evolve 75
+	Alias: Jabra Evolve 75
+	Class: 0x00240404 (2360324)
+	Icon: audio-headset
+	Paired: yes
+	Bonded: yes
+	Trusted: yes
+	Blocked: no
+	Connected: yes
+	LegacyPairing: no
+	CablePairing: no
+	UUID: Serial Port               (00001101-0000-1000-8000-00805f9b34fb)
+	UUID: Headset                   (00001108-0000-1000-8000-00805f9b34fb)
+	UUID: Audio Sink                (0000110b-0000-1000-8000-00805f9b34fb)
+	UUID: A/V Remote Control Target (0000110c-0000-1000-8000-00805f9b34fb)
+	UUID: Advanced Audio Distribu.. (0000110d-0000-1000-8000-00805f9b34fb)
+	UUID: A/V Remote Control        (0000110e-0000-1000-8000-00805f9b34fb)
+	UUID: Handsfree                 (0000111e-0000-1000-8000-00805f9b34fb)
+	UUID: PnP Information           (00001200-0000-1000-8000-00805f9b34fb)
+	Modalias: bluetooth:v0067p097Ad0220
+	ManufacturerData.Key: 0x0067 (103)
+	ManufacturerData.Value:
+  03 07 01 3d 03 0b 66 24                          ...=..f$        
+	Battery Percentage: 0x5a (90)

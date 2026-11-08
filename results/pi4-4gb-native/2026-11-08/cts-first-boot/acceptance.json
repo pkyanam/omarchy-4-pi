@@ -1,0 +1,24 @@
+{
+  "controller_initialized": true,
+  "powered": true,
+  "scan_started": true,
+  "new_device_events": 10,
+  "discovery_after": "no",
+  "explicit_off_exit": "org.bluez.Error.Failed after timed client exited; subsequent show confirms Discovering:no",
+  "loaded_srcversion_matches_file": true,
+  "taint": "0",
+  "peripheral_pair_connect_reconnect": {
+    "paired": true,
+    "bonded": true,
+    "trusted": true,
+    "connected": true,
+    "pairing_event": "performed outside coordinator capture; current BlueZ state observed",
+    "audio_dictation": "owner reports Jabra works with Superwhisper; no synthetic audio recording made",
+    "reconnect": "pending coordinated brief interruption"
+  },
+  "rollback": "pending",
+  "wifi": "repeated brcmf_set_channel -52 in boot log; no WiFi qualification",
+  "lsusb": "unavailable; USB inventory not accepted",
+  "live_fdt": "AUX uart-has-rtscts added; UEFI mmap pointer and bootloader rsts changed, retained for source review; all other parsed node/property bytes equal",
+  "selected_peripheral": "Jabra Evolve 75; owner reports headset works for dictation, actual target state being reconciled"
+}

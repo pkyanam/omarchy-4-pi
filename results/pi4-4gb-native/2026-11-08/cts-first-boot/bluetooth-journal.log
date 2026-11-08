@@ -1,0 +1,27 @@
+[  208.882325] omarchy-pi systemd[1]: Starting Bluetooth service...
+[  209.144575] omarchy-pi bluetoothd[916]: Bluetooth daemon 5.87
+[  209.148997] omarchy-pi systemd[1]: Started Bluetooth service.
+[  209.153557] omarchy-pi bluetoothd[916]: Starting SDP server
+[  209.187914] omarchy-pi bluetoothd[916]: Bluetooth management interface 1.23 initialized
+[  211.981742] omarchy-pi bluetoothd[916]: Battery Provider Manager created
+[  212.610902] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/ldac
+[  212.611766] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/aptx_hd
+[  212.612721] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aptx_hd
+[  212.613600] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/aptx
+[  212.614474] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aptx
+[  212.615252] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/aac
+[  212.615916] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aac
+[  212.616737] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/opus_g
+[  212.617852] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/opus_g
+[  212.618880] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/sbc
+[  212.620113] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/sbc
+[  212.620931] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aptx_ll_1
+[  212.621818] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aptx_ll_0
+[  212.622497] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aptx_ll_duplex_1
+[  212.623176] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/aptx_ll_duplex_0
+[  212.624108] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/faststream
+[  212.624894] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/faststream_duplex
+[  212.625824] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/opus_05
+[  212.626634] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/opus_05
+[  212.627389] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSink/opus_05_duplex
+[  212.628238] omarchy-pi bluetoothd[916]: Endpoint registered: sender=:1.27 path=/MediaEndpoint/A2DPSource/opus_05_duplex

@@ -1,0 +1,20 @@
+[
+  {
+    "node": "/chosen",
+    "property": "linux,uefi-mmap-start",
+    "before": "0000000037fcc040",
+    "after": "0000000037fcd040"
+  },
+  {
+    "node": "/chosen/bootloader",
+    "property": "rsts",
+    "before": "00001000",
+    "after": "00001020"
+  },
+  {
+    "node": "/soc/serial@7e215040",
+    "property": "uart-has-rtscts",
+    "before": null,
+    "after": ""
+  }
+]

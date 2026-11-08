@@ -1,0 +1,58 @@
+[  207.780334] omarchy-pi kernel: Bluetooth: Core ver 2.22
+[  207.783326] omarchy-pi kernel: Bluetooth: HCI device and connection manager initialized
+[  207.785442] omarchy-pi kernel: Bluetooth: HCI socket layer initialized
+[  207.786081] omarchy-pi kernel: Bluetooth: L2CAP socket layer initialized
+[  207.786432] omarchy-pi kernel: Bluetooth: SCO socket layer initialized
+[  208.034611] omarchy-pi kernel: Bluetooth: HCI UART driver ver 2.3
+[  208.034794] omarchy-pi kernel: Bluetooth: HCI UART protocol H4 registered
+[  208.034948] omarchy-pi kernel: Bluetooth: HCI UART protocol BCSP registered
+[  208.035125] omarchy-pi kernel: Bluetooth: HCI UART protocol LL registered
+[  208.035232] omarchy-pi kernel: Bluetooth: HCI UART protocol ATH3K registered
+[  208.035311] omarchy-pi kernel: Bluetooth: HCI UART protocol Three-wire (H5) registered
+[  208.035389] omarchy-pi kernel: Bluetooth: HCI UART protocol Intel registered
+[  208.035473] omarchy-pi kernel: Bluetooth: HCI UART protocol Broadcom registered
+[  208.035533] omarchy-pi kernel: Bluetooth: HCI UART protocol QCA registered
+[  208.035600] omarchy-pi kernel: Bluetooth: HCI UART protocol AG6XX registered
+[  208.035669] omarchy-pi kernel: Bluetooth: HCI UART protocol Marvell registered
+[  208.035737] omarchy-pi kernel: Bluetooth: HCI UART protocol AML registered
+[  208.035795] omarchy-pi kernel: hci_uart_bcm serial0-0: supply vbat not found, using dummy regulator
+[  208.036885] omarchy-pi kernel: hci_uart_bcm serial0-0: supply vddio not found, using dummy regulator
+[  208.393042] omarchy-pi kernel: Bluetooth: hci0: BCM: chip id 107
+[  208.395038] omarchy-pi kernel: Bluetooth: hci0: BCM: features 0x2f
+[  208.406044] omarchy-pi kernel: Bluetooth: hci0: BCM4345C0
+[  208.406318] omarchy-pi kernel: Bluetooth: hci0: BCM4345C0 (003.001.025) build 0000
+[  208.411060] omarchy-pi kernel: Bluetooth: hci0: BCM4345C0 'brcm/BCM4345C0.hcd' Patch
+[  209.178079] omarchy-pi kernel: Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[  209.178395] omarchy-pi kernel: Bluetooth: BNEP filters: protocol multicast
+[  209.178541] omarchy-pi kernel: Bluetooth: BNEP socket layer initialized
+[  211.884093] omarchy-pi kernel: Bluetooth: hci0: BCM: features 0x2f
+[  211.897068] omarchy-pi kernel: Bluetooth: hci0: BCM43455 37.4MHz Raspberry Pi 3+-0190
+[  211.897345] omarchy-pi kernel: Bluetooth: hci0: BCM4345C0 (003.001.025) build 0382
+[  211.981073] omarchy-pi kernel: Bluetooth: MGMT ver 1.23
+[  212.596101] omarchy-pi kernel: Bluetooth: RFCOMM TTY layer initialized
+[  212.596282] omarchy-pi kernel: Bluetooth: RFCOMM socket layer initialized
+[  212.596455] omarchy-pi kernel: Bluetooth: RFCOMM ver 1.11
+[  214.724058] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd022 fail, reason -52
+[  214.831098] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd026 fail, reason -52
+[  214.935083] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02a fail, reason -52
+[  215.036248] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02e fail, reason -52
+[  221.573082] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd022 fail, reason -52
+[  221.685099] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd026 fail, reason -52
+[  221.799090] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02a fail, reason -52
+[  221.909071] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02e fail, reason -52
+[  228.505097] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd022 fail, reason -52
+[  228.612043] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd026 fail, reason -52
+[  228.716036] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02a fail, reason -52
+[  228.821722] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02e fail, reason -52
+[  235.397073] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd022 fail, reason -52
+[  235.501095] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd026 fail, reason -52
+[  235.607072] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02a fail, reason -52
+[  235.712067] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02e fail, reason -52
+[  246.403090] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd022 fail, reason -52
+[  246.545515] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd026 fail, reason -52
+[  246.668279] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02a fail, reason -52
+[  246.781070] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02e fail, reason -52
+[  259.948038] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd022 fail, reason -52
+[  260.052032] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd026 fail, reason -52
+[  260.156030] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02a fail, reason -52
+[  260.260028] omarchy-pi kernel: brcmfmac: brcmf_set_channel: set chanspec 0xd02e fail, reason -52

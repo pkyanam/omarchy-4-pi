@@ -1,0 +1,84 @@
+{
+  "time": 1794168303.034969,
+  "release": "7.3.0-32.1-omarchy",
+  "taint": "0",
+  "uptime": "269.00 919.15",
+  "packages": {
+    "exit": 0,
+    "bytes": 83,
+    "sha256": "20b69e36108662e7c1b6b5a6890acf996d0a0e34a3e0bfa098d774f0ad928991"
+  },
+  "module_file_sha256": "db5cd638b0e88a6b957e50474b7de97ac9bb6f595af8c7e058539cfa8c799993",
+  "uki_sha256": "3b2b9760c87d373f7e8d6b85d718a720da777bc254c6592162cd24e160bf1d0a",
+  "boot-verify": {
+    "exit": 0,
+    "bytes": 26,
+    "sha256": "457eaf2f9bf90c95a8825f661e6ee70ddc8b5e0793311598fd9e31ea347f7687"
+  },
+  "firmware-check": {
+    "exit": 0,
+    "bytes": 50,
+    "sha256": "dd6e2d4651a7210c2ce1d4a186ece356ef0618e4a4dfbbcaec004d2e105031c3"
+  },
+  "mounts": {
+    "exit": 0,
+    "bytes": 7982,
+    "sha256": "6e5ec9917f4ab210112308850973f70f9095d31401f27712255dfc1301f9732c"
+  },
+  "failed-units": {
+    "exit": 0,
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "kernel": {
+    "exit": 0,
+    "bytes": 56801,
+    "sha256": "c95afe18b7ea2fe4d10b990ae181118d178b97695da87576b0bc6ffccc6e1da8"
+  },
+  "bluetooth-journal": {
+    "exit": 0,
+    "bytes": 2872,
+    "sha256": "f12a4de592b6d42bac70a7e2476704571af77ad078353c8fa280fe42656cc9b6"
+  },
+  "bluetooth-show": {
+    "exit": 0,
+    "bytes": 1389,
+    "sha256": "95c73218f360fdeb6f03e11ce68c2f207aebb3f9143ca5fc8119c47a8884924d"
+  },
+  "bluetooth-list": {
+    "exit": 0,
+    "bytes": 50,
+    "sha256": "f030bfe8029f0172cdebeaeec6abfb121055adfe53829625972f8bd8f47207f6"
+  },
+  "rfkill": {
+    "exit": 0,
+    "bytes": 320,
+    "sha256": "f808bfc135edf72fa93f6f9765cd93a2f73c4d649da9ffb6ef58f4fa6c31789f"
+  },
+  "module-info": {
+    "exit": 0,
+    "bytes": 2337,
+    "sha256": "9af39c4364970315717a328cae4debd2148b19d48993345079b3b951a49910bb"
+  },
+  "usb": {
+    "exit": "unavailable",
+    "reason": "[Errno 2] No such file or directory: 'lsusb'"
+  },
+  "memory": {
+    "exit": 0,
+    "bytes": 207,
+    "sha256": "0de86a2874e1d6c7b5921b130d169d51753739f9fa97b4b22ccc1fa5e8f2563b"
+  },
+  "cpu": {
+    "exit": 0,
+    "bytes": 10,
+    "sha256": "370afcec441b514ced2d8c7a6dce776d58ec2fd19d52cc3efe8e80eea1875140"
+  },
+  "loaded_aux": true,
+  "aux_srcversion": "B6C2E9747A85E858B731389",
+  "live_uart_has_rtscts": true,
+  "live_property_size": 0,
+  "fdt_sha256": "f30a1a56bc956dc75ef2045e0f9636f98a65085efecdd0955146d79a50a1dd1a",
+  "raw_private_archive_sha256": "edb5b14feb131d75665af234aed7b749446c8ec284eec16b91f04bd09ffb80e5",
+  "evidence_boundary": "Selected sanitized evidence; raw mounts/FDT, addresses and complete machine logs remain private under ignored build storage."
+}

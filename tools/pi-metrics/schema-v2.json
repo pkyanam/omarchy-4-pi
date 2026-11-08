@@ -1,0 +1,574 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pi metrics v2 (legacy v1 excluded)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "tool_version",
+    "sample_id",
+    "started_utc",
+    "ended_utc",
+    "metadata",
+    "probes",
+    "before",
+    "after"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 2
+    },
+    "tool_version": {
+      "const": "2.0.0"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cohort",
+        "label",
+        "experiment",
+        "trial",
+        "conditions",
+        "candidate",
+        "probe_sha256",
+        "transport"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "experiment": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "trial": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "conditions": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "candidate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "cohort": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_-]{0,79}$"
+        },
+        "probe_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "transport": {
+          "const": "ssh-key-strict-hostkey-sudo-n"
+        }
+      }
+    },
+    "started_utc": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?\\+00:00$"
+    },
+    "ended_utc": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?\\+00:00$"
+    },
+    "probes": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/observation"
+      },
+      "required": [
+        "collector.euid",
+        "kernel.release",
+        "board.revision",
+        "board.nominal_ram",
+        "security.kpti_runtime",
+        "build.installed_compiler_flags"
+      ],
+      "properties": {
+        "board.revision": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}$"
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "hex"
+                }
+              }
+            }
+          ]
+        },
+        "board.nominal_ram": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "integer",
+                      "enum": [
+                        256,
+                        512,
+                        1024,
+                        2048,
+                        4096,
+                        8192,
+                        16384
+                      ]
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "MiB"
+                }
+              }
+            }
+          ]
+        },
+        "collector.euid": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "integer",
+                      "const": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "uid"
+                }
+              }
+            }
+          ]
+        },
+        "security.kpti_runtime": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "boolean"
+                }
+              }
+            }
+          ]
+        },
+        "openssl.aes256cbc": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "MiB/s"
+                }
+              }
+            }
+          ]
+        },
+        "openssl.sha256": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "MiB/s"
+                }
+              }
+            }
+          ]
+        },
+        "python.getpid": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "us/iteration"
+                }
+              }
+            }
+          ]
+        },
+        "python.open_close": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "us/iteration"
+                }
+              }
+            }
+          ]
+        },
+        "python.null_loop": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "us/iteration"
+                }
+              }
+            }
+          ]
+        },
+        "zram.size": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "bytes"
+                }
+              }
+            }
+          ]
+        },
+        "media.video_nodes": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "count"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "before": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/observation"
+      },
+      "required": [
+        "firmware.throttled_raw",
+        "uptime",
+        "loadavg",
+        "pressure.cpu",
+        "pressure.memory",
+        "pressure.io"
+      ],
+      "properties": {
+        "firmware.throttled_raw": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "bitmask"
+                }
+              }
+            }
+          ]
+        },
+        "uptime": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "seconds"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "after": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/observation"
+      },
+      "required": [
+        "firmware.throttled_raw",
+        "uptime",
+        "loadavg",
+        "pressure.cpu",
+        "pressure.memory",
+        "pressure.io"
+      ],
+      "properties": {
+        "firmware.throttled_raw": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "bitmask"
+                }
+              }
+            }
+          ]
+        },
+        "uptime": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/observation"
+            },
+            {
+              "properties": {
+                "value": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  ]
+                },
+                "unit": {
+                  "const": "seconds"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "observation": {
+      "type": "object",
+      "required": [
+        "value",
+        "unit",
+        "source",
+        "status",
+        "detail"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "unavailable",
+            "permission_denied",
+            "invalid",
+            "error",
+            "not_measured"
+          ]
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 4096
+        }
+      }
+    }
+  }
+}

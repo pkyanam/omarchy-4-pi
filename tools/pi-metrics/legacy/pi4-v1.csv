@@ -1,0 +1,7 @@
+timestamp_utc,model_gb,board_revision,kernel,syscall_getpid_us,syscall_open_us,null_loop_s,cur_freq_khz,max_freq_khz,cpufreq_driver,governor,temp_millic,throttle_flag,aes_accel,aes_cbc_mibs,sha256_mibs,ce_crypto_entries,pti_enabled,lto_enabled,hz,meltdown_affected,swappiness,zram_compressor,zram_size_bytes,cma_total_kb,video_devices,march,midr
+2026-11-08T10:33:34Z,4,1531c000,7.3.0-32.1-omarchy,0.9688,11.0016,0.0275,1800000,1800000,cpufreq-dt,schedutil,48686,-1,0,35.2,165.3,0,1,0,1000,0,150,zstd,3924819968,65536,0,-march=armv8-a,0xd08
+2026-11-08T10:34:00Z,4,1531c000,7.3.0-32.1-omarchy,0.9506,11.0943,0.0243,1800000,1800000,cpufreq-dt,schedutil,45764,-1,0,35.2,164.9,0,1,0,1000,0,150,zstd,3924819968,65536,0,-march=armv8-a,0xd08
+2026-11-08T10:34:24Z,4,1531c000,7.3.0-32.1-omarchy,0.9682,11.1480,0.0246,1800000,1800000,cpufreq-dt,schedutil,46251,-1,0,35.2,165.2,0,1,0,1000,0,150,zstd,3924819968,65536,0,-march=armv8-a,0xd08
+2026-11-08T10:34:49Z,4,1531c000,7.3.0-32.1-omarchy,0.9655,11.9214,0.0247,1800000,1800000,cpufreq-dt,schedutil,45277,-1,0,35.2,165.2,0,1,0,1000,0,150,zstd,3924819968,65536,0,-march=armv8-a,0xd08
+2026-11-08T10:35:26Z,4,1531c000,7.3.0-32.1-omarchy,0.9749,13.7236,0.0229,1800000,1800000,cpufreq-dt,schedutil,43329,-1,0,35.2,164.7,0,1,0,1000,0,150,zstd,3924819968,65536,0,-march=armv8-a,0xd08
+2026-11-08T10:36:04Z,4,1531c000,7.3.0-32.1-omarchy,0.9650,11.0155,0.0229,1800000,1800000,cpufreq-dt,schedutil,43816,-1,0,35.2,166.4,0,1,0,1000,0,150,zstd,3924819968,65536,0,-march=armv8-a,0xd08

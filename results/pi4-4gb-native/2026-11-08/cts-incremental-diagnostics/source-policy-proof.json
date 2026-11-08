@@ -1,0 +1,21 @@
+{
+  "base_recipe": "db4db9894ddc11838724928846b134699a6108b3; reviewed pkgrel32.1",
+  "serial_or_tty_patches_in_base_recipe": [
+    {
+      "file": "2217-serial-qcom-geni-release-the-OPP-and-ICC-votes-in-sy.patch",
+      "paths": [
+        "drivers/tty/serial/qcom_geni_serial.c"
+      ]
+    }
+  ],
+  "affects_8250_or_serial_tty_headers": false,
+  "case_collision_samefile": true,
+  "patch_sha256": "3d863fb62041f38ffd3f8428da69698053f6dae77a42bef03aac0633f0685c18",
+  "intree_modpost_requires": [
+    "vmlinux.o",
+    ".vmlinux.objs",
+    "vmlinux.a"
+  ],
+  "external_modpost_flags": "-e -i exact headers Module.symvers; -e omits intree marker",
+  "signing": "baseline MODULE_SIG_ALL=y SHA512; trusted original private key remains untouched in read-only cache; only public fingerprint inspected; probes unsigned; no package signatures or signing authority"
+}

@@ -1,0 +1,600 @@
+make: Entering directory '/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+make  -C /candidate/module \
+-f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Makefile modules
+make[1]: Entering directory '/candidate/module'
+make --no-print-directory -C /candidate/module \
+-f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Makefile modules
+make -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.build obj=. need-builtin=1 need-modorder=1 
+# CC [M]  8250_bcm2835aux.o
+  gcc -Wp,-MMD,./.8250_bcm2835aux.o.d -nostdinc -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/generated/uapi -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler-version.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/kconfig.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DCC_USING_PATCHABLE_FUNCTION_ENTRY -DKASAN_SHADOW_SCALE_SHIFT= -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -std=gnu11 -fms-extensions -mgeneral-regs-only -DCONFIG_CC_HAS_K_CONSTRAINT=1 -Wno-psabi -mabi=lp64 -fno-asynchronous-unwind-tables -fno-unwind-tables -mbranch-protection=pac-ret -Wa,-march=armv8.5-a -DARM64_ASM_ARCH='"armv8.5-a"' -ffixed-x18 -DKASAN_SHADOW_SCALE_SHIFT= -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fzero-init-padding-bits=all -fno-stack-clash-protection -fdiagnostics-show-context=2 -fzero-call-used-regs=used-gpr -fpatchable-function-entry=4,2 -fsanitize=shadow-call-stack -fmin-function-alignment=8 -fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check -fconserve-stack -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-type-limits -Wno-dangling-pointer -Wvla-larger-than=1 -Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initialization -Wno-array-bounds -Wno-stringop-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -g -gdwarf-5 -DGCC_PLUGINS -gz=zstd -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=2048  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum    -DMODULE  -DKBUILD_BASENAME='"8250_bcm2835aux"' -DKBUILD_MODNAME='"8250_bcm2835aux"' -D__KBUILD_MODNAME=8250_bcm2835aux -c -o 8250_bcm2835aux.o 8250_bcm2835aux.c  
+# cmd_gen_symversions_c 8250_bcm2835aux.o
+  if nm 8250_bcm2835aux.o 2>/dev/null | grep -q ' __export_symbol_'; then  nm 8250_bcm2835aux.o | sed -n 's/.* __export_symbol_\(.*\)/\1/p' | /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/gendwarfksyms/gendwarfksyms   8250_bcm2835aux.o >> ./.8250_bcm2835aux.o.cmd; fi
+# cmd_mod 8250_bcm2835aux.mod
+  printf '%s\n'   8250_bcm2835aux.o | awk '!x[$0]++ { print("./"$0) }' > 8250_bcm2835aux.mod
+# cmd_gen_order modules.order
+  {   echo 8250_bcm2835aux.o; :; } > modules.order
+sh /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/modules-check.sh modules.order
+make -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.modpost
+# MODPOST Module.symvers
+   /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/mod/modpost -M -m -b -x -a      -o Module.symvers -n -T modules.order -i /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Module.symvers -e 
+make -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.modfinal
+# CC [M]  8250_bcm2835aux.mod.o
+  gcc -Wp,-MMD,./.8250_bcm2835aux.mod.o.d -nostdinc -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/generated/uapi -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler-version.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/kconfig.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DCC_USING_PATCHABLE_FUNCTION_ENTRY -DKASAN_SHADOW_SCALE_SHIFT= -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -std=gnu11 -fms-extensions -mgeneral-regs-only -DCONFIG_CC_HAS_K_CONSTRAINT=1 -Wno-psabi -mabi=lp64 -fno-asynchronous-unwind-tables -fno-unwind-tables -mbranch-protection=pac-ret -Wa,-march=armv8.5-a -DARM64_ASM_ARCH='"armv8.5-a"' -ffixed-x18 -DKASAN_SHADOW_SCALE_SHIFT= -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fzero-init-padding-bits=all -fno-stack-clash-protection -fdiagnostics-show-context=2 -fzero-call-used-regs=used-gpr -fpatchable-function-entry=4,2 -fsanitize=shadow-call-stack -fmin-function-alignment=8 -fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check -fconserve-stack -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-type-limits -Wno-dangling-pointer -Wvla-larger-than=1 -Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initialization -Wno-array-bounds -Wno-stringop-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -g -gdwarf-5 -DGCC_PLUGINS -gz=zstd -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=2048  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum    -DMODULE  -DKBUILD_BASENAME='"8250_bcm2835aux.mod"' -DKBUILD_MODNAME='"8250_bcm2835aux"' -D__KBUILD_MODNAME=8250_bcm2835aux -c -o 8250_bcm2835aux.mod.o 8250_bcm2835aux.mod.c  
+# CC [M]  .module-common.o
+  gcc -Wp,-MMD,./..module-common.o.d -nostdinc -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/generated/uapi -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler-version.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/kconfig.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DCC_USING_PATCHABLE_FUNCTION_ENTRY -DKASAN_SHADOW_SCALE_SHIFT= -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -std=gnu11 -fms-extensions -mgeneral-regs-only -DCONFIG_CC_HAS_K_CONSTRAINT=1 -Wno-psabi -mabi=lp64 -fno-asynchronous-unwind-tables -fno-unwind-tables -mbranch-protection=pac-ret -Wa,-march=armv8.5-a -DARM64_ASM_ARCH='"armv8.5-a"' -ffixed-x18 -DKASAN_SHADOW_SCALE_SHIFT= -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fzero-init-padding-bits=all -fno-stack-clash-protection -fdiagnostics-show-context=2 -fzero-call-used-regs=used-gpr -fpatchable-function-entry=4,2 -fsanitize=shadow-call-stack -fmin-function-alignment=8 -fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check -fconserve-stack -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-type-limits -Wno-dangling-pointer -Wvla-larger-than=1 -Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initialization -Wno-array-bounds -Wno-stringop-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -g -gdwarf-5 -DGCC_PLUGINS -gz=zstd -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=2048  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum    -DMODULE  -DKBUILD_BASENAME='".module_common"' -DKBUILD_MODNAME='".module_common.o"' -D__KBUILD_MODNAME=.module_common.o -c -o .module-common.o /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/module-common.c  
+# LD [M]  8250_bcm2835aux.ko
+  ld -r -EL  -maarch64elf -z noexecstack --no-warn-rwx-segments --build-id=sha1 --force-group-allocation  -T /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/module.lds -o 8250_bcm2835aux.ko 8250_bcm2835aux.o 8250_bcm2835aux.mod.o .module-common.o
+# BTF [M] 8250_bcm2835aux.ko
+  if [ ! -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux ]; then printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" 8250_bcm2835aux.ko 1>&2; else sh /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/gen-btf.sh --btf_base /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux 8250_bcm2835aux.ko; fi;
++ trap cleanup EXIT
++ BTFGEN_MODE=vmlinux
++ '[' -n /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux ']'
++ BTFGEN_MODE=module
++ gen_btf_data
++ btf1=8250_bcm2835aux.ko.BTF.1
++ pahole -J -j1 --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func --btf_features=layout --lang_exclude=rust --btf_base /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux --btf_encode_detached=8250_bcm2835aux.ko.BTF.1 8250_bcm2835aux.ko
++ /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/tools/bpf/resolve_btfids/resolve_btfids --distill_base --verbose --btf_base /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux --btf 8250_bcm2835aux.ko.BTF.1 8250_bcm2835aux.ko
+Cannot find .BTF_ids or symbols sections, skip symbols resolution
+Dumped 802 bytes of data to 8250_bcm2835aux.ko.BTF
+Dumped 243 bytes of data to 8250_bcm2835aux.ko.BTF.base
++ case "${BTFGEN_MODE}" in
++ embed_btf_data
++ objcopy --add-section .BTF=8250_bcm2835aux.ko.BTF 8250_bcm2835aux.ko
++ btf_base=8250_bcm2835aux.ko.BTF.base
++ '[' -f 8250_bcm2835aux.ko.BTF.base ']'
++ objcopy --add-section .BTF.base=8250_bcm2835aux.ko.BTF.base 8250_bcm2835aux.ko
++ btf_ids=8250_bcm2835aux.ko.BTF_ids
++ '[' -f 8250_bcm2835aux.ko.BTF_ids ']'
++ exit 0
++ cleanup
++ rm -f 8250_bcm2835aux.ko.BTF.1
++ rm -f 8250_bcm2835aux.ko.BTF
++ '[' module = module ']'
++ rm -f 8250_bcm2835aux.ko.BTF.base
++ rm -f 8250_bcm2835aux.ko.BTF_ids
+make[1]: Leaving directory '/candidate/module'
+make: Leaving directory '/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+patching file 8250_bcm2835aux.c
+make: Entering directory '/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+make  -C /candidate/module \
+-f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Makefile modules
+make[1]: Entering directory '/candidate/module'
+make --no-print-directory -C /candidate/module \
+-f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Makefile modules
+make -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.build obj=. need-builtin=1 need-modorder=1 
+# CC [M]  8250_bcm2835aux.o
+  gcc -Wp,-MMD,./.8250_bcm2835aux.o.d -nostdinc -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/generated/uapi -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler-version.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/kconfig.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DCC_USING_PATCHABLE_FUNCTION_ENTRY -DKASAN_SHADOW_SCALE_SHIFT= -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -std=gnu11 -fms-extensions -mgeneral-regs-only -DCONFIG_CC_HAS_K_CONSTRAINT=1 -Wno-psabi -mabi=lp64 -fno-asynchronous-unwind-tables -fno-unwind-tables -mbranch-protection=pac-ret -Wa,-march=armv8.5-a -DARM64_ASM_ARCH='"armv8.5-a"' -ffixed-x18 -DKASAN_SHADOW_SCALE_SHIFT= -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fzero-init-padding-bits=all -fno-stack-clash-protection -fdiagnostics-show-context=2 -fzero-call-used-regs=used-gpr -fpatchable-function-entry=4,2 -fsanitize=shadow-call-stack -fmin-function-alignment=8 -fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check -fconserve-stack -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-type-limits -Wno-dangling-pointer -Wvla-larger-than=1 -Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initialization -Wno-array-bounds -Wno-stringop-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -g -gdwarf-5 -DGCC_PLUGINS -gz=zstd -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=2048  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum    -DMODULE  -DKBUILD_BASENAME='"8250_bcm2835aux"' -DKBUILD_MODNAME='"8250_bcm2835aux"' -D__KBUILD_MODNAME=8250_bcm2835aux -c -o 8250_bcm2835aux.o 8250_bcm2835aux.c  
+# cmd_gen_symversions_c 8250_bcm2835aux.o
+  if nm 8250_bcm2835aux.o 2>/dev/null | grep -q ' __export_symbol_'; then  nm 8250_bcm2835aux.o | sed -n 's/.* __export_symbol_\(.*\)/\1/p' | /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/gendwarfksyms/gendwarfksyms   8250_bcm2835aux.o >> ./.8250_bcm2835aux.o.cmd; fi
+# cmd_gen_order modules.order
+  {   echo 8250_bcm2835aux.o; :; } > modules.order
+sh /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/modules-check.sh modules.order
+make -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.modpost
+# MODPOST Module.symvers
+   /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/mod/modpost -M -m -b -x -a      -o Module.symvers -n -T modules.order -i /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/Module.symvers -e 
+make -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/Makefile.modfinal
+# CC [M]  8250_bcm2835aux.mod.o
+  gcc -Wp,-MMD,./.8250_bcm2835aux.mod.o.d -nostdinc -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/arch/arm64/include/generated/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/uapi -I/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/generated/uapi -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler-version.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/kconfig.h -include /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/include/linux/compiler_types.h -D__KERNEL__ -mlittle-endian -DCC_USING_PATCHABLE_FUNCTION_ENTRY -DKASAN_SHADOW_SCALE_SHIFT= -fshort-wchar -funsigned-char -fno-common -fno-PIE -fno-strict-aliasing -std=gnu11 -fms-extensions -mgeneral-regs-only -DCONFIG_CC_HAS_K_CONSTRAINT=1 -Wno-psabi -mabi=lp64 -fno-asynchronous-unwind-tables -fno-unwind-tables -mbranch-protection=pac-ret -Wa,-march=armv8.5-a -DARM64_ASM_ARCH='"armv8.5-a"' -ffixed-x18 -DKASAN_SHADOW_SCALE_SHIFT= -fno-delete-null-pointer-checks -O2 -fno-allow-store-data-races -fstack-protector-strong -fno-omit-frame-pointer -fno-optimize-sibling-calls -ftrivial-auto-var-init=zero -fzero-init-padding-bits=all -fno-stack-clash-protection -fdiagnostics-show-context=2 -fzero-call-used-regs=used-gpr -fpatchable-function-entry=4,2 -fsanitize=shadow-call-stack -fmin-function-alignment=8 -fstrict-flex-arrays=3 -fno-strict-overflow -fno-stack-check -fconserve-stack -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=implicit-function-declaration -Werror=implicit-int -Werror=return-type -Werror=strict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-address -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes -Wframe-larger-than=1024 -Wno-main -Wno-type-limits -Wno-dangling-pointer -Wvla-larger-than=1 -Wno-pointer-sign -Wcast-function-type -Wno-unterminated-string-initialization -Wno-array-bounds -Wno-stringop-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=5 -Werror=date-time -Werror=incompatible-pointer-types -Werror=designated-init -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncation -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initializers -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno-sign-compare -Wno-unused-parameter -g -gdwarf-5 -DGCC_PLUGINS -gz=zstd -mstack-protector-guard=sysreg -mstack-protector-guard-reg=sp_el0 -mstack-protector-guard-offset=2048  -fsanitize=bounds-strict -fsanitize=shift -fsanitize=bool -fsanitize=enum    -DMODULE  -DKBUILD_BASENAME='"8250_bcm2835aux.mod"' -DKBUILD_MODNAME='"8250_bcm2835aux"' -D__KBUILD_MODNAME=8250_bcm2835aux -c -o 8250_bcm2835aux.mod.o 8250_bcm2835aux.mod.c  
+# LD [M]  8250_bcm2835aux.ko
+  ld -r -EL  -maarch64elf -z noexecstack --no-warn-rwx-segments --build-id=sha1 --force-group-allocation  -T /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/module.lds -o 8250_bcm2835aux.ko 8250_bcm2835aux.o 8250_bcm2835aux.mod.o .module-common.o
+# BTF [M] 8250_bcm2835aux.ko
+  if [ ! -f /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux ]; then printf "Skipping BTF generation for %s due to unavailability of vmlinux\n" 8250_bcm2835aux.ko 1>&2; else sh /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/scripts/gen-btf.sh --btf_base /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux 8250_bcm2835aux.ko; fi;
++ trap cleanup EXIT
++ BTFGEN_MODE=vmlinux
++ '[' -n /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux ']'
++ BTFGEN_MODE=module
++ gen_btf_data
++ btf1=8250_bcm2835aux.ko.BTF.1
++ pahole -J -j1 --btf_features=encode_force,var,float,enum64,decl_tag,type_tag,optimized_func,consistent_func --btf_features=layout --lang_exclude=rust --btf_base /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux --btf_encode_detached=8250_bcm2835aux.ko.BTF.1 8250_bcm2835aux.ko
++ /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/tools/bpf/resolve_btfids/resolve_btfids --distill_base --verbose --btf_base /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/vmlinux --btf 8250_bcm2835aux.ko.BTF.1 8250_bcm2835aux.ko
+Cannot find .BTF_ids or symbols sections, skip symbols resolution
+Dumped 1329 bytes of data to 8250_bcm2835aux.ko.BTF
+Dumped 311 bytes of data to 8250_bcm2835aux.ko.BTF.base
++ case "${BTFGEN_MODE}" in
++ embed_btf_data
++ objcopy --add-section .BTF=8250_bcm2835aux.ko.BTF 8250_bcm2835aux.ko
++ btf_base=8250_bcm2835aux.ko.BTF.base
++ '[' -f 8250_bcm2835aux.ko.BTF.base ']'
++ objcopy --add-section .BTF.base=8250_bcm2835aux.ko.BTF.base 8250_bcm2835aux.ko
++ btf_ids=8250_bcm2835aux.ko.BTF_ids
++ '[' -f 8250_bcm2835aux.ko.BTF_ids ']'
++ exit 0
++ cleanup
++ rm -f 8250_bcm2835aux.ko.BTF.1
++ rm -f 8250_bcm2835aux.ko.BTF
++ '[' module = module ']'
++ rm -f 8250_bcm2835aux.ko.BTF.base
++ rm -f 8250_bcm2835aux.ko.BTF_ids
+make[1]: Leaving directory '/candidate/module'
+make: Leaving directory '/candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build'
+MODULE /candidate/baseline/8250_bcm2835aux.ko
+filename:       /candidate/baseline/8250_bcm2835aux.ko
+license:        GPL v2
+author:         Martin Sperl <kernel@martin.sperl.org>
+description:    BCM2835 auxiliar UART driver
+srcversion:     990467C7459E5E0FD7A7AB6
+alias:          of:N*T*Cbrcm,bcm2835-aux-uartC*
+alias:          of:N*T*Cbrcm,bcm2835-aux-uart
+alias:          acpi*:BCM2836:*
+depends:        
+intree:         Y
+name:           8250_bcm2835aux
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+sig_id:         PKCS#7
+signer:         Build time autogenerated kernel key
+sig_key:        40:03:30:9F:FF:AD:20:04:F9:49:A9:5F:43:AB:0F:7C:07:0A:87:F2
+sig_hashalgo:   sha512
+signature:      3F:52:B0:0B:59:6B:71:BC:C8:06:55:32:04:95:FF:23:C1:BB:09:F8:
+		AC:A4:5F:C5:E8:B5:2E:85:90:27:D1:61:0E:26:60:B2:F0:6B:AB:1E:
+		CC:99:52:D5:F2:6F:EA:C2:10:0A:7F:E0:5D:05:3E:62:28:93:5A:92:
+		A7:2E:97:12:EB:CC:7C:F8:0A:6A:0F:A0:1D:57:E8:FC:EC:13:91:F9:
+		9D:01:47:C3:76:84:9E:08:F9:B3:C4:02:50:AF:73:49:2D:8E:C9:D8:
+		11:94:03:83:09:92:1E:4B:12:37:13:55:79:A4:AD:1E:3F:86:EA:03:
+		5B:96:C5:04:41:FC:72:62:32:05:AC:30:7B:9E:F7:7A:9C:22:FD:4B:
+		64:66:68:AD:8D:81:B8:78:C4:CE:0D:AE:00:E0:42:B8:73:78:C3:E2:
+		69:70:83:52:31:95:16:50:01:22:DF:A6:9D:47:53:FD:32:2A:BE:4F:
+		5F:86:AA:29:08:1A:E3:28:AC:8E:95:D4:44:CE:DE:E7:2E:6D:EB:64:
+		C4:54:9C:83:63:D7:B8:1F:BB:2B:CA:7E:F0:33:2A:36:8F:21:7A:91:
+		CE:F8:88:E6:5A:00:10:0B:CF:33:31:07:13:06:11:8A:E9:69:84:F3:
+		4C:88:AE:48:EA:61:60:05:F3:45:40:85:4C:BE:36:B3:A4:21:F9:A7:
+		39:21:9E:FF:3E:FF:5D:79:09:D8:CD:95:E1:1C:41:1B:D7:D4:57:35:
+		69:E2:2C:D7:BB:FA:FD:D4:91:57:BA:F2:8E:21:71:F9:E4:E7:48:1D:
+		92:12:38:8E:52:00:A4:84:D0:27:D1:C7:A4:7F:D9:61:0F:92:8C:FD:
+		1A:C1:18:DD:53:8B:48:72:54:C9:C1:8A:57:0F:69:8E:92:1D:FE:22:
+		7C:9A:36:EA:D2:E7:ED:31:BF:F8:DA:D9:37:00:8E:97:FD:02:1D:BF:
+		DC:2C:C9:F6:8D:E1:9C:E7:58:8B:29:F1:5A:89:DF:38:9E:E7:43:14:
+		B8:D1:55:AE:6F:5C:B8:5A:36:09:4B:C6:05:FB:C0:0A:C9:A0:5D:D5:
+		CA:17:ED:4D:92:94:52:E5:44:06:C1:40:01:8D:D3:19:33:5B:8F:9C:
+		90:BD:A2:D4:21:6A:9E:F1:35:CA:D0:F9:8D:B4:3A:8F:91:40:F2:2A:
+		06:0A:10:2C:CB:6C:C0:25:33:60:62:3F:F0:AA:82:51:64:B2:6D:57:
+		C6:0E:12:CC:FB:C0:3D:2B:C1:BE:6E:98:34:F2:BB:A8:79:7F:D9:D6:
+		E3:71:CA:2E:24:C9:E3:33:44:52:31:95:97:CD:B0:88:F6:15:D1:E0:
+		09:8E:A6:DA:7F:EE:B3:8F:37:D1:BA:E3
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              REL (Relocatable file)
+  Machine:                           AArch64
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          0 (bytes into file)
+  Start of section headers:          14736 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           0 (bytes)
+  Number of program headers:         0
+  Size of section headers:           64 (bytes)
+  Number of section headers:         38
+  Section header string table index: 37
+There are 38 section headers, starting at offset 0x3990:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] __patchable_function_entries PROGBITS        0000000000000000 000040 000040 00 WAL 15   0  8
+  [ 2] .rela__patchable_function_entries RELA            0000000000000000 002ef0 0000c0 18   I 35   1  8
+  [ 3] .text             PROGBITS        0000000000000000 000080 000728 00  AX  0   0 32
+  [ 4] .rela.text        RELA            0000000000000000 002fb0 000570 18   I 35   3  8
+  [ 5] .bss              NOBITS          0000000000000000 0007a8 000000 00  WA  0   0  1
+  [ 6] .data             PROGBITS        0000000000000000 0007a8 0000f4 00  WA  0   0  8
+  [ 7] .rela.data        RELA            0000000000000000 003520 0000c0 18   I 35   6  8
+  [ 8] .rodata           PROGBITS        0000000000000000 0008a0 0003c0 00   A  0   0  8
+  [ 9] .rela.rodata      RELA            0000000000000000 0035e0 0000d8 18   I 35   8  8
+  [10] .plt              PROGBITS        0000000000000000 000c60 000001 00  AX  0   0  1
+  [11] .init.plt         PROGBITS        0000000000000000 000c61 000001 00   A  0   0  1
+  [12] .text.ftrace_trampoline PROGBITS        0000000000000000 000c62 000001 00  AX  0   0  1
+  [13] .init.text.ftrace_trampoline PROGBITS        0000000000000000 000c63 000001 00   A  0   0  1
+  [14] .note.GNU-stack   PROGBITS        0000000000000000 000c64 000000 00      0   0  1
+  [15] .init.text        PROGBITS        0000000000000000 000c68 00005c 00  AX  0   0  8
+  [16] .rela.init.text   RELA            0000000000000000 0036b8 0000a8 18   I 35  15  8
+  [17] .exit.text        PROGBITS        0000000000000000 000cc8 000038 00  AX  0   0  8
+  [18] .rela.exit.text   RELA            0000000000000000 003760 000048 18   I 35  17  8
+  [19] .exit.data        PROGBITS        0000000000000000 000d00 000008 00  WA  0   0  8
+  [20] .rela.exit.data   RELA            0000000000000000 0037a8 000018 18   I 35  19  8
+  [21] .init.data        PROGBITS        0000000000000000 000d08 000008 00  WA  0   0  8
+  [22] .rela.init.data   RELA            0000000000000000 0037c0 000018 18   I 35  21  8
+  [23] .modinfo          PROGBITS        0000000000000000 000d10 000157 00   A  0   0  1
+  [24] .comment          PROGBITS        0000000000000000 000e67 000054 01  MS  0   0  1
+  [25] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 000ebb 000024 00      0   0  1
+  [26] .note.gnu.build-id NOTE            0000000000000000 000ee0 000024 00   A  0   0  4
+  [27] .note.gnu.property NOTE            0000000000000000 000f08 000020 00   A  0   0  8
+  [28] .gnu.linkonce.this_module PROGBITS        0000000000000000 000f28 000500 00  WA  0   0 64
+  [29] .rela.gnu.linkonce.this_module RELA            0000000000000000 0037d8 000030 18   I 35  28  8
+  [30] __version_ext_crcs PROGBITS        0000000000000000 001428 000074 00   A  0   0  8
+  [31] __version_ext_names PROGBITS        0000000000000000 0014a0 000248 00   A  0   0  8
+  [32] __versions        PROGBITS        0000000000000000 0016e8 000740 00   A  0   0  8
+  [33] .note.Linux       NOTE            0000000000000000 001e28 000030 00   A  0   0  4
+  [34] .BTF              PROGBITS        0000000000000000 001e58 000213 00      0   0  1
+  [35] .symtab           SYMTAB          0000000000000000 002070 0008a0 18     36  61  8
+  [36] .strtab           STRTAB          0000000000000000 002910 0005dc 00      0   0  1
+  [37] .shstrtab         STRTAB          0000000000000000 003808 000186 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+                 U clk_disable
+                 U clk_enable
+                 U clk_get_rate
+                 U clk_prepare
+                 U clk_unprepare
+                 U console_suspend_enabled
+                 U _dev_err
+                 U dev_err_probe
+                 U device_add_software_node
+                 U device_get_match_data
+                 U device_remove_software_node
+                 U devm_clk_get_optional
+                 U devm_kmalloc
+                 U mctrl_gpio_set
+                 U memset
+                 U __platform_driver_register
+                 U platform_driver_unregister
+                 U platform_get_resource
+                 U serial8250_em485_config
+                 U serial8250_em485_supported
+                 U serial8250_get_port
+                 U serial8250_register_8250_port
+                 U serial8250_resume_port
+                 U serial8250_suspend_port
+                 U serial8250_unregister_port
+                 U __stack_chk_fail
+                 U uart_read_port_properties
+                 U __ubsan_handle_load_invalid_value
+0xc09e7a6a	__platform_driver_register
+0xb5be2d6f	serial8250_unregister_port
+0x33d0c686	clk_disable
+0x33d0c686	clk_unprepare
+0x2106df1a	device_remove_software_node
+0xa0cac76d	platform_driver_unregister
+0x0e9cab28	memset
+0xe3246ffc	devm_kmalloc
+0x81e61484	serial8250_em485_config
+0xe83830c3	serial8250_em485_supported
+0xe87b4808	devm_clk_get_optional
+0xe9bf8a6a	platform_get_resource
+0x3a0124ef	device_get_match_data
+0xa2e94357	device_add_software_node
+0xe5dbadaf	uart_read_port_properties
+0xd8b288f3	clk_prepare
+0x2efcfb71	dev_err_probe
+0xd8b288f3	clk_enable
+0xa0928e7c	clk_get_rate
+0x3e762215	serial8250_register_8250_port
+0xd272d446	__stack_chk_fail
+0x889d9f7a	_dev_err
+0x8059ac6d	serial8250_get_port
+0x3239fbdb	console_suspend_enabled
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0xb5be2d6f	serial8250_suspend_port
+0xb5be2d6f	serial8250_resume_port
+0x4483a0b8	mctrl_gpio_set
+0x57971f80	module_layout
+MODULE /candidate/baseline/external-rebuilt.ko
+filename:       /candidate/baseline/external-rebuilt.ko
+license:        GPL v2
+author:         Martin Sperl <kernel@martin.sperl.org>
+description:    BCM2835 auxiliar UART driver
+srcversion:     18C814A93E4A80044D5D757
+alias:          of:N*T*Cbrcm,bcm2835-aux-uartC*
+alias:          of:N*T*Cbrcm,bcm2835-aux-uart
+alias:          acpi*:BCM2836:*
+depends:        
+name:           8250_bcm2835aux
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              REL (Relocatable file)
+  Machine:                           AArch64
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          0 (bytes into file)
+  Start of section headers:          429896 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           0 (bytes)
+  Number of program headers:         0
+  Size of section headers:           64 (bytes)
+  Number of section headers:         54
+  Section header string table index: 53
+There are 54 section headers, starting at offset 0x68f48:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] __patchable_function_entries PROGBITS        0000000000000000 000040 000040 00 WAL 15   0  8
+  [ 2] .rela__patchable_function_entries RELA            0000000000000000 039d80 0000c0 18   I 51   1  8
+  [ 3] .text             PROGBITS        0000000000000000 000080 000728 00  AX  0   0 32
+  [ 4] .rela.text        RELA            0000000000000000 039e40 000570 18   I 51   3  8
+  [ 5] .bss              NOBITS          0000000000000000 0007a8 000000 00  WA  0   0  1
+  [ 6] .data             PROGBITS        0000000000000000 0007a8 0000f4 00  WA  0   0  8
+  [ 7] .rela.data        RELA            0000000000000000 03a3b0 0000c0 18   I 51   6  8
+  [ 8] .rodata           PROGBITS        0000000000000000 0008a0 0003a8 00   A  0   0  8
+  [ 9] .rela.rodata      RELA            0000000000000000 03a470 0000d8 18   I 51   8  8
+  [10] .plt              PROGBITS        0000000000000000 000c48 000001 00  AX  0   0  1
+  [11] .init.plt         PROGBITS        0000000000000000 000c49 000001 00   A  0   0  1
+  [12] .text.ftrace_trampoline PROGBITS        0000000000000000 000c4a 000001 00  AX  0   0  1
+  [13] .init.text.ftrace_trampoline PROGBITS        0000000000000000 000c4b 000001 00   A  0   0  1
+  [14] .note.GNU-stack   PROGBITS        0000000000000000 000c4c 000000 00      0   0  1
+  [15] .init.text        PROGBITS        0000000000000000 000c50 00005c 00  AX  0   0  8
+  [16] .rela.init.text   RELA            0000000000000000 03a548 0000a8 18   I 51  15  8
+  [17] .exit.text        PROGBITS        0000000000000000 000cb0 000038 00  AX  0   0  8
+  [18] .rela.exit.text   RELA            0000000000000000 03a5f0 000048 18   I 51  17  8
+  [19] .exit.data        PROGBITS        0000000000000000 000ce8 000008 00  WA  0   0  8
+  [20] .rela.exit.data   RELA            0000000000000000 03a638 000018 18   I 51  19  8
+  [21] .init.data        PROGBITS        0000000000000000 000cf0 000008 00  WA  0   0  8
+  [22] .rela.init.data   RELA            0000000000000000 03a650 000018 18   I 51  21  8
+  [23] .modinfo          PROGBITS        0000000000000000 000cf8 00014e 00   A  0   0  1
+  [24] .debug_info       PROGBITS        0000000000000000 000e46 01eea8 00      0   0  1
+  [25] .rela.debug_info  RELA            0000000000000000 03a668 02b5f0 18   I 51  24  8
+  [26] .debug_abbrev     PROGBITS        0000000000000000 01fcee 001159 00      0   0  1
+  [27] .debug_loclists   PROGBITS        0000000000000000 020e47 00075a 00      0   0  1
+  [28] .rela.debug_loclists RELA            0000000000000000 065c58 000768 18   I 51  27  8
+  [29] .debug_aranges    PROGBITS        0000000000000000 0215a1 000090 00      0   0  1
+  [30] .rela.debug_aranges RELA            0000000000000000 0663c0 000090 18   I 51  29  8
+  [31] .debug_rnglists   PROGBITS        0000000000000000 021631 000135 00      0   0  1
+  [32] .rela.debug_rnglists RELA            0000000000000000 066450 0001c8 18   I 51  31  8
+  [33] .debug_line       PROGBITS        0000000000000000 021766 000e9b 00      0   0  1
+  [34] .rela.debug_line  RELA            0000000000000000 066618 002520 18   I 51  33  8
+  [35] .debug_str        PROGBITS        0000000000000000 022601 0134e1 01  MS  0   0  1
+  [36] .debug_line_str   PROGBITS        0000000000000000 035ae2 001afd 01  MS  0   0  1
+  [37] .comment          PROGBITS        0000000000000000 0375df 000054 01  MS  0   0  1
+  [38] .debug_frame      PROGBITS        0000000000000000 037638 000210 00      0   0  8
+  [39] .rela.debug_frame RELA            0000000000000000 068b38 0001b0 18   I 51  38  8
+  [40] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 037848 000024 00      0   0  1
+  [41] .note.gnu.build-id NOTE            0000000000000000 03786c 000024 00   A  0   0  4
+  [42] .note.gnu.property NOTE            0000000000000000 037890 000020 00   A  0   0  8
+  [43] .gnu.linkonce.this_module PROGBITS        0000000000000000 0378b0 000500 00  WA  0   0 64
+  [44] .rela.gnu.linkonce.this_module RELA            0000000000000000 068ce8 000030 18   I 51  43  8
+  [45] __version_ext_crcs PROGBITS        0000000000000000 037db0 000074 00   A  0   0  8
+  [46] __version_ext_names PROGBITS        0000000000000000 037e28 000248 00   A  0   0  8
+  [47] __versions        PROGBITS        0000000000000000 038070 000740 00   A  0   0  8
+  [48] .note.Linux       NOTE            0000000000000000 0387b0 000030 00   A  0   0  4
+  [49] .BTF              PROGBITS        0000000000000000 0387e0 000322 00      0   0  1
+  [50] .BTF.base         PROGBITS        0000000000000000 038b02 0000f3 00      0   0  1
+  [51] .symtab           SYMTAB          0000000000000000 038bf8 000b88 18     52  92  8
+  [52] .strtab           STRTAB          0000000000000000 039780 0005fc 00      0   0  1
+  [53] .shstrtab         STRTAB          0000000000000000 068d18 00022b 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+                 U clk_disable
+                 U clk_enable
+                 U clk_get_rate
+                 U clk_prepare
+                 U clk_unprepare
+                 U console_suspend_enabled
+                 U _dev_err
+                 U dev_err_probe
+                 U device_add_software_node
+                 U device_get_match_data
+                 U device_remove_software_node
+                 U devm_clk_get_optional
+                 U devm_kmalloc
+                 U mctrl_gpio_set
+                 U memset
+                 U __platform_driver_register
+                 U platform_driver_unregister
+                 U platform_get_resource
+                 U serial8250_em485_config
+                 U serial8250_em485_supported
+                 U serial8250_get_port
+                 U serial8250_register_8250_port
+                 U serial8250_resume_port
+                 U serial8250_suspend_port
+                 U serial8250_unregister_port
+                 U __stack_chk_fail
+                 U uart_read_port_properties
+                 U __ubsan_handle_load_invalid_value
+0xc09e7a6a	__platform_driver_register
+0xb5be2d6f	serial8250_unregister_port
+0x33d0c686	clk_disable
+0x33d0c686	clk_unprepare
+0x2106df1a	device_remove_software_node
+0xa0cac76d	platform_driver_unregister
+0x0e9cab28	memset
+0xe3246ffc	devm_kmalloc
+0x81e61484	serial8250_em485_config
+0xe83830c3	serial8250_em485_supported
+0xe87b4808	devm_clk_get_optional
+0xe9bf8a6a	platform_get_resource
+0x3a0124ef	device_get_match_data
+0xa2e94357	device_add_software_node
+0xe5dbadaf	uart_read_port_properties
+0xd8b288f3	clk_prepare
+0x2efcfb71	dev_err_probe
+0xd8b288f3	clk_enable
+0xa0928e7c	clk_get_rate
+0x3e762215	serial8250_register_8250_port
+0xd272d446	__stack_chk_fail
+0x889d9f7a	_dev_err
+0x8059ac6d	serial8250_get_port
+0x3239fbdb	console_suspend_enabled
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0xb5be2d6f	serial8250_suspend_port
+0xb5be2d6f	serial8250_resume_port
+0x4483a0b8	mctrl_gpio_set
+0x57971f80	module_layout
+MODULE 8250_bcm2835aux.ko
+filename:       /candidate/module/8250_bcm2835aux.ko
+license:        GPL v2
+author:         Martin Sperl <kernel@martin.sperl.org>
+description:    BCM2835 auxiliar UART driver
+srcversion:     835C5353460C14A96676ADD
+alias:          of:N*T*Cbrcm,bcm2835-aux-uartC*
+alias:          of:N*T*Cbrcm,bcm2835-aux-uart
+alias:          acpi*:BCM2836:*
+depends:        
+name:           8250_bcm2835aux
+vermagic:       7.3.0-32.1-omarchy SMP preempt mod_unload modversions aarch64
+ELF Header:
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00 
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+  ABI Version:                       0
+  Type:                              REL (Relocatable file)
+  Machine:                           AArch64
+  Version:                           0x1
+  Entry point address:               0x0
+  Start of program headers:          0 (bytes into file)
+  Start of section headers:          465912 (bytes into file)
+  Flags:                             0x0
+  Size of this header:               64 (bytes)
+  Size of program headers:           0 (bytes)
+  Number of program headers:         0
+  Size of section headers:           64 (bytes)
+  Number of section headers:         54
+  Section header string table index: 53
+There are 54 section headers, starting at offset 0x71bf8:
+
+Section Headers:
+  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0
+  [ 1] __patchable_function_entries PROGBITS        0000000000000000 000040 000078 00 WAL  3   0  8
+  [ 2] .rela__patchable_function_entries RELA            0000000000000000 03e908 000168 18   I 51   1  8
+  [ 3] .text             PROGBITS        0000000000000000 0000b8 000e88 00  AX  0   0 32
+  [ 4] .rela.text        RELA            0000000000000000 03ea70 0008a0 18   I 51   3  8
+  [ 5] .bss              NOBITS          0000000000000000 000f40 000000 00  WA  0   0  1
+  [ 6] .data             PROGBITS        0000000000000000 000f40 0000f4 00  WA  0   0  8
+  [ 7] .rela.data        RELA            0000000000000000 03f310 0000c0 18   I 51   6  8
+  [ 8] .rodata           PROGBITS        0000000000000000 001038 0003b8 00   A  0   0  8
+  [ 9] .rela.rodata      RELA            0000000000000000 03f3d0 0000d8 18   I 51   8  8
+  [10] .plt              PROGBITS        0000000000000000 0013f0 000001 00  AX  0   0  1
+  [11] .init.plt         PROGBITS        0000000000000000 0013f1 000001 00   A  0   0  1
+  [12] .text.ftrace_trampoline PROGBITS        0000000000000000 0013f2 000001 00  AX  0   0  1
+  [13] .init.text.ftrace_trampoline PROGBITS        0000000000000000 0013f3 000001 00   A  0   0  1
+  [14] .note.GNU-stack   PROGBITS        0000000000000000 0013f4 000000 00      0   0  1
+  [15] .init.text        PROGBITS        0000000000000000 0013f8 00005c 00  AX  0   0  8
+  [16] .rela.init.text   RELA            0000000000000000 03f4a8 0000a8 18   I 51  15  8
+  [17] .exit.text        PROGBITS        0000000000000000 001458 000038 00  AX  0   0  8
+  [18] .rela.exit.text   RELA            0000000000000000 03f550 000048 18   I 51  17  8
+  [19] .exit.data        PROGBITS        0000000000000000 001490 000008 00  WA  0   0  8
+  [20] .rela.exit.data   RELA            0000000000000000 03f598 000018 18   I 51  19  8
+  [21] .init.data        PROGBITS        0000000000000000 001498 000008 00  WA  0   0  8
+  [22] .rela.init.data   RELA            0000000000000000 03f5b0 000018 18   I 51  21  8
+  [23] .modinfo          PROGBITS        0000000000000000 0014a0 00014e 00   A  0   0  1
+  [24] .debug_info       PROGBITS        0000000000000000 0015ee 0204e9 00      0   0  1
+  [25] .rela.debug_info  RELA            0000000000000000 03f5c8 02e308 18   I 51  24  8
+  [26] .debug_abbrev     PROGBITS        0000000000000000 021ad7 001307 00      0   0  1
+  [27] .debug_loclists   PROGBITS        0000000000000000 022dde 0013f7 00      0   0  1
+  [28] .rela.debug_loclists RELA            0000000000000000 06d8d0 0012d8 18   I 51  27  8
+  [29] .debug_aranges    PROGBITS        0000000000000000 0241d5 000090 00      0   0  1
+  [30] .rela.debug_aranges RELA            0000000000000000 06eba8 000090 18   I 51  29  8
+  [31] .debug_rnglists   PROGBITS        0000000000000000 024265 000352 00      0   0  1
+  [32] .rela.debug_rnglists RELA            0000000000000000 06ec38 000498 18   I 51  31  8
+  [33] .debug_line       PROGBITS        0000000000000000 0245b7 0019af 00      0   0  1
+  [34] .rela.debug_line  RELA            0000000000000000 06f0d0 0025c8 18   I 51  33  8
+  [35] .debug_str        PROGBITS        0000000000000000 025f66 013aff 01  MS  0   0  1
+  [36] .debug_line_str   PROGBITS        0000000000000000 039a65 001bf0 01  MS  0   0  1
+  [37] .comment          PROGBITS        0000000000000000 03b655 000054 01  MS  0   0  1
+  [38] .debug_frame      PROGBITS        0000000000000000 03b6b0 000390 00      0   0  8
+  [39] .rela.debug_frame RELA            0000000000000000 071698 000300 18   I 51  38  8
+  [40] .ARM.attributes   AARCH64_ATTRIBUTES 0000000000000000 03ba40 000024 00      0   0  1
+  [41] .note.gnu.build-id NOTE            0000000000000000 03ba64 000024 00   A  0   0  4
+  [42] .note.gnu.property NOTE            0000000000000000 03ba88 000020 00   A  0   0  8
+  [43] .gnu.linkonce.this_module PROGBITS        0000000000000000 03baa8 000500 00  WA  0   0 64
+  [44] .rela.gnu.linkonce.this_module RELA            0000000000000000 071998 000030 18   I 51  43  8
+  [45] __version_ext_crcs PROGBITS        0000000000000000 03bfa8 00009c 00   A  0   0  8
+  [46] __version_ext_names PROGBITS        0000000000000000 03c048 000327 00   A  0   0  8
+  [47] __versions        PROGBITS        0000000000000000 03c370 0009c0 00   A  0   0  8
+  [48] .note.Linux       NOTE            0000000000000000 03cd30 000030 00   A  0   0  4
+  [49] .BTF              PROGBITS        0000000000000000 03cd60 000531 00      0   0  1
+  [50] .BTF.base         PROGBITS        0000000000000000 03d291 000137 00      0   0  1
+  [51] .symtab           SYMTAB          0000000000000000 03d3c8 000dc8 18     52 106  8
+  [52] .strtab           STRTAB          0000000000000000 03e190 000778 00      0   0  1
+  [53] .shstrtab         STRTAB          0000000000000000 0719c8 00022b 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),
+  L (link order), O (extra OS processing required), G (group), T (TLS),
+  C (compressed), x (unknown), o (OS specific), E (exclude),
+  D (mbind), p (processor specific)
+                 U clk_disable
+                 U clk_enable
+                 U clk_get_rate
+                 U clk_prepare
+                 U clk_unprepare
+                 U console_suspend_enabled
+                 U _dev_err
+                 U dev_err_probe
+                 U device_add_software_node
+                 U device_get_match_data
+                 U device_property_read_bool
+                 U device_remove_software_node
+                 U devm_clk_get_optional
+                 U devm_kmalloc
+                 U mctrl_gpio_set
+                 U mctrl_gpio_to_gpiod
+                 U memset
+                 U nbcon_device_release
+                 U nbcon_device_try_acquire
+                 U __platform_driver_register
+                 U platform_driver_unregister
+                 U platform_get_resource
+                 U _raw_spin_lock_irqsave
+                 U _raw_spin_unlock_irqrestore
+                 U serial8250_do_set_mctrl
+                 U serial8250_do_set_termios
+                 U serial8250_em485_config
+                 U serial8250_em485_supported
+                 U serial8250_get_port
+                 U serial8250_register_8250_port
+                 U serial8250_resume_port
+                 U serial8250_suspend_port
+                 U serial8250_unregister_port
+                 U __stack_chk_fail
+                 U tty_kref_put
+                 U tty_port_tty_get
+                 U uart_read_port_properties
+                 U __ubsan_handle_load_invalid_value
+0xc09e7a6a	__platform_driver_register
+0xb5be2d6f	serial8250_unregister_port
+0x33d0c686	clk_disable
+0x33d0c686	clk_unprepare
+0x2106df1a	device_remove_software_node
+0xcffd9e08	serial8250_do_set_mctrl
+0xa0cac76d	platform_driver_unregister
+0x0e9cab28	memset
+0xe3246ffc	devm_kmalloc
+0xe83830c3	serial8250_em485_supported
+0xe87b4808	devm_clk_get_optional
+0xe9bf8a6a	platform_get_resource
+0x3a0124ef	device_get_match_data
+0xa2e94357	device_add_software_node
+0xe5dbadaf	uart_read_port_properties
+0xcedd357b	device_property_read_bool
+0xd8b288f3	clk_prepare
+0x2efcfb71	dev_err_probe
+0xd8b288f3	clk_enable
+0xa0928e7c	clk_get_rate
+0x3e762215	serial8250_register_8250_port
+0xd272d446	__stack_chk_fail
+0x889d9f7a	_dev_err
+0x8059ac6d	serial8250_get_port
+0x3239fbdb	console_suspend_enabled
+0xe4de56b4	__ubsan_handle_load_invalid_value
+0xb5be2d6f	serial8250_suspend_port
+0x18de975f	tty_port_tty_get
+0xe7a073ce	tty_kref_put
+0x81e61484	serial8250_em485_config
+0xb5be2d6f	serial8250_resume_port
+0x3f0dca4b	serial8250_do_set_termios
+0x11f4259a	_raw_spin_lock_irqsave
+0x444885a7	_raw_spin_unlock_irqrestore
+0xeec869d9	mctrl_gpio_to_gpiod
+0x17e80d2b	nbcon_device_try_acquire
+0xf4d63727	nbcon_device_release
+0x4483a0b8	mctrl_gpio_set
+0x57971f80	module_layout

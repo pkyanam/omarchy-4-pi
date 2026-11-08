@@ -1,0 +1,42 @@
+[
+  {
+    "path": "include/uapi/linux/netfilter/xt_CONNMARK.h",
+    "expected": "e15d96fe80c7dbe980e0620920161e667af83993399e7cbb74f30957088ea204",
+    "actual": "859319b45460d9d7cebcaa73c9f447491f77ad1829c09d4da19f9b6b3843f217"
+  },
+  {
+    "path": "include/uapi/linux/netfilter/xt_DSCP.h",
+    "expected": "d6fab82c38205addd40f4515d4c1081b51eefbe549c69047da7f38b1dfc6ceb5",
+    "actual": "73ece7f43c6adfe0a55351d2d795ca656be6aa98f3b09d99c8819fff2b5ef591"
+  },
+  {
+    "path": "include/uapi/linux/netfilter/xt_MARK.h",
+    "expected": "e0662377a6c673e8f2e6f3c7539417924902950a2e4a753a73940cc871789bdc",
+    "actual": "eaac1d30d0f595a9cc160a8555d7b8ec7c9d3dc376eb8e6d29ecc3271ac029a2"
+  },
+  {
+    "path": "include/uapi/linux/netfilter/xt_RATEEST.h",
+    "expected": "35e2457f0cd20c1ed924da4c8c1b6ecbde34c15175426ff7a7cc24f251689ad2",
+    "actual": "278f7a6d6f22e392ef8965b017e1523903d14236c18c5a84136c5389cafcfd58"
+  },
+  {
+    "path": "include/uapi/linux/netfilter/xt_TCPMSS.h",
+    "expected": "db3bcf49d2a9f71386faee27be40b021cc0d3703c5d435c3e46dce5ec60595c4",
+    "actual": "89038386cb5271e68a462237f4bff84fff467327795588de35a0d4d1d5aa7df2"
+  },
+  {
+    "path": "include/uapi/linux/netfilter_ipv4/ipt_ECN.h",
+    "expected": "0be3d696de201a826d7c7042754bb5a702cf9c38f960a04902b95b1be0750139",
+    "actual": "45bc9787ce575fc4b7ed4b980f3c6e304f255d706ac18ad4fcd77b32a575e323"
+  },
+  {
+    "path": "include/uapi/linux/netfilter_ipv4/ipt_TTL.h",
+    "expected": "e73ff75cc058bca61495d0eb34253c5cdd67908b94b06bedae485c1129d6917a",
+    "actual": "4a65de567a2b659c32538b0b07da545caf2b30e2cf026c20680c006bd951df72"
+  },
+  {
+    "path": "include/uapi/linux/netfilter_ipv6/ip6t_HL.h",
+    "expected": "6a87f3bd765a1d5e73de80c92897872adde8baad2953d6e9339fe6aa30e72f07",
+    "actual": "f6d1d4e3c03dff041eb00baa7fe48bdb5da14bd1b0e7201a7dde41eee4a44290"
+  }
+]

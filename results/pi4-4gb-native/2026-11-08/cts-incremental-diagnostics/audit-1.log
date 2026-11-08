@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/candidate/audit.py", line 31, in <module>
+    assert expected==actual,rel
+           ^^^^^^^^^^^^^^^^
+AssertionError: include/uapi/linux/netfilter/xt_CONNMARK.h

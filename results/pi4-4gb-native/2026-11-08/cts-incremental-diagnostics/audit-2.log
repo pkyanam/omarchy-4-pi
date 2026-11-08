@@ -1,0 +1,2 @@
+Checked archived ABI/header files: 7381 mismatches: 8
+PASS vermagic/extended CRCs/BTF/no exports; STOP package policy and header fidelity

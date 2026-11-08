@@ -1,0 +1,3 @@
+3709d32c4d779df954eda3e0ea6ec9c0de5fe58a002aa0a2cbe9eb30ac678d0a  /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/drivers/tty/serial/8250/8250_dwlib.h
+69523b42abee40768f66a850b40ae642a827cdab86b4790c8f4b965e96775537  /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/drivers/tty/serial/8250/8250.h
+32befd7cbddebe10daca6a485305e467a9094ff718ae697e403c0bb24cff214b  /candidate/headers/usr/lib/modules/7.3.0-32.1-omarchy/build/drivers/tty/serial/8250/8250_pcilib.h

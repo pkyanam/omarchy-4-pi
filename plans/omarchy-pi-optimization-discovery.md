@@ -1,10 +1,10 @@
 # Pi 4 optimization discovery — findings for a separate implementer
 
-Discovery only. **Nothing here is fixed, patched, tuned or claimed as a win.** Every item below was measured or read from the running board on 2026-11-08 and is recorded so another agent can implement and prove it. The goal the items serve: match or beat Raspberry Pi OS on efficiency, with double-digit gains across the board where they are real.
+Originally a discovery-only snapshot on November 8, now corrected during implementation. Measurements quoted below remain historical shared-session observations, not validated improvement claims. [Primary-source audit](omarchy-pi-primary-source-audit.md) records exact source/version evidence; [implementation progress](omarchy-pi-implementation-progress.md) records actual changes and acceptance gates. Raspberry Pi OS parity and double-digit gains remain unproven.
 
 Board: Pi 4 Model B Rev 1.5, `c03115`, MIDR `0x410fd083` (Cortex-A72 r0p3), 4GB, uncapped, booting `7.3.0-32.1-omarchy` at EL2 through PFTF/Limine/UKI. Storage is a USB SSD (LUKS2 + Btrfs). Overlays: `miniuart-bt`, `upstream-pi4`, `omarchy-pi4-mainline-dma`. Firmware config already sets `arm_boost=1`.
 
-Baseline capture and trend log: `build/upstream-pi/stable-4.5/pi4-metrics.csv`, with `record-pi4-metrics.sh` to append a sample and `plot-pi4-metrics.py` to render it. `METRICS.md` beside them documents the columns, the sampling rules, and the measured noise floor, and is the file to read before recording a before/after pair. **Record a sample before a change and again after, under identical conditions**, and treat that trend as the comparison point rather than the numbers quoted here.
+Legacy baseline: the six rows in `build/upstream-pi/stable-4.5/pi4-metrics.csv` are preserved, with a tracked copy under `tools/pi-metrics/legacy/`. The old recorder's stdin/root bugs, unpersisted labels and probe semantic errors invalidate its use as an improvement curve. Use the versioned tools in `tools/pi-metrics/`, explicitly separating cohorts and unknowns. Never join v1 and v2 or merge 8GB/Pi 5 samples.
 
 ## Headline: the single biggest finding is that hardware AES is not available
 
@@ -21,11 +21,9 @@ The kernel config is correct (`CONFIG_CRYPTO_AES_ARM64_CE_BLK=m`, `CRYPTO_GHASH_
 Features: fp asimd evtstrm crc32 cpuid
 ```
 
-A Cortex-A72 has `aes`, `sha1`, `sha2`, `pmull` and LSE atomics; `crc32` is present, the rest are not. `dmesg` shows `CPU: All CPU(s) started at EL2`, so the firmware is running the kernel at the hypervisor level and the AArch64 identification registers seen by Linux are being mediated. **Do not assume this is a config error — the config is fine.** The investigating agent should determine whether PFTF/the EL2 stub masks `ID_AA64ISAR0_EL1` features, and if so whether the mask can be lifted in firmware (`config.txt`) or whether the kernel must be given the capability another way. Consequence if it is real and unfixable: every byte through the LUKS root and every zram page pays software AES cost.
+Correction: Cortex-A72 does not guarantee optional AES/SHA/PMULL or LSE. The EL2 entry message does not prove feature masking. Missing feature flags and rejected CE modules are consistent with capability gating; never force HWCAP bits. Investigate supported NEON/bitsliced software XTS selection and actual encrypted I/O separately. Ordinary zram compresses pages in RAM and does not encrypt each page because root uses LUKS. OpenSSL CBC is not dm-crypt XTS throughput. See the primary-source audit for exact driver checks.
 
-This one is worth doing first because it touches all disk and swap I/O at once.
-
-## Mitigations that cost and buy nothing on this board
+## Mitigation cost with security preserved
 
 Every Meltdown-class vulnerability reports **"Not affected"**, including `meltdown`, `retbleed`, `spec_store_bypass`, `mmio_stale_data`, `srbds`, `tsa`, `gather_data_sampling`:
 
@@ -37,17 +35,17 @@ spectre_v1   Mitigation: __user pointer sanitization
 spectre_v2   Mitigation: Branch predictor hardening, BHB
 ```
 
-Yet the kernel reports `CPU features: kernel page table isolation forced ON by KASLR` and `detected: Kernel page table isolation (KPTI)`. AArch64 A72 is not vulnerable to Meltdown, so KPTI buys nothing here and costs a page-table switch on every user/kernel transition. Measured on this board with KPTI on:
+Yet the kernel reports `CPU features: kernel page table isolation forced ON by KASLR` and `detected: Kernel page table isolation (KPTI)`. The exact arm64 source also uses KPTI to improve KASLR robustness, independently of its Meltdown-safe A72 classification. Keep that hardening enabled. Measured on this board with KPTI on:
 
 - `getpid`: **1.15–1.22 µs/call** (≈866k syscalls/s)
 - `open+close /etc/hostname`: **12.6–14.5 µs/call**
 - `fork`/`exec` of `/bin/true`: 0.666s for 300 (user 0.097s, sys 0.607s — almost entirely kernel-side)
 
-The implementer should A/B `nopti`/`pti=off` (arm64 currently has **no runtime toggle**; it is boot-argument only, so each test needs a reboot) and decide whether to also drop KASLR, which is what forces PTI on here. Measure with the syscall microbenchmark in the probe script, not by feel. Do not blindly set `mitigations=off` — `spectre_v1`/`spectre_v2` mitigations are genuinely active and worth keeping; the target is specifically the page-table isolation that Meltdown alone justifies.
+These Python-inclusive timings do not isolate bare syscall cost. Preserve KPTI/KASLR/Spectre posture while profiling real package/browser workloads and opportunities to batch operations. arm64 supports `kpti=0/1`; `nopti` and `pti=off` are x86 controls. Any explicitly justified mitigation experiment must document reduced KASLR hardening and restore the original posture; it is not a shipping optimization.
 
-## Code generation: the toolchain is targeting the wrong CPU
+## Code generation: package-specific experiments needed
 
-`/etc/makepkg.conf` builds with `-march=armv8-a -O2`, and `OPTIONS` contains `!lto`. That is a generic ARMv8 baseline with no Cortex-A72 scheduling model.
+`/etc/makepkg.conf` builds with `-march=armv8-a -O2`, and `OPTIONS` contains `!lto`. Those are local build defaults, not evidence for the flags used in installed packages. Generic flags preserve the supported shared aarch64 ABI.
 
 Measured on the board with the same source, single core:
 
@@ -62,15 +60,13 @@ Two separate findings, and the behavioural difference matters. **`-mcpu=cortex-a
 
 Caveats the implementer must respect: `-O3` is not free everywhere (code size up, some real-world code regresses), `!lto` removal interacts badly with `-O3` on constrained RAM, and this microbenchmark is a loop, which is the workload `-O3` flatters most. **Do not extrapolate 3.9x to the desktop.** The honest test is rebuilding a small set of real packages (`zstd`, `ffmpeg` or `llvm` if it fits in RAM, plus a browser) and measuring those.
 
-Also unset: `CONFIG_LTO_NONE=y` for the kernel. Pi OS builds its kernel with LTO.
+The resolved candidate has `CONFIG_LTO_NONE=y`; unknown or mismatched configs must not be reported as enabled LTO. A Pi OS LTO comparison needs a named matching release/config and representative workload.
 
-## Frequency scaling is using the wrong driver
+## Frequency scaling: expected driver architecture, unresolved historical drop
 
-`scaling_driver` reports **`cpufreq-dt`** — the generic Device Tree OPP driver — not `raspberrypi-cpufreq`. Both modules are loaded (`raspberrypi_cpufreq` is present), and there is no `opp-*` table under `/sys/firmware/devicetree/base/cpus/cpu@0/`, which is the generic driver's own source of truth. Linux's `raspberrypi-cpufreq` queries the firmware for the board's real maximum and is what the vendor path uses.
+Exact Linux 7.3 `raspberrypi-cpufreq` queries firmware clock limits, adds dynamic OPPs, and registers `cpufreq-dt`. That displayed name and absence of static DT OPP nodes are expected, not a driver defect. The historical requested-frequency drop from 1.8 to 1.2 GHz remains unexplained. A 110°C Linux thermal trip does not rule out independent firmware thermal/voltage throttling; `scaling_cur_freq` is not an independent silicon clock measurement.
 
-Consequences to verify, not assume: whether firmware-reported limits are honoured, whether `arm_boost=1` actually reaches 1.8 GHz under load, and whether the driver makes the governor's job easier. Measured here: `cpuinfo_max_freq` is 1800000, `scaling_cur_freq` settles at 1.3–1.6 GHz idle, and under a 20-second 4-core load the clock **held 1.8 GHz for 15 s then fell to 1.2 GHz at 20 s while temperature was only 51–54 °C**. That drop is not thermal — the only thermal trip point on this board is `110000` (110 °C) and `cooling_device0` is a PCIe link-speed device, not a CPU cooling device. So the fall to 1.2 GHz is governor/DVFS behaviour, not throttling, and an A72 running at 1.2 GHz under load is leaving performance on the table. `vcgencmd get_throttled` prints nothing at all and **`vcgencmd` is not installed** (`raspberrypi-4-support 1-1` provides the package; the binary is absent), so no firmware-side clock/voltage query is currently possible.
-
-Related: `pi-tuning.md` documents clock profiles and a guard that "samples every 15 seconds" for undervoltage via native sensors. With `vcgencmd` absent, the implementer must confirm what those sensors actually are and whether `omarchy pi tune` can detect undervoltage at all on this image.
+The native raspberrypi-hwmon voltage alarm is present even though vcgencmd is absent. It does not expose the complete firmware throttle history; its polling also affects sticky flags. A reversible four-trial governor screening run found no repeatable benefit from performance, and restored schedutil. See `results/pi4-4gb-native/2026-11-08/` for raw results, contention/temperature limitations and unknown firmware clocks/energy. No governor default change is justified.
 
 ## Memory policy that is more aggressive than documented
 
@@ -82,7 +78,7 @@ Related: `pi-tuning.md` documents clock profiles and a guard that "samples every
 
 zstd is the active compressor, the package config agrees (`CONFIG_ZRAM_DEF_COMP_ZSTD=y`), and the device is 3924819968 bytes (≈3.9 GB) on a 3.7 GiB machine. `vm.swappiness=150`. `zswap.enabled=0` in the cmdline while zram is active.
 
-That combination is defensible but untested: zstd compression on a board whose (apparent) lack of AES/extended crypto acceleration matters less here, but which has only four A72 cores, and with swappiness 150 pushing pages into a compressed-RAM device eagerly. This is exactly the "controlled test with actual builds and browser tabs" the older doc asked for and never got. Compare zstd vs lz4 vs lzo-rle at matched sizes on real workloads, and measure CPU cost alongside the memory saved — zram's cost is CPU, and this board's CPU headroom is the scarce resource.
+That logical capacity is approximately full visible RAM, not the half-RAM policy described for the separate community ALARM image. It is not physical allocated memory. Confirm `mm_stat`, backing_dev, bd_stat and runtime zswap before comparing compressors at matched capacity/swappiness. Zstd CPU cost and memory saved require real browser/build memory-pressure trials; ordinary RAM-only zram has no AES cost. Do not swapoff populated zram under pressure.
 
 ## Memory configuration worth measuring
 
@@ -96,14 +92,13 @@ That combination is defensible but untested: zstd compression on a board whose (
 ls /dev/video* /dev/media* → (none)
 ```
 
-There is no V4L2 device of any kind on this board, so **nothing** decodes video in hardware. `ffmpeg -hwaccels` lists `vdpau cuda vaapi drm opencl vulkan amf` — all generic, none backed by a Pi codec. Config confirms the build-time cause found earlier: `BCM2835_VCHIQ` is not set, and mainline `bcm2835-codec`/`bcm2835-isp` depend on it. `VIDEO_BCM2835_UNICAM` is separately not set.
-
-The implementer's decision is architectural, not a one-line config change: either enable the VCHIQ stack so the mainline firmware-backed codec exists, or accept software decode and stop advertising hardware decode. Do not copy Pi OS modules across ABI — the earlier audit is right about that. Camera is the cheap one: `VIDEO_BCM2835_UNICAM` needs no VCHIQ and is a single opt-in the moment a sensor exists.
+No usable Pi V4L2 hardware decode path has been demonstrated. `ffmpeg -hwaccels` lists compiled interfaces, not working decoders. Exact mainline Linux 7.3 contains no bcm2835-codec/bcm2835-isp/rpivid source: the earlier codec Kconfig citation was downstream Raspberry Pi source. Enabling VCHIQ alone cannot create absent codec drivers. Prefer upstream driver integration; any maintained downstream candidate needs a documented reason, coherent source/userspace/DT packages and functional playback/browser validation. Never copy foreign-ABI modules. Unicam capture is separate, requires sensor/DT/userspace qualification, and is not video decode.
 
 ## Interfaces, storage and platform limits
 
-- **PCIe is at `Speed 5GT/s, Width x1`** (PCIe 2.0 x1). Pi 4 can be configured for Gen 3, and the VL805 USB controller sits behind this link — so the encrypted SSD's ceiling is set here. A Gen 2 or Gen 3 trial is a firmware-config change with real, measurable storage impact, and carries the usual signal-integrity caveat: not every board and cable sustains Gen 3. Measure with sequential and random I/O on the *actual* SSD, and be prepared to revert.
-- `usbfs_memory_mb=16`, `autosuspend=2`. Both defaults; the USB memory cap limits large USB transfers and is worth testing if the SSD path shows stalls.
+- **PCIe is at `Speed 5GT/s, Width x1`** (PCIe 2.0 x1), consistent with VIA's VL805 endpoint specification. Pi 5 Gen 3 tuning does not apply to this Pi 4 USB SSD path. Remove Gen 3 from the experiment queue; link speed alone does not identify the bottleneck.
+- `usbfs_memory_mb=16`, `autosuspend=2` are observations, not proof of a block-I/O limit. Establish USB/UAS/bridge/error evidence before changing policy.
+
 - Scheduler is `kyber` on the SSD and the SD card. `discard_max_bytes=0` was recorded earlier: the USB bridge does not advertise UNMAP, so `allow-discards` in the crypttab is inert. Not a bug, but do not attribute TRIM benefits here.
 - `arm_boost=1` is already in the firmware config; the tuning docs are not proposing anything new there.
 
@@ -111,7 +106,7 @@ The implementer's decision is architectural, not a one-line config change: eithe
 
 Everything above was measured on the 4GB model. These are the items where 8GB changes the answer and no inference is safe:
 
-1. **zram sizing and swappiness.** Half-RAM and swappiness 150 were chosen for 4GB. On 8GB the compressed device doubles to ≈7.9 GB while the CPU cost per page is identical; the right size and the right compressor may differ, and the 4GB result must not simply be copied.
+1. **zram sizing and swappiness.** The measured 4GB device has full-visible-RAM logical capacity and swappiness 150. The actual 8GB configuration is unknown; the right size and the right compressor may differ, and the 4GB result must not simply be copied.
 2. **Whether translator/hugepage behaviour differs.** THP-always on 8GB has far more room to fragment before it hurts, so a 4GB result may not transfer.
 3. **CMA and `gpu_mem` floors.** Same absolute reservation on double the RAM is a smaller fraction; the "do not enlarge CMA" conclusion needs re-checking rather than repeating.
 4. **Build parallelism.** `pi-tuning.md` caps makepkg at two jobs on 4GB. That cap is a RAM limit, not a core limit (the board has four), so 8GB should allow more — measure actual peak RSS during a real package build before raising it.
@@ -119,18 +114,16 @@ Everything above was measured on the 4GB model. These are the items where 8GB ch
 
 ## Suggested order for the implementer
 
-Ordered by expected gain per unit of risk, on the evidence above:
-
-1. Establish the AES/EL2 question — it gates all storage and swap throughput and is currently unexplained. (Highest value, and the most likely place to find the double-digit I/O win.)
-2. A/B page-table isolation, keeping the genuine Spectre mitigations. Syscall-heavy workloads are where the desktop and package management live.
-3. Rebuild a small, real package set at `-O3` and at `-mcpu=cortex-a72` **separately**, and measure. Do not ship `-O3` globally on the strength of a loop benchmark.
-4. Settle the CPUFreq driver (`cpufreq-dt` vs `raspberrypi-cpufreq`) and the unexplained 1.8→1.2 GHz drop under load.
-5. Re-measure the zram compressor/size/swappiness combination that is now live but was never tested.
-6. Decide the VCHIQ/media question explicitly, so the release either ships hardware decode or stops claiming it.
-7. PCIe Gen 2/3 trial on the real SSD, with a revert plan.
+1. Repair/version evidence and verify recovery before candidate installation; finish functional defects in their owning upstream layers.
+2. Audit selected supported software XTS and bounded encrypted-file workloads, preserving encryption/security.
+3. Resolve firmware clock/throttle telemetry before interpreting sustained CPU policy differences; retain schedutil absent repeatable gains.
+4. Measure zram compressor/size/swappiness separately using real memory-pressure workloads and safe boot transitions.
+5. Build manageable real packages, separating CPU tuning, optimization level and LTO; preserve shared aarch64 compatibility.
+6. Pursue coherent upstream media support with matching userspace and functional video/browser evidence.
+7. Profile storage/USB below the supported Gen 2 ceiling, without speculative link/USB settings.
 
 ## Boundaries this discovery respected
 
-No file was modified outside this checkout. No package was installed, no service restarted, no display woken and no reboot was triggered for measurement (the one reboot in this session was the authorized kernel install). The only privileged reads were `dmesg`, `/etc/crypttab`, `cryptsetup benchmark`, `/sys/kernel/debug/clk`, and `modprobe` of three crypto modules — the two that failed left nothing loaded, so the board is in the state it was found in.
+No file was modified outside this checkout. No package was installed, no service restarted, no display woken and no reboot was triggered for measurement (the one reboot in this session was the authorized kernel install). The historical pass included privileged reads and state-changing module-load attempts: `dmesg`, `/etc/crypttab`, `cryptsetup benchmark`, `/sys/kernel/debug/clk`, and `modprobe` of three crypto modules — the two that failed left nothing loaded, so the board is in the state it was found in.
 
-Measurements quoted here are single samples on a shared desktop with the compositor running, at 45–54 °C. They are good enough to rank hypotheses and not good enough to certify a release; the implementer must re-run `pi4-baseline-probe.sh` under repeatable conditions for any before/after claim.
+Measurements quoted here are single samples on a shared desktop with the compositor running, at 45–54 °C. They are good enough to rank hypotheses and not good enough to certify a release; new comparisons must use reviewed versioned measurement semantics and matched conditions, not reuse the defective legacy probe.

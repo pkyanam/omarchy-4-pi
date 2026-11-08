@@ -171,3 +171,22 @@ The five findings most likely to matter, in the order the discovery pass recomme
 5. **`pi-tuning.md` is stale about zram.** It says the kernel lacks zstd and zram therefore uses LZO; the live device is `[zstd]` at ≈3.9 GB on a 3.7 GiB machine with `swappiness=150`. That configuration has never been tested.
 
 Hardware video decode remains entirely absent (`ls /dev/video*` finds nothing), and the 8GB model is still unmeasured, so the discovery note lists five items that must be re-measured on real 8GB hardware rather than inferred from the 4GB results.
+
+
+## Implementation reconciliation and Bluetooth correction — November 8, 10:51 UTC onward
+
+Live reconciliation confirms kernel/headers `7.3-32.1`, runtime/settings `4.5.0-2.2`, picker release 1, and installed `raspberrypi-4-support` 1-1 with `raspberrypi-4-desktop` absent. The old `/tmp/omarchy-4.5-review` staging directory is gone; prior staging is not current installation evidence. Public-update holds remain active. There are no failed system or user units. Revision bytes `00 c0 31 15` and MemTotal 3832948 KiB confirm the 4GB board. See [implementation progress](omarchy-pi-implementation-progress.md).
+
+PI-008 correction: exact v7.3 serdev/Broadcom source does **not** support the earlier claims that reset succeeded before the baud command or that the host had switched to 230400. The vendor baud command runs before protocol reset; host switching follows only a successful reply. One 500 MHz clock reading also cannot prove clock stability across the handshake. [Candidate investigation](omarchy-pi-bluetooth-candidate.md) records exact source hashes and an isolated error-propagation candidate. Package repository commit `474cdba8` contains that inactive patch and a source regression with a failing pristine negative control; parent validation passed. No kernel recipe activation, build, install or working-radio qualification is claimed.
+
+Recovery: root snapshots 1–4 exist; the pre-kernel ESP archive was successfully listed and hashed; a separate current firmware-card archive was created at `/root/omarchy-pi-optimization-20261108/firmware-before.tar`. Neither archive nor snapshot availability demonstrates rollback. Recovery-package restaging and current candidate verification are underway. No reboot or package transaction has occurred in this implementation pass.
+
+
+Recovery media and encrypted-unlock readiness were confirmed by Preetham before the next candidate transaction.
+
+
+## Reviewed runtime candidates installed — November 8, 11:04 UTC onward
+
+After confirmation of working recovery media and encrypted-unlock availability, snapshot 5, fresh current ESP and user-config archives, and separate firmware backup were retained. Previous runtime/settings 2.2 archives were restaged. The five manifest-verified candidates installed via explicit pacman -U: runtime/settings 4.5.0-2.4, raspberrypi-4-support and desktop 1-3, picker release 2. Kernel/headers remain 7.3-32.1; update holds remain intact. Privileged package integrity checks report zero altered files across the five packages. Pi health/boot verification passes, Hyprland has no config errors, no failed units. Shell restart succeeded after owner unlock; parent inspected a full-screen screenshot and saw the desktop/bar render correctly. This is not functional display/capture/reboot/rollback qualification. Source-tested, built, installed and visually observed are separate milestones.
+
+Primary-source corrections supersede the optimization summary above: optional crypto/LSE are not guaranteed by Cortex-A72; EL2 is not masking evidence; RAM-only zram does not incur root-volume AES; KPTI also supports KASLR; Raspberry Pi CPUFreq creates dynamic OPPs and registers cpufreq-dt; Linux thermal trips cannot exclude firmware throttling; the cited bcm2835-codec/ISP sources are downstream and absent from exact mainline 7.3; VL805 is PCIe 2.0 x1 and Pi 5 Gen 3 tuning does not apply. PI-015 cannot be solved merely by enabling VCHIQ. See [primary audit](omarchy-pi-primary-source-audit.md) and the corrected discovery ledger. No compiler/global mitigation/link defaults changed.

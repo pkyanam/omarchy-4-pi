@@ -2,6 +2,8 @@
 
 Target: Omarchy 4 Pi 4.5 on Raspberry Pi 4 Model B with 4GB or 8GB RAM. These policies are included in the [4.5 release](releases/v4.5.0.md); clock trials remain optional. Automated tests cannot establish overclock stability, storage integrity under load, or Raspberry Pi OS performance parity.
 
+The native PFTF/Limine/mainline integration is a separate lineage from the ALARM image described here. On the measured native 4GB board, kernel 7.3-32.1 uses zstd zram with full-visible-RAM logical capacity and swappiness 150; the older LZO/half-RAM statements below do not describe that installed state. See [corrected native discovery](../plans/omarchy-pi-optimization-discovery.md) and [primary-source audit](../plans/omarchy-pi-primary-source-audit.md). Do not infer native 8GB or Pi 5 behavior from either lineage.
+
 ## Improvements without overclocking
 
 - **CPU scaling:** a short boot service switches a kernel-default `performance` governor to `schedutil`, or `ondemand` if that is the supported alternative. It preserves other governors and runs before power-profiles-daemon so it does not fight later selections. Opt out with `sudo systemctl disable omarchy-pi-cpu-policy.service`; updates preserve that choice. There is no polling daemon for this default.

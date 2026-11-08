@@ -1,0 +1,9 @@
+test: /candidate/progress-unit/base-red-01/generated.c:1192: main: Assertion `service.service_use_count==0' failed.
+Traceback (most recent call last):
+  File "/candidate/progress-unit/run.py", line 16, in <module>
+    subprocess.run([str(out/'test')],check=True,timeout=20)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/candidate/progress-unit/base-red-01/test']' died with <Signals.SIGABRT: 6>.

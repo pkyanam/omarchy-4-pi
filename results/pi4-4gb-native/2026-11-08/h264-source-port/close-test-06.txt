@@ -1,0 +1,7 @@
+PASS allocation failure
+PASS interrupted OPEN: actual owned-open error path + production constructor/removal/final release
+PASS second OPEN fails: failed service and first service unwind drain before userdata free
+PASS worker-create failure drains opened service
+PASS actual interrupted close -> later FREE -> invalid handle; owned stop waits concurrent production callback's reference
+PASS blocked production queue/send cancellation and actual SMIO worker join
+NONDEPLOYABLE: injected slot scheduling/OPEN/queue; no firmware DMA, VCSM generation or hardware proof

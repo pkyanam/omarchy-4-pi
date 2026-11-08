@@ -1,0 +1,13 @@
+Assertion failed: (!atomic_load(&stop_done)), function main, file generated-mutant.c, line 1308.
+PASS allocation failure
+PASS interrupted OPEN: actual owned-open error path + production constructor/removal/final release
+PASS second OPEN fails: failed service and first service unwind drain before userdata free
+PASS worker-create failure drains opened service
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/close-unit/run.py", line 21, in <module>
+    subprocess.run([str(f.with_suffix(''))],check=True,timeout=30)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.15/3.15.0_1/Frameworks/Python.framework/Versions/3.15/lib/python3.15/subprocess.py", line 692, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/Users/preetham/Code/omarchy-4-pi/build/upstream-pi/stable-4.5/h264-port-candidate/close-unit/generated-mutant']' died with <Signals.SIGABRT: 6>.

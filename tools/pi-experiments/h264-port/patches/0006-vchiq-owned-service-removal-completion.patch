@@ -1,0 +1,263 @@
+--- a/include/linux/raspberrypi/vchiq.h
++++ b/include/linux/raspberrypi/vchiq.h
+@@ -3,6 +3,8 @@
+ 
+ #ifndef VCHIQ_H
+ #define VCHIQ_H
++
++#include <linux/completion.h>
+ 
+ #define VCHIQ_MAKE_FOURCC(x0, x1, x2, x3) \
+ 			(((x0) << 24) | ((x1) << 16) | ((x2) << 8) | (x3))
+@@ -84,6 +86,22 @@
+ 			    struct vchiq_instance **pinstance);
+ extern int vchiq_shutdown(struct vchiq_instance *instance);
+ extern int vchiq_connect(struct vchiq_instance *instance);
++/* Single kernel owner, serialized process-context open/remove only. Storage and
++ * transport must outlive remove_sync. Never call from a transport callback.
++ * retired excludes new lookups; released drains ALL service references, including
++ * callback/slot/sync handlers. Neither completion proves firmware DMA cessation.
++ */
++struct vchiq_service_owner {
++	struct vchiq_service *service;
++	struct completion retired;
++	struct completion released;
++};
++
++int vchiq_open_service_owned(struct vchiq_instance *instance,
++	const struct vchiq_service_params_kernel *params, unsigned int *handle,
++	struct vchiq_service_owner *owner);
++void vchiq_remove_service_sync(struct vchiq_service_owner *owner);
++
+ extern int vchiq_open_service(struct vchiq_instance *instance,
+ 			      const struct vchiq_service_params_kernel *params,
+ 			      unsigned int *pservice);
+--- a/include/linux/raspberrypi/vchiq_core.h
++++ b/include/linux/raspberrypi/vchiq_core.h
+@@ -214,6 +214,7 @@
+ 	struct vchiq_bulk_queue bulk_tx;
+ 	struct vchiq_bulk_queue bulk_rx;
+ 
++	struct vchiq_service_owner *owner;
+ 	struct completion remove_event;
+ 	struct completion bulk_remove_event;
+ 	struct mutex bulk_mutex;
+@@ -529,6 +530,12 @@
+ 			   int srvstate, struct vchiq_instance *instance,
+ 			   void (*userdata_term)(void *userdata));
+ 
++struct vchiq_service *
++vchiq_add_service_internal_owned(struct vchiq_state *state,
++	const struct vchiq_service_params_kernel *params, int srvstate,
++	struct vchiq_instance *instance, void (*userdata_term)(void *),
++	struct vchiq_service_owner *owner);
++
+ extern int
+ vchiq_open_service_internal(struct vchiq_service *service, int client_id);
+ 
+--- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
++++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
+@@ -380,6 +380,11 @@
+ 	rcu_assign_pointer(state->services[service->localport], NULL);
+ 	if (service->userdata_term)
+ 		service->userdata_term(service->base.userdata);
++	/* No callback may run without a service reference. Finish userdata_term
++	 * before publishing host quiescence. Do not touch owner after complete.
++	 */
++	if (service->owner)
++		complete_all(&service->owner->released);
+ 	kfree_rcu(service, rcu);
+ }
+ 
+@@ -2708,10 +2713,11 @@
+ 
+ /* Called from application thread when a client or server service is created. */
+ struct vchiq_service *
+-vchiq_add_service_internal(struct vchiq_state *state,
++vchiq_add_service_internal_owned(struct vchiq_state *state,
+ 			   const struct vchiq_service_params_kernel *params,
+ 			   int srvstate, struct vchiq_instance *instance,
+-			   void (*userdata_term)(void *userdata))
++			   void (*userdata_term)(void *userdata),
++			   struct vchiq_service_owner *owner)
+ {
+ 	struct vchiq_service *service;
+ 	struct vchiq_service __rcu **pservice = NULL;
+@@ -2806,6 +2812,14 @@
+ 			(state->id * VCHIQ_MAX_SERVICES) |
+ 			service->localport;
+ 		handle_seq += VCHIQ_MAX_STATES * VCHIQ_MAX_SERVICES;
++		/* Pin before publication, including failed/interrupted OPEN. */
++		if (owner) {
++			init_completion(&owner->retired);
++			init_completion(&owner->released);
++			owner->service = service;
++			service->owner = owner;
++			vchiq_service_get(service);
++		}
+ 		rcu_assign_pointer(*pservice, service);
+ 		if (pservice == &state->services[state->unused_service])
+ 			state->unused_service++;
+@@ -2836,6 +2850,16 @@
+ 	/* Don't unlock the service - leave it with a ref_count of 1. */
+ 
+ 	return service;
++}
++
++struct vchiq_service *
++vchiq_add_service_internal(struct vchiq_state *state,
++			   const struct vchiq_service_params_kernel *params,
++			   int srvstate, struct vchiq_instance *instance,
++			   void (*userdata_term)(void *userdata))
++{
++	return vchiq_add_service_internal_owned(state, params, srvstate, instance,
++					      userdata_term, NULL);
+ }
+ 
+ int
+@@ -3307,6 +3331,8 @@
+ 	}
+ 
+ 	set_service_state(service, VCHIQ_SRVSTATE_FREE);
++	if (service->owner)
++		complete_all(&service->owner->retired);
+ 
+ 	complete(&service->remove_event);
+ 
+@@ -3478,6 +3504,29 @@
+ 
+ 	return status;
+ }
++
++/* Unlike handle-based close, the owner pin survives FREE/handle retirement.
++ * Removal is driven by the slot handler, which owns close state transitions.
++ * There is no interruptible wait or EINVAL-as-success shortcut. A wedged peer
++ * can block forever: caller must retain its transport/userdata until it drains.
++ */
++void vchiq_remove_service_sync(struct vchiq_service_owner *owner)
++{
++	struct vchiq_service *service = owner->service;
++
++	if (!service)
++		return;
++	WARN_ON(current == service->state->slot_handler_thread);
++	if (READ_ONCE(service->srvstate) != VCHIQ_SRVSTATE_FREE) {
++		mark_service_closing(service);
++		request_poll(service->state, service, VCHIQ_POLL_REMOVE);
++	}
++	wait_for_completion(&owner->retired);
++	owner->service = NULL;
++	vchiq_service_put(service);
++	wait_for_completion(&owner->released);
++}
++EXPORT_SYMBOL_GPL(vchiq_remove_service_sync);
+ 
+ int
+ vchiq_bulk_xfer_blocking(struct vchiq_instance *instance, unsigned int handle,
+--- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
++++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_arm.c
+@@ -547,6 +547,34 @@
+ }
+ EXPORT_SYMBOL(vchiq_open_service);
+ 
++/* The owner pin is installed before the service becomes discoverable. Failed
++ * OPEN also drains callbacks before returning its userdata to the caller.
++ */
++int vchiq_open_service_owned(struct vchiq_instance *instance,
++	const struct vchiq_service_params_kernel *params, unsigned int *phandle,
++	struct vchiq_service_owner *owner)
++{
++	struct vchiq_service *service;
++	int ret;
++
++	owner->service = NULL;
++	*phandle = VCHIQ_SERVICE_HANDLE_INVALID;
++	if (!vchiq_is_connected(instance))
++		return -ENOTCONN;
++	service = vchiq_add_service_internal_owned(instance->state, params,
++		VCHIQ_SRVSTATE_OPENING, instance, NULL, owner);
++	if (!service)
++		return -EINVAL;
++	ret = vchiq_open_service_internal(service, current->pid);
++	if (ret) {
++		vchiq_remove_service_sync(owner);
++		return ret;
++	}
++	*phandle = service->handle;
++	return 0;
++}
++EXPORT_SYMBOL_GPL(vchiq_open_service_owned);
++
+ int
+ vchiq_bulk_transmit(struct vchiq_instance *instance, unsigned int handle, const void *data,
+ 		    unsigned int size, void *userdata, enum vchiq_bulk_mode mode)
+--- a/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
++++ b/drivers/platform/raspberrypi/vc-sm-cma/vc_sm_cma_vchi.c
+@@ -42,7 +42,7 @@
+ 
+ struct sm_instance {
+ 	u32 num_connections;
+-	u32 closed_connections;
++	struct vchiq_service_owner service_owner[SM_MAX_NUM_CONNECTIONS];
+ 	unsigned int service_handle[SM_MAX_NUM_CONNECTIONS];
+ 	struct task_struct *io_thread;
+ 	struct completion io_cmplt;
+@@ -257,8 +257,8 @@
+ 			.userdata = instance,
+ 		};
+ 
+-		status = vchiq_open_service(vchiq_instance, &params,
+-					    &instance->service_handle[i]);
++		status = vchiq_open_service_owned(vchiq_instance, &params,
++			&instance->service_handle[i], &instance->service_owner[i]);
+ 		if (status) {
+ 			pr_err("%s: failed to open VCHI service (%d)",
+ 			       __func__, status);
+@@ -283,8 +283,7 @@
+ 
+ err_close_services:
+ 	for (i = 0; i < instance->num_connections; i++) {
+-		if (instance->service_handle[i])
+-			vchiq_close_service(vchiq_instance, instance->service_handle[i]);
++		vchiq_remove_service_sync(&instance->service_owner[i]);
+ 	}
+ 	kfree(instance);
+ err_null:
+@@ -296,14 +295,13 @@
+  * The owner must exclude NEW handle acquisitions before stop, and serialize
+  * stop calls. Already admitted senders own instance references. This function
+  * does not own/free vchiq_instance: shutdown is legal only after successful stop.
+- * A failed close keeps *handle intact for retry; transport callbacks may remain.
++ * Removal waits uninterruptibly for real host callback/reference quiescence.
+  */
+ int vc_sm_cma_vchi_stop(struct vchiq_instance *vchiq_instance, struct sm_instance **handle)
+ {
+ 	struct sm_instance *instance;
+ 	struct sm_cmd_rsp_blk *cmd, *tmp;
+ 	u32 i;
+-	int ret;
+ 
+ 	if (!handle || !*handle)
+ 		return -EINVAL;
+@@ -313,17 +311,11 @@
+ 	mutex_unlock(&instance->lock);
+ 	complete(&instance->io_cmplt);
+ 
+-	/* Closing wakes queue_message's quota/slot waits. Never free the transport
+-	 * while SMIO can still use it. Preserve failed-close ownership for retry.
++	/* Removal wakes transport queue waits. Owner pins remain valid even if a
++	 * previous interrupted close already retired the public handle.
+ 	 */
+-	for (i = 0; i < instance->num_connections; i++) {
+-		if (instance->closed_connections & (1U << i))
+-			continue;
+-		ret = vchiq_close_service(vchiq_instance, instance->service_handle[i]);
+-		if (ret)
+-			return ret;
+-		instance->closed_connections |= 1U << i;
+-	}
++	for (i = 0; i < instance->num_connections; i++)
++		vchiq_remove_service_sync(&instance->service_owner[i]);
+ 	complete(&instance->io_cmplt);
+ 	kthread_stop(instance->io_thread);
+ 

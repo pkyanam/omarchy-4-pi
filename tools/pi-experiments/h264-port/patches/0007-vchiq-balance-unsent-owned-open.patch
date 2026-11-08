@@ -1,0 +1,20 @@
+--- a/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
++++ b/drivers/platform/raspberrypi/vchiq-interface/vchiq_core.c
+@@ -2882,8 +2882,16 @@
+ 			       sizeof(payload),
+ 			       QMFLAGS_IS_BLOCKING);
+ 
+-	if (status)
++	if (status) {
++		/* No OPEN was published: queue_message errors precede tx_pos.
++		 * Balance the OPEN use and let owned unwind retire locally;
++		 * an unknown peer service cannot acknowledge a later CLOSE.
++		 */
++		vchiq_release_service_internal(service);
++		if (service->owner)
++			set_service_state(service, VCHIQ_SRVSTATE_CLOSED);
+ 		return status;
++	}
+ 
+ 	/* Wait for the ACK/NAK */
+ 	if (wait_for_completion_interruptible(&service->remove_event)) {

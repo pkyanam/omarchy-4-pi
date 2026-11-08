@@ -10,6 +10,10 @@ Historical candidate artifacts remain in `build/image/`: `omarchy-4-pi-20261107-
 
 The immediate targets are Raspberry Pi 4 Model B with 4GB and 8GB RAM. Raspberry Pi 5 with at least 4GB RAM is a later target and must have its own boot, graphics, and hardware validation before support is advertised.
 
+## Native upstream Pi follow-up
+
+The separately built UEFI/Limine candidate is now being tested on physical Pi 4 hardware. Track its confirmed defects, source fixes, temporary machine repairs, evidence, and remaining release gates in the [native Pi release quirk ledger](omarchy-pi-release-quirks.md). The community release and its U-Boot-specific working rules below do not qualify or govern that different boot chain.
+
 ## Work ledger
 
 - [x] Confirm the official Omarchy 4.5 release and inspect the existing port.
@@ -93,3 +97,7 @@ Only lossless final packing moved from the one-CPU Linux VM to the Mac. The comp
 The exact-source [GitHub CI run](https://github.com/pkyanam/omarchy-4-pi/actions/runs/42347177413) passed. Public evidence includes the [manifest](https://github.com/pkyanam/omarchy-4-pi/releases/download/v4.5.0/omarchy-4-pi-20261107-496364e3-minimal.manifest.json), [image audit](https://github.com/pkyanam/omarchy-4-pi/releases/download/v4.5.0/omarchy-4-pi-20261107-496364e3-minimal.audit.txt), [validation archive](https://github.com/pkyanam/omarchy-4-pi/releases/download/v4.5.0/omarchy-4-pi-4.5.0-validation.tar.gz) and [asset checksums](https://github.com/pkyanam/omarchy-4-pi/releases/download/v4.5.0/SHA256SUMS). Local release assets are in `build/release-v4.5.0/`; the complete image and guide are in `build/release-image/`; verification records and complete logs are in `build/validation/`.
 
 Publishing the tag automatically queued another image build. That [duplicate run](https://github.com/pkyanam/omarchy-4-pi/actions/runs/42349903119) was intentionally canceled during checkout, before assembly or asset publication, to retain the already audited local release artifacts. The source regression CI passed independently.
+
+## Native upstream Pi release qualification
+
+The subsequent native upstream UEFI/Limine candidate is a separate integration from the published community image above. Its physical installation, update-lock repair, firmware/DMA changes, package-release gaps, and remaining hardware qualification are tracked in [Omarchy native Pi release: quirk and qualification ledger](omarchy-pi-release-quirks.md). That ledger is authoritative for current native-release blockers; the published community image’s prior checks do not certify this candidate.

@@ -1,0 +1,22 @@
+{
+  "status": "built; not installed; visual acceptance pending",
+  "source_commit": "1c3339a73d0ec7ca82068e7fcdc55c1e27453a52",
+  "source_archive_sha256": "578e57546585f4cf5eb0d01faa099383bd2895f600e298be1761bc6378eeab28",
+  "builder_image": "sha256:3862c9a52166b7310e7de0b08131f4e69fbd0cbebba29c9510bf3085908417bd",
+  "limits": "1 CPU; 1024 MiB RAM; disk-backed workspace; image xz compression config (configured zstd flags unused because PKGEXT is xz)",
+  "recipe_basis": "prior reviewed candidate recipe a5f9629b overrides; _tag empty, new source commit, pkgrel2.5; local source with dependency checks skipped in isolated builder; target dependency preflight required",
+  "packages": [
+    {
+      "file": "omarchy-4.5.0-2.5-aarch64.pkg.tar.xz",
+      "sha256": "d6c6ae4ffef77973e9fda0e3cea86fc20ff89ceccabeb75c74af6f787e29360a",
+      "bytes": 81021764,
+      "recipe_sha256": "fdcecefc589f977e7786edc09ee6070cf51aeddae9f539f9fbdf669236bec807"
+    },
+    {
+      "file": "omarchy-settings-4.5.0-2.5-aarch64.pkg.tar.xz",
+      "sha256": "230cc3bf7c7f5d6b2e7fc530dbf3b296d571401ca99f0f7a7bbf1244f7ee6fde",
+      "bytes": 1463832,
+      "recipe_sha256": "dabac78785d83c2b18ec8b559fd837a84818e8917e19a3f0356f45ba74f9ea63"
+    }
+  ]
+}

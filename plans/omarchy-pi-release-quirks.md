@@ -193,3 +193,12 @@ Primary-source corrections supersede the optimization summary above: optional cr
 
 
 Controlled encrypted reboot of the reviewed runtime set passed at 11:13 UTC. Fresh uptime confirms a new boot; kernel remains 7.3-32.1, runtime/settings 2.4, support/desktop 1-3, no failed units. Full rollback remains unrehearsed. Live preview timeout restored exact mode/scale/position/transform and left monitors.lua unchanged, but its screenshot had a black background and no visible panel; PI-017 visual acceptance remains open. Both screened governor/software-XTS candidates were reversed after showing no useful repeatable improvement. Durable raw experiment data and standalone chart now live under results/pi4-4gb-native/2026-11-08/ rather than only ignored build evidence.
+
+
+## Native restore rehearsal passed; UI-owned preview rollback failed — November 8
+
+Root restoration is now demonstrated for a controlled marker at the current reviewed versions: snapshot6 cloned to @ using the installed replace restore, previous root retained as snapshot8, encrypted reboot into writable subvolume270, marker absent, matching UKI hash, unchanged package versions, successful boot verification and no failed units. See results/pi4-4gb-native/2026-11-08/recovery/ for sanitized actual output and limits. This does not qualify every historical kernel downgrade or reconstruct a wiped ESP.
+
+PI-017 remains open with a concrete safety failure. The normal panel renders at2x, but selecting1.6x with actual UI keys made its panel disappear and left scale1.6 after the confirmation window despite an unchanged config. CLI-only rollback passing did not establish UI-owned rollback. Parent restored the exact original2x state and baseline idle policy; a source fix for lifetime-independent rollback is delegated without physical access. No further Keep/persistence qualification is claimed.
+
+Stable1c3339a73 contains the source-supported notification binding-loop fix; focused Linux notification coverage passes. Runtime/settings2.5 candidates are built, hash/provenance recorded, not installed or visually accepted. Notification CPU/energy savings remain unmeasured.

@@ -1,0 +1,34 @@
+{
+  "zstd-1.5.7-3-aarch64.pkg.tar.xz": {
+    "url": "http://mirror.archlinuxarm.org/aarch64/core/zstd-1.5.7-3-aarch64.pkg.tar.xz",
+    "sha256": "c3b907c36049b338bda0c6d85260251e48d17e2be6c0e11ddc0dfd4cf9d2e89a"
+  },
+  "zstd-1.5.7-3-aarch64.pkg.tar.xz.sig": {
+    "url": "http://mirror.archlinuxarm.org/aarch64/core/zstd-1.5.7-3-aarch64.pkg.tar.xz.sig",
+    "sha256": "26b15a5f3e277d74a6ce12462b7971ef6ac25ebc19e5348fa7c1da5bba0d0ed0"
+  },
+  "PKGBUILD.arch": {
+    "url": "https://gitlab.archlinux.org/archlinux/packaging/packages/zstd/-/raw/954700db664044388cabc818d703bcfae97bfa1c/PKGBUILD",
+    "sha256": "6e92a6cf64ab0b3e4b59d838f1cd762060915ad7f13ca721246b3ae45d6c1f1d"
+  },
+  "zstd-1.5.7.tar.zst": {
+    "url": "https://api.github.com/repos/meta/zstd/releases/assets/230758926",
+    "sha256": "5b331d961d6989dc21bb03397fc7a2a4d86bc65a14adc5ffbbce050354e30fd2"
+  },
+  "zstd-1.5.7.tar.zst.sig": {
+    "url": "https://api.github.com/repos/meta/zstd/releases/assets/230758931",
+    "sha256": "78c9fabf945f301630a4020fadd34b9ecc16ef42ee279dd63a5a923e71d40449"
+  },
+  "6af3842118ea5325480b403213b2a9fbed3d3d74.patch": {
+    "url": "https://github.com/facebook/zstd/commit/6af3842118ea5325480b403213b2a9fbed3d3d74.patch",
+    "sha256": "7c07be222d45718b81fb16f97e611adfeb24efa0712ca77fb1e08f4c67803ec3"
+  },
+  "evidence": {
+    "signer": "68B3537F39A313B3E574D06777193F152BDBE6A6",
+    "target_cli_sha256": "4eea9767b11369ebfda02824052458efcdcc08e1f82325c952adec3c1cc4db1c",
+    "installed_recipe_sha256": "924e4284597f6aede736f70c189d7b4a2445e99b88fdf7e6580e434494c6553f",
+    "exact_arm_recipe_recovered": false,
+    "resolved_installed_compiler_flags": "unknown",
+    "candidate_status": "prepared only; not configured, compiled, tested, packaged or installed"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "image": "sha256:277a56bbb6f54c1cc4aa16c403904a34b0a2292b64465339f9321980f60ab514",
+  "packages_sha256": "c42ee00fb626cd373b34403150869dfac2273a1471d2d28f420e7f1a0954f1a9",
+  "memory_mib": 1280,
+  "swap_mib": 0,
+  "cpus": 1,
+  "makepkg_config_sha256": "be02f4ba439b2e399063ee776dc83ffb8a8f4c88a593d549373243bd517eff97",
+  "status": "blocked; partial evidence retained",
+  "attempts": [
+    {
+      "optimization": 2,
+      "exit": 4
+    }
+  ],
+  "blocker": "Unchanged upstream fuzzer and zstreamtest OOM-killed at 1280 MiB RAM+swap combined; zero swap; makepkg check() exit 4",
+  "diagnostic_failure_locations": {
+    "fuzzer": "test159; tests/fuzzer.c:3235-3261; ZSTD_lazy attach dictionary with hashLog=29/searchLog=4",
+    "zstreamtest": "test70; tests/zstreamtest.c:1631-1651; ZSTD_lazy compress with hashLog=29/searchLog=4"
+  },
+  "diagnostic": "single full -v execution of each compiled upstream binary; no coverage reduction; both exit 137; not an acceptance retry",
+  "packages_produced": [],
+  "installed": false,
+  "O3": "not attempted after O2 check failure",
+  "lease": "returned; task build and diagnostic containers removed"
+}

@@ -1,0 +1,29 @@
+{
+  "database_commands": 87,
+  "actual_compiler_commands": 87,
+  "single_O2_portable_hardened": true,
+  "glibc_requirements": {
+    "reference-stock-libzstd.so.1.5.7.elf": [
+      "GLIBC_2.17",
+      "GLIBC_2.34"
+    ],
+    "reference-stock-zstd.elf": [
+      "GLIBC_2.17",
+      "GLIBC_2.33",
+      "GLIBC_2.34",
+      "GLIBC_2.38"
+    ],
+    "libzstd.so.1.5.7.elf": [
+      "GLIBC_2.17",
+      "GLIBC_2.34"
+    ],
+    "zstd.elf": [
+      "GLIBC_2.17",
+      "GLIBC_2.33",
+      "GLIBC_2.34",
+      "GLIBC_2.38"
+    ]
+  },
+  "stock_exports_equal": true,
+  "status": "compiled only; upstream checks OOM-failed; no package; O3 not attempted"
+}

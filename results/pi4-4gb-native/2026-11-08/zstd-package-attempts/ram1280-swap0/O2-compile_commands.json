@@ -1,0 +1,524 @@
+[
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/debug.c.o -c /work/O2/src/zstd-1.5.7/lib/common/debug.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/debug.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/debug.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/entropy_common.c.o -c /work/O2/src/zstd-1.5.7/lib/common/entropy_common.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/entropy_common.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/entropy_common.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/error_private.c.o -c /work/O2/src/zstd-1.5.7/lib/common/error_private.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/error_private.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/error_private.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/fse_decompress.c.o -c /work/O2/src/zstd-1.5.7/lib/common/fse_decompress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/fse_decompress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/fse_decompress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/pool.c.o -c /work/O2/src/zstd-1.5.7/lib/common/pool.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/pool.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/pool.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/threading.c.o -c /work/O2/src/zstd-1.5.7/lib/common/threading.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/threading.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/threading.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/xxhash.c.o -c /work/O2/src/zstd-1.5.7/lib/common/xxhash.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/xxhash.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/xxhash.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/zstd_common.c.o -c /work/O2/src/zstd-1.5.7/lib/common/zstd_common.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/common/zstd_common.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/common/zstd_common.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/fse_compress.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/fse_compress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/fse_compress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/fse_compress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/hist.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/hist.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/hist.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/hist.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/huf_compress.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/huf_compress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/huf_compress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/huf_compress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_compress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_literals.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_literals.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_literals.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_literals.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_sequences.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_sequences.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_sequences.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_sequences.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_superblock.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_superblock.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_superblock.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_compress_superblock.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_double_fast.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_double_fast.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_double_fast.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_double_fast.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_fast.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_fast.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_fast.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_fast.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_lazy.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_lazy.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_lazy.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_lazy.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_ldm.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_ldm.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_ldm.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_ldm.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_opt.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_opt.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_opt.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_opt.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_preSplit.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstd_preSplit.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstd_preSplit.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstd_preSplit.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstdmt_compress.c.o -c /work/O2/src/zstd-1.5.7/lib/compress/zstdmt_compress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/compress/zstdmt_compress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/compress/zstdmt_compress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/huf_decompress.c.o -c /work/O2/src/zstd-1.5.7/lib/decompress/huf_decompress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/decompress/huf_decompress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/huf_decompress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/zstd_ddict.c.o -c /work/O2/src/zstd-1.5.7/lib/decompress/zstd_ddict.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/decompress/zstd_ddict.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/zstd_ddict.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress.c.o -c /work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress_block.c.o -c /work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress_block.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress_block.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/decompress/zstd_decompress_block.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/cover.c.o -c /work/O2/src/zstd-1.5.7/lib/dictBuilder/cover.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/dictBuilder/cover.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/cover.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/divsufsort.c.o -c /work/O2/src/zstd-1.5.7/lib/dictBuilder/divsufsort.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/dictBuilder/divsufsort.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/divsufsort.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/fastcover.c.o -c /work/O2/src/zstd-1.5.7/lib/dictBuilder/fastcover.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/dictBuilder/fastcover.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/fastcover.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/zdict.c.o -c /work/O2/src/zstd-1.5.7/lib/dictBuilder/zdict.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/dictBuilder/zdict.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/dictBuilder/zdict.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v01.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v01.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v01.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v01.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v02.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v02.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v02.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v02.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v03.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v03.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v03.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v03.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v04.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v04.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v04.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v04.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v05.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v05.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v05.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v05.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v06.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v06.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v06.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v06.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_MULTITHREAD -Dlibzstd_shared_EXPORTS -I/work/O2/src/zstd-1.5.7/build/lib -I/work/O2/src/zstd-1.5.7/build/cmake/lib -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -fPIC -DZSTD_DISABLE_ASM -o lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v07.c.o -c /work/O2/src/zstd-1.5.7/lib/legacy/zstd_v07.c",
+  "file": "/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v07.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/lib/CMakeFiles/libzstd_shared.dir/work/O2/src/zstd-1.5.7/lib/legacy/zstd_v07.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/benchfn.c.o -c /work/O2/src/zstd-1.5.7/programs/benchfn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/benchfn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/benchfn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/benchzstd.c.o -c /work/O2/src/zstd-1.5.7/programs/benchzstd.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/benchzstd.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/benchzstd.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o -c /work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/dibio.c.o -c /work/O2/src/zstd-1.5.7/programs/dibio.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/dibio.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/dibio.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/fileio.c.o -c /work/O2/src/zstd-1.5.7/programs/fileio.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/fileio.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/fileio.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c.o -c /work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o -c /work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o -c /work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/zstdcli.c.o -c /work/O2/src/zstd-1.5.7/programs/zstdcli.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/zstdcli.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/zstdcli.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_GZCOMPRESS -DZSTD_GZDECOMPRESS -DZSTD_LEGACY_SUPPORT=5 -DZSTD_LZ4COMPRESS -DZSTD_LZ4DECOMPRESS -DZSTD_LZMACOMPRESS -DZSTD_LZMADECOMPRESS -DZSTD_MULTITHREAD -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/zstdcli_trace.c.o -c /work/O2/src/zstd-1.5.7/programs/zstdcli_trace.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/zstdcli_trace.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd.dir/work/O2/src/zstd-1.5.7/programs/zstdcli_trace.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/zstdcli.c.o -c /work/O2/src/zstd-1.5.7/programs/zstdcli.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/zstdcli.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/zstdcli.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o -c /work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/fileio.c.o -c /work/O2/src/zstd-1.5.7/programs/fileio.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/fileio.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/fileio.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -DZSTD_NOBENCH -DZSTD_NODICT -DZSTD_NOTRACE -I/work/O2/src/zstd-1.5.7/build/programs -I/work/O2/src/zstd-1.5.7/build/cmake/programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs/legacy -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/legacy -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c.o -c /work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/programs/CMakeFiles/zstd-frugal.dir/work/O2/src/zstd-1.5.7/programs/fileio_asyncio.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o -c /work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o -c /work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/tests/loremOut.c.o -c /work/O2/src/zstd-1.5.7/tests/loremOut.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/loremOut.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/tests/loremOut.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/tests/datagencli.c.o -c /work/O2/src/zstd-1.5.7/tests/datagencli.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/datagencli.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/datagen.dir/work/O2/src/zstd-1.5.7/tests/datagencli.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o -c /work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o -c /work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o -c /work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/benchfn.c.o -c /work/O2/src/zstd-1.5.7/programs/benchfn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/benchfn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/benchfn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/benchzstd.c.o -c /work/O2/src/zstd-1.5.7/programs/benchzstd.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/benchzstd.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/programs/benchzstd.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/tests/fullbench.c.o -c /work/O2/src/zstd-1.5.7/tests/fullbench.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/fullbench.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fullbench.dir/work/O2/src/zstd-1.5.7/tests/fullbench.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o -c /work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o -c /work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/tests/fuzzer.c.o -c /work/O2/src/zstd-1.5.7/tests/fuzzer.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/fuzzer.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/fuzzer.dir/work/O2/src/zstd-1.5.7/tests/fuzzer.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o -c /work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o -c /work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/tests/seqgen.c.o -c /work/O2/src/zstd-1.5.7/tests/seqgen.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/seqgen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/tests/seqgen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/tests/zstreamtest.c.o -c /work/O2/src/zstd-1.5.7/tests/zstreamtest.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/zstreamtest.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/tests/zstreamtest.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-deprecated-declarations -o tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/tests/external_matchfinder.c.o -c /work/O2/src/zstd-1.5.7/tests/external_matchfinder.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/external_matchfinder.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/zstreamtest.dir/work/O2/src/zstd-1.5.7/tests/external_matchfinder.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/benchfn.c.o -c /work/O2/src/zstd-1.5.7/programs/benchfn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/benchfn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/benchfn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/benchzstd.c.o -c /work/O2/src/zstd-1.5.7/programs/benchzstd.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/benchzstd.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/benchzstd.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o -c /work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/datagen.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/datagen.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o -c /work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/lorem.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/lorem.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o -c /work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/timefn.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/programs/timefn.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/tests -I/work/O2/src/zstd-1.5.7/build/cmake/tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../tests -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/compress -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/dictBuilder -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -o tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/tests/paramgrill.c.o -c /work/O2/src/zstd-1.5.7/tests/paramgrill.c",
+  "file": "/work/O2/src/zstd-1.5.7/tests/paramgrill.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/tests/CMakeFiles/paramgrill.dir/work/O2/src/zstd-1.5.7/tests/paramgrill.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/cc -DNDEBUG -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../contrib/pzstd -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wstrict-prototypes -Wa,--noexecstack -Wno-shadow -o contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/programs/util.c.o -c /work/O2/src/zstd-1.5.7/programs/util.c",
+  "file": "/work/O2/src/zstd-1.5.7/programs/util.c",
+  "output": "/work/O2/src/zstd-1.5.7/build/contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/programs/util.c.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/c++ -DNDEBUG -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../contrib/pzstd -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -Wp,-D_GLIBCXX_ASSERTIONS -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wa,--noexecstack -Wno-shadow -o contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/main.cpp.o -c /work/O2/src/zstd-1.5.7/contrib/pzstd/main.cpp",
+  "file": "/work/O2/src/zstd-1.5.7/contrib/pzstd/main.cpp",
+  "output": "/work/O2/src/zstd-1.5.7/build/contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/main.cpp.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/c++ -DNDEBUG -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../contrib/pzstd -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -Wp,-D_GLIBCXX_ASSERTIONS -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wa,--noexecstack -Wno-shadow -o contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/Options.cpp.o -c /work/O2/src/zstd-1.5.7/contrib/pzstd/Options.cpp",
+  "file": "/work/O2/src/zstd-1.5.7/contrib/pzstd/Options.cpp",
+  "output": "/work/O2/src/zstd-1.5.7/build/contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/Options.cpp.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/c++ -DNDEBUG -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../contrib/pzstd -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -Wp,-D_GLIBCXX_ASSERTIONS -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wa,--noexecstack -Wno-shadow -o contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/Pzstd.cpp.o -c /work/O2/src/zstd-1.5.7/contrib/pzstd/Pzstd.cpp",
+  "file": "/work/O2/src/zstd-1.5.7/contrib/pzstd/Pzstd.cpp",
+  "output": "/work/O2/src/zstd-1.5.7/build/contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/Pzstd.cpp.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/c++ -DNDEBUG -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/contrib/pzstd -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../contrib/pzstd -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -Wp,-D_GLIBCXX_ASSERTIONS -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wa,--noexecstack -Wno-shadow -o contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/SkippableFrame.cpp.o -c /work/O2/src/zstd-1.5.7/contrib/pzstd/SkippableFrame.cpp",
+  "file": "/work/O2/src/zstd-1.5.7/contrib/pzstd/SkippableFrame.cpp",
+  "output": "/work/O2/src/zstd-1.5.7/build/contrib/pzstd/CMakeFiles/pzstd.dir/work/O2/src/zstd-1.5.7/contrib/pzstd/SkippableFrame.cpp.o"
+},
+{
+  "directory": "/work/O2/src/zstd-1.5.7/build",
+  "command": "/usr/bin/c++ -DXXH_NAMESPACE=ZSTD_ -DZSTD_LEGACY_SUPPORT=5 -I/work/O2/src/zstd-1.5.7/build/contrib/gen_html -I/work/O2/src/zstd-1.5.7/build/cmake/contrib/gen_html -I/work/O2/src/zstd-1.5.7/build/cmake/../../programs -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib -I/work/O2/src/zstd-1.5.7/build/cmake/../../lib/common -I/work/O2/src/zstd-1.5.7/build/cmake/../../contrib/gen_html -march=armv8-a -mno-omit-leaf-frame-pointer -O2 -pipe -fstack-protector-strong -fno-plt -fexceptions -Wp,-D_FORTIFY_SOURCE=3 -Wformat -Werror=format-security -fstack-clash-protection -fno-omit-frame-pointer -Wp,-D_GLIBCXX_ASSERTIONS -ffat-lto-objects -Wall -Wextra -Wundef -Wshadow -Wcast-align -Wcast-qual -Wa,--noexecstack -o contrib/gen_html/CMakeFiles/gen_html.dir/work/O2/src/zstd-1.5.7/contrib/gen_html/gen_html.cpp.o -c /work/O2/src/zstd-1.5.7/contrib/gen_html/gen_html.cpp",
+  "file": "/work/O2/src/zstd-1.5.7/contrib/gen_html/gen_html.cpp",
+  "output": "/work/O2/src/zstd-1.5.7/build/contrib/gen_html/CMakeFiles/gen_html.dir/work/O2/src/zstd-1.5.7/contrib/gen_html/gen_html.cpp.o"
+}
+]

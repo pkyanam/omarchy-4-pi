@@ -1,0 +1,9 @@
+# Full-feature zstd package attempts: retained failures
+
+Both zero-swap attempts compiled O2 but failed unmodified upstream fuzzer/zstreamtest checks under their explicit RAM caps. No O3 build, package archive or installation followed either failure. Per-attempt complete CTest logs, actual compiler commands, resource counters, partial hashes and frozen configuration are retained here; full ignored build trees remain intact.
+
+At768MiB, both tests were OOM-killed. At1280MiB, verbose failures identify fuzzer159/zstreamtest70 with hashLog29: 2GiB hash entries plus512MiB row tags exceed the fixed2GiB Docker VM RAM. These are builder resource failures, not passes or measured Pi performance. The fullbench timing in these logs is local-builder output and must not be used as a Pi result. The test suite is unchanged.
+
+The official signed stock CLI and shared library exactly match the target hashes. Exact historical ARM PKGBUILD and resolved compiler flags remain unknown; archive CMake configuration None is authenticated. Contemporary controlled O2/O3 recipes use the same portable ISA, hardening and complete features, but no successful pair exists yet.
+
+After reviewing the concrete test allocation and current resources, parent authorized a distinct bounded-swap attempt: 1280MiB RAM plus2304MiB swap (3584MiB combined), one CPU, jobs1, existing VM settings unchanged. Existing VM had about1.6GiB MemAvailable and3GiB configured swap free; the Mac reported74% memory free. The new attempt must preserve both failures, run all unchanged checks and stop again on OOM/pressure rather than reducing coverage. It is ongoing and no result is implied here.

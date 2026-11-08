@@ -1,0 +1,17 @@
+{
+  "image": "sha256:277a56bbb6f54c1cc4aa16c403904a34b0a2292b64465339f9321980f60ab514",
+  "packages_sha256": "c42ee00fb626cd373b34403150869dfac2273a1471d2d28f420e7f1a0954f1a9",
+  "makepkg_config_sha256": "be02f4ba439b2e399063ee776dc83ffb8a8f4c88a593d549373243bd517eff97",
+  "status": "blocked; partial evidence retained",
+  "attempts": [
+    {
+      "optimization": 2,
+      "exit": 4
+    }
+  ],
+  "blocker": "Unmodified upstream fuzzer and zstreamtest OOM-killed at 768 MiB RAM+swap combined; no swap; O2 makepkg check() exit 4",
+  "packages_produced": [],
+  "installed": false,
+  "O3": "not attempted after O2 check failure",
+  "lease": "returned; all containers stopped"
+}

@@ -1,0 +1,11 @@
+{
+  "O2/src/zstd-1.5.7/build/programs/zstd": "d3f83900aed6c7b527cd1e314900002a47a7385171cff5801330ee5a98a2720e",
+  "O2/src/zstd-1.5.7/build/lib/libzstd.so.1.5.7": "3367f30c12fd3ff9bc664ae3592c0ffb867f9f50ab15eeb9fa434e988b4038e1",
+  "O2/PKGBUILD": "d320737cfcdc9a1e44e8045d27050cfa3de7882cf72b0497b2a161c7b742944e",
+  "O3/PKGBUILD": "56d77435f89a211f5ce0b55adb3ed1f1eb03b65d76f3ec7730ee7357bc217e32",
+  "candidate.makepkg.conf": "be02f4ba439b2e399063ee776dc83ffb8a8f4c88a593d549373243bd517eff97",
+  "build-pair.sh": "520f39334fb99b276eb867f7f66d304f17d4239433626d82327934f3dfdaafa9",
+  "dependency-prepare.sh": "766c4cddb47051a2f7601ca1d58e38da30a23c9e5bd4e4e521128a2f6438f233",
+  "upstream-release-key.asc": "f4b18ba6b4fe81a412fdcc2b5fc0558f5162149006763c11ff2ba2229b7bcdd3",
+  "deps-after.packages": "c42ee00fb626cd373b34403150869dfac2273a1471d2d28f420e7f1a0954f1a9"
+}

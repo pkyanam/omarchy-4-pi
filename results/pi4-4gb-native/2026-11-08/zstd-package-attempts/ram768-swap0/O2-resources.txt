@@ -1,0 +1,11 @@
+100000 100000
+805306368
+0
+805306368
+low 0
+high 0
+max 304
+oom 2
+oom_kill 2
+oom_group_kill 0
+sock_throttled 0

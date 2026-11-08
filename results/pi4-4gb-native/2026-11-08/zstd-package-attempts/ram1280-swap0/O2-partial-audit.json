@@ -1,0 +1,30 @@
+{
+  "compile_database_entries": 87,
+  "compiler_launcher_entries": 87,
+  "optimization": "one -O2 each",
+  "isa": "armv8-a only",
+  "hardening_compile_assertions": "passed",
+  "features": [
+    "ZSTD_BUILD_COMPRESSION:BOOL=ON",
+    "ZSTD_BUILD_CONTRIB:BOOL=ON",
+    "ZSTD_BUILD_DECOMPRESSION:BOOL=ON",
+    "ZSTD_BUILD_DEPRECATED:BOOL=OFF",
+    "ZSTD_BUILD_DICTBUILDER:BOOL=ON",
+    "ZSTD_BUILD_PROGRAMS:BOOL=ON",
+    "ZSTD_BUILD_SHARED:BOOL=ON",
+    "ZSTD_BUILD_STATIC:BOOL=OFF",
+    "ZSTD_BUILD_TESTS:BOOL=ON",
+    "ZSTD_FUZZER_FLAGS:STRING=",
+    "ZSTD_LEGACY_LEVEL:STRING=5",
+    "ZSTD_LEGACY_SUPPORT:BOOL=ON",
+    "ZSTD_LZ4_SUPPORT:BOOL=ON",
+    "ZSTD_LZMA_SUPPORT:BOOL=ON",
+    "ZSTD_MULTITHREAD_SUPPORT:BOOL=ON",
+    "ZSTD_PLAYTESTS_FLAGS:STRING=",
+    "ZSTD_PROGRAMS_LINK_SHARED:BOOL=ON",
+    "ZSTD_ZLIB_SUPPORT:BOOL=ON",
+    "ZSTD_ZSTREAM_FLAGS:STRING="
+  ],
+  "pair_audit": "blocked: O3 not built",
+  "acceptance": "failed upstream checks; no package"
+}

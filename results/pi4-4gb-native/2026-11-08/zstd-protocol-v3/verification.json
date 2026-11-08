@@ -1,0 +1,26 @@
+{
+  "runner_sha256": "bf40ba15e4eb370c35f8fc2a525dd87033748a0d4df27d457f72fbad6e365bf0",
+  "protected_functions_unchanged": [
+    "Runner.__init__",
+    "Runner.persist",
+    "Runner.health",
+    "Runner.call",
+    "Runner.context",
+    "Runner.stable",
+    "Runner.command",
+    "Runner.z",
+    "Runner.verify",
+    "Runner.gate",
+    "Runner.run",
+    "check_session_context",
+    "parse_rates",
+    "loader_paths",
+    "balanced_orders",
+    "projection"
+  ],
+  "artifact_bytes": 242077,
+  "changed_owned_files": [
+    "tools/pi-experiments/zstd-package-benchmark.py",
+    "plans/omarchy-pi-zstd-package-benchmark.md"
+  ]
+}

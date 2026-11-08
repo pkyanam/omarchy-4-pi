@@ -1,0 +1,3 @@
+# Source-tested bounded workload units
+
+Protocol3 partitions the fullmatrix into six independently bounded complete workload units, each with fresh O2/O3 calibration and six balanced paired blocks. The300s bound and allthree-variant nativecorrectness/health/context/provider guards are unchanged. Eight hosttests pass and eleven wrongprotocolmutants fail. No nativeperformance result follows from these host tests. Nativegate and eachcompleteunit must pass separately; rejected/partial units cannot be pooled. See plans/omarchy-pi-zstd-package-benchmark.md. Full originalv2 source/test/plan evidence is retained here.

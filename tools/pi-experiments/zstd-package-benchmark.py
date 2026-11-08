@@ -22,9 +22,10 @@ import time
 import unittest
 
 NAMES = ('stock', 'O2', 'O3')  # All provenance and native correctness checks.
-PROTOCOL_VERSION = 2
+PROTOCOL_VERSION = 3
 TIMED_NAMES = ('O2', 'O3')
 LEVELS = (1, 3, 9)
+CORPORA = ('source.tar', 'stock-libzstd.elf')
 ARCHIVES = dict(zip(NAMES, (
   'c3b907c36049b338bda0c6d85260251e48d17e2be6c0e11ddc0dfd4cf9d2e89a',
   'e0a1198fbf1a63d389e064eb093c0d91d9b380d6aa726816ca7fd12a445549ab',
@@ -110,6 +111,11 @@ def prepare(args):
   print(out)
 
 
+def check_session_context(context, expected_lock):
+  require(context['locked'] == expected_lock and context['outputs'] and context['policies'],
+          'expected lock state, outputs and policy required')
+
+
 def legacy_string(source, name):
   body = re.search(r'const char\* const '+name+r'\s*=\s*(.*?);', source, re.S).group(1)
   parts = re.findall(r'"(?:[^"\\]|\\.)*"', body)
@@ -124,16 +130,21 @@ def balanced_orders():
   return [(a, b), (b, a)] * 3
 
 
-def measurement_schedule(corpora):
-  jobs = [(p, level) for p in sorted(corpora) for level in LEVELS]
+def workload(corpus, level):
+  require(corpus in CORPORA and level in LEVELS, 'select one valid corpus and level')
+  return {'corpus': corpus, 'level': level}
+
+
+def measurement_schedule(corpora, levels):
+  jobs = [(p, level) for p in sorted(corpora) for level in levels]
   return [(block, p, level, name)
           for block, order in enumerate(balanced_orders())
           for p, level in (jobs if block % 2 == 0 else list(reversed(jobs)))
           for name in order]
 
 
-def calibration_jobs(corpora):
-  return [(p, 9, name) for p in sorted(corpora) for name in TIMED_NAMES]
+def calibration_jobs(corpora, levels):
+  return [(p, level, name) for p in sorted(corpora) for level in levels for name in TIMED_NAMES]
 
 
 def projection(costs, schedule):
@@ -342,8 +353,7 @@ class Runner:
     self.report['providers'] = providers
     self.report['loader'] = {'path': str(LOADER.resolve()), 'sha256': sha(LOADER)}
     self.base = self.context()
-    require(self.base['locked'] == 'true' and self.base['outputs'] and self.base['policies'],
-            'locked desktop, outputs and policy required')
+    check_session_context(self.base, self.args.expected_lock_state)
     self.report['context'] = self.base
     self.persist()
 
@@ -402,14 +412,18 @@ class Runner:
       require(gate[key] == self.report[key], f'gate changed: {key}')
     require(gate['mode'] == 'gate' and gate['status'] == 'complete', 'native gate incomplete')
     self.report['gate_sha256'] = sha(self.args.gate)
-    corpora = sorted((self.bundle/'corpus').iterdir())
-    schedule = measurement_schedule(corpora)
-    calibrations = calibration_jobs(corpora)
+    unit = workload(self.args.corpus, self.args.level)
+    corpora = [self.bundle / 'corpus' / unit['corpus']]
+    levels = (unit['level'],)
+    schedule = measurement_schedule(corpora, levels)
+    calibrations = calibration_jobs(corpora, levels)
     self.report['measurement_protocol'] = {
       'version': PROTOCOL_VERSION, 'timed_variants': TIMED_NAMES,
       'provenance_and_correctness_variants': NAMES,
       'stock_role': 'context-only provenance and native correctness; no timing',
-      'corpora': [p.name for p in corpora], 'levels': LEVELS,
+      'workload_unit': unit, 'corpora': [p.name for p in corpora], 'levels': levels,
+      'full_matrix_units': [workload(p, l) for p in CORPORA for l in LEVELS],
+      'claim_scope': 'one workload unit; all six complete units required for full matrix; never pool',
       'blocks': len(balanced_orders()), 'balanced_orders': balanced_orders(),
       'measured_trial_count': len(schedule), 'calibration_trial_count': len(calibrations),
       'cli': '--single-thread -bLEVEL -i1', 'deadline_s': 300,
@@ -435,7 +449,7 @@ class Runner:
       self.persist()
       self.stable()
       return time.monotonic() - start
-    # Fresh bounded calibration: both pair variants, both corpora, level9.
+    # Fresh bounded calibration: both pair variants on this exact corpus and level.
     costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
     projected = projection(costs, schedule)
     self.report['calibration'] = {'measured_trial_seconds': costs,
@@ -444,7 +458,8 @@ class Runner:
                   for i, ((p,l,n), cost) in enumerate(zip(calibrations, costs))],
       'projected_new_measured_trials': len(schedule), 'headroom_fraction': 0.15,
       'conservative_remaining_seconds': projected, 'remaining_budget_s': self.deadline-time.monotonic(),
-      'caveat': 'level9 cost is a projection, cooling and scheduler delays can exhaust deadline'}
+      'workload_unit': unit,
+      'caveat': 'same-workload cost is a projection; cooling and scheduler delays can exhaust deadline'}
     self.persist()
     require(projected < self.deadline-time.monotonic(), 'calibration rejects five-minute budget; retain, redesign explicitly')
     for block, corpus, level, name in schedule:
@@ -465,6 +480,16 @@ class Runner:
 
 
 class Tests(unittest.TestCase):
+  def test_session_context(self):
+    for state in ('true', 'false'):
+      context = {'locked': state, 'outputs': [{}], 'policies': {'cpu': {}}}
+      check_session_context(context, state)
+      with self.assertRaises(RuntimeError):
+        check_session_context(context, 'false' if state == 'true' else 'true')
+      context['outputs'] = []
+      with self.assertRaises(RuntimeError):
+        check_session_context(context, state)
+
   def test_legacy_utf8(self):
     source = 'const char* const EXPECTED = "it’s a door." " More.";'
     self.assertEqual(legacy_string(source, 'EXPECTED'), 'it’s a door. More.'.encode())
@@ -479,75 +504,113 @@ class Tests(unittest.TestCase):
         parse_rates(bad, size)
 
   def test_order(self):
-    orders = balanced_orders()
-    self.assertEqual(len(orders), 6)
-    self.assertEqual(orders.count(('O2', 'O3')), 3)
-    self.assertEqual(orders.count(('O3', 'O2')), 3)
-    corpora = [Path('source.tar'), Path('stock-libzstd.elf')]
-    schedule = measurement_schedule(corpora)
-    self.assertEqual(len(schedule), 72)
-    for corpus in corpora:
-      for level in (1, 3, 9):
-        observed = []
+    for corpus in CORPORA:
+      for level in LEVELS:
+        p = Path(corpus)
+        schedule = measurement_schedule([p], [level])
+        self.assertEqual(len(schedule), 12)
+        orders = []
         for block in range(6):
-          pair = [n for b,p,l,n in schedule if (b,p,l) == (block,corpus,level)]
-          self.assertCountEqual(pair, ['O2', 'O3'])
-          observed.append(tuple(pair))
-        self.assertEqual(observed.count(('O2', 'O3')), 3)
-        self.assertEqual(observed.count(('O3', 'O2')), 3)
-    jobs = [(p,l) for b,p,l,n in schedule if b == 0 and n == 'O2']
-    reversed_jobs = [(p,l) for b,p,l,n in schedule if b == 1 and n == 'O2']
-    self.assertEqual(reversed_jobs, list(reversed(jobs)))
+          pair = [(c,l,n) for b,c,l,n in schedule if b == block]
+          self.assertEqual([(c,l) for c,l,n in pair], [(p,level)] * 2)
+          orders.append(tuple(n for c,l,n in pair))
+        self.assertEqual(orders, [('O2', 'O3'), ('O3', 'O2')] * 3)
 
   def test_projection(self):
-    corpora = [Path('source.tar'), Path('stock-libzstd.elf')]
-    self.assertCountEqual(calibration_jobs(corpora), [
-      (p, 9, n) for p in corpora for n in ('O2', 'O3')])
-    schedule = measurement_schedule(corpora)
-    # Distinct costs catch averaging instead of the conservative maximum;
-    # expected count excludes both the old stock trials and calibration reuse.
-    self.assertAlmostEqual(projection([1, 2, 3, 4], schedule), 4 * 72 * 1.15)
+    for corpus in CORPORA:
+      for level in LEVELS:
+        p = Path(corpus)
+        self.assertEqual(calibration_jobs([p], [level]), [(p,level,'O2'), (p,level,'O3')])
+        self.assertAlmostEqual(projection([1, 4], measurement_schedule([p], [level])), 4 * 12 * 1.15)
 
   def test_bench_protocol(self):
-    # Exercise actual orchestration with only native execution/health substituted.
+    # Exercise actual dispatch, selection and persisted evidence for all six units.
     import tempfile
     from types import SimpleNamespace
-    with tempfile.TemporaryDirectory() as d:
-      runner = Runner.__new__(Runner)
-      runner.bundle = runner.out = Path(d)
-      (runner.bundle / 'corpus').mkdir()
-      for name in ('source.tar', 'stock-libzstd.elf'):
-        (runner.bundle / 'corpus' / name).write_bytes(b'x')
-      runner.args = SimpleNamespace(gate=Path(d) / 'gate.json')
-      runner.report = {k: {} for k in ('runner_sha256', 'manifest_sha256', 'context', 'providers', 'loader')}
-      save(runner.args.gate, dict(runner.report, mode='gate', status='complete'))
-      runner.report['commands'] = []
-      runner.deadline = time.monotonic() + 300
-      runner.stable = lambda: None
-      runner.health = lambda: {'temperatures_mC': {'test': 50000}}
-      def fake_z(name, args):
-        self.assertIn(name, ('O2', 'O3'))
-        self.assertEqual(args[0], '--single-thread')
-        self.assertEqual(args[2], '-i1')
-        stderr = f"{len(runner.report['commands'])}.stderr"
-        (runner.out / stderr).write_bytes(b'')
-        runner.report['commands'].append({'stderr': stderr})
-        return b': 1 -> 1 (x1.0), 1.0 MB/s, 1.0 MB/s'
-      runner.z = fake_z
-      runner.bench()
-      trials = runner.report['trials']
-      self.assertEqual(len(trials), 76)
-      self.assertTrue(all(t['phase'] == 'calibration' for t in trials[:4]))
-      self.assertTrue(all(t['phase'] == 'measured' for t in trials[4:]))
-      expected = measurement_schedule((runner.bundle / 'corpus').iterdir())
-      self.assertEqual([(t['block'], t['corpus'], t['level'], t['variant']) for t in trials[4:]],
-                       [(b,p.name,l,n) for b,p,l,n in expected])
-      self.assertEqual(runner.report['measurement_protocol']['version'], 2)
-      calibration = runner.report['calibration']
-      self.assertEqual(calibration['projected_new_measured_trials'], 72)
-      self.assertEqual(len(calibration['records']), 4)
-      self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
-                             max(calibration['measured_trial_seconds']) * 72 * 1.15)
+    for corpus in CORPORA:
+      for level in LEVELS:
+        with self.subTest(corpus=corpus, level=level), tempfile.TemporaryDirectory() as d:
+          runner = Runner.__new__(Runner)
+          runner.bundle = runner.out = Path(d)
+          (runner.bundle / 'corpus').mkdir()
+          for i, name in enumerate(CORPORA, 1):
+            (runner.bundle / 'corpus' / name).write_bytes(b'x' * i)
+          runner.args = SimpleNamespace(mode='bench', gate=Path(d) / 'gate.json', corpus=corpus, level=level)
+          runner.report = {k: {} for k in ('runner_sha256', 'manifest_sha256', 'context', 'providers', 'loader')}
+          save(runner.args.gate, dict(runner.report, mode='gate', status='complete'))
+          runner.report['commands'] = []
+          runner.deadline = time.monotonic() + 300
+          runner.stable = lambda: None
+          runner.health = lambda: {'temperatures_mC': {'test': 50000}}
+          calls = []
+          def fake_z(name, args):
+            calls.append((name, args))
+            self.assertIn(name, ('O2', 'O3'))
+            self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+            stderr = f"{len(runner.report['commands'])}.stderr"
+            (runner.out / stderr).write_bytes(b'')
+            runner.report['commands'].append({'stderr': stderr})
+            return f': {args[-1].stat().st_size} -> 1 (x1.0), 1.0 MB/s, 1.0 MB/s'.encode()
+          runner.z = fake_z
+          runner.bench()
+          trials = runner.report['trials']
+          self.assertEqual(len(calls), 14)
+          self.assertEqual([(t['variant'],t['phase']) for t in trials[:2]],
+                           [('O2','calibration'), ('O3','calibration')])
+          self.assertTrue(all(t['phase'] == 'measured' for t in trials[2:]))
+          self.assertTrue(all((t['corpus'],t['level']) == (corpus,level) for t in trials))
+          expected = [(b,corpus,level,n) for b in range(6) for n in
+                      (('O2','O3') if b % 2 == 0 else ('O3','O2'))]
+          self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+          saved = json.loads((runner.out/'results.json').read_text())
+          protocol = saved['measurement_protocol']
+          self.assertEqual(protocol['version'], 3)
+          self.assertEqual(protocol['workload_unit'], {'corpus':corpus, 'level':level})
+          self.assertEqual(protocol['corpora'], [corpus])
+          self.assertEqual(protocol['levels'], [level])
+          self.assertEqual(protocol['measured_trial_count'], 12)
+          self.assertEqual(protocol['calibration_trial_count'], 2)
+          self.assertEqual(protocol['schedule'], [dict(block=b,corpus=p,level=l,variant=n) for b,p,l,n in expected])
+          self.assertEqual(protocol['full_matrix_units'], [dict(corpus=p,level=l) for p in CORPORA for l in LEVELS])
+          calibration = saved['calibration']
+          self.assertEqual(calibration['projected_new_measured_trials'], 12)
+          self.assertEqual(len(calibration['records']), 2)
+          self.assertTrue(all((r['corpus'],r['level']) == (corpus,level) for r in calibration['records']))
+          self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+                                 max(calibration['measured_trial_seconds']) * 12 * 1.15)
+          # A new invocation must reject projection before dispatching measured work,
+          # preserving the two fresh calibration records via the normal run boundary.
+          runner.deadline = time.monotonic() + 300
+          runner.verify = lambda: None
+          runner.report['commands'] = []
+          calls.clear()
+          from unittest.mock import patch
+          with patch(__name__ + '.projection', return_value=301):
+            with self.assertRaisesRegex(RuntimeError, 'calibration rejects'):
+              runner.run()
+          rejected = json.loads((runner.out/'results.json').read_text())
+          self.assertEqual(rejected['status'], 'rejected')
+          self.assertEqual(len(calls), 2)
+          self.assertEqual(len(rejected['trials']), 2)
+          self.assertEqual(rejected['calibration']['conservative_remaining_seconds'], 301)
+
+  def test_invalid_workload(self):
+    # Test the public parser without ever reaching target preflight.
+    from unittest.mock import patch
+    import contextlib
+    import io
+    base = ['runner', 'bench', '--bundle', '/unused', '--out', '/unused',
+            '--gate', '/unused', '--conditions', 'host test']
+    for selection in ([], ['--corpus','source.tar'], ['--level','1'],
+                      ['--corpus','other','--level','1'],
+                      ['--corpus','source.tar','--level','2']):
+      with patch.object(sys, 'argv', base + selection), contextlib.redirect_stderr(io.StringIO()):
+        with self.assertRaises(SystemExit) as error:
+          main()
+        self.assertEqual(error.exception.code, 2)
+    for corpus,level in [('other',1), ('source.tar',2), (None,None)]:
+      with self.assertRaises(RuntimeError):
+        workload(corpus, level)
 
   def test_hash_and_loader(self):
     import tempfile
@@ -584,8 +647,11 @@ def main():
     p.add_argument('--cpu', type=int, default=2)
     p.add_argument('--exclusive-pi', action='store_true')
     p.add_argument('--conditions', required=True)
+    p.add_argument('--expected-lock-state', choices=('true', 'false'), default='true')
     if mode == 'bench':
       p.add_argument('--gate', type=Path, required=True)
+      p.add_argument('--corpus', choices=CORPORA, required=True)
+      p.add_argument('--level', type=int, choices=LEVELS, required=True)
   args = parser.parse_args()
   if args.mode == 'self-test':
     unittest.main(argv=[sys.argv[0]])

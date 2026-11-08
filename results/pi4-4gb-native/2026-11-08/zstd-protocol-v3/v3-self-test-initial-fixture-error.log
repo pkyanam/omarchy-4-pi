@@ -1,0 +1,77 @@
+EEEEEE.......
+======================================================================
+ERROR: test_bench_protocol (__main__.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 590, in test_bench_protocol
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 472, in run
+    self.gate() if self.args.mode == 'gate' else self.bench()
+                   ^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'mode'
+
+======================================================================
+ERROR: test_bench_protocol (__main__.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 590, in test_bench_protocol
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 472, in run
+    self.gate() if self.args.mode == 'gate' else self.bench()
+                   ^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'mode'
+
+======================================================================
+ERROR: test_bench_protocol (__main__.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 590, in test_bench_protocol
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 472, in run
+    self.gate() if self.args.mode == 'gate' else self.bench()
+                   ^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'mode'
+
+======================================================================
+ERROR: test_bench_protocol (__main__.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 590, in test_bench_protocol
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 472, in run
+    self.gate() if self.args.mode == 'gate' else self.bench()
+                   ^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'mode'
+
+======================================================================
+ERROR: test_bench_protocol (__main__.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 590, in test_bench_protocol
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 472, in run
+    self.gate() if self.args.mode == 'gate' else self.bench()
+                   ^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'mode'
+
+======================================================================
+ERROR: test_bench_protocol (__main__.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 590, in test_bench_protocol
+    runner.run()
+    ~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 472, in run
+    self.gate() if self.args.mode == 'gate' else self.bench()
+                   ^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'mode'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.070s
+
+FAILED (errors=6)

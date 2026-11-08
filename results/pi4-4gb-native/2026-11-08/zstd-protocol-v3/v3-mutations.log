@@ -1,0 +1,1444 @@
+
+MUTANT wrong-corpus
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpmcaxmjtd/corpus/source.tar')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpmcaxmjtd/corpus/stock-libzstd.elf')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpmcaxmjtd/corpus/source.tar')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpmcaxmjtd/corpus/stock-libzstd.elf')
+
+  ['--single-thread',
+   '-b1',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpmcaxmjtd/corpus/source.tar')]
+?                                                                                   --  ^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpmcaxmjtd/corpus/stock-libzstd.elf')]
+?                                                                                  +  ++++++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpo7ajcq5r/corpus/source.tar')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpo7ajcq5r/corpus/stock-libzstd.elf')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpo7ajcq5r/corpus/source.tar')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpo7ajcq5r/corpus/stock-libzstd.elf')
+
+  ['--single-thread',
+   '-b3',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpo7ajcq5r/corpus/source.tar')]
+?                                                                                   --  ^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpo7ajcq5r/corpus/stock-libzstd.elf')]
+?                                                                                  +  ++++++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpsd5b6s0u/corpus/source.tar')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpsd5b6s0u/corpus/stock-libzstd.elf')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpsd5b6s0u/corpus/source.tar')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpsd5b6s0u/corpus/stock-libzstd.elf')
+
+  ['--single-thread',
+   '-b9',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpsd5b6s0u/corpus/source.tar')]
+?                                                                                   --  ^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpsd5b6s0u/corpus/stock-libzstd.elf')]
+?                                                                                  +  ++++++++++ ^^
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.049s
+
+FAILED (failures=3)
+REJECTED wrong-corpus
+
+MUTANT wrong-level
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b9'
+'-b1'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b1',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmptkhbjwo8/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b9'
+'-b3'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b3',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpl82_kgim/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b9'
+'-b1'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b1',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp3ibb4b_x/corpus/stock-libzstd.elf')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b9'
+'-b3'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b3',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpanxqueiy/corpus/stock-libzstd.elf')]
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.021s
+
+FAILED (failures=4)
+REJECTED wrong-level
+
+MUTANT whole-matrix
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b3'
+'-b1'
+
+  ['--single-thread',
+-  '-b3',
+?     ^
+
++  '-b1',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpbbmf2gq1/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b1'
+'-b3'
+
+  ['--single-thread',
+-  '-b1',
+?     ^
+
++  '-b3',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpnjxilyi_/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b1'
+'-b9'
+
+  ['--single-thread',
+-  '-b1',
+?     ^
+
++  '-b9',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpic0xqdhy/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b3'
+'-b1'
+
+  ['--single-thread',
+-  '-b3',
+?     ^
+
++  '-b1',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpf4a59q6g/corpus/stock-libzstd.elf')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b1'
+'-b3'
+
+  ['--single-thread',
+-  '-b1',
+?     ^
+
++  '-b3',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp7xai2n32/corpus/stock-libzstd.elf')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b1'
+'-b9'
+
+  ['--single-thread',
+-  '-b1',
+?     ^
+
++  '-b9',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpwt1hjkuv/corpus/stock-libzstd.elf')]
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.011s
+
+FAILED (failures=6)
+REJECTED whole-matrix
+
+MUTANT both-corpora
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmphbbxsk9e/corpus/stock-libzstd.elf')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmphbbxsk9e/corpus/source.tar')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmphbbxsk9e/corpus/stock-libzstd.elf')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmphbbxsk9e/corpus/source.tar')
+
+  ['--single-thread',
+   '-b1',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphbbxsk9e/corpus/stock-libzstd.elf')]
+?                                                                                   ^^^^^^^^^^^^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmphbbxsk9e/corpus/source.tar')]
+?                                                                                  ++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmprcwo2msd/corpus/stock-libzstd.elf')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmprcwo2msd/corpus/source.tar')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmprcwo2msd/corpus/stock-libzstd.elf')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmprcwo2msd/corpus/source.tar')
+
+  ['--single-thread',
+   '-b3',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmprcwo2msd/corpus/stock-libzstd.elf')]
+?                                                                                   ^^^^^^^^^^^^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmprcwo2msd/corpus/source.tar')]
+?                                                                                  ++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmps7p43sxz/corpus/stock-libzstd.elf')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmps7p43sxz/corpus/source.tar')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmps7p43sxz/corpus/stock-libzstd.elf')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmps7p43sxz/corpus/source.tar')
+
+  ['--single-thread',
+   '-b9',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmps7p43sxz/corpus/stock-libzstd.elf')]
+?                                                                                   ^^^^^^^^^^^^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmps7p43sxz/corpus/source.tar')]
+?                                                                                  ++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmp6b7abgvw/corpus/source.tar')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmp6b7abgvw/corpus/stock-libzstd.elf')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmp6b7abgvw/corpus/source.tar')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmp6b7abgvw/corpus/stock-libzstd.elf')
+
+  ['--single-thread',
+   '-b1',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp6b7abgvw/corpus/source.tar')]
+?                                                                                   --  ^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmp6b7abgvw/corpus/stock-libzstd.elf')]
+?                                                                                  +  ++++++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpb71y6mw_/corpus/source.tar')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpb71y6mw_/corpus/stock-libzstd.elf')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpb71y6mw_/corpus/source.tar')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpb71y6mw_/corpus/stock-libzstd.elf')
+
+  ['--single-thread',
+   '-b3',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpb71y6mw_/corpus/source.tar')]
+?                                                                                   --  ^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpb71y6mw_/corpus/stock-libzstd.elf')]
+?                                                                                  +  ++++++++++ ^^
+
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpb72vit1j/corpus/source.tar')] != ['--s[65 chars]m99l7rz2rjbtxkc0000gn/T/tmpb72vit1j/corpus/stock-libzstd.elf')]
+
+First differing element 3:
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpb72vit1j/corpus/source.tar')
+Posix[30 chars]5m99l7rz2rjbtxkc0000gn/T/tmpb72vit1j/corpus/stock-libzstd.elf')
+
+  ['--single-thread',
+   '-b9',
+   '-i1',
+-  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpb72vit1j/corpus/source.tar')]
+?                                                                                   --  ^^^^
+
++  PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpb72vit1j/corpus/stock-libzstd.elf')]
+?                                                                                  +  ++++++++++ ^^
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.012s
+
+FAILED (failures=6)
+REJECTED both-corpora
+
+MUTANT level9-calibration
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b9'
+'-b1'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b1',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpxh1ik4lr/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')] != ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[57 chars]ar')]
+
+First differing element 1:
+'-b9'
+'-b3'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b3',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpawl27hy6/corpus/source.tar')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b1', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b9'
+'-b1'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b1',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpncni7rox/corpus/stock-libzstd.elf')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 549, in fake_z
+    self.assertEqual(args, ['--single-thread', f'-b{level}', '-i1', runner.bundle/'corpus'/corpus])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['--s[13 chars], '-b9', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')] != ['--s[13 chars], '-b3', '-i1', PosixPath('/var/folders/bj/wt9[64 chars]lf')]
+
+First differing element 1:
+'-b9'
+'-b3'
+
+  ['--single-thread',
+-  '-b9',
+?     ^
+
++  '-b3',
+?     ^
+
+   '-i1',
+   PosixPath('/var/folders/bj/wt9g4l715m99l7rz2rjbtxkc0000gn/T/tmpmtg2b6hz/corpus/stock-libzstd.elf')]
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.020s
+
+FAILED (failures=4)
+REJECTED level9-calibration
+
+MUTANT unbalanced
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... FAIL
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 564, in test_bench_protocol
+    self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, [70 chars]1, 'O2'), (1, 'source.tar', 1, 'O3'), (2, 'sou[210 chars]O2')] != [(0, [70 chars]1, 'O3'), (1, 'source.tar', 1, 'O2'), (2, 'sou[210 chars]O2')]
+
+First differing element 2:
+(1, 'source.tar', 1, 'O2')
+(1, 'source.tar', 1, 'O3')
+
+  [(0, 'source.tar', 1, 'O2'),
+   (0, 'source.tar', 1, 'O3'),
++  (1, 'source.tar', 1, 'O3'),
+   (1, 'source.tar', 1, 'O2'),
+-  (1, 'source.tar', 1, 'O3'),
+   (2, 'source.tar', 1, 'O2'),
+   (2, 'source.tar', 1, 'O3'),
++  (3, 'source.tar', 1, 'O3'),
+   (3, 'source.tar', 1, 'O2'),
+-  (3, 'source.tar', 1, 'O3'),
+?   ^                     ^
+
++  (4, 'source.tar', 1, 'O2'),
+?   ^                     ^
+
+   (4, 'source.tar', 1, 'O3'),
+-  (4, 'source.tar', 1, 'O2'),
+   (5, 'source.tar', 1, 'O3'),
+   (5, 'source.tar', 1, 'O2')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 564, in test_bench_protocol
+    self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, [70 chars]3, 'O2'), (1, 'source.tar', 3, 'O3'), (2, 'sou[210 chars]O2')] != [(0, [70 chars]3, 'O3'), (1, 'source.tar', 3, 'O2'), (2, 'sou[210 chars]O2')]
+
+First differing element 2:
+(1, 'source.tar', 3, 'O2')
+(1, 'source.tar', 3, 'O3')
+
+  [(0, 'source.tar', 3, 'O2'),
+   (0, 'source.tar', 3, 'O3'),
++  (1, 'source.tar', 3, 'O3'),
+   (1, 'source.tar', 3, 'O2'),
+-  (1, 'source.tar', 3, 'O3'),
+   (2, 'source.tar', 3, 'O2'),
+   (2, 'source.tar', 3, 'O3'),
++  (3, 'source.tar', 3, 'O3'),
+   (3, 'source.tar', 3, 'O2'),
+-  (3, 'source.tar', 3, 'O3'),
+?   ^                     ^
+
++  (4, 'source.tar', 3, 'O2'),
+?   ^                     ^
+
+   (4, 'source.tar', 3, 'O3'),
+-  (4, 'source.tar', 3, 'O2'),
+   (5, 'source.tar', 3, 'O3'),
+   (5, 'source.tar', 3, 'O2')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 564, in test_bench_protocol
+    self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, [70 chars]9, 'O2'), (1, 'source.tar', 9, 'O3'), (2, 'sou[210 chars]O2')] != [(0, [70 chars]9, 'O3'), (1, 'source.tar', 9, 'O2'), (2, 'sou[210 chars]O2')]
+
+First differing element 2:
+(1, 'source.tar', 9, 'O2')
+(1, 'source.tar', 9, 'O3')
+
+  [(0, 'source.tar', 9, 'O2'),
+   (0, 'source.tar', 9, 'O3'),
++  (1, 'source.tar', 9, 'O3'),
+   (1, 'source.tar', 9, 'O2'),
+-  (1, 'source.tar', 9, 'O3'),
+   (2, 'source.tar', 9, 'O2'),
+   (2, 'source.tar', 9, 'O3'),
++  (3, 'source.tar', 9, 'O3'),
+   (3, 'source.tar', 9, 'O2'),
+-  (3, 'source.tar', 9, 'O3'),
+?   ^                     ^
+
++  (4, 'source.tar', 9, 'O2'),
+?   ^                     ^
+
+   (4, 'source.tar', 9, 'O3'),
+-  (4, 'source.tar', 9, 'O2'),
+   (5, 'source.tar', 9, 'O3'),
+   (5, 'source.tar', 9, 'O2')]
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 564, in test_bench_protocol
+    self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, [91 chars]1, 'O2'), (1, 'stock-libzstd.elf', 1, 'O3'), ([273 chars]O2')] != [(0, [91 chars]1, 'O3'), (1, 'stock-libzstd.elf', 1, 'O2'), ([273 chars]O2')]
+
+First differing element 2:
+(1, 'stock-libzstd.elf', 1, 'O2')
+(1, 'stock-libzstd.elf', 1, 'O3')
+
+Diff is 642 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 564, in test_bench_protocol
+    self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, [91 chars]3, 'O2'), (1, 'stock-libzstd.elf', 3, 'O3'), ([273 chars]O2')] != [(0, [91 chars]3, 'O3'), (1, 'stock-libzstd.elf', 3, 'O2'), ([273 chars]O2')]
+
+First differing element 2:
+(1, 'stock-libzstd.elf', 3, 'O2')
+(1, 'stock-libzstd.elf', 3, 'O3')
+
+Diff is 642 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 564, in test_bench_protocol
+    self.assertEqual([(t['block'],t['corpus'],t['level'],t['variant']) for t in trials[2:]], expected)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [(0, [91 chars]9, 'O2'), (1, 'stock-libzstd.elf', 9, 'O3'), ([273 chars]O2')] != [(0, [91 chars]9, 'O3'), (1, 'stock-libzstd.elf', 9, 'O2'), ([273 chars]O2')]
+
+First differing element 2:
+(1, 'stock-libzstd.elf', 9, 'O2')
+(1, 'stock-libzstd.elf', 9, 'O3')
+
+Diff is 642 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_order (mutant.Tests.test_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 517, in test_order
+    self.assertEqual(orders, [('O2', 'O3'), ('O3', 'O2')] * 3)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('O2', 'O3'), ('O2', 'O3'), ('O2', 'O3'), ('O2', 'O3'), ('[20 chars]O2')] != [('O2', 'O3'), ('O3', 'O2'), ('O2', 'O3'), ('O3', 'O2'), ('[20 chars]O2')]
+
+First differing element 1:
+('O2', 'O3')
+('O3', 'O2')
+
+  [('O2', 'O3'),
++  ('O3', 'O2'),
+-  ('O2', 'O3'),
+-  ('O2', 'O3'),
+   ('O2', 'O3'),
+   ('O3', 'O2'),
++  ('O2', 'O3'),
+   ('O3', 'O2')]
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.035s
+
+FAILED (failures=7)
+REJECTED unbalanced
+
+MUTANT old-projection
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.021438326686620712 != 0.0035730544477701183 within 7 places (0.017865272238850594 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.020013519655913112 != 0.003335586609318852 within 7 places (0.016677933046594262 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.02011004649102688 != 0.003351674415171146 within 7 places (0.016758372075855732 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.01962012508884072 != 0.0032700208481401204 within 7 places (0.016350104240700603 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.021903995890170336 != 0.0036506659816950555 within 7 places (0.01825332990847528 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.019985855184495447 != 0.0033309758640825745 within 7 places (0.016654879320412874 difference)
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 524, in test_projection
+    self.assertAlmostEqual(projection([1, 4], measurement_schedule([p], [level])), 4 * 12 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 331.2 != 55.199999999999996 within 7 places (276.0 difference)
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.033s
+
+FAILED (failures=7)
+REJECTED old-projection
+
+MUTANT reuse-calibration
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0029650893993675704 != 0.0035581072792410847 within 7 places (0.0005930178798735143 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0029478298965841527 != 0.0035373958759009837 within 7 places (0.000589565979316831 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.00326408096589148 != 0.003916897159069776 within 7 places (0.0006528161931782963 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0027365281712263823 != 0.0032838338054716584 within 7 places (0.0005473056342452762 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.002790186321362853 != 0.0033482235856354234 within 7 places (0.0005580372642725703 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0028270803159102793 != 0.0033924963790923353 within 7 places (0.000565416063182056 difference)
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 524, in test_projection
+    self.assertAlmostEqual(projection([1, 4], measurement_schedule([p], [level])), 4 * 12 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 46.0 != 55.199999999999996 within 7 places (9.199999999999996 difference)
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.033s
+
+FAILED (failures=7)
+REJECTED reuse-calibration
+
+MUTANT no-headroom
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... FAIL
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.003528493456542492 != 0.004057767475023865 within 7 places (0.0005292740184813733 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.003365999087691307 != 0.0038708989508450028 within 7 places (0.0005048998631536957 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0028069904074072838 != 0.003228038968518376 within 7 places (0.0004210485611110923 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0028994986787438393 != 0.003334423480555415 within 7 places (0.00043492480181157563 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.002833007834851742 != 0.0032579590100795027 within 7 places (0.0004249511752277609 difference)
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 579, in test_bench_protocol
+    self.assertAlmostEqual(calibration['conservative_remaining_seconds'],
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           max(calibration['measured_trial_seconds']) * 12 * 1.15)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.0031435098499059677 != 0.0036150363273918626 within 7 places (0.0004715264774858949 difference)
+
+======================================================================
+FAIL: test_projection (mutant.Tests.test_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 524, in test_projection
+    self.assertAlmostEqual(projection([1, 4], measurement_schedule([p], [level])), 4 * 12 * 1.15)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 48 != 55.199999999999996 within 7 places (7.199999999999996 difference)
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.034s
+
+FAILED (failures=7)
+REJECTED no-headroom
+
+MUTANT stock-timing
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... 
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3) ... FAIL
+  test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9) ... FAIL
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... ok
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 548, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 548, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='source.tar', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 548, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 548, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 548, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+======================================================================
+FAIL: test_bench_protocol (mutant.Tests.test_bench_protocol) (corpus='stock-libzstd.elf', level=9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 555, in test_bench_protocol
+    runner.bench()
+    ~~~~~~~~~~~~^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 453, in bench
+    costs = [trial(n, p, level, 'calibration', -1) for p,level,n in calibrations]
+             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 442, in trial
+    raw = self.z(name, ['--single-thread', f'-b{level}', '-i1', corpus])
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 548, in fake_z
+    self.assertIn(name, ('O2', 'O3'))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stock' not found in ('O2', 'O3')
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.009s
+
+FAILED (failures=6)
+REJECTED stock-timing
+
+MUTANT accept-session-mismatch
+test_bench_protocol (mutant.Tests.test_bench_protocol) ... ok
+test_hash_and_loader (mutant.Tests.test_hash_and_loader) ... ok
+test_invalid_workload (mutant.Tests.test_invalid_workload) ... ok
+test_legacy_utf8 (mutant.Tests.test_legacy_utf8) ... ok
+test_order (mutant.Tests.test_order) ... ok
+test_projection (mutant.Tests.test_projection) ... ok
+test_rate_parser (mutant.Tests.test_rate_parser) ... ok
+test_session_context (mutant.Tests.test_session_context) ... FAIL
+
+======================================================================
+FAIL: test_session_context (mutant.Tests.test_session_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/preetham/Code/omarchy-4-pi/tools/pi-experiments/zstd-package-benchmark.py", line 487, in test_session_context
+    with self.assertRaises(RuntimeError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: RuntimeError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.041s
+
+FAILED (failures=1)
+REJECTED accept-session-mismatch
